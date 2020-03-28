@@ -1,0 +1,43 @@
+{
+	"root": true, // set this config as the root config (don't look for additional configurations in parent folders)
+
+	"env": {
+		"es2020": true, // enables ES6 syntax and global variables for ES11
+		"browser": true,
+		"node": true
+	},
+
+	"parser": "vue-eslint-parser", // allows linting of .vue files
+
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module", // specifies that our code uses ECMAScript modules (import/export)
+		"parser": "@typescript-eslint/parser", // allows parsing of TypeScript
+		"project": "./tsconfig.json", // set your TypeScript root config
+		"tsconfigRootDir": ".", // required to resolve relative paths given in 'project' above
+		"extraFileExtensions": [".vue", ".scss", ".tsx"],
+		"allowImportExportEverywhere": true,
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+
+	"plugins": ["@typescript-eslint", "vue", "prettier"],
+
+	"extends": [
+		"plugin:vue/recommended",
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:@typescript-eslint/recommended-requiring-type-checking",
+		"plugin:prettier/recommended",
+		"prettier/vue"
+	],
+
+	"rules": {
+		"prettier/prettier": "error",
+		"no-console": "error",
+		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_|(^h$)" }],
+		"@typescript-eslint/interface-name-prefix": ["error", { "prefixWithI": "always" }]
+	}
+}
