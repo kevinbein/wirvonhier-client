@@ -139,7 +139,6 @@ module.exports = async function (env, argv) {
         },
         { // explicint css loader to load vuetify css (cannot use css-modules)
           test: /\.css$/,
-          exclude: /node_modules/,
           use: [
             'vue-style-loader',
             'css-loader',

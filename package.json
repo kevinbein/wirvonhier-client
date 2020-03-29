@@ -12,11 +12,6 @@
     "lint:js": "eslint 'src/**/*.{js,ts,tsx,vue}'",
     "lint-fix": "eslint --fix 'src/**/*.{js,ts,vue,tsx}' && stylelint --fix 'src/**/*.{vue,js,ts,tsx,scss,css}'"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test"
-    }
-  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
