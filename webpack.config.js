@@ -70,7 +70,7 @@ module.exports = async function (env, argv) {
       devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
     },
     resolve: {
-      extensions: ['.tsx', '.ts', '.js', '.scss', '.vue'],
+      extensions: ['.tsx', '.ts', '.js', '.scss', '.css', '.vue'],
       alias: {
         style: path.join(__dirname, 'src/style'),
         vue$: 'vue/dist/vue.runtime.esm.js'
@@ -137,8 +137,24 @@ module.exports = async function (env, argv) {
             }
           ]
         },
+        { // explicint css loader to load vuetify css (cannot use css-modules)
+          test: /\.css$/,
+          use: [
+            'vue-style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+                sassOptions: {
+                  fiber: require('fibers'),
+                },
+              },
+            },
+          ],
+        },
         {
-          test: /\.(scss|sass|css)$/,
+          test: /\.(scss|sass)$/,
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
             isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
@@ -166,11 +182,6 @@ module.exports = async function (env, argv) {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
-                sassOptions: {
-                  fiber: require('fibers'),
-                  indentedSyntax: true // optional
-                },
-                implementation: require('sass'),
               }
             }
           ]
