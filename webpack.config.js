@@ -151,7 +151,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'css-loader',
               options: {
-                // modules: true,
+                modules: true,
                 importLoaders: 2,
                 sourceMap: isProd
               }
