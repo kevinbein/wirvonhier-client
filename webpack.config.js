@@ -151,7 +151,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
+                // modules: true,
                 importLoaders: 2,
                 sourceMap: isProd
               }
@@ -165,7 +165,12 @@ module.exports = async function (env, argv) {
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: true
+                sourceMap: true,
+                sassOptions: {
+                  fiber: require('fibers'),
+                  indentedSyntax: true // optional
+                },
+                implementation: require('sass'),
               }
             }
           ]

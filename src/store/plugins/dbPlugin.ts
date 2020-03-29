@@ -9,7 +9,7 @@ export function dbPlugin(store: IStore): void {
       case 'REMOVE_BUSINESSES': {
         break;
       }
-      default:;
+      default:
     }
   });
 }

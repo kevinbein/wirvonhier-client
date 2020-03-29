@@ -2,13 +2,6 @@ import Dexie from 'dexie';
 import { IDB, IContact } from './db.types';
 import { IBusinessFilter } from '@/entities';
 
-export class DB implements IDB {
-  public businesses = new DBInstance('businesses');
-
-  constructor() {
-  }
-}
-
 export class DBInstance extends Dexie {
   public contacts: Dexie.Table<IContact, number>;
   private _v = 1;
@@ -23,13 +16,15 @@ export class DBInstance extends Dexie {
     this.contacts = this.table('contacts');
   }
 
-  find(_filter: IBusinessFilter) {
-    return this.contacts;
+  find(_filter: IBusinessFilter): void {
     // filter list according to some filter rules
     // query API with this filter and store result in DB
-    // update 
+    // update
   }
 }
 
+export class DB implements IDB {
+  public businesses = new DBInstance('businesses');
+}
 
 export const db = new DB();

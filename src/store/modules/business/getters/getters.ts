@@ -12,7 +12,7 @@ export class BusinessGetters extends Getters<BusinessState> {
 
   get find() {
     return (filter: IBusinessFilter) => {
-      return this.store.$db.businesses.find(filter)
-    }
+      return this.store.$db.businesses.find(filter);
+    };
   }
 }

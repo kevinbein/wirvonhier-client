@@ -1,6 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { ProfilePage, GridPage, ExplorePage, MapPage, LandingPage, LoginPage, RegisterPage, EditProfilePage } from './pages';
+import {
+  ProfilePage,
+  GridPage,
+  ExplorePage,
+  MapPage,
+  LandingPage,
+  LoginPage,
+  RegisterPage,
+  EditProfilePage,
+} from './pages';
 
 Vue.use(VueRouter);
 
@@ -33,8 +42,8 @@ const routes = [
         path: 'edit',
         name: 'EditProfile',
         component: EditProfilePage,
-      }
-    ]
+      },
+    ],
   },
   {
     path: '/map',

@@ -7,4 +7,6 @@ export interface IDB {
   businesses: DBInstance;
 }
 
-export interface IContact {}
+export interface IContact {
+  some?: string;
+}

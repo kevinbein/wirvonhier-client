@@ -3,3 +3,4 @@ export * from './db';
 export * from './http';
 export * from './i18n';
 export * from './worker';
+export * from './vuetify';
