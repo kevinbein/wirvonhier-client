@@ -139,6 +139,7 @@ module.exports = async function (env, argv) {
         },
         { // explicint css loader to load vuetify css (cannot use css-modules)
           test: /\.css$/,
+          exclude: /node_modules/,
           use: [
             'vue-style-loader',
             'css-loader',
@@ -155,6 +156,43 @@ module.exports = async function (env, argv) {
         },
         {
           test: /\.(scss|sass)$/,
+          include: /node_modules/,
+          use: [
+            // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
+            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            {
+              loader: 'css-modules-typescript-loader',
+              options: {
+                mode: isProd ? 'verify' : 'emit'
+              }
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2,
+                sourceMap: isProd
+              }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: false
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                implementation: require('sass'),
+                sassOptions: {
+                  fiber: require('fibers'),
+                },
+              },
+            }
+          ]
+        },
+        {
+          test: /\.(scss|sass)$/,
+          exclude: /node_modules/,
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
             isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
