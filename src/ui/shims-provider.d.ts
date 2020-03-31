@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 import { IProvider, http } from '@/services';
 import VueI18n from 'vue-i18n';
 import { DB } from '@/services/db';
-import Vuetify from 'vuetify';
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {

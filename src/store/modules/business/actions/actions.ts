@@ -10,7 +10,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.store = store;
   }
 
-  fetchBusiness() {
+  dummy(): Store<RootState> {
     return this.store;
   }
 }

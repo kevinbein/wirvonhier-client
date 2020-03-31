@@ -8,11 +8,10 @@ import Styles from './landing.scss';
   render(h): Vue.VNode {
     return (
       <div class={Styles['landing-page']}>
-
         {/*<NavBar></NavBar>*/}
 
         <div class={Styles['logo-container']}>
-          <img class={Styles['logo']} src='./assets/imgs/Herz_Logo_negativ.png' />
+          <img class={Styles['logo']} src="./assets/imgs/Herz_Logo_negativ.png" />
         </div>
 
         <div class={Styles['button-container']}>

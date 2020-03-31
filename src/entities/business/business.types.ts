@@ -4,4 +4,6 @@ export interface IBusinessData {
 }
 export type IBusiness = IBusinessData;
 
-export interface IBusinessFilter {}
+export interface IBusinessFilter {
+  any?: string;
+}

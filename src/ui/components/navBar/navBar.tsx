@@ -20,4 +20,3 @@ import Component from 'vue-class-component';
   },
 })
 export class NavBar extends Vue {}
-

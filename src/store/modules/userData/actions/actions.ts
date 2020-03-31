@@ -10,7 +10,7 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
     this.store = store;
   }
 
-  userdata() {
+  dummy(): Store<RootState> {
     return this.store;
   }
 }

@@ -6,7 +6,7 @@ import { IBusinessFilter } from '@/entities';
 export class BusinessGetters extends Getters<BusinessState> {
   store!: IStore;
 
-  $init(store: IStore) {
+  $init(store: IStore): void {
     this.store = store;
   }
 

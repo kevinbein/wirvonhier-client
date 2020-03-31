@@ -5,7 +5,7 @@ import { IStore } from '..';
 export class RootGetters extends Getters<RootState> {
   store!: IStore;
 
-  $init(store: IStore) {
+  $init(store: IStore): void {
     this.store = store;
   }
 }

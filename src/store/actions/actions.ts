@@ -9,7 +9,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     this.store = store;
   }
 
-  fetchBusinesses() {
+  dummy(): Store<RootState> {
     return this.store;
   }
 }
