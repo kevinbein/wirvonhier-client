@@ -160,12 +160,6 @@ module.exports = async function (env, argv) {
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
             isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             {
-              loader: 'css-modules-typescript-loader',
-              options: {
-                mode: isProd ? 'verify' : 'emit'
-              }
-            },
-            {
               loader: 'css-loader',
               options: {
                 importLoaders: 2,
@@ -198,7 +192,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'css-modules-typescript-loader',
               options: {
-                mode: isProd ? 'verify' : 'emit'
+                // mode: isProd ? 'verify' : 'emit'
               }
             },
             {
