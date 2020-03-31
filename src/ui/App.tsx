@@ -6,7 +6,7 @@ import Component from 'vue-class-component';
   render(h): Vue.VNode {
     return (
       <v-app>
-        <v-btn color="success">Hello</v-btn>
+        <router-view></router-view>
       </v-app>
     );
   },
