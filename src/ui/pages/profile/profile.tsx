@@ -13,12 +13,17 @@ export class ProfilePage extends Vue {
       phone: '0751 359000',
       email: 'info@musikhaus-lange.de',
       homepage: 'https://www.musikhaus-lange.de',
-      description: 'Das Musikhaus Lange ist ein traditionelles Fachgeschäft für Musikinstrumente in Ravensburg. Wir bieten eine große Auswahl an Instrumenten',
+      description:
+        'Das Musikhaus Lange ist ein traditionelles Fachgeschäft für Musikinstrumente in Ravensburg. Wir bieten eine große Auswahl an Instrumenten',
       updated: new Date(),
     };
   }
 
   render(h: CreateElement): Vue.VNode {
+    const businessId = this.$route.params.businessId;
+    const db = this.$store.$db.businesses;
+    console.log(businessId, db.find({}));
+
     return (
       <div class={Styles['profile-page']}>
         <v-app-bar>
@@ -32,9 +37,15 @@ export class ProfilePage extends Vue {
         </v-app-bar>
 
         <div class={Styles['features']}>
-          <v-chip outlined class={Styles.feature}>Lieferung</v-chip>
-          <v-chip outlined class={Styles.feature}>Bezahlung</v-chip>
-          <v-chip outlined class={Styles.feature}>Social</v-chip>
+          <v-chip outlined class={Styles.feature}>
+            Lieferung
+          </v-chip>
+          <v-chip outlined class={Styles.feature}>
+            Bezahlung
+          </v-chip>
+          <v-chip outlined class={Styles.feature}>
+            Social
+          </v-chip>
         </div>
 
         <div class={Styles['profile-image-container']}>
@@ -45,10 +56,20 @@ export class ProfilePage extends Vue {
           <v-row>
             <v-col>
               <div class={Styles['title']}>Adresse</div>
-              <div class={Styles['description']}>{this.profile.street}<br />{this.profile.city}</div>
+              <div class={Styles['description']}>
+                {this.profile.street}
+                <br />
+                {this.profile.city}
+              </div>
               <br />
               <div class={Styles['title']}>Kontakt</div>
-              <div class={Styles['description']}>{this.profile.phone}<br />{this.profile.email}<br />{this.profile.homepage}</div>
+              <div class={Styles['description']}>
+                {this.profile.phone}
+                <br />
+                {this.profile.email}
+                <br />
+                {this.profile.homepage}
+              </div>
             </v-col>
             <v-col>
               <div class={Styles['title']}>Angebot</div>
@@ -83,8 +104,7 @@ export class ProfilePage extends Vue {
             </v-col>
           </v-row>
         </v-container>
-
       </div>
-    )
+    );
   }
 }
