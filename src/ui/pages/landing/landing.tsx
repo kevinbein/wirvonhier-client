@@ -5,6 +5,8 @@ import Styles from './landing.scss';
 
 @Component({
   name: 'Landing',
+
+  // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
       <div class={Styles['landing-page']}>

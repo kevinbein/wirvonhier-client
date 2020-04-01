@@ -5,7 +5,7 @@ import { BusinessMutations } from './mutations';
 import { BusinessGetters } from './getters';
 import { BusinessState } from './state';
 
-export const Business = new Module({
+export const BusinessModule = new Module({
   actions: BusinessActions,
   mutations: BusinessMutations,
   getters: BusinessGetters,

@@ -3,6 +3,8 @@ import Component from 'vue-class-component';
 
 @Component({
   name: 'NavBar',
+
+  // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
       <v-app-bar dark>

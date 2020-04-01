@@ -42,13 +42,20 @@
 		"@typescript-eslint/explicit-function-return-type": ["error", {
 			"allowExpressions": true,
 			"allowTypedFunctionExpressions": true
-		}]
+		}],
+		"@typescript-eslint/ban-ts-ignore": ["off"]
 	},
 	"overrides": [
 		{
 			"files": ["*.scss.d.ts"],
 			"rules": {
 				"@typescript-eslint/interface-name-prefix": ["off"]
+			}
+		},
+		{
+			"files": ["**/mutations/*.ts", "**/mutations.ts"],
+			"rules": {
+				"@typescript-eslint/camelcase": ["off"]
 			}
 		}
 	]
