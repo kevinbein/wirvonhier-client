@@ -1,0 +1,22 @@
+{
+  "short_name": "WirVonHier",
+  "name": "WirVonHier",
+  "icons": [
+    {
+        "src":"assets/imgs/launcher/android_launcher_app_icon_192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    },
+  {
+        "src":"assets/imgs/launcher/android_launcher_app_icon_512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    }
+  ],
+"start_url": "/?utm_source=homescreen",
+  "background_color": "#FFF",
+  "display": "standalone",
+"orientation": "portrait",
+  "scope": "/",
+  "theme_color": "#5F6DAF"
+}

@@ -7,7 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
-const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
+// const ScriptExtHtmlPlugin = require('script-ext-html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CrittersPlugin = require('critters-webpack-plugin');
@@ -43,7 +43,7 @@ module.exports = async function (env, argv) {
 	  },
     externals: [isTest && nodeExternals()].filter(Boolean),
 	  devServer: {
-      // Any unmatched request paths will serve static files from src/*:
+      // Any unmatched request paths will serve static files from src/ *:
       contentBase: path.resolve(__dirname, './src'),
       compress: true,
       // Request paths not ending in a file extension serve index.html:
@@ -222,6 +222,10 @@ module.exports = async function (env, argv) {
           use: [
             {
               loader: 'cache-loader',
+              options: {
+                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/ts-loader'),
+                cacheIdentifier: '54a7502f'
+              }
             },
             {
               loader: 'thread-loader'
@@ -249,6 +253,10 @@ module.exports = async function (env, argv) {
           use: [
             {
               loader: 'cache-loader',
+              options: {
+                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/jsx-loader'),
+                cacheIdentifier: '54a7502f'
+              }
             },
             {
               loader: 'thread-loader'
