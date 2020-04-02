@@ -19,15 +19,16 @@ export class App extends Vue {
   }
 
   created(): void {
+    // @ts-ignore: Declared variable is not read
     const ctx = BusinessModule.context(this.$store);
-    ctx.actions.loadBusinesses();
+    //ctx.actions.loadBusinesses();
   }
 
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
       <v-app class="some-unabstracted-class">
-        {this.names}
+        {/*this.names*/}
         <router-view></router-view>
       </v-app>
     );
