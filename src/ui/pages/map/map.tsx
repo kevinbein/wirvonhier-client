@@ -4,7 +4,7 @@ import Styles from './map.scss';
 import { CreateElement } from 'vue/types/umd';
 import '../../plugins/leaflet';
 import { LatLng } from 'leaflet';
-//import L from 'leaflet';
+import L from 'leaflet';
 //import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'vue2-leaflet';
 
@@ -16,7 +16,11 @@ export class MapPage extends Vue {
   //Center of Ravensburg
   center: LatLng = new LatLng(47.78099, 9.61529);
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  iconSize = 30;
+  icon = L.icon({
+    iconUrl: './assets/imgs/logo.png',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
   prototypeLocations = [
     {
       id: 1,
@@ -470,17 +474,25 @@ export class MapPage extends Vue {
   render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['map-page']}>
-        <v-app-bar>
+        {/*
+        <v-app-bar class={Styles['app-bar']}>
           <v-btn icon>
-            <v-icon>fa-filter</v-icon>
+            <v-icon class={Styles['filter-icon']}>fa-filter</v-icon>
           </v-btn>
           <v-spacer></v-spacer>
-          <v-toolbar-title>Karte</v-toolbar-title>
+          <v-toolbar-title class={Styles['title']}>Karte</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon>
-            <v-icon>fa-times</v-icon>
+            <v-icon class={Styles['close-icon']}>fa-times</v-icon>
           </v-btn>
         </v-app-bar>
+        */}
+
+        <div class={Styles['wvh-header']}>
+          <div class={Styles['logo-container']}>
+            <img class={Styles['logo']} src="./assets/imgs/Herz_Logo.png" />
+          </div>
+        </div>
 
         <div ref="leafletmap" class={Styles['map']}>
           {/*<l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" @update:zoom="zoomUpdated" @update:center="centerUpdated" @update:bounds="boundsUpdated">*/}
@@ -488,7 +500,14 @@ export class MapPage extends Vue {
             <l-tile-layer url={this.url}></l-tile-layer>
             {this.prototypeLocations.map((location) => {
               const latLng = [location.geolocation.lat, location.geolocation.lng];
-              return <l-marker key={location.id} lat-lng={latLng} class={Styles['leaflet-marker-icon']}></l-marker>;
+              return (
+                <l-marker
+                  key={location.id}
+                  lat-lng={latLng}
+                  icon={this.icon}
+                  class={Styles['leaflet-marker-icon']}
+                ></l-marker>
+              );
             })}
           </l-map>
         </div>

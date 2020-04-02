@@ -1,11 +1,50 @@
 .map-page {
-  height: calc(100% - 56px);
-  width: 100%;
-}
-.map {
   height: 100%;
   width: 100%;
-}
-.leaflet-marker-icon {
-  height: 30px !important;
+  .app-bar {
+    .title {
+      font-weight: bold;
+    }
+    .title,
+    .filter-icon,
+    .close-icon {
+      color: $primary !important;
+    }
+  }
+  .wvh-header {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    height: 84px;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 401;
+    .logo-container {
+      margin: auto;
+      .logo {
+        height: 112px;
+        left: calc(50% - 56px);
+        position: absolute;
+        top: 0;
+        z-index: 401;
+      }
+    }
+  }
+  .map {
+    height: calc(100% - 42px);
+    left: 0;
+    position: absolute;
+    top: 42px;
+    width: 100%;
+  }
+  .leaflet-marker-icon {
+    height: 30px !important;
+  }
 }

@@ -14,7 +14,7 @@ import Styles from './landing.scss';
 
         <div class={Styles['logo-container']}>
           {/*<img class={Styles['logo']} src="./assets/imgs/Herz_Logo_negativ.png" />*/}
-          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login.png" />
+          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login.png" alt="Pre login logo" />
           <div class={Styles['welcome']}>
             <div class={Styles['title']}>Hi,</div>
             <div class={Styles['desc']}>
