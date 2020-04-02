@@ -120,7 +120,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'cache-loader',
               options: {
-                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/vue-loader'),
+                cacheDirectory: path.resolve(dirname__, 'node_modules/.cache/vue-loader'),
                 cacheIdentifier: '21c59b65'
               }
             },
@@ -131,7 +131,7 @@ module.exports = async function (env, argv) {
                 compilerOptions: {
                   whitespace: 'condense'
                 },
-                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/vue-loader'),
+                cacheDirectory: path.resolve(dirname__, 'node_modules/.cache/vue-loader'),
                 cacheIdentifier: '21c59b65'
               }
             }
