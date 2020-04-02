@@ -1,42 +1,42 @@
 .profile-page {
-    .hidden-button {
-        height: 48px;
-        width: 48px;
-        visibility: hidden;
+  .hidden-button {
+    height: 48px;
+    visibility: hidden;
+    width: 48px;
+  }
+  .features {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+    width: 100%;
+    .feature {
+      border: 1px solid #af5f94;
+      color: #af5f94;
+      margin: 0 0.5rem;
     }
-    .features {
-        display: block;
-        width: 100%;
-        margin-top: 1rem;
-        text-align: center;
-        .feature {
-            margin: 0rem 0.5rem;
-            border: 1px solid #af5f94;
-            color: #af5f94;
-        }
+  }
+  .profile-image-container {
+    margin: 1rem;
+    margin-bottom: 0;
+    .profile-image {
+      border-radius: 5px;
+      height: 180px;
+      width: 100%;
     }
-    .profile-image-container {
-        margin: 1rem;
-        margin-bottom: 0rem;
-        .profile-image {
-            height: 180px;
-            width: 100%;
-            border-radius: 5px;
-        }
+  }
+  .details {
+    padding-bottom: 6rem;
+    padding-top: 0;
+    .title {
+      color: #5f6daf;
+      font-size: 0.9rem;
     }
-    .details {
-        padding-top: 0rem;
-        padding-bottom: 6rem;
-        .title {
-            font-size: 0.9rem;
-            color: #5f6daf;
-        }
-        .description {
-            font-size: 1rem;
-        }
+    .description {
+      font-size: 1rem;
     }
-    .button-row {
-        position: fixed;
-        bottom: 0rem;
-    }
+  }
+  .button-row {
+    bottom: 0;
+    position: fixed;
+  }
 }

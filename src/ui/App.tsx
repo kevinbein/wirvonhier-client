@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import '@/ui/styles/global/index.scss';
-import { BusinessModule } from '@/store';
+//import { BusinessModule } from '@/store';
 import { IBusinessData } from '@/entities';
 import { CreateElement } from 'vue/types/umd';
 // Check ui/styles/global for directly used classes
@@ -20,7 +20,7 @@ export class App extends Vue {
 
   created(): void {
     // @ts-ignore: Declared variable is not read
-    const ctx = BusinessModule.context(this.$store);
+    //const ctx = BusinessModule.context(this.$store);
     //ctx.actions.loadBusinesses();
   }
 

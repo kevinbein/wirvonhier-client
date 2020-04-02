@@ -3,9 +3,20 @@ import Component from 'vue-class-component';
 import { CreateElement } from 'vue/types/umd';
 import Styles from './profile.scss';
 
+type profile = {
+  name: string;
+  street: string;
+  city: string;
+  phone: string;
+  email: string;
+  homepage: string;
+  description: string;
+  updated: Date;
+};
+
 @Component
 export class ProfilePage extends Vue {
-  get profile() {
+  get profile(): profile {
     return {
       name: 'Test Shop',
       street: 'Marktstraße 27',
@@ -19,10 +30,11 @@ export class ProfilePage extends Vue {
     };
   }
 
+  // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
-    const businessId = this.$route.params.businessId;
-    const db = this.$store.$db.businesses;
-    console.log(businessId, db.find({}));
+    //const businessId = this.$route.params.businessId;
+    //const db = this.$store.$db.businesses;
+    //console.log(businessId, db.find({}));
 
     return (
       <div class={Styles['profile-page']}>
