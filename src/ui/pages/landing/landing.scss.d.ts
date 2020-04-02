@@ -4,10 +4,15 @@ interface CssExports {
   'button': string;
   'button-container': string;
   'caption': string;
+  'desc': string;
+  'icon': string;
   'landing-page': string;
+  'location': string;
   'logo': string;
   'logo-container': string;
   'other-text': string;
+  'title': string;
+  'welcome': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
