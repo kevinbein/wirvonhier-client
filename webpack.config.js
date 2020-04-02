@@ -44,7 +44,7 @@ module.exports = async function (env, argv) {
     externals: [isTest && nodeExternals()].filter(Boolean),
 	  devServer: {
       // Any unmatched request paths will serve static files from src/*:
-      contentBase: path.join(__dirname, 'src'),
+      contentBase: path.resolve(__dirname, './src'),
       compress: true,
       // Request paths not ending in a file extension serve index.html:
       historyApiFallback: true,
@@ -63,7 +63,7 @@ module.exports = async function (env, argv) {
     output: {
       filename: isProd ? 'js/[name].[chunkhash:5].js' : '[name].js',
       chunkFilename: 'js/[name].[chunkhash:5].js',
-      path: path.join(__dirname, 'dist'),
+      path: path.resolve(__dirname, './dist'),
       publicPath: '/',
       globalObject: 'self',
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
@@ -72,7 +72,7 @@ module.exports = async function (env, argv) {
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.scss', '.css', '.vue'],
       alias: {
-        style: path.join(__dirname, 'src/style'),
+        style: path.resolve(__dirname, './src/style'),
         vue$: 'vue/dist/vue.runtime.esm.js'
       },
       plugins: [
@@ -116,23 +116,16 @@ module.exports = async function (env, argv) {
         {
           test: /\.vue$/,
           use: [
-            /* config.module.rule('vue').use('cache-loader') */
             {
               loader: 'cache-loader',
-              options: {
-                cacheDirectory: path.resolve(dirname__, 'node_modules/.cache/vue-loader'),
-                cacheIdentifier: '21c59b65'
-              }
             },
-            /* config.module.rule('vue').use('vue-loader') */
             {
               loader: 'vue-loader',
               options: {
                 compilerOptions: {
                   whitespace: 'condense'
                 },
-                cacheDirectory: path.resolve(dirname__, 'node_modules/.cache/vue-loader'),
-                cacheIdentifier: '21c59b65'
+                cacheDirectory: path.resolve(__dirname, './node_modules/.cache/vue-loader'),
               }
             }
           ]
@@ -141,7 +134,7 @@ module.exports = async function (env, argv) {
           test: /\.css$/,
           include: /node_modules/,
           use: [
-            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            'vue-style-loader',
             'css-loader',
             {
               loader: 'sass-loader',
@@ -219,7 +212,7 @@ module.exports = async function (env, argv) {
             {
               loader: "sass-resources-loader",
               options: {
-                resources: path.join(process.cwd(), "src/ui/styles/variables/index.scss"),
+                resources: path.resolve(__dirname, "./src/ui/styles/variables/index.scss"),
               }
             }
           ]
@@ -229,10 +222,6 @@ module.exports = async function (env, argv) {
           use: [
             {
               loader: 'cache-loader',
-              options: {
-                cacheDirectory: path.resolve(dirname__, '/node_modules/.cache/ts-loader'),
-                cacheIdentifier: '54a7502f'
-              }
             },
             {
               loader: 'thread-loader'
@@ -256,14 +245,10 @@ module.exports = async function (env, argv) {
           ].filter(Boolean)
         },
         {
-          test: /\.jsx?$/,
+          test: /\.js(x?)$/,
           use: [
             {
               loader: 'cache-loader',
-              options: {
-                cacheDirectory: path.resolve(dirname__, '/node_modules/.cache/ts-loader'),
-                cacheIdentifier: '54a7502f'
-              }
             },
             {
               loader: 'thread-loader'
@@ -348,15 +333,8 @@ module.exports = async function (env, argv) {
         verbose: false,
       }),
 
-      // Automatically split code into async chunks.
-      // See: https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       isProd && new webpack.optimize.SplitChunksPlugin({}),
 
-      // In production, extract all CSS to produce files on disk, even for
-      // lazy-loaded CSS chunks. CSS for async chunks is loaded on-demand.
-      // This is a modern Webpack 4 replacement for ExtractTextPlugin.
-      // See: https://github.com/webpack-contrib/mini-css-extract-plugin
-      // See also: https://twitter.com/wsokra/status/970253245733113856
       isProd && new MiniCssExtractPlugin({
         filename: 'css/[name].[contenthash:5].css',
         chunkFilename: 'css/[name].[contenthash:5].css'
@@ -374,7 +352,7 @@ module.exports = async function (env, argv) {
 
       // For now we're not doing SSR.
       new HtmlPlugin({
-        filename: path.join(__dirname, 'dist/index.html'),
+        filename: path.resolve(__dirname, './dist/index.html'),
         template: 'public/index.html',
         minify: isProd && {
           collapseWhitespace: true,
@@ -389,16 +367,12 @@ module.exports = async function (env, argv) {
         compile: true
       }),
 
-      new ScriptExtHtmlPlugin({
-        inline: ['app'] // we inline our initial app since we don't pre-render our index.html
-      }),
-
       // Inline constants during build, so they can be folded by UglifyJS.
       new webpack.DefinePlugin({
         VERSION: JSON.stringify(VERSION),
-        NODE_ENV: JSON.stringify('"production"'),
-        VUE_APP_BASE_URL: JSON.stringify('"http://127.0.0.1:8080"'),
-        VUE_APP_SERVER: JSON.stringify('"http://127.0.0.1:3001"'),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        VUE_APP_BASE_URL: JSON.stringify('http://127.0.0.1:8080'),
+        VUE_APP_SERVER: JSON.stringify('http://127.0.0.1:3001'),
         BASE_URL: JSON.stringify('/'),
       }),
 
@@ -419,7 +393,7 @@ module.exports = async function (env, argv) {
         // use <link rel="stylesheet" media="not x" onload="this.media='all'"> hack to load async css:
         preload: 'media',
         // inline all styles from any stylesheet below this size:
-        inlineThreshold: 2000,
+        inlineThreshold: 8000,
         // don't bother lazy-loading non-critical stylesheets below this size, just inline the non-critical styles too:
         minimumExternalSize: 4000,
         // don't emit <noscript> external stylesheet links since the app fundamentally requires JS anyway:
