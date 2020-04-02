@@ -141,7 +141,7 @@ module.exports = async function (env, argv) {
           test: /\.css$/,
           include: /node_modules/,
           use: [
-            'vue-style-loader',
+            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             'css-loader',
             {
               loader: 'sass-loader',
@@ -230,7 +230,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'cache-loader',
               options: {
-                cacheDirectory: '/home/marcroemmelt/Projects/zmeldung/client/node_modules/.cache/ts-loader',
+                cacheDirectory: path.resolve(dirname__, '/node_modules/.cache/ts-loader'),
                 cacheIdentifier: '54a7502f'
               }
             },
@@ -261,7 +261,7 @@ module.exports = async function (env, argv) {
             {
               loader: 'cache-loader',
               options: {
-                cacheDirectory: '/home/marcroemmelt/Projects/zmeldung/client/node_modules/.cache/ts-loader',
+                cacheDirectory: path.resolve(dirname__, '/node_modules/.cache/ts-loader'),
                 cacheIdentifier: '54a7502f'
               }
             },
