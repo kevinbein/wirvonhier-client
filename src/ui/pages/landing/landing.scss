@@ -16,14 +16,14 @@
   width: 100%;
 
   .logo {
-    display: block;
-    right: 0;
     bottom: 0%;
-    margin: 0 0;
+    display: block;
+    margin: 0;
     max-height: 100%;
     max-width: 100%;
     padding: 2rem 0;
     position: absolute;
+    right: 0;
   }
 
   .welcome {
@@ -49,11 +49,11 @@
   width: 100%;
 
   @media (max-height: 800px) {
-    bottom: 15px;
+    bottom: 10vh;
     position: absolute;
   }
   @media (min-height: 801px) {
-    bottom: 15px;
+    bottom: 20vh;
     position: absolute;
   }
 
@@ -94,19 +94,5 @@
     text-align: center;
     text-shadow: 0 0 1px rgb(232, 232, 232);
     width: 100%;
-  }
-}
-
-@media (min-width: 521px) {
-  .button-container {
-    left: 116px;
-    .caption,
-    .button {
-      margin-left: 0;
-    }
-    .other-text {
-      left: 128px;
-      text-align: left;
-    }
   }
 }
