@@ -5,8 +5,46 @@ import Styles from './landing.scss';
 
 @Component({
   name: 'Landing',
-
+})
+export class LandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
+
+  public gettingLocation: boolean = false;
+  public location: any = null;
+  public errorStr: String = "";
+
+  public async getLocation() {
+    return new Promise((resolve, reject) => {
+      if(!("geolocation" in navigator)) {
+        reject(new Error('Geolocation is not available.'));
+      }
+
+      navigator.geolocation.getCurrentPosition(pos => {
+        resolve(pos);
+      }, err => {
+        reject(err);
+      });
+
+    });
+  }
+
+  public async locateMe() {
+    this.gettingLocation = true;
+
+    try {
+      this.gettingLocation = false;
+      this.location = await this.getLocation();
+    }
+    catch (e) {
+      this.gettingLocation = false;
+      this.errorStr = e.message;
+    }
+
+    // TODO: Save Location Data to Cookie/Local Storage
+    console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
+    this.$router.push({name: 'Explore'});
+  }
+
   render(h): Vue.VNode {
     return (
       <div class={Styles['landing-page']}>
@@ -25,10 +63,8 @@ import Styles from './landing.scss';
 
         <div class={Styles['button-container']}>
           {/*<p class={Styles['caption']}>DIREKT ZU DIR</p>*/}
-          <div class={Styles['button'] + ' ' + Styles['location']}>
-            <router-link to="explore">
-              <v-icon class={Styles['icon']}>fa-location-arrow</v-icon> AKTUELLER STANDORT
-            </router-link>
+          <div class={Styles['button'] + ' ' + Styles['location']} on-click={this.locateMe}>
+            <v-icon class={Styles['icon']}>fa-location-arrow</v-icon> AKTUELLER STANDORT
           </div>
           <div class={Styles['other-text']}> oder </div>
           <div class={Styles['button']}>
@@ -37,6 +73,5 @@ import Styles from './landing.scss';
         </div>
       </div>
     );
-  },
-})
-export class LandingPage extends Vue {}
+  }
+}
