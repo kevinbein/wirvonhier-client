@@ -11,6 +11,17 @@
       color: $primary !important;
     }
   }
+  .close-button {
+    margin: 15px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 402;
+    .icon {
+      color: $primary;
+      text-decoration: none !important;
+    }
+  }
   .wvh-header {
     background: rgb(255, 255, 255);
     background: linear-gradient(
