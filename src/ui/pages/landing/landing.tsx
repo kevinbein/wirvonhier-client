@@ -32,7 +32,7 @@ import Styles from './landing.scss';
           </div>
           <div class={Styles['other-text']}> oder </div>
           <div class={Styles['button']}>
-            <router-link to={'../../citycode'}>POSTLEITZAHL EINGEBEN</router-link>
+            <router-link to="explore">POSTLEITZAHL EINGEBEN</router-link>
           </div>
         </div>
       </div>

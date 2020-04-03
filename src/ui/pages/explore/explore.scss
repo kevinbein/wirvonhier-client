@@ -1,0 +1,44 @@
+.explore-page {
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  .header {
+    height: 85px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    .left-side {
+      display: inline-block;
+      line-height: 0;
+      margin: 0;
+      margin: 15px;
+      .logo {
+        height: 60px;
+        width: 60px;
+      }
+    }
+    .right-side {
+      color: #fff;
+      display: inline-block;
+      font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+      margin: 22px 15px;
+      position: absolute;
+      top: 0;
+      width: calc(100% - 60px);
+      .name {
+        min-width: 0;
+      }
+      .short-desc {
+        min-width: 0;
+      }
+    }
+  }
+  .vertical-swiper,
+  .horizontal-swiper {
+    height: 100%;
+    top: 0;
+    width: 100%;
+  }
+}

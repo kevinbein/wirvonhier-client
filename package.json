@@ -87,12 +87,15 @@
     "worker-plugin": "^4.0.2"
   },
   "dependencies": {
+    "@types/swiper": "^5.2.1",
     "axios": "^0.19.2",
     "comlink": "^4.2.0",
     "dexie": "^2.0.4",
     "dotenv": "^8.2.0",
     "leaflet": "^1.6.0",
+    "swiper": "^5.3.6",
     "vue": "^2.6.11",
+    "vue-awesome-swiper": "^4.1.0",
     "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.16.0",
     "vue-router": "^3.1.6",
