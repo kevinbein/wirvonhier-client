@@ -72,7 +72,6 @@ module.exports = async function (env, argv) {
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.scss', '.css', '.vue'],
       alias: {
-        style: path.resolve(__dirname, './src/style'),
         vue$: 'vue/dist/vue.runtime.esm.js'
       },
       plugins: [
@@ -125,7 +124,6 @@ module.exports = async function (env, argv) {
                 compilerOptions: {
                   whitespace: 'condense'
                 },
-                cacheDirectory: path.resolve(__dirname, './node_modules/.cache/vue-loader'),
               }
             }
           ]
@@ -222,10 +220,6 @@ module.exports = async function (env, argv) {
           use: [
             {
               loader: 'cache-loader',
-              options: {
-                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/ts-loader'),
-                cacheIdentifier: '54a7502f'
-              }
             },
             {
               loader: 'thread-loader'
@@ -253,10 +247,6 @@ module.exports = async function (env, argv) {
           use: [
             {
               loader: 'cache-loader',
-              options: {
-                cacheDirectory: path.resolve(__dirname, 'node_modules/.cache/jsx-loader'),
-                cacheIdentifier: '54a7502f'
-              }
             },
             {
               loader: 'thread-loader'
