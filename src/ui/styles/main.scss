@@ -7,25 +7,39 @@
 $phone-width: 600px;
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: $phone-width) { }
+@media only screen and (max-width: $phone-width) {
+  max-width: 0;
+}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) { }
+@media only screen and (min-width: 600px) {
+  max-width: 0;
+}
 
 /* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) { }
+@media only screen and (min-width: 768px) {
+  max-width: 0;
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) { }
+@media only screen and (min-width: 992px) {
+  max-width: 0;
+}
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
-@media only screen and (min-width: 1200px) { } 
+@media only screen and (min-width: 1200px) {
+  max-width: 0;
+}
 
 /* Screen-Orientation: portrait */
-@media screen and (orientation: portrait) { }
+@media screen and (orientation: portrait) {
+  max-width: 0;
+}
 
 /* Screen-Orientation: landscape */
-@media screen and (orientation: landscape) { }
+@media screen and (orientation: landscape) {
+  max-width: 0;
+}
 
 /* Mögliche Max Größe? */
 body:first-child {
