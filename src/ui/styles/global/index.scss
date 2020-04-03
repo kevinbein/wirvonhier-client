@@ -1,5 +1,15 @@
 // classes here are available as-is
 
-.some-unabstracted-class {
-  color: #f00;
+@font-face {
+  font-family: 'FuturaBT-Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/assets/fonts/futura/FuturaBT-Medium.eot') format('embedded-opentype');
+}
+
+@font-face {
+  font-family: 'FuturaBT-Medium';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/assets/fonts/futura/FuturaBT-Medium.ttf') format('truetype');
 }
