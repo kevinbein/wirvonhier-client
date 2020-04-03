@@ -52,6 +52,17 @@
         width: 100%;
       }
     }
+    .controls {
+      position: absolute;
+      right: 15px;
+      top: 85px;
+      .button {
+        margin: 15px;
+        .icon {
+          color: #fff;
+        }
+      }
+    }
   }
   .profile {
     overflow: scroll;

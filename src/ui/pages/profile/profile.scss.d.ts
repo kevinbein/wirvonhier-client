@@ -5,12 +5,14 @@ interface CssExports {
   'button-row': string;
   'button-row-container': string;
   'contact': string;
+  'contacts': string;
   'description': string;
   'details': string;
   'details-container': string;
   'feature': string;
   'features': string;
   'hidden-button': string;
+  'icon': string;
   'information-bar': string;
   'left-side': string;
   'profile-image': string;

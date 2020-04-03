@@ -2,8 +2,10 @@
 // Please do not change this file!
 interface CssExports {
   'app-bar': string;
+  'close-button': string;
   'close-icon': string;
   'filter-icon': string;
+  'icon': string;
   'leaflet-marker-icon': string;
   'logo': string;
   'logo-container': string;

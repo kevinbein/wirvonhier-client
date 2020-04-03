@@ -8,24 +8,41 @@
     font-size: 1rem;
     font-weight: bold;
     margin: 15px;
+    margin-bottom: 0;
   }
   .information-bar {
     display: block;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
     width: 100%;
     .features {
-      margin: 1rem;
+      display: inline-block;
+      margin: 1rem 1rem 0;
       text-align: left;
       .feature {
+        border-radius: 15px;
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
         color: $primary;
+        display: inline-block;
         font-size: 0.8rem;
         font-weight: bold;
         margin: 0 0.3rem;
+        padding: 0.1rem 0.5rem;
       }
     }
-    .contact {
-      text-align: right;
+    .contacts {
+      display: inline-block;
+      margin: 1rem 1rem 0;
+      .contact {
+        background: $primary;
+        border-radius: 50%;
+        display: inline-block;
+        margin: 0.3rem;
+        .icon {
+          color: #fff;
+          font-size: 1rem;
+          padding: 0.5rem;
+        }
+      }
     }
   }
   .profile-image-container {

@@ -494,6 +494,10 @@ export class MapPage extends Vue {
           </div>
         </div>
 
+        <router-link to="explore" class={Styles['close-button']}>
+          <v-icon class={Styles['icon']}>fa-times</v-icon>
+        </router-link>
+
         <div ref="leafletmap" class={Styles['map']}>
           {/*<l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" @update:zoom="zoomUpdated" @update:center="centerUpdated" @update:bounds="boundsUpdated">*/}
           <l-map style="height: 100%; width: 100%" zoom={this.zoom} center={this.center}>

@@ -41,8 +41,8 @@ export class ExplorePage extends Vue {
 
   mounted(): void {
     // @ts-ignore: SwiperClass is not detected as type but it still works
-    const swiper = this.$refs.verticalSwiper.$swiper;
-    swiper.slideTo(1, 0);
+    //const swiper = this.$refs.verticalSwiper.$swiper;
+    //swiper.slideTo(1, 0);
   }
 
   // @ts-ignore: Declared variable is not read
@@ -63,6 +63,18 @@ export class ExplorePage extends Vue {
                         <div class={Styles['name']}>Prüssing &amp; Köll</div>
                         <div class={Styles['short-desc']}>Herrenausstatter</div>
                       </div>
+                    </div>
+
+                    <div class={Styles['controls']}>
+                      <div class={Styles['button']}>
+                        <v-icon class={Styles['icon']}>fa-cog</v-icon>
+                      </div>
+                      <div class={Styles['button']}>
+                        <v-icon class={Styles['icon']}>fa-filter</v-icon>
+                      </div>
+                      <router-link to="map" class={Styles['button']}>
+                        <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
+                      </router-link>
                     </div>
 
                     <div class={Styles['story-container']}>
