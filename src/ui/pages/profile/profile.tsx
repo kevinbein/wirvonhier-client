@@ -18,7 +18,7 @@ type profile = {
 export class ProfilePage extends Vue {
   get profile(): profile {
     return {
-      name: 'Test Shop',
+      name: 'Musikhaus Lange',
       street: 'Marktstraße 27',
       city: 'Ravensburg',
       phone: '0751 359000',
@@ -38,7 +38,7 @@ export class ProfilePage extends Vue {
 
     return (
       <div class={Styles['profile-page']}>
-        <v-app-bar>
+        {/*<v-app-bar>
           <div class={Styles['hidden-button']}></div>
           <v-spacer></v-spacer>
           <v-toolbar-title>{this.profile.name}</v-toolbar-title>
@@ -46,27 +46,29 @@ export class ProfilePage extends Vue {
           <v-btn icon>
             <v-icon>fa-times</v-icon>
           </v-btn>
-        </v-app-bar>
+        </v-app-bar>*/}
 
-        <div class={Styles['features']}>
-          <v-chip outlined class={Styles.feature}>
-            Lieferung
-          </v-chip>
-          <v-chip outlined class={Styles.feature}>
-            Bezahlung
-          </v-chip>
-          <v-chip outlined class={Styles.feature}>
-            Social
-          </v-chip>
+        <div class={Styles['shop-title']}>{this.profile.name}</div>
+
+        <div class={Styles['information-bar']}>
+          <div class={Styles['features']}>
+            <v-chip outlined class={Styles.feature}>
+              Lieferung
+            </v-chip>
+            <v-chip outlined class={Styles.feature}>
+              Bezahlung
+            </v-chip>
+          </div>
+          <div class={Styles['contact']}></div>
         </div>
 
         <div class={Styles['profile-image-container']}>
           <img class={Styles['profile-image']} src="/assets/imgs/laden.png" />
         </div>
 
-        <v-container class={Styles['details']}>
-          <v-row>
-            <v-col>
+        <div class={Styles['details-container']}>
+          <div class={Styles['details']}>
+            <div class={Styles['left-side']}>
               <div class={Styles['title']}>Adresse</div>
               <div class={Styles['description']}>
                 {this.profile.street}
@@ -82,40 +84,32 @@ export class ProfilePage extends Vue {
                 <br />
                 {this.profile.homepage}
               </div>
-            </v-col>
-            <v-col>
+            </div>
+            <div class={Styles['right-side']}>
               <div class={Styles['title']}>Angebot</div>
               <div class={Styles['description']}>{this.profile.description}</div>
               <br />
               <div class={Styles['title']}>Aktualisiert am {this.profile.updated.toLocaleDateString()}</div>
-            </v-col>
-          </v-row>
-        </v-container>
+            </div>
+          </div>
+        </div>
 
-        <v-container class={Styles['button-row']}>
-          <v-row>
-            <v-col>
-              <v-btn fab>
-                <v-icon>fa-phone</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn fab>
-                <v-icon>fa-home</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn fab>
-                <v-icon>fab fa-whatsapp</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col>
-              <v-btn fab>
-                <v-icon>fab fa-instagram</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+        <div class={Styles['button-row-container']}>
+          <div class={Styles['button-row']}>
+            <div class={Styles['button']}>
+              <v-icon>fa-phone</v-icon>
+            </div>
+            <div class={Styles['button']}>
+              <v-icon>fa-home</v-icon>
+            </div>
+            <div class={Styles['button']}>
+              <v-icon>fab fa-whatsapp</v-icon>
+            </div>
+            <div class={Styles['button']}>
+              <v-icon>fab fa-instagram</v-icon>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

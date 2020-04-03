@@ -7,14 +7,14 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
-//import ProfilePage from './../profile';
+import { ProfilePage } from './../../pages';
 
 @Component({
   name: 'Explore',
 })
 export class ExplorePage extends Vue {
   explorerImages = [
-    '/assets/imgs/explore_test1.png',
+    '/assets/imgs/explore_test1_cross.png',
     '/assets/imgs/explore_test2.png',
     '/assets/imgs/explore_test3.png',
     '/assets/imgs/explore_test4.png',
@@ -25,9 +25,10 @@ export class ExplorePage extends Vue {
     speed: 300,
     shortSwipes: true,
     longSwipes: true,
-    longSwipesRatio: 0.05,
+    longSwipesRatio: 0.5,
     longSwipesMs: 100,
     direction: 'vertical',
+    resistance: false,
   };
   horizontalSwiperOptions = {
     speed: 300,
@@ -38,44 +39,44 @@ export class ExplorePage extends Vue {
     direction: 'horizontal',
   };
 
+  mounted(): void {
+    // @ts-ignore: SwiperClass is not detected as type but it still works
+    const swiper = this.$refs.verticalSwiper.$swiper;
+    swiper.slideTo(1, 0);
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
       <div class={Styles['explore-page']}>
-        <div class={Styles['header']}>
-          <div class={Styles['left-side']}>
-            <img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />
-          </div>
-          <div class={Styles['right-side']}>
-            <div class={Styles['name']}>Prüssing &amp; Köll</div>
-            <div class={Styles['short-desc']}>Herrenausstatter</div>
-          </div>
-        </div>
-
-        <swiper ref="mySwiper" options={this.verticalSwiperOptions} class={Styles['vertical-swiper']}>
-          <swiper-slide>
+        <swiper ref="verticalSwiper" options={this.verticalSwiperOptions} class={Styles['vertical-swiper']}>
+          <swiper-slide class={Styles['explorer']}>
             <swiper ref="horizontalSwiper" options={this.horizontalSwiperOptions} class={Styles['vertical-swiper']}>
               {this.explorerImages.map((image) => {
                 return (
                   <swiper-slide>
-                    <img src={image} alt="image" />
+                    <div class={Styles['header']}>
+                      <div class={Styles['left-side']}>
+                        <img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />
+                      </div>
+                      <div class={Styles['right-side']}>
+                        <div class={Styles['name']}>Prüssing &amp; Köll</div>
+                        <div class={Styles['short-desc']}>Herrenausstatter</div>
+                      </div>
+                    </div>
+
+                    <div class={Styles['story-container']}>
+                      <img class={Styles['story']} src={image} alt="image" />
+                    </div>
                   </swiper-slide>
                 );
               })}
             </swiper>
           </swiper-slide>
-          <swiper-slide>Profile Page</swiper-slide>
+          <swiper-slide class={Styles['profile']}>
+            <ProfilePage></ProfilePage>
+          </swiper-slide>
         </swiper>
-
-        {/*<v-carousel height="100%" hide-delimiters class={Styles['carousel']}>
-            {this.explorerImages.map((image) => {
-              return (
-                <v-carousel-item class={Styles['item']}>
-                  <img class={Styles['image']} src={image} alt="image" />
-                </v-carousel-item>
-              );
-            })}
-        </v-carousel>*/}
       </div>
     );
   }

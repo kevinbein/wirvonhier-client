@@ -4,39 +4,74 @@
     visibility: hidden;
     width: 48px;
   }
-  .features {
+  .shop-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 15px;
+  }
+  .information-bar {
     display: block;
     margin-top: 1rem;
-    text-align: center;
     width: 100%;
-    .feature {
-      border: 1px solid #af5f94;
-      color: #af5f94;
-      margin: 0 0.5rem;
+    .features {
+      margin: 1rem;
+      text-align: left;
+      .feature {
+        box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
+        color: $primary;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin: 0 0.3rem;
+      }
+    }
+    .contact {
+      text-align: right;
     }
   }
   .profile-image-container {
     margin: 1rem;
     margin-bottom: 0;
     .profile-image {
-      border-radius: 5px;
+      border-radius: 15px;
       height: 180px;
       width: 100%;
     }
   }
-  .details {
-    padding-bottom: 6rem;
-    padding-top: 0;
-    .title {
-      color: #5f6daf;
-      font-size: 0.9rem;
-    }
-    .description {
-      font-size: 1rem;
+  .details-container {
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+    .details {
+      .left-side {
+        margin: 1rem;
+      }
+      .right-side {
+        margin: 1rem;
+      }
+      .title {
+        color: #5f6daf;
+        font-size: 0.7rem;
+      }
+      .description {
+        font-size: 0.8rem;
+      }
     }
   }
-  .button-row {
-    bottom: 0;
-    position: fixed;
+  .button-row-container {
+    display: block;
+    margin: 1rem 0;
+    width: 100%;
+    .button-row {
+      text-align: center;
+      width: 100%;
+      .button {
+        border-radius: 50%;
+        box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
+        color: $primary;
+        display: inline-block;
+        margin: 0.5rem;
+        padding: 0.8rem;
+      }
+    }
   }
 }

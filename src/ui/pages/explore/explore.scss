@@ -1,6 +1,5 @@
 .explore-page {
   height: 100%;
-  overflow: hidden;
   position: absolute;
   width: 100%;
   .header {
@@ -40,5 +39,21 @@
     height: 100%;
     top: 0;
     width: 100%;
+  }
+  .explorer {
+    .story-container {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      overflow: hidden;
+      .story {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+  .profile {
+    overflow: scroll;
   }
 }

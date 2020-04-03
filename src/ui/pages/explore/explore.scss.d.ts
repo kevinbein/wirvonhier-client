@@ -2,13 +2,17 @@
 // Please do not change this file!
 interface CssExports {
   'explore-page': string;
+  'explorer': string;
   'header': string;
   'horizontal-swiper': string;
   'left-side': string;
   'logo': string;
   'name': string;
+  'profile': string;
   'right-side': string;
   'short-desc': string;
+  'story': string;
+  'story-container': string;
   'vertical-swiper': string;
 }
 export const cssExports: CssExports;
