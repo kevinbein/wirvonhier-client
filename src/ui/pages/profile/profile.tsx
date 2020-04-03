@@ -52,14 +52,20 @@ export class ProfilePage extends Vue {
 
         <div class={Styles['information-bar']}>
           <div class={Styles['features']}>
-            <v-chip outlined class={Styles.feature}>
-              Lieferung
-            </v-chip>
-            <v-chip outlined class={Styles.feature}>
-              Bezahlung
-            </v-chip>
+            <div class={Styles.feature}>Lieferung</div>
+            <div class={Styles.feature}>Bezahlung</div>
           </div>
-          <div class={Styles['contact']}></div>
+          <div class={Styles['contacts']}>
+            <div class={Styles['contact']}>
+              <v-icon class={Styles['icon']}>fab fa-twitter</v-icon>
+            </div>
+            <div class={Styles['contact']}>
+              <v-icon class={Styles['icon']}>fab fa-facebook</v-icon>
+            </div>
+            <div class={Styles['contact']}>
+              <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
+            </div>
+          </div>
         </div>
 
         <div class={Styles['profile-image-container']}>
@@ -100,13 +106,13 @@ export class ProfilePage extends Vue {
               <v-icon>fa-phone</v-icon>
             </div>
             <div class={Styles['button']}>
-              <v-icon>fa-home</v-icon>
+              <v-icon>fa-video</v-icon>
             </div>
             <div class={Styles['button']}>
               <v-icon>fab fa-whatsapp</v-icon>
             </div>
             <div class={Styles['button']}>
-              <v-icon>fab fa-instagram</v-icon>
+              <v-icon>fa-envelope</v-icon>
             </div>
           </div>
         </div>
