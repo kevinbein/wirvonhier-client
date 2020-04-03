@@ -88,9 +88,24 @@
   .other-text {
     color: #5f6daf;
     font-size: 1rem;
-    line-height: 3rem;
+    margin: 1rem 0;
     position: relative;
+    text-align: center;
     text-shadow: 0 0 1px rgb(232, 232, 232);
     width: 100%;
+  }
+}
+
+@media (min-width: 521px) {
+  .button-container {
+    left: 116px;
+    .caption,
+    .button {
+      margin-left: 0;
+    }
+    .other-text {
+      left: 128px;
+      text-align: left;
+    }
   }
 }
