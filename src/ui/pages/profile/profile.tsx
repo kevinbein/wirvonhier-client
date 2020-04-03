@@ -10,6 +10,9 @@ type profile = {
   phone: string;
   email: string;
   homepage: string;
+  twitter: string;
+  facebook: string;
+  instagram: string;
   description: string;
   updated: Date;
 };
@@ -24,6 +27,9 @@ export class ProfilePage extends Vue {
       phone: '0751 359000',
       email: 'info@musikhaus-lange.de',
       homepage: 'https://www.musikhaus-lange.de',
+      twitter: '',
+      facebook: '',
+      instagram: '@beinkevin',
       description:
         'Das Musikhaus Lange ist ein traditionelles Fachgeschäft für Musikinstrumente in Ravensburg. Wir bieten eine große Auswahl an Instrumenten',
       updated: new Date(),
@@ -38,16 +44,6 @@ export class ProfilePage extends Vue {
 
     return (
       <div class={Styles['profile-page']}>
-        {/*<v-app-bar>
-          <div class={Styles['hidden-button']}></div>
-          <v-spacer></v-spacer>
-          <v-toolbar-title>{this.profile.name}</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>fa-times</v-icon>
-          </v-btn>
-        </v-app-bar>*/}
-
         <div class={Styles['shop-title']}>{this.profile.name}</div>
 
         <div class={Styles['information-bar']}>
@@ -56,13 +52,22 @@ export class ProfilePage extends Vue {
             <div class={Styles.feature}>Bezahlung</div>
           </div>
           <div class={Styles['contacts']}>
-            <div class={Styles['contact']}>
+            <div
+              class={Styles['contact']}
+              onclick={'window.open("https://twitter.com/' + this.profile.twitter.replace('@', '') + '")'}
+            >
               <v-icon class={Styles['icon']}>fab fa-twitter</v-icon>
             </div>
-            <div class={Styles['contact']}>
+            <div
+              class={Styles['contact']}
+              onclick={'window.open("https://facebook.com/' + this.profile.facebook.replace('@', '') + '")'}
+            >
               <v-icon class={Styles['icon']}>fab fa-facebook</v-icon>
             </div>
-            <div class={Styles['contact']}>
+            <div
+              class={Styles['contact']}
+              onclick={'window.open("https://instagram.com/' + this.profile.instagram.replace('@', '') + '")'}
+            >
               <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
             </div>
           </div>
@@ -102,16 +107,19 @@ export class ProfilePage extends Vue {
 
         <div class={Styles['button-row-container']}>
           <div class={Styles['button-row']}>
-            <div class={Styles['button']}>
+            <div class={Styles['button']} onclick={'window.open("tel:' + this.profile.phone + '")'}>
               <v-icon>fa-phone</v-icon>
             </div>
-            <div class={Styles['button']}>
+            <div class={Styles['button']} onclick={'window.open("tel:' + this.profile.phone + '")'}>
               <v-icon>fa-video</v-icon>
             </div>
-            <div class={Styles['button']}>
+            <div
+              class={Styles['button']}
+              onclick={'window.open("https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', '') + '")'}
+            >
               <v-icon>fab fa-whatsapp</v-icon>
             </div>
-            <div class={Styles['button']}>
+            <div class={Styles['button']} onclick={'window.open("mailto:' + this.profile.email + '")'}>
               <v-icon>fa-envelope</v-icon>
             </div>
           </div>

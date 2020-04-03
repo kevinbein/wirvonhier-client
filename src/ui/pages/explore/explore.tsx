@@ -41,8 +41,8 @@ export class ExplorePage extends Vue {
 
   mounted(): void {
     // @ts-ignore: SwiperClass is not detected as type but it still works
-    //const swiper = this.$refs.verticalSwiper.$swiper;
-    //swiper.slideTo(1, 0);
+    const swiper = this.$refs.verticalSwiper.$swiper;
+    swiper.slideTo(1, 0);
   }
 
   // @ts-ignore: Declared variable is not read
