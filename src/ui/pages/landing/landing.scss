@@ -17,26 +17,27 @@
 
   .logo {
     display: block;
-    height: 680px;
-    left: 5rem;
-    margin: 0 auto;
+    right: 0;
+    bottom: 0%;
+    margin: 0 0;
     max-height: 100%;
     max-width: 100%;
     padding: 2rem 0;
     position: absolute;
   }
+
   .welcome {
     color: #5f6daf;
     left: 15px;
     position: absolute;
     top: 15px;
-    width: 14rem;
+    width: 55vw;
     .title {
-      font-size: 1.5rem;
+      font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
       font-weight: bold;
     }
     .desc {
-      font-size: 1.2rem;
+      font-size: calc(1.2rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
     }
   }
 }
