@@ -14,12 +14,15 @@ import { ProfilePage } from './../../pages';
 })
 export class ExplorePage extends Vue {
   explorerImages = [
-    '/assets/imgs/explore_test1_cross.png',
-    '/assets/imgs/explore_test2.png',
-    '/assets/imgs/explore_test3.png',
-    '/assets/imgs/explore_test4.png',
-    '/assets/imgs/explore_test5.png',
-    '/assets/imgs/explore_test6.png',
+    '/assets/stories/Stock1.jpg',
+    '/assets/stories/Stock2.jpg',
+    '/assets/stories/Stock3.jpg',
+    '/assets/stories/Stock4.jpg',
+    '/assets/stories/Stock5.jpg',
+    '/assets/stories/Stock6.jpg',
+    '/assets/stories/Stock7.jpg',
+    '/assets/stories/Stock8.jpg',
+    '/assets/stories/Stock9.jpg',
   ];
   verticalSwiperOptions = {
     speed: 300,
@@ -29,6 +32,7 @@ export class ExplorePage extends Vue {
     longSwipesMs: 100,
     direction: 'vertical',
     resistance: false,
+    spaceBetween: 15,
   };
   horizontalSwiperOptions = {
     speed: 300,
@@ -41,8 +45,8 @@ export class ExplorePage extends Vue {
 
   mounted(): void {
     // @ts-ignore: SwiperClass is not detected as type but it still works
-    const swiper = this.$refs.verticalSwiper.$swiper;
-    swiper.slideTo(1, 0);
+    //const swiper = this.$refs.verticalSwiper.$swiper;
+    //swiper.slideTo(1, 0);
   }
 
   // @ts-ignore: Declared variable is not read
@@ -66,12 +70,12 @@ export class ExplorePage extends Vue {
                     </div>
 
                     <div class={Styles['controls']}>
-                      <div class={Styles['button']}>
+                      <router-link to="/" class={Styles['button']}>
                         <v-icon class={Styles['icon']}>fa-cog</v-icon>
-                      </div>
-                      <div class={Styles['button']}>
+                      </router-link>
+                      {/*<div class={Styles['button']}>
                         <v-icon class={Styles['icon']}>fa-filter</v-icon>
-                      </div>
+                      </div>*/}
                       <router-link to="map" class={Styles['button']}>
                         <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
                       </router-link>

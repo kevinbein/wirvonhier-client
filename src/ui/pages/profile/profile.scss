@@ -1,15 +1,153 @@
 .profile-page {
-  .hidden-button {
-    height: 48px;
-    visibility: hidden;
-    width: 48px;
+  .location-container {
+    align-items: center;
+    display: flex;
+    height: 140px;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    .leaflet-control-zoom {
+      visibility: hidden !important;
+    }
+    .location {
+      height: 100%;
+      width: 100%;
+      .picture {
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .bar {
+      background: #fff;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      bottom: -1px;
+      box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+      height: 20px;
+      left: 0;
+      position: absolute;
+      width: 100%;
+      z-index: 1000;
+      .arrow-container {
+        bottom: 5px;
+        box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+        left: 50%;
+        position: absolute;
+        z-index: 1000;
+        .arrow {
+          background: #fff;
+          position: relative;
+        }
+        .arrow::after,
+        .arrow::before {
+          border: solid transparent;
+          bottom: 100%;
+          content: ' ';
+          height: 0;
+          left: 50%;
+          pointer-events: none;
+          position: absolute;
+          width: 0;
+        }
+        .arrow::after {
+          border-color: rgba(136, 183, 213, 0);
+          border-bottom-color: #fff;
+          border-width: 30px;
+          margin-left: -30px;
+        }
+        .arrow::before {
+          border-color: rgba(194, 225, 245, 0);
+          border-bottom-color: #fff;
+          border-width: 36px;
+          margin-left: -36px;
+        }
+      }
+    }
   }
   .shop-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     margin: 15px;
     margin-bottom: 0;
   }
+
+  /*
+  .feature-info {
+    background: rgb(232, 232, 232);
+    .arrow-container {
+      .arrow-border {
+      }
+      .arrow {
+        background: #88b7d5;
+        border: 4px solid #c2e1f5;
+        position: relative;
+      }
+      .arrow::after,
+      .arrow::before {
+        border: solid transparent;
+        bottom: 100%;
+        content: ' ';
+        height: 0;
+        left: 50%;
+        pointer-events: none;
+        position: absolute;
+        width: 0;
+      }
+
+      .arrow::after {
+        border-color: rgba(136, 183, 213, 0);
+        border-bottom-color: #88b7d5;
+        border-width: 30px;
+        margin-left: -30px;
+      }
+      .arrow::before {
+        border-color: rgba(194, 225, 245, 0);
+        border-bottom-color: #c2e1f5;
+        border-width: 36px;
+        margin-left: -36px;
+      }
+    }
+    .content-wrapper {
+      margin: 15px;
+      .content-container {
+        background: #e8e8e8;
+        position: absolute;
+        width: 100%;
+        z-index: 3;
+        .content {
+          margin: 0 15px;
+          .left-side {
+            display: inline-block;
+            .image {
+              height: 40px;
+              margin: 15px;
+              width: 40px;
+            }
+          }
+          .right-side {
+            display: inline-block;
+            margin: 15px 15px 15px 0;
+            top: 0;
+            width: calc(100% - 85px);
+            .title {
+              font-size: 0.9rem;
+              font-weight: bold;
+              text-transform: uppercase;
+            }
+            .desc {
+              font-size: 0.8rem;
+              .when {
+              }
+              .how {
+              }
+            }
+          }
+        }
+      }
+    }
+  } */
+
   .information-bar {
     display: block;
     margin-bottom: 1rem;
@@ -55,15 +193,23 @@
     }
   }
   .details-container {
-    display: block;
-    margin-top: 1rem;
-    width: 100%;
     .details {
-      .left-side {
-        margin: 1rem;
-      }
-      .right-side {
-        margin: 1rem;
+      .row {
+        clear: both;
+        padding: 5px 15px;
+        .left-side {
+          display: inline-block;
+          float: left;
+          width: 50%;
+        }
+        .right-side {
+          display: inline-block;
+          float: right;
+          width: 50%;
+        }
+        .updated {
+          text-align: right;
+        }
       }
       .title {
         color: #5f6daf;
@@ -74,6 +220,49 @@
       }
     }
   }
+
+  .feature-info {
+    background: rgb(234, 234, 242);
+    border-radius: 15px;
+    margin: 15px;
+    padding: 15px;
+    text-align: left;
+    .feature-container {
+      display: inline-block;
+      text-align: center;
+      vertical-align: top;
+      width: 33%;
+      .feature {
+        display: inline-block;
+        font-size: 0.6rem;
+        text-align: center;
+        .icon {
+          margin-bottom: 10px;
+          .image {
+            height: 40px;
+            width: 40px;
+          }
+        }
+        .title {
+          font-weight: bold;
+          margin-bottom: 10px;
+          text-transform: uppercase;
+        }
+        .description {
+          text-align: left;
+        }
+      }
+      @media (max-width: 374px) {
+        width: 50%;
+      }
+    }
+    .feature-container:nth-child(3) {
+      @media (max-width: 374px) {
+        margin-top: 15px;
+      }
+    }
+  }
+
   .button-row-container {
     display: block;
     margin: 1rem 0;
@@ -83,11 +272,49 @@
       width: 100%;
       .button {
         border-radius: 50%;
-        box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
-        color: $primary;
         display: inline-block;
+        height: 26px;
         margin: 0.5rem;
+        width: 26px;
+      }
+      .button.brand {
+        box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
         padding: 0.8rem;
+        .icon {
+          color: $primary;
+        }
+      }
+      .button.normal {
+        background: $primary;
+        box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
+        padding: 0.8rem;
+        text-align: center;
+        .icon {
+          color: #fff;
+          font-size: 1.5rem;
+          padding: 0.1rem;
+        }
+      }
+    }
+  }
+
+  .stories {
+    .title {
+      color: #5f6daf;
+      font-size: 1rem;
+      margin: 15px 15px 0;
+    }
+    .story-container {
+      display: inline-block;
+      width: 50%;
+      .story {
+        margin: 15px;
+        .description {
+          font-size: 0.8rem;
+        }
+        .date {
+          font-size: 0.7rem;
+        }
       }
     }
   }

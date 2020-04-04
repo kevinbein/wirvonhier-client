@@ -56,8 +56,10 @@
       position: absolute;
       right: 15px;
       top: 85px;
+      width: 30px;
       .button {
-        margin: 15px;
+        display: block;
+        padding-bottom: 15px;
         .icon {
           color: #fff;
         }

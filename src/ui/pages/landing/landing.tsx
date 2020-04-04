@@ -9,22 +9,24 @@ import Styles from './landing.scss';
 export class LandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
 
-  public gettingLocation: boolean = false;
+  public gettingLocation = false;
   public location: any = null;
-  public errorStr: String = "";
+  public errorStr = '';
 
   public async getLocation() {
     return new Promise((resolve, reject) => {
-      if(!("geolocation" in navigator)) {
+      if (!('geolocation' in navigator)) {
         reject(new Error('Geolocation is not available.'));
       }
 
-      navigator.geolocation.getCurrentPosition(pos => {
-        resolve(pos);
-      }, err => {
-        reject(err);
-      });
-
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          resolve(pos);
+        },
+        (err) => {
+          reject(err);
+        },
+      );
     });
   }
 
@@ -34,18 +36,18 @@ export class LandingPage extends Vue {
     try {
       this.gettingLocation = false;
       this.location = await this.getLocation();
-    }
-    catch (e) {
+    } catch (e) {
       this.gettingLocation = false;
       this.errorStr = e.message;
     }
 
     // TODO: Save Location Data to Cookie/Local Storage
     console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
-    this.$router.push({name: 'Explore'});
+    this.$router.push({ name: 'Explore' });
   }
 
-  render(h): Vue.VNode {
+  // @ts-ignore: Declared variable is not read
+  render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['landing-page']}>
         {/*<NavBar></NavBar>*/}
