@@ -504,14 +504,7 @@ export class MapPage extends Vue {
             <l-tile-layer url={this.url}></l-tile-layer>
             {this.prototypeLocations.map((location) => {
               const latLng = [location.geolocation.lat, location.geolocation.lng];
-              return (
-                <l-marker
-                  key={location.id}
-                  lat-lng={latLng}
-                  icon={this.icon}
-                  class={Styles['leaflet-marker-icon']}
-                ></l-marker>
-              );
+              return <l-marker key={location.id} lat-lng={latLng} icon={this.icon}></l-marker>;
             })}
           </l-map>
         </div>

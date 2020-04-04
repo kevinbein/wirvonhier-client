@@ -109,13 +109,14 @@ export class ProfilePage extends Vue {
   }
 
   handleClick(): void {
-    console.log('TEST');
+    //console.log('TEST');
   }
 
   mounted(): void {
     //let el = this.$refs['feature-delivery'];
     this.$nextTick(() => {
       //this.$refs.locationMap.mapObject.dragging.disable();
+      // @ts-ignore: mapObject is definitely defined ...
       const map = this.$refs.locationMap.mapObject;
       map.zoomControl.disable();
       map.dragging.disable();
@@ -149,14 +150,10 @@ export class ProfilePage extends Vue {
             ></div>*/}
             <l-map ref="locationMap" style="height: 100%; width: 100%" zoom={this.zoom} center={mapCenter}>
               <l-tile-layer url={this.url}></l-tile-layer>
-              <l-marker
-                lat-lng={this.profile.geolocation}
-                icon={this.icon}
-                class={Styles['leaflet-marker-icon']}
-              ></l-marker>
+              <l-marker lat-lng={this.profile.geolocation} icon={this.icon}></l-marker>
             </l-map>
           </div>
-          <div class={Styles['bar'] + ' ' + Styles['bottom-bar']}>
+          <div class={Styles['bar']}>
             <div class={Styles['arrow-container']}>
               <div class={Styles['arrow']}></div>
             </div>
@@ -348,7 +345,7 @@ export class ProfilePage extends Vue {
         </div>*/}
 
         <div class={Styles['stories']}>
-          <div class={Styles['title']}>Stories</div>
+          <div class={Styles['headline']}>Stories</div>
           {this.profile.stories.map((obj) => {
             return (
               <div class={Styles['story-container']}>

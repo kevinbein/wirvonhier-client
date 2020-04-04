@@ -3,17 +3,15 @@ import Component from 'vue-class-component';
 import Styles from './landing.scss';
 //import { NavBar } from './../../components/navBar/navBar';
 
-@Component({
-  name: 'Landing',
-})
+@Component
 export class LandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
 
   public gettingLocation = false;
-  public location: any = null;
+  public location = null;
   public errorStr = '';
 
-  public async getLocation() {
+  public async getLocation(): Promise<{}> {
     return new Promise((resolve, reject) => {
       if (!('geolocation' in navigator)) {
         reject(new Error('Geolocation is not available.'));
@@ -30,7 +28,7 @@ export class LandingPage extends Vue {
     });
   }
 
-  public async locateMe() {
+  public async locateMe(): Promise<{}> {
     this.gettingLocation = true;
 
     try {
@@ -42,7 +40,7 @@ export class LandingPage extends Vue {
     }
 
     // TODO: Save Location Data to Cookie/Local Storage
-    console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
+    //console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
     this.$router.push({ name: 'Explore' });
   }
 
@@ -65,7 +63,8 @@ export class LandingPage extends Vue {
 
         <div class={Styles['button-container']}>
           {/*<p class={Styles['caption']}>DIREKT ZU DIR</p>*/}
-          <div class={Styles['button'] + ' ' + Styles['location']} on-click={this.locateMe}>
+          {/* eslint-disable-next-line @typescript-eslint/unbound-method */}
+          <div class={Styles['button'] + ' ' + Styles['location']} onClick={this.locateMe}>
             <v-icon class={Styles['icon']}>fa-location-arrow</v-icon> AKTUELLER STANDORT
           </div>
           <div class={Styles['other-text']}> oder </div>

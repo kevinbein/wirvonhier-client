@@ -18,6 +18,7 @@ interface CssExports {
   'feature-container': string;
   'feature-info': string;
   'features': string;
+  'headline': string;
   'icon': string;
   'image': string;
   'information-bar': string;
