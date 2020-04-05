@@ -372,6 +372,7 @@ module.exports = async function (env, argv) {
         VUE_APP_BASE_URL: JSON.stringify('http://127.0.0.1:8080'),
         VUE_APP_SERVER: JSON.stringify('http://127.0.0.1:3001'),
         BASE_URL: JSON.stringify('/'),
+        API_URL: JSON.stringify(process.env.API_URL),
       }),
 
       // Copy static assets

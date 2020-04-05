@@ -3,7 +3,7 @@ import { IHttpResponse } from './http.types';
 
 const axiosInstance = axios.create({
   timeout: 3000,
-  baseURL: BASE_URL,
+  baseURL: API_URL,
   withCredentials: true,
   responseType: 'json',
 });
