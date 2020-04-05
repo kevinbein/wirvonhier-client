@@ -39,6 +39,7 @@ interface CssExports {
   'stories': string;
   'story': string;
   'story-container': string;
+  'story-image': string;
   'title': string;
   'updated': string;
 }

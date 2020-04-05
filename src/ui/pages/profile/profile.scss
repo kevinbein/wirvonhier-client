@@ -344,6 +344,9 @@
       width: 50%;
       .story {
         margin: 15px;
+        .story-image {
+          width: 100%;
+        }
         .description {
           font-size: 0.8rem;
         }

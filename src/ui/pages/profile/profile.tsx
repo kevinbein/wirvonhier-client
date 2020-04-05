@@ -359,7 +359,7 @@ export class ProfilePage extends Vue {
             return (
               <div class={Styles['story-container']}>
                 <div class={Styles['story']}>
-                  <img class={Styles['image']} src={obj.picture} />
+                  <img class={Styles['story-image']} src={obj.picture} />
                   <div class={Styles['description']}>{obj.description}</div>
                   <div class={Styles['date']}>{obj.date.toLocaleDateString()}</div>
                 </div>
