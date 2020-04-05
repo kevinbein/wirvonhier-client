@@ -8,6 +8,7 @@ import {
   LandingPage,
   LoginPage,
   RegisterPage,
+  BusinessPage,
   //EditProfilePage,
 } from './pages';
 
@@ -59,6 +60,11 @@ const routes = [
     path: '/explore/:businessId?',
     name: 'Explore',
     component: ExplorePage,
+  },
+  {
+    path: '/business/:businessToken',
+    name: 'Business',
+    component: BusinessPage,
   },
 ];
 

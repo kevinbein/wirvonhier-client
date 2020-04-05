@@ -6,3 +6,4 @@ export * from './explore';
 export * from './landing';
 export * from './register';
 export * from './login';
+export * from './business';
