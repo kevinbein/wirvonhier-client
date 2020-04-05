@@ -32,7 +32,7 @@ export class ProfilePage extends Vue {
   zoom = 18;
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
-    iconUrl: './assets/imgs/logo.png',
+    iconUrl: '/assets/imgs/logo.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -112,6 +112,22 @@ export class ProfilePage extends Vue {
     //console.log('TEST');
   }
 
+  openWindowPhone(): void {
+    window.open('tel:' + this.profile.phone);
+  }
+
+  openWindowFacebook(): void {
+    window.open('https://facebook.com/' + this.profile.facebook.replace('@', ''));
+  }
+
+  openWindowInstagram(): void {
+    window.open('https://instagram.com/' + this.profile.instagram.replace('@', ''));
+  }
+
+  openWindowWhatsapp(): void {
+    window.open('https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', ''));
+  }
+
   mounted(): void {
     //let el = this.$refs['feature-delivery'];
     this.$nextTick(() => {
@@ -141,6 +157,13 @@ export class ProfilePage extends Vue {
     const mapCenter = [this.profile.geolocation.lat, this.profile.geolocation.lng]; // + 0.0005];
     return (
       <div class={Styles['profile-page']}>
+        <div class={Styles['close-bar']}>
+          {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
+          <span class={Styles['shop-title']}>{this.profile.name}</span>
+          <div ref="closeProfileButton" class={Styles['close-button']}>
+            <v-icon class={Styles['icon']}>fa-times</v-icon>
+          </div>
+        </div>
         <router-link to="map" class={Styles['location-container']}>
           <div class={Styles['location']}>
             {/*<img class={Styles['picture']} src={this.profile.locationPicture} />*/}
@@ -159,8 +182,6 @@ export class ProfilePage extends Vue {
             </div>
           </div>
         </router-link>
-
-        <div class={Styles['shop-title']}>{this.profile.name}</div>
 
         {/*<div class={Styles['feature-info']}>
           <div class={Styles['arrow-container']}>
@@ -228,11 +249,11 @@ export class ProfilePage extends Vue {
               <div class={Styles['left-side']}>
                 <div class={Styles['title']}>Kontakt</div>
                 <div class={Styles['description']}>
-                  {this.profile.phone}
+                  <a href={'tel:' + this.profile.phone}>{this.profile.phone}</a>
                   <br />
-                  {this.profile.email}
+                  <a href={'mailto:' + this.profile.email}>{this.profile.email}</a>
                   <br />
-                  {this.profile.homepage}
+                  <a href={this.profile.homepage}>{this.profile.homepage}</a>
                 </div>
               </div>
               <div class={Styles['right-side']}>
@@ -298,28 +319,16 @@ export class ProfilePage extends Vue {
 
         <div class={Styles['button-row-container']}>
           <div class={Styles['button-row']}>
-            <div
-              class={Styles['button'] + ' ' + Styles['normal']}
-              onClick={'window.open("tel:' + this.profile.phone + '")'}
-            >
+            <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
               <v-icon class={Styles['icon']}>fa-phone</v-icon>
             </div>
-            <div
-              class={Styles['button'] + ' ' + Styles['brand']}
-              onClick={'window.open("https://facebook.com/' + this.profile.facebook.replace('@', '') + '")'}
-            >
+            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
               <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
             </div>
-            <div
-              class={Styles['button'] + ' ' + Styles['brand']}
-              onClick={'window.open("https://instagram.com/' + this.profile.instagram.replace('@', '') + '")'}
-            >
+            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
               <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
             </div>
-            <div
-              class={Styles['button'] + ' ' + Styles['brand']}
-              onClick={'window.open("https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', '') + '")'}
-            >
+            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
               <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
             </div>
           </div>

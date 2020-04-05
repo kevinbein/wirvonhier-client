@@ -457,6 +457,10 @@ export class MapPage extends Vue {
     console.log("update bounds");
   };*/
 
+  openProfile(id: number): void {
+    this.$router.push('/explore/' + id);
+  }
+
   mounted(): void {
     //let map = new L.Map('leafletmap', {
     //center: this.center,
@@ -504,7 +508,14 @@ export class MapPage extends Vue {
             <l-tile-layer url={this.url}></l-tile-layer>
             {this.prototypeLocations.map((location) => {
               const latLng = [location.geolocation.lat, location.geolocation.lng];
-              return <l-marker key={location.id} lat-lng={latLng} icon={this.icon}></l-marker>;
+              return (
+                <l-marker
+                  onClick={() => this.openProfile(location.id)}
+                  key={location.id}
+                  lat-lng={latLng}
+                  icon={this.icon}
+                ></l-marker>
+              );
             })}
           </l-map>
         </div>

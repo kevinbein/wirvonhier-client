@@ -1,8 +1,48 @@
 .profile-page {
+  background: #fff;
+
+  .close-bar {
+    background: #fff;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1.2rem;
+    font-weight: bold;
+    height: 50px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 401;
+
+    /* .logo {
+      display: inline-block;
+      height: 30px;
+      margin: 10px 15px;
+      width: 30px;
+    } */
+    .shop-title {
+      color: $primary;
+      left: 15px;
+      padding: 5px;
+      position: relative;
+      top: 10px;
+    }
+    .close-button {
+      display: inline-block;
+      float: right;
+      .icon {
+        color: $primary;
+        cursor: pointer;
+        margin: 15px;
+      }
+    }
+  }
+
   .location-container {
     align-items: center;
     display: flex;
-    height: 140px;
+    height: 160px;
     justify-content: center;
     position: relative;
     text-align: center;
@@ -11,7 +51,8 @@
       visibility: hidden !important;
     }
     .location {
-      height: 100%;
+      height: calc(100% - 10px);
+      margin-top: 10px;
       width: 100%;
       .picture {
         height: 100%;
@@ -65,12 +106,6 @@
       }
     }
   }
-  .shop-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 15px;
-    margin-bottom: 0;
-  }
 
   /*
   .feature-info {
@@ -96,7 +131,7 @@
       }
 
       .arrow::after {
-        border-color: rgba(136, 183, 213, 0);
+        border-color: rgba(136, 183, 21207G3, 0);
         border-bottom-color: #88b7d5;
         border-width: 30px;
         margin-left: -30px;
@@ -184,7 +219,7 @@
     }
   }
   .profile-image-container {
-    margin: 1rem;
+    //margin: 1rem;
     margin-bottom: 0;
     .profile-image {
       border-radius: 15px;

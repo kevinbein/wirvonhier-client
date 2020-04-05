@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import {
-  ProfilePage,
+  //ProfilePage,
   GridPage,
   ExplorePage,
   MapPage,
   LandingPage,
   LoginPage,
   RegisterPage,
-  EditProfilePage,
+  //EditProfilePage,
 } from './pages';
 
 Vue.use(VueRouter);
@@ -33,7 +33,7 @@ const routes = [
     name: 'Register',
     component: RegisterPage,
   },
-  {
+  /*{
     path: '/profile/:businessId',
     name: 'Profile',
     component: ProfilePage,
@@ -44,7 +44,7 @@ const routes = [
         component: EditProfilePage,
       },
     ],
-  },
+  },*/
   {
     path: '/map',
     name: 'Map',
@@ -56,7 +56,7 @@ const routes = [
     component: GridPage,
   },
   {
-    path: '/explore',
+    path: '/explore/:businessId?',
     name: 'Explore',
     component: ExplorePage,
   },

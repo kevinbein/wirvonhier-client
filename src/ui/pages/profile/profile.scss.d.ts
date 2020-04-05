@@ -8,6 +8,8 @@ interface CssExports {
   'button': string;
   'button-row': string;
   'button-row-container': string;
+  'close-bar': string;
+  'close-button': string;
   'contact': string;
   'contacts': string;
   'date': string;
