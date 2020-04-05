@@ -8,10 +8,10 @@ export class LandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
 
   public gettingLocation = false;
-  public location = {};
+  public location: Position | undefined;
   public errorStr = '';
 
-  public async getLocation(): Promise<{}> {
+  public async getLocation(): Promise<Position> {
     return new Promise((resolve, reject) => {
       if (!('geolocation' in navigator)) {
         reject(new Error('Geolocation is not available.'));
@@ -39,8 +39,9 @@ export class LandingPage extends Vue {
       this.errorStr = e.message;
     }
 
-    // TODO: Save Location Data to Cookie/Local Storage
-    //console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
+    window.localStorage.userLocation = JSON.stringify(
+      '{ latitude: ' + this.location?.coords.latitude + ', longitude: ' + this.location?.coords.longitude + '}',
+    );
     this.$router.push({ name: 'Explore' });
   }
 
