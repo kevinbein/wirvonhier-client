@@ -8,10 +8,9 @@ export class LandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
 
   public gettingLocation = false;
-  public location = null;
+  public location = {};
   public errorStr = '';
 
-  /*
   public async getLocation(): Promise<{}> {
     return new Promise((resolve, reject) => {
       if (!('geolocation' in navigator)) {
@@ -29,7 +28,7 @@ export class LandingPage extends Vue {
     });
   }
 
-  public async locateMe(): Promise<{}> {
+  public async locateMe(): Promise<void> {
     this.gettingLocation = true;
 
     try {
@@ -43,7 +42,7 @@ export class LandingPage extends Vue {
     // TODO: Save Location Data to Cookie/Local Storage
     //console.log(this.location.coords.latitude + ' ' + this.location.coords.longitude);
     this.$router.push({ name: 'Explore' });
-  }*/
+  }
 
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
@@ -64,7 +63,7 @@ export class LandingPage extends Vue {
 
         <div class={Styles['button-container']}>
           {/*<p class={Styles['caption']}>DIREKT ZU DIR</p>*/}
-          <div class={Styles['button'] + ' ' + Styles['location']}>
+          <div onClick={this.locateMe.bind(this)} class={Styles['button'] + ' ' + Styles['location']}>
             <v-icon class={Styles['icon']}>fa-location-arrow</v-icon> AKTUELLER STANDORT
           </div>
           <div class={Styles['other-text']}> oder </div>
