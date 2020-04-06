@@ -11,6 +11,8 @@ interface CssExports {
   'logo': string;
   'logo-container': string;
   'other-text': string;
+  'search-icon': string;
+  'text-input': string;
   'title': string;
   'welcome': string;
 }
