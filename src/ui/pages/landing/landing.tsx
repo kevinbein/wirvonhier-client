@@ -12,11 +12,15 @@ export class LandingPage extends Vue {
   private postCode = '';
   public errorStr = '';
 
-  public getPostcode(): string {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  mounted() {
+    this.getPostcode();
+  }
+
+  public getPostcode(): void {
     if (window.localStorage.postCode) {
       this.postCode = window.localStorage.postCode;
     }
-    return this.postCode;
   }
 
   public savePostCode(): void {
@@ -90,18 +94,16 @@ export class LandingPage extends Vue {
           </div>
           <div class={Styles['other-text']}> oder </div>
           <v-text-field
+            id="text-input"
             class={Styles['text-input']}
             color="#5f6daf"
             label="POSTLEITZAHL EINGEBEN"
-            value={this.getPostcode()}
+            value={this.postCode}
             onChange={(value: string) => this.onChange(value)}
-            onClick={(this.postCode = '')}
           ></v-text-field>
-          <button onClick={this.savePostCode.bind(this)} class={Styles['search-button']}>
-            <v-icon class={Styles['search-icon']} size="30px">
-              fa-search
-            </v-icon>
-          </button>
+          <v-icon onClick={this.savePostCode.bind(this)} class={Styles['search-icon']} size="30px">
+            fa-search
+          </v-icon>
         </div>
       </div>
     );
