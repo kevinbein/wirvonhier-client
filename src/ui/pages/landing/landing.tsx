@@ -9,12 +9,8 @@ export class LandingPage extends Vue {
 
   public gettingLocation = false;
   public location: Position | undefined;
-  private postCode = 'no';
+  private postCode = '';
   public errorStr = '';
-
-  // mounted(): void {
-  //   this.getPostcode();
-  // }
 
   public getPostcode(): string {
     if (window.localStorage.postCode) {
@@ -24,8 +20,16 @@ export class LandingPage extends Vue {
   }
 
   public savePostCode(): void {
+    if (!this.postCode || this.postCode == '') {
+      return;
+    }
     window.localStorage.postCode = this.postCode;
     this.$router.push('Explore');
+  }
+
+  public onChange(postCode: string): void {
+    this.postCode = postCode;
+    this.savePostCode();
   }
 
   public async getLocation(): Promise<Position> {
@@ -89,7 +93,9 @@ export class LandingPage extends Vue {
             class={Styles['text-input']}
             color="#5f6daf"
             label="POSTLEITZAHL EINGEBEN"
-            change={(postcode: { target: { value: string } }) => (this.postCode = postcode.target.value)}
+            value={this.getPostcode()}
+            onChange={(value: string) => this.onChange(value)}
+            onClick={(this.postCode = '')}
           ></v-text-field>
           <button onClick={this.savePostCode.bind(this)} class={Styles['search-button']}>
             <v-icon class={Styles['search-icon']} size="30px">
