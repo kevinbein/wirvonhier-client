@@ -12,11 +12,6 @@ export class LandingPage extends Vue {
   private postCode = '';
   public errorStr = '';
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  mounted() {
-    this.getPostcode();
-  }
-
   public getPostcode(): void {
     if (window.localStorage.postCode) {
       this.postCode = window.localStorage.postCode;
@@ -27,6 +22,7 @@ export class LandingPage extends Vue {
     if (!this.postCode || this.postCode == '') {
       return;
     }
+    this.clearLocalStorage();
     window.localStorage.postCode = this.postCode;
     this.$router.push('Explore');
   }
@@ -34,6 +30,11 @@ export class LandingPage extends Vue {
   public onChange(postCode: string): void {
     this.postCode = postCode;
     this.savePostCode();
+  }
+
+  public clearLocalStorage(): void {
+    window.localStorage.userLocation = '';
+    window.localStorage.postCode = '';
   }
 
   public async getLocation(): Promise<Position> {
@@ -63,6 +64,8 @@ export class LandingPage extends Vue {
       this.gettingLocation = false;
       this.errorStr = e.message;
     }
+
+    this.clearLocalStorage();
 
     window.localStorage.userLocation = JSON.stringify(
       '{ latitude: ' + this.location?.coords.latitude + ', longitude: ' + this.location?.coords.longitude + '}',
