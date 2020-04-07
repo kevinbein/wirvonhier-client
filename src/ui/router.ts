@@ -8,7 +8,7 @@ import {
   LandingPage,
   LoginPage,
   RegisterPage,
-  BusinessPage,
+  //BusinessPage,
   //EditProfilePage,
 } from './pages';
 
@@ -57,14 +57,9 @@ const routes = [
     component: GridPage,
   },
   {
-    path: '/explore/:businessId?',
+    path: '/explore/:businessName?',
     name: 'Explore',
     component: ExplorePage,
-  },
-  {
-    path: '/business/:businessToken',
-    name: 'Business',
-    component: BusinessPage,
   },
 ];
 

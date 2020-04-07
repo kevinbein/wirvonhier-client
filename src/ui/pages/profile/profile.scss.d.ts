@@ -26,8 +26,11 @@ interface CssExports {
   'information-bar': string;
   'leaflet-control-zoom': string;
   'left-side': string;
+  'loading-error': string;
+  'loading-error-container': string;
   'location': string;
   'location-container': string;
+  'message': string;
   'normal': string;
   'picture': string;
   'profile-image': string;

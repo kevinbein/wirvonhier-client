@@ -8,12 +8,13 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../../pages';
+import { LatLng } from 'leaflet';
 
 @Component({
   name: 'Explore',
 })
 export class ExplorePage extends Vue {
-  explorerImages = [
+  testExplorerImages = [
     '/assets/stories/Stock1.jpg',
     '/assets/stories/Stock2.jpg',
     '/assets/stories/Stock3.jpg',
@@ -89,34 +90,78 @@ export class ExplorePage extends Vue {
     swiper.slidePrev();
   }
 
+  public businessName: string | null = null;
+  loadBusiness(businessName: string): void {
+    this.businessName = businessName;
+    // @ts-ignore
+    this.$refs.profile.loadProfile(businessName);
+  }
+
   public slideChange(): void {
     // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
+    // Opened profile page
     if (swiper.activeIndex == 1) {
       swiper.allowTouchMove = false;
-    } else {
+    }
+    // Opened explore page
+    else {
       swiper.allowTouchMove = true;
     }
   }
 
-  public businessId: number | null = null;
-  loadBusiness(businessId: number): void {
-    this.businessId = businessId;
+  public exploreSlideChange(): void {
+    const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
+    const business = this.businesses[index];
+    const businessName = business.id;
+    this.loadBusiness(businessName);
+  }
+
+  public businesses: unknown = null;
+
+  public async loadBusinesses(zip: number, _radius: number): Promise<void> {
+    //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
+    this.businesses = await this.$http({
+      method: 'get',
+      //url: '/businesses?zip=' + zip + '&radius=' + radius,
+      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      data: {},
+    });
+    // eslint-disable-next-line no-console
+    console.log('Loaded business', this.businesses);
+
+    // As long as there are no images yet, generate and assign them from an array of given pictures
+    for (let i = 0; i < this.businesses.length; ++i) {
+      const index = i % this.testExplorerImages.length;
+      this.businesses[i].story = this.testExplorerImages[index];
+      this.businesses[i].geolocation = new LatLng(47.78099, 9.61529);
+    }
+    // eslint-disable-next-line no-console
+    console.log('Added stories to businesses', this.businesses);
   }
 
   mounted(): void {
-    if (this.$route.params.businessId !== undefined) {
-      const businessId = parseInt(this.$route.params.businessId);
-      this.loadBusiness(businessId);
-      // @ts-ignore
-      const swiper = this.$refs.verticalSwiper.$swiper;
-      swiper.slideTo(1, 0);
-    }
+    const zip = 71665;
+    //const location = new LatLng(47.78099, 9.61529);
+    const radius = 10.5;
+    // Load all businesses with the given zip/location and radius (if given)
+    // TODO: pagination later
+    (async () => {
+      await this.loadBusinesses(zip, radius);
+      if (this.$route.params.businessName !== undefined) {
+        this.loadBusiness(this.$route.params.businessName);
+        // @ts-ignore
+        const swiper = this.$refs.verticalSwiper.$swiper;
+        swiper.slideTo(1, 0);
+      } else if (this.businesses.length > 0) {
+        this.loadBusiness(this.businesses[0].id);
+      }
 
-    // @ts-ignore
-    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
-      this.gotoExplorerSlide();
-    });
+      // @ts-ignore
+      this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
+        this.gotoExplorerSlide();
+      });
+    })();
   }
 
   // @ts-ignore: Declared variable is not read
@@ -132,39 +177,44 @@ export class ExplorePage extends Vue {
           class={Styles['vertical-swiper']}
         >
           <swiper-slide class={Styles['explorer']}>
-            <swiper ref="horizontalSwiper" options={this.horizontalSwiperOptions} class={Styles['vertical-swiper']}>
-              {this.explorerImages.map((image) => {
-                return (
-                  <swiper-slide>
-                    <div class={Styles['header']}>
-                      <div class={Styles['left-side']}>
-                        <img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />
+            <swiper
+              ref="horizontalSwiper"
+              on-slideChange={() => this.exploreSlideChange()}
+              options={this.horizontalSwiperOptions}
+              class={Styles['vertical-swiper']}
+            >
+              {(this.businesses !== null &&
+                this.businesses.map((business) => {
+                  return (
+                    <swiper-slide>
+                      <div class={Styles['header']}>
+                        <div class={Styles['left-side']}>
+                          <img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />
+                        </div>
+                        <div class={Styles['right-side']}>
+                          <div class={Styles['name']}>{business.name}</div>
+                          <div class={Styles['short-desc']}>{business.category[0]}</div>
+                        </div>
                       </div>
-                      <div class={Styles['right-side']}>
-                        <div class={Styles['name']}>Prüssing &amp; Köll</div>
-                        <div class={Styles['short-desc']}>Herrenausstatter</div>
-                      </div>
-                    </div>
 
-                    <div class={Styles['controls']}>
-                      <router-link to="/" class={Styles['button']}>
-                        <v-icon class={Styles['icon']}>fa-cog</v-icon>
-                      </router-link>
-                      {/*<div class={Styles['button']}>
+                      <div class={Styles['story-container']}>
+                        <img class={Styles['story']} src={business.story} alt="image" />
+                      </div>
+                    </swiper-slide>
+                  );
+                })) || <div>Loading ...</div>}
+            </swiper>
+            <div class={Styles['controls']}>
+              <router-link to="/" class={Styles['button']}>
+                <v-icon class={Styles['icon']}>fa-cog</v-icon>
+              </router-link>
+              {/*<div class={Styles['button']}>
                         <v-icon class={Styles['icon']}>fa-filter</v-icon>
                       </div>*/}
-                      <router-link to="map" class={Styles['button']}>
-                        <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
-                      </router-link>
-                    </div>
-
-                    <div class={Styles['story-container']}>
-                      <img class={Styles['story']} src={image} alt="image" />
-                    </div>
-                  </swiper-slide>
-                );
-              })}
-            </swiper>
+              <router-link to="map" class={Styles['button']}>
+                <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
+              </router-link>
+            </div>
           </swiper-slide>
           <swiper-slide class={Styles['profile']}>
             <ProfilePage ref="profile"></ProfilePage>

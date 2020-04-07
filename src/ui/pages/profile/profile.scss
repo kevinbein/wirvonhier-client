@@ -1,3 +1,37 @@
+.loading-error-container {
+  align-items: center;
+  background: #000;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  .close-button {
+    color: #fff !important;
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    .icon {
+      color: #fff !important;
+      height: 30px;
+      width: 30px;
+    }
+  }
+  .loading-error {
+    text-align: center;
+    .message {
+      color: #fff !important;
+      display: inline-block;
+      width: 100%;
+      .icon {
+        color: #fff !important;
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+}
 .profile-page {
   background: #fff;
 

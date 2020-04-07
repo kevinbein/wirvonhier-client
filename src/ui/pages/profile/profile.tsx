@@ -37,7 +37,58 @@ export class ProfilePage extends Vue {
     iconAnchor: [15, 15],
   });
 
-  get profile(): profile {
+  dummyStories = [
+    {
+      description: 'Outfit des Tages',
+      date: new Date('2020-04-05'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell1.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell1_big.png',
+    },
+    {
+      description: 'Ostergeschenke',
+      date: new Date('2020-04-01'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell8.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell8_big.png',
+    },
+    {
+      description: 'Businesshemd',
+      date: new Date('2020-03-31'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell4.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell4_big.png',
+    },
+    {
+      description: 'Herrenschuh',
+      date: new Date('2020-03-29'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell6.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell6_big.png',
+    },
+    {
+      description: 'WirVonHier',
+      date: new Date('2020-03-28'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell5.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell5_big.png',
+    },
+    {
+      description: 'Wir nehmen Maß',
+      date: new Date('2020-03-26'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell3.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell3_big.png',
+    },
+    {
+      description: 'Manschettenknöpfe',
+      date: new Date('2020-03-25'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell2.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell2_big.png',
+    },
+    {
+      description: 'Kniestrümpfe',
+      date: new Date('2020-03-24'),
+      picture: '/assets/stories/pruessingkoell/pruessingkoell7.png',
+      picturebig: '/assets/stories/pruessingkoell/pruessingkoell7_big.png',
+    },
+  ];
+
+  /*get profile(): profile {
     return {
       name: 'Prüssing & Köll',
       street: 'Heinrichstraße 5',
@@ -106,6 +157,19 @@ export class ProfilePage extends Vue {
         },
       ],
     };
+  }*/
+
+  public profile: unknown | null = null;
+  public businessName: string | null = null;
+  public async loadProfile(businessName: string): Promise<void> {
+    this.businessName = businessName;
+    this.profile = await this.$http({
+      method: 'get',
+      url: `/businesses/${businessName}`,
+      data: {},
+    });
+    // eslint-disable-next-line no-console
+    console.log('Loaded profile', businessName, this.profile);
   }
 
   handleClick(): void {
@@ -132,7 +196,10 @@ export class ProfilePage extends Vue {
     //let el = this.$refs['feature-delivery'];
     this.$nextTick(() => {
       //this.$refs.locationMap.mapObject.dragging.disable();
-      // @ts-ignore: mapObject is definitely defined ...
+      if (this.$refs.locationMap === undefined) {
+        return;
+      }
+      // @ts-ignore: mapObject is definitely defined if locationMap is defined ...
       const map = this.$refs.locationMap.mapObject;
       map.zoomControl.disable();
       map.dragging.disable();
@@ -153,37 +220,61 @@ export class ProfilePage extends Vue {
     //const businessId = this.$route.params.businessId;
     //const db = this.$store.$db.businesses;
     //console.log(businessId, db.find({}));
-
-    const mapCenter = [this.profile.geolocation.lat, this.profile.geolocation.lng]; // + 0.0005];
+    let mapCenter = [47.78099, 9.61529];
+    const geolocation = mapCenter;
+    if (
+      this.profile !== null &&
+      this.profile.geolocation &&
+      this.profile.geolocation.lat &&
+      this.profile.geolocation.lng
+    ) {
+      mapCenter = [this.profile.geolocation.lat, this.profile.geolocation.lng]; // + 0.0005];
+    }
+    const coverPicture = '/assets/stories/pruessingkoell/cover.png';
+    //let stories = this.profile.stories;
+    const stories = this.dummyStories;
     return (
-      <div class={Styles['profile-page']}>
-        <div class={Styles['close-bar']}>
-          {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
-          <span class={Styles['shop-title']}>{this.profile.name}</span>
+      (this.profile === null && (
+        <div class={Styles['loading-error-container']}>
           <div ref="closeProfileButton" class={Styles['close-button']}>
             <v-icon class={Styles['icon']}>fa-times</v-icon>
           </div>
+          <div class={Styles['loading-error']}>
+            <div class={Styles['message']}>
+              Loading profile &nbsp;
+              <v-icon class={Styles['icon']}>fas fa-spinner fa-spin</v-icon>
+            </div>
+          </div>
         </div>
-        <router-link to="map" class={Styles['location-container']}>
-          <div class={Styles['location']}>
-            {/*<img class={Styles['picture']} src={this.profile.locationPicture} />*/}
-            {/*<div
+      )) || (
+        <div class={Styles['profile-page']}>
+          <div class={Styles['close-bar']}>
+            {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
+            <span class={Styles['shop-title']}>{this.profile.name}</span>
+            <div ref="closeProfileButton" class={Styles['close-button']}>
+              <v-icon class={Styles['icon']}>fa-times</v-icon>
+            </div>
+          </div>
+          <router-link to="map" class={Styles['location-container']}>
+            <div class={Styles['location']}>
+              {/*<img class={Styles['picture']} src={this.profile.locationPicture} />*/}
+              {/*<div
               class={Styles['picture']}
               style={'background-image: url("' + this.profile.locationPicture + '")'}
             ></div>*/}
-            <l-map ref="locationMap" style="height: 100%; width: 100%" zoom={this.zoom} center={mapCenter}>
-              <l-tile-layer url={this.url}></l-tile-layer>
-              <l-marker lat-lng={this.profile.geolocation} icon={this.icon}></l-marker>
-            </l-map>
-          </div>
-          <div class={Styles['bar']}>
-            <div class={Styles['arrow-container']}>
-              <div class={Styles['arrow']}></div>
+              <l-map ref="locationMap" style="height: 100%; width: 100%" zoom={this.zoom} center={mapCenter}>
+                <l-tile-layer url={this.url}></l-tile-layer>
+                <l-marker lat-lng={geolocation} icon={this.icon}></l-marker>
+              </l-map>
             </div>
-          </div>
-        </router-link>
+            <div class={Styles['bar']}>
+              <div class={Styles['arrow-container']}>
+                <div class={Styles['arrow']}></div>
+              </div>
+            </div>
+          </router-link>
 
-        {/*<div class={Styles['feature-info']}>
+          {/*<div class={Styles['feature-info']}>
           <div class={Styles['arrow-container']}>
             <div class={Styles['arrow-border']}></div>
             <div class={Styles['arrow']}></div>
@@ -206,7 +297,7 @@ export class ProfilePage extends Vue {
           </div>
         </div>*/}
 
-        {/*<div class={Styles['information-bar']}>
+          {/*<div class={Styles['information-bar']}>
           <div class={Styles['features']}>
             <div ref="feature-delivery" class={Styles.feature} onClick={this.handleClick}>
               Lieferung
@@ -235,105 +326,105 @@ export class ProfilePage extends Vue {
           </div>
         </div>*/}
 
-        <div class={Styles['profile-image-container']}>
-          <img class={Styles['profile-image']} src={this.profile.coverPicture} />
-        </div>
+          <div class={Styles['profile-image-container']}>
+            <img class={Styles['profile-image']} src={coverPicture} />
+          </div>
 
-        <div class={Styles['details-container']}>
-          <div class={Styles['details']}>
-            <div class={Styles['row']}>
-              <div class={Styles['title']}>Angebot</div>
-              <div class={Styles['description']}>{this.profile.description}</div>
-            </div>
-            <div class={Styles['row']}>
-              <div class={Styles['left-side']}>
-                <div class={Styles['title']}>Kontakt</div>
-                <div class={Styles['description']}>
-                  <a href={'tel:' + this.profile.phone}>{this.profile.phone}</a>
-                  <br />
-                  <a href={'mailto:' + this.profile.email}>{this.profile.email}</a>
-                  <br />
-                  <a href={this.profile.homepage}>{this.profile.homepage}</a>
+          <div class={Styles['details-container']}>
+            <div class={Styles['details']}>
+              <div class={Styles['row']}>
+                <div class={Styles['title']}>Angebot</div>
+                <div class={Styles['description']}>{this.profile.description}</div>
+              </div>
+              <div class={Styles['row']}>
+                <div class={Styles['left-side']}>
+                  <div class={Styles['title']}>Kontakt</div>
+                  <div class={Styles['description']}>
+                    <a href={'tel:' + this.profile.phone}>{this.profile.phone}</a>
+                    <br />
+                    <a href={'mailto:' + this.profile.email}>{this.profile.email}</a>
+                    <br />
+                    <a href={this.profile.homepage}>{this.profile.homepage}</a>
+                  </div>
+                </div>
+                <div class={Styles['right-side']}>
+                  <div class={Styles['title']}>Adresse</div>
+                  <div class={Styles['description']}>
+                    {this.profile.street}
+                    <br />
+                    {this.profile.city}
+                  </div>
                 </div>
               </div>
-              <div class={Styles['right-side']}>
-                <div class={Styles['title']}>Adresse</div>
-                <div class={Styles['description']}>
-                  {this.profile.street}
-                  <br />
-                  {this.profile.city}
+              <div class={Styles['row']}>
+                <div class={Styles['title'] + ' ' + Styles['updated']}>
+                  {/*Aktualisiert am {this.profile.updated.toLocaleDateString()}*/}
                 </div>
               </div>
             </div>
-            <div class={Styles['row']}>
-              <div class={Styles['title'] + ' ' + Styles['updated']}>
-                {/*Aktualisiert am {this.profile.updated.toLocaleDateString()}*/}
-              </div>
-            </div>
           </div>
-        </div>
 
-        <div class={Styles['feature-info']}>
-          <div class={Styles['feature-container']}>
-            <div class={Styles['feature']}>
-              <div class={Styles['icon']}>
-                <img class={Styles['image']} src="/assets/imgs/Delivery.png" />
+          <div class={Styles['feature-info']}>
+            <div class={Styles['feature-container']}>
+              <div class={Styles['feature']}>
+                <div class={Styles['icon']}>
+                  <img class={Styles['image']} src="/assets/imgs/Delivery.png" />
+                </div>
+                <div class={Styles['title']}>
+                  Dein Lieblings-
+                  <br />
+                  einzelhändler
+                </div>
+                <div class={Styles['description']}>
+                  Öffnungszeiten:
+                  <br />
+                  Mo.-Fr.: 10:00-19:00 Uhr
+                  <br />
+                  Sa.: 10:00-16:00 Uhr
+                </div>
               </div>
-              <div class={Styles['title']}>
-                Dein Lieblings-
-                <br />
-                einzelhändler
+            </div>
+            <div class={Styles['feature-container']}>
+              <div class={Styles['feature']}>
+                <div class={Styles['icon']}>
+                  <img class={Styles['image']} src="/assets/imgs/Payment.png" />
+                </div>
+                <div class={Styles['title']}>
+                  Kontaktlose
+                  <br />
+                  Lieferung
+                </div>
+                <div class={Styles['description']}>Abholung im Geschäft, Lieferung per Kurier</div>
               </div>
-              <div class={Styles['description']}>
-                Öffnungszeiten:
-                <br />
-                Mo.-Fr.: 10:00-19:00 Uhr
-                <br />
-                Sa.: 10:00-16:00 Uhr
+            </div>
+            <div class={Styles['feature-container']}>
+              <div class={Styles['feature']}>
+                <div class={Styles['icon']}>
+                  <img class={Styles['image']} src="/assets/imgs/Contact.png" />
+                </div>
+                <div class={Styles['title']}>Einfache Bezahlung</div>
+                <div class={Styles['description']}>Paypal, Klarna, auf Rechnung</div>
               </div>
             </div>
           </div>
-          <div class={Styles['feature-container']}>
-            <div class={Styles['feature']}>
-              <div class={Styles['icon']}>
-                <img class={Styles['image']} src="/assets/imgs/Payment.png" />
-              </div>
-              <div class={Styles['title']}>
-                Kontaktlose
-                <br />
-                Lieferung
-              </div>
-              <div class={Styles['description']}>Abholung im Geschäft, Lieferung per Kurier</div>
-            </div>
-          </div>
-          <div class={Styles['feature-container']}>
-            <div class={Styles['feature']}>
-              <div class={Styles['icon']}>
-                <img class={Styles['image']} src="/assets/imgs/Contact.png" />
-              </div>
-              <div class={Styles['title']}>Einfache Bezahlung</div>
-              <div class={Styles['description']}>Paypal, Klarna, auf Rechnung</div>
-            </div>
-          </div>
-        </div>
 
-        <div class={Styles['button-row-container']}>
-          <div class={Styles['button-row']}>
-            <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
-              <v-icon class={Styles['icon']}>fa-phone</v-icon>
-            </div>
-            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
-              <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
-            </div>
-            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
-              <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
-            </div>
-            <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
-              <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
+          <div class={Styles['button-row-container']}>
+            <div class={Styles['button-row']}>
+              <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
+                <v-icon class={Styles['icon']}>fa-phone</v-icon>
+              </div>
+              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
+                <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
+              </div>
+              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
+                <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
+              </div>
+              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
+                <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
+              </div>
             </div>
           </div>
-        </div>
-        {/*<div class={Styles['button-row-container']}>
+          {/*<div class={Styles['button-row-container']}>
           <div class={Styles['button-row']}>
             <div class={Styles['button']} onclick={'window.open("tel:' + this.profile.phone + '")'}>
               <v-icon>fa-phone</v-icon>
@@ -353,21 +444,22 @@ export class ProfilePage extends Vue {
           </div>
         </div>*/}
 
-        <div class={Styles['stories']}>
-          <div class={Styles['headline']}>Stories</div>
-          {this.profile.stories.map((obj) => {
-            return (
-              <div class={Styles['story-container']}>
-                <div class={Styles['story']}>
-                  <img class={Styles['story-image']} src={obj.picture} />
-                  <div class={Styles['description']}>{obj.description}</div>
-                  <div class={Styles['date']}>{obj.date.toLocaleDateString()}</div>
+          <div class={Styles['stories']}>
+            <div class={Styles['headline']}>Stories</div>
+            {stories.map((obj) => {
+              return (
+                <div class={Styles['story-container']}>
+                  <div class={Styles['story']}>
+                    <img class={Styles['story-image']} src={obj.picture} />
+                    <div class={Styles['description']}>{obj.description}</div>
+                    <div class={Styles['date']}>{obj.date.toLocaleDateString()}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )
     );
   }
 }
