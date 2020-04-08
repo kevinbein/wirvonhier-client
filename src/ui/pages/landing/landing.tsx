@@ -110,11 +110,11 @@ export class LandingPage extends Vue {
         <div class={Styles['button-container']}>
           {/*<p class={Styles['caption']}>DIREKT ZU DIR</p>*/}
           {/*<div onClick={this.locateMe.bind(this)} class={Styles['location-button']}>*/}
-          <div class={Styles['location-button']}>
+          {/*<div class={Styles['location-button']}>
             <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
             <span class={Styles['text']}>AKTUELLER STANDORT</span>
           </div>
-          <div class={Styles['other-text']}> oder </div>
+          <div class={Styles['other-text']}> oder </div>*/}
           <v-text-field
             id="text-input"
             class={Styles['text-input']}
