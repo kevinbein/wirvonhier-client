@@ -3,20 +3,20 @@
   "name": "WirVonHier",
   "icons": [
     {
-        "src":"assets/imgs/launcher/android_launcher_app_icon_192.png",
+        "src":"assets/imgs/logo_192x192.png",
         "type": "image/png",
         "sizes": "192x192"
     },
   {
-        "src":"assets/imgs/launcher/android_launcher_app_icon_512.png",
+        "src":"assets/imgs/logo_512x512.png",
         "type": "image/png",
         "sizes": "512x512"
     }
   ],
-"start_url": "/?utm_source=homescreen",
+  "start_url": "/",
   "background_color": "#FFF",
   "display": "standalone",
-"orientation": "portrait",
+  "orientation": "portrait",
   "scope": "/",
   "theme_color": "#5F6DAF"
 }
