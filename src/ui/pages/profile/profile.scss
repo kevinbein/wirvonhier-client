@@ -253,7 +253,7 @@
     }
   }
   .profile-image-container {
-    //margin: 1rem;
+    margin: 1rem;
     margin-bottom: 0;
     .profile-image {
       border-radius: 15px;
@@ -295,7 +295,7 @@
     border-radius: 15px;
     margin: 15px;
     padding: 15px;
-    text-align: left;
+    text-align: center;
     .feature-container {
       display: inline-block;
       text-align: center;
@@ -318,7 +318,8 @@
           text-transform: uppercase;
         }
         .description {
-          text-align: left;
+          //text-align: left;
+          text-align: center;
         }
       }
       @media (max-width: 374px) {
@@ -375,10 +376,12 @@
     }
     .story-container {
       display: inline-block;
+      overflow: hidden;
       width: 50%;
       .story {
         margin: 15px;
         .story-image {
+          border-radius: 15px;
           width: 100%;
         }
         .description {

@@ -3,12 +3,12 @@ import Component from 'vue-class-component';
 import { CreateElement } from 'vue/types/umd';
 import Styles from './profile.scss';
 import '../../plugins/leaflet';
-import { LatLng } from 'leaflet';
+//import { LatLng } from 'leaflet';
 import L from 'leaflet';
 //import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'vue2-leaflet';
 
-type profile = {
+/*type profile = {
   name: string;
   street: string;
   zip: string;
@@ -25,11 +25,11 @@ type profile = {
   coverPicture: string;
   updated: Date;
   stories: Array<{ description: string; date: Date; picture: string; picturebig: string }>;
-};
+};*/
 
 @Component
 export class ProfilePage extends Vue {
-  zoom = 18;
+  zoom = 17;
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
     iconUrl: '/assets/imgs/logo.png',
@@ -159,7 +159,8 @@ export class ProfilePage extends Vue {
     };
   }*/
 
-  public profile: unknown | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public profile: any | unknown | null = null;
   public businessName: string | null = null;
   public async loadProfile(businessName: string): Promise<void> {
     this.businessName = businessName;
@@ -168,6 +169,8 @@ export class ProfilePage extends Vue {
       url: `/businesses/${businessName}`,
       data: {},
     });
+    const images = this.profile.media.images;
+    this.profile.cover = images[0] ? images[0].src : '';
     // eslint-disable-next-line no-console
     console.log('Loaded profile', businessName, this.profile);
   }
@@ -192,27 +195,31 @@ export class ProfilePage extends Vue {
     window.open('https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', ''));
   }
 
+  disableMap(): void {
+    if (this.$refs.locationMap === undefined) {
+      return;
+    }
+    // @ts-ignore: mapObject is definitely defined if locationMap is defined ...
+    const map = this.$refs.locationMap.mapObject;
+    map.zoomControl.disable();
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+    if (map.tap) {
+      map.tap.disable();
+    }
+    //document.getElementsByClassName('leaflet-control-zoom')[0].style.visibility = 'hidden';
+  }
+
+  loadedMap(): void {
+    this.disableMap();
+  }
+
   mounted(): void {
-    //let el = this.$refs['feature-delivery'];
-    this.$nextTick(() => {
-      //this.$refs.locationMap.mapObject.dragging.disable();
-      if (this.$refs.locationMap === undefined) {
-        return;
-      }
-      // @ts-ignore: mapObject is definitely defined if locationMap is defined ...
-      const map = this.$refs.locationMap.mapObject;
-      map.zoomControl.disable();
-      map.dragging.disable();
-      map.touchZoom.disable();
-      map.doubleClickZoom.disable();
-      map.scrollWheelZoom.disable();
-      map.boxZoom.disable();
-      map.keyboard.disable();
-      if (map.tap) {
-        map.tap.disable();
-      }
-      //document.getElementsByClassName('leaflet-control-zoom')[0].style.visibility = 'hidden';
-    });
+    //this.$nextTick(() => {});
   }
 
   // @ts-ignore: Declared variable is not read
@@ -230,9 +237,8 @@ export class ProfilePage extends Vue {
     ) {
       mapCenter = [this.profile.geolocation.lat, this.profile.geolocation.lng]; // + 0.0005];
     }
-    const coverPicture = '/assets/stories/pruessingkoell/cover.png';
-    //let stories = this.profile.stories;
-    const stories = this.dummyStories;
+    //const coverPicture = '/assets/stories/pruessingkoell/cover.png';
+    //const stories = this.dummyStories;
     return (
       (this.profile === null && (
         <div class={Styles['loading-error-container']}>
@@ -255,14 +261,20 @@ export class ProfilePage extends Vue {
               <v-icon class={Styles['icon']}>fa-times</v-icon>
             </div>
           </div>
-          <router-link to="map" class={Styles['location-container']}>
-            <div class={Styles['location']}>
+          <router-link to="/map" class={Styles['location-container']}>
+            <div class={Styles['location']} init={() => this.testInit()}>
               {/*<img class={Styles['picture']} src={this.profile.locationPicture} />*/}
               {/*<div
               class={Styles['picture']}
               style={'background-image: url("' + this.profile.locationPicture + '")'}
             ></div>*/}
-              <l-map ref="locationMap" style="height: 100%; width: 100%" zoom={this.zoom} center={mapCenter}>
+              <l-map
+                on-ready={() => this.loadedMap()}
+                ref="locationMap"
+                style="height: 100%; width: 100%"
+                zoom={this.zoom}
+                center={mapCenter}
+              >
                 <l-tile-layer url={this.url}></l-tile-layer>
                 <l-marker lat-lng={geolocation} icon={this.icon}></l-marker>
               </l-map>
@@ -327,7 +339,7 @@ export class ProfilePage extends Vue {
         </div>*/}
 
           <div class={Styles['profile-image-container']}>
-            <img class={Styles['profile-image']} src={coverPicture} />
+            <img class={Styles['profile-image']} src={this.profile.cover} />
           </div>
 
           <div class={Styles['details-container']}>
@@ -350,9 +362,9 @@ export class ProfilePage extends Vue {
                 <div class={Styles['right-side']}>
                   <div class={Styles['title']}>Adresse</div>
                   <div class={Styles['description']}>
-                    {this.profile.street}
+                    {this.profile.address.street} {this.profile.address.streetNumber}
                     <br />
-                    {this.profile.city}
+                    {this.profile.address.zip} {this.profile.address.city}
                   </div>
                 </div>
               </div>
@@ -365,7 +377,7 @@ export class ProfilePage extends Vue {
           </div>
 
           <div class={Styles['feature-info']}>
-            <div class={Styles['feature-container']}>
+            {/*<div class={Styles['feature-container']}>
               <div class={Styles['feature']}>
                 <div class={Styles['icon']}>
                   <img class={Styles['image']} src="/assets/imgs/Delivery.png" />
@@ -383,45 +395,97 @@ export class ProfilePage extends Vue {
                   Sa.: 10:00-16:00 Uhr
                 </div>
               </div>
-            </div>
-            <div class={Styles['feature-container']}>
-              <div class={Styles['feature']}>
-                <div class={Styles['icon']}>
-                  <img class={Styles['image']} src="/assets/imgs/Payment.png" />
+            </div>*/}
+            {this.profile.delivery.length > 0 && (
+              <div class={Styles['feature-container']}>
+                <div class={Styles['feature']}>
+                  <div class={Styles['icon']}>
+                    <img class={Styles['image']} src="/assets/imgs/Payment.png" />
+                  </div>
+                  <div class={Styles['title']}>
+                    Kontaktlose
+                    <br />
+                    Lieferung
+                  </div>
+                  <div class={Styles['description']}>
+                    {this.profile.delivery
+                      .map((delivery: string) => {
+                        switch (delivery) {
+                          case 'collect': {
+                            return 'Abholung im Geschäft';
+                          }
+                          case 'deliveryByOwner': {
+                            return 'Lieferung per Kurier';
+                          }
+                          case 'deliveryByService': {
+                            return 'Lieferung per Service';
+                          }
+                        }
+                      })
+                      .join(', ')}
+                  </div>
                 </div>
-                <div class={Styles['title']}>
-                  Kontaktlose
-                  <br />
-                  Lieferung
-                </div>
-                <div class={Styles['description']}>Abholung im Geschäft, Lieferung per Kurier</div>
               </div>
-            </div>
-            <div class={Styles['feature-container']}>
-              <div class={Styles['feature']}>
-                <div class={Styles['icon']}>
-                  <img class={Styles['image']} src="/assets/imgs/Contact.png" />
+            )}
+            {this.profile.paymentMethods.length > 0 && (
+              <div class={Styles['feature-container']}>
+                <div class={Styles['feature']}>
+                  <div class={Styles['icon']}>
+                    <img class={Styles['image']} src="/assets/imgs/Contact.png" />
+                  </div>
+                  <div class={Styles['title']}>Einfache Bezahlung</div>
+                  <div class={Styles['description']}></div>
+                  <div class={Styles['description']}>
+                    {this.profile.paymentMethods
+                      .map((delivery: string) => {
+                        // Paypal, Klarna, auf Rechnung
+                        switch (delivery) {
+                          case 'invoice': {
+                            return 'Rechnung';
+                          }
+                          case 'paypal': {
+                            return 'PayPal';
+                          }
+                          case 'creditcard': {
+                            return 'Kreditkarte';
+                          }
+                          case 'cash': {
+                            return 'Bar';
+                          }
+                          case 'sofort': {
+                            return 'SOFORT';
+                          }
+                        }
+                      })
+                      .join(', ')}
+                  </div>
                 </div>
-                <div class={Styles['title']}>Einfache Bezahlung</div>
-                <div class={Styles['description']}>Paypal, Klarna, auf Rechnung</div>
               </div>
-            </div>
+            )}
           </div>
 
           <div class={Styles['button-row-container']}>
             <div class={Styles['button-row']}>
-              <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
-                <v-icon class={Styles['icon']}>fa-phone</v-icon>
-              </div>
-              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
-                <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
-              </div>
-              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
-                <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
-              </div>
-              <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
-                <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
-              </div>
+              {this.profile.phone && (
+                <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
+                  <v-icon class={Styles['icon']}>fa-phone</v-icon>
+                </div>
+              )}
+              {this.profile.facebook && (
+                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
+                  <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
+                </div>
+              )}
+              {this.profile.instagram && (
+                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
+                  <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
+                </div>
+              )}
+              {this.profile.whatsapp && (
+                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
+                  <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
+                </div>
+              )}
             </div>
           </div>
           {/*<div class={Styles['button-row-container']}>
@@ -445,14 +509,15 @@ export class ProfilePage extends Vue {
         </div>*/}
 
           <div class={Styles['stories']}>
-            <div class={Styles['headline']}>Stories</div>
-            {stories.map((obj) => {
+            <div class={Styles['headline']}>Alle Stories</div>
+            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+            this.profile.media.images.map((img: any) => {
               return (
                 <div class={Styles['story-container']}>
                   <div class={Styles['story']}>
-                    <img class={Styles['story-image']} src={obj.picture} />
-                    <div class={Styles['description']}>{obj.description}</div>
-                    <div class={Styles['date']}>{obj.date.toLocaleDateString()}</div>
+                    <img class={Styles['story-image']} src={img.src} />
+                    <div class={Styles['description']}>{img.title}</div>
+                    <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
                   </div>
                 </div>
               );

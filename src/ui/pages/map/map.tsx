@@ -12,9 +12,12 @@ import 'vue2-leaflet';
   name: 'Map',
 })
 export class MapPage extends Vue {
-  zoom = 18;
-  //Center of Ravensburg
-  center: LatLng = new LatLng(47.78099, 9.61529);
+  zoom = 17;
+  // Center of Ravensburg
+  //center: LatLng = new LatLng(47.78099, 9.61529);
+  // Center of Vaihingen
+  //center: LatLng = new LatLng(48.9316137, 8.9581946);
+  center: LatLng = new LatLng(48.932237, 8.9585);
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
     iconUrl: './assets/imgs/logo.png',
@@ -461,7 +464,37 @@ export class MapPage extends Vue {
     this.$router.push('/explore/' + id);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public businesses: any | unknown = null;
+  public async loadBusinesses(zip: number, _radius: number): Promise<void> {
+    //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
+    this.businesses = await this.$http({
+      method: 'get',
+      //url: '/businesses?zip=' + zip + '&radius=' + radius,
+      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      data: {},
+    });
+    // eslint-disable-next-line no-console
+    console.log('Loaded business', this.businesses);
+
+    /*j// As long as there are no images yet, generate and assign them from an array of given pictures
+    for (let i = 0; i < this.businesses.length; ++i) {
+      const index = i % this.testExplorerImages.length;
+      this.businesses[i].story = this.testExplorerImages[index];
+      this.businesses[i].geolocation = new LatLng(47.78099, 9.61529);
+    }
+    // eslint-disable-next-line no-console
+    console.log('Added stories to businesses', this.businesses);*/
+  }
+
   mounted(): void {
+    const zip = 71665;
+    //const location = new LatLng(47.78099, 9.61529);
+    const radius = 100.42; // km
+    (async () => {
+      await this.loadBusinesses(zip, radius);
+    })();
+
     //let map = new L.Map('leafletmap', {
     //center: this.center,
     //zoom: this.zoom,
@@ -506,17 +539,21 @@ export class MapPage extends Vue {
           {/*<l-map style="height: 100%; width: 100%" :zoom="zoom" :center="center" @update:zoom="zoomUpdated" @update:center="centerUpdated" @update:bounds="boundsUpdated">*/}
           <l-map style="height: 100%; width: 100%" zoom={this.zoom} center={this.center}>
             <l-tile-layer url={this.url}></l-tile-layer>
-            {this.prototypeLocations.map((location) => {
-              const latLng = [location.geolocation.lat, location.geolocation.lng];
-              return (
-                <l-marker
-                  onClick={() => this.openProfile(location.id)}
-                  key={location.id}
-                  lat-lng={latLng}
-                  icon={this.icon}
-                ></l-marker>
-              );
-            })}
+            {(this.businesses !== null &&
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              this.businesses.map((business: any) => {
+                if (business.location && business.location.coordinates && business.location.coordinates.length == 2) {
+                  const latLng = [business.location.coordinates[1], business.location.coordinates[0]];
+                  return (
+                    <l-marker
+                      onClick={() => this.openProfile(business.id)}
+                      lat-lng={latLng}
+                      icon={this.icon}
+                    ></l-marker>
+                  );
+                }
+                return '';
+              })) || <div>Loading ...</div>}
           </l-map>
         </div>
       </div>

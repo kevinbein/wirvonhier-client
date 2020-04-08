@@ -81,39 +81,74 @@
   .search-icon {
     border-radius: 15px;
     bottom: 4rem;
+    color: $primary !important;
+    font-size: 1.1rem;
     left: 7rem;
     padding: 17px;
   }
 
-  .button {
+  .location-button {
     background-color: #fff;
     border-radius: 15px;
-    color: #5f6daf;
+    //color: $primary !important;
+    color: #999 !important;
+    font-weight: bold;
     height: 4rem;
     margin: auto;
     padding: 1.1rem;
     position: relative;
     text-align: center;
+    text-decoration: line-through;
     width: 100%;
     width: 18rem;
-
+    .text,
+    .icon {
+      vertical-align: middle;
+    }
     .icon,
     a {
-      color: #5f6daf;
+      //color: #5f6daf;
+      color: #999 !important;
       font-size: 1.1rem;
       text-decoration: none;
-    }
-    &.location {
-      font-weight: bold;
     }
   }
   .other-text {
     color: #5f6daf;
     font-size: 1rem;
     margin: 1rem 0;
+    mix-blend-mode: color-dodge;
     position: relative;
     text-align: center;
-    text-shadow: 0 0 1px rgb(232, 232, 232);
     width: 100%;
+  }
+}
+
+.overlay {
+  margin: 15px;
+  text-align: center;
+  .text1,
+  .text2,
+  .text3 {
+    display: inline-block;
+    margin: 1rem;
+  }
+  .text1 {
+    font-size: 1.2rem;
+    visibility: visible;
+  }
+  .text2 {
+    font-size: 1.5rem;
+    .link {
+      color: $secondary;
+      display: block;
+    }
+  }
+  .text3 {
+    font-size: 1rem;
+    .link {
+      color: $secondary;
+      visibility: visible;
+    }
   }
 }

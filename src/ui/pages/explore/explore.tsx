@@ -8,7 +8,6 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../../pages';
-import { LatLng } from 'leaflet';
 
 @Component({
   name: 'Explore',
@@ -44,6 +43,7 @@ export class ExplorePage extends Vue {
     longSwipesRatio: 0.05,
     longSwipesMs: 100,
     direction: 'horizontal',
+    preloadImages: false,
   };
 
   /*private touchstart = 0;
@@ -102,23 +102,33 @@ export class ExplorePage extends Vue {
     const swiper = this.$refs.verticalSwiper.$swiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
+      const newPath = '/explore/' + this.businessName;
+      if (this.$route.path != newPath) {
+        this.$router.replace(newPath);
+      }
       swiper.allowTouchMove = false;
     }
     // Opened explore page
     else {
       swiper.allowTouchMove = true;
+      const newPath = '/explore/';
+      if (this.$route.path != newPath) {
+        this.$router.replace(newPath);
+      }
     }
   }
 
   public exploreSlideChange(): void {
+    // @ts-ignore
     const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
-    const business = this.businesses[index];
-    const businessName = business.id;
+    // @ts-ignore
+    const businessName = this.businesses[index].id;
     this.loadBusiness(businessName);
   }
 
-  public businesses: unknown = null;
-
+  // TODO: copied 1:1 to map for now
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public businesses: any | unknown = null;
   public async loadBusinesses(zip: number, _radius: number): Promise<void> {
     //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
     this.businesses = await this.$http({
@@ -130,11 +140,13 @@ export class ExplorePage extends Vue {
     // eslint-disable-next-line no-console
     console.log('Loaded business', this.businesses);
 
-    // As long as there are no images yet, generate and assign them from an array of given pictures
     for (let i = 0; i < this.businesses.length; ++i) {
-      const index = i % this.testExplorerImages.length;
-      this.businesses[i].story = this.testExplorerImages[index];
-      this.businesses[i].geolocation = new LatLng(47.78099, 9.61529);
+      //const index = i % this.testExplorerImages.length;
+      if (this.businesses[i].media.images.length > 0) {
+        const images = this.businesses[i].media.images;
+        this.businesses[i].cover = images[0].src;
+        this.businesses[i].story = images[images.length - 1].src;
+      }
     }
     // eslint-disable-next-line no-console
     console.log('Added stories to businesses', this.businesses);
@@ -143,8 +155,7 @@ export class ExplorePage extends Vue {
   mounted(): void {
     const zip = 71665;
     //const location = new LatLng(47.78099, 9.61529);
-    const radius = 10.5;
-    // Load all businesses with the given zip/location and radius (if given)
+    const radius = 100.42; // km
     // TODO: pagination later
     (async () => {
       await this.loadBusinesses(zip, radius);
@@ -184,12 +195,14 @@ export class ExplorePage extends Vue {
               class={Styles['vertical-swiper']}
             >
               {(this.businesses !== null &&
-                this.businesses.map((business) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                this.businesses.map((business: any) => {
                   return (
                     <swiper-slide>
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
-                          <img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />
+                          {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
+                          <img class={Styles['logo']} src={business.cover} alt="Heart logo" />
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
@@ -211,7 +224,7 @@ export class ExplorePage extends Vue {
               {/*<div class={Styles['button']}>
                         <v-icon class={Styles['icon']}>fa-filter</v-icon>
                       </div>*/}
-              <router-link to="map" class={Styles['button']}>
+              <router-link to="/map" class={Styles['button']}>
                 <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
               </router-link>
             </div>
