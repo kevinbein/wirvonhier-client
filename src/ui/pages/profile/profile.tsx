@@ -400,7 +400,7 @@ export class ProfilePage extends Vue {
               <div class={Styles['feature-container']}>
                 <div class={Styles['feature']}>
                   <div class={Styles['icon']}>
-                    <img class={Styles['image']} src="/assets/imgs/Contact.png" />
+                    <img class={Styles['image']} src="/assets/imgs/Payment.png" />
                   </div>
                   <div class={Styles['title']}>
                     Kontaktlose
@@ -431,7 +431,7 @@ export class ProfilePage extends Vue {
               <div class={Styles['feature-container']}>
                 <div class={Styles['feature']}>
                   <div class={Styles['icon']}>
-                    <img class={Styles['image']} src="/assets/imgs/Payment.png" />
+                    <img class={Styles['image']} src="/assets/imgs/Contact.png" />
                   </div>
                   <div class={Styles['title']}>Einfache Bezahlung</div>
                   <div class={Styles['description']}></div>
