@@ -34,13 +34,16 @@ export class LandingPage extends Vue {
     //console.log('========');
   }
 
-  public gotoExplorer(): void {
+  public gotoExplorer(forceZip?: string): void {
     //console.log('goto explorer', window.localStorage.zip, window.localStorage.zip.length);
     const zip = window.localStorage.zip;
-    if (zip.length == 5 && zip == '71665') {
+    if (forceZip !== undefined) {
+      window.localStorage.zip = forceZip;
+      this.$router.push('explore');
+    } else if (zip.length == 5 && zip == '71665') {
       this.$router.push('explore');
     } else {
-      window.localStorage.zip = '71665';
+      //window.localStorage.zip = '71665';
       this.overlay = true;
     }
   }
@@ -126,15 +129,20 @@ export class LandingPage extends Vue {
           </v-icon>
         </div>
 
-        <v-overlay value={this.overlay} opacity={0.9}>
-          <div class={Styles['overlay']}>
+        <v-overlay class={Styles['overlay']} value={this.overlay} opacity={0.9}>
+          <div class={Styles['close-button']}>
+            <v-icon class={Styles['icon']} onClick={() => (this.overlay = false)}>
+              fa-times
+            </v-icon>
+          </div>
+          <div class={Styles['overlay-content']}>
             <div class={Styles['text1']}>Leider haben sich noch keine Läden in deiner Region eingetragen.</div>
             <div class={Styles['text2']}>
               Sieh dich stattdessen doch in einer bereits aktiven Region um:
               <br />
-              <router-link to="explore" class={Styles['link']}>
+              <div on-click={() => this.gotoExplorer('71665')} class={Styles['link']}>
                 71665 - Vaihingen/Enz
-              </router-link>
+              </div>
               {/*<v-btn on-click={(this.overlay = false)}>71665 - Vaihingen/Enz</v-btn>*/}
             </div>
             <div class={Styles['text3']}>

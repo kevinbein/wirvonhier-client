@@ -48,15 +48,6 @@
   text-align: center;
   width: 100%;
 
-  @media (max-height: 800px) {
-    bottom: 10vh;
-    position: absolute;
-  }
-  @media (min-height: 801px) {
-    bottom: 20vh;
-    position: absolute;
-  }
-
   .caption {
     display: block;
     font-size: 2rem;
@@ -122,33 +113,55 @@
     text-align: center;
     width: 100%;
   }
+
+  @media (max-height: 800px) {
+    bottom: 10vh;
+    position: absolute;
+  }
+  @media (min-height: 801px) {
+    bottom: 20vh;
+    position: absolute;
+  }
 }
 
 .overlay {
-  margin: 15px;
-  text-align: center;
-  .text1,
-  .text2,
-  .text3 {
-    display: inline-block;
-    margin: 1rem;
-  }
-  .text1 {
-    font-size: 1.2rem;
-    visibility: visible;
-  }
-  .text2 {
-    font-size: 1.5rem;
-    .link {
-      color: $secondary;
-      display: block;
+  .close-button {
+    height: 20px;
+    padding-right: 15px;
+    position: relative;
+    text-align: right;
+    width: 100%;
+    .icon {
+      font-size: 2rem;
     }
   }
-  .text3 {
-    font-size: 1rem;
-    .link {
-      color: $secondary;
+  .overlay-content {
+    height: 100%;
+    margin: 15px;
+    text-align: center;
+    .text1,
+    .text2,
+    .text3 {
+      display: inline-block;
+      margin: 1rem;
+    }
+    .text1 {
+      font-size: 1.2rem;
       visibility: visible;
+    }
+    .text2 {
+      font-size: 1.5rem;
+      .link {
+        color: $secondary;
+        display: block;
+      }
+    }
+    .text3 {
+      font-size: 1rem;
+      .link {
+        color: $secondary;
+        visibility: visible;
+      }
     }
   }
 }

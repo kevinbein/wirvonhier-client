@@ -3,6 +3,7 @@
 interface CssExports {
   'button-container': string;
   'caption': string;
+  'close-button': string;
   'desc': string;
   'icon': string;
   'landing-page': string;
@@ -12,6 +13,7 @@ interface CssExports {
   'logo-container': string;
   'other-text': string;
   'overlay': string;
+  'overlay-content': string;
   'search-icon': string;
   'text': string;
   'text-input': string;
