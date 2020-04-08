@@ -17,3 +17,12 @@
 .v-application a {
   text-decoration: none;
 }
+
+// TODO: get global variable $max-desktop-width in there
+.v-overlay {
+  @media (min-width: 500px) {
+    left: calc(50% - 250px) !important;
+  }
+
+  max-width: 500px;
+}

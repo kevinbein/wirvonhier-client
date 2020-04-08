@@ -31,7 +31,6 @@
     left: 15px;
     position: absolute;
     top: 15px;
-    width: 55vw;
     .title {
       font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
       font-weight: bold;
@@ -143,7 +142,9 @@
     .text2,
     .text3 {
       display: inline-block;
-      margin: 1rem;
+      margin: 1rem 0;
+      position: relative;
+      width: 100%;
     }
     .text1 {
       font-size: 1.2rem;
