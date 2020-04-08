@@ -262,7 +262,7 @@ export class ProfilePage extends Vue {
             </div>
           </div>
           <router-link to="/map" class={Styles['location-container']}>
-            <div class={Styles['location']} init={() => this.testInit()}>
+            <div class={Styles['location']}>
               {/*<img class={Styles['picture']} src={this.profile.locationPicture} />*/}
               {/*<div
               class={Styles['picture']}
