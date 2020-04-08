@@ -44,6 +44,13 @@ export class ExplorePage extends Vue {
     longSwipesMs: 100,
     direction: 'horizontal',
     preloadImages: false,
+    effect: 'cube',
+    cubeEffect: {
+      shadow: true,
+      slideShadows: true,
+      shadowOffset: 20,
+      shadowScale: 0.94,
+    },
   };
 
   /*private touchstart = 0;
