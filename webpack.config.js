@@ -17,6 +17,7 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const VERSION = require('./package.json').version;
 
@@ -416,7 +417,23 @@ module.exports = async function (env, argv) {
 
       isProd && new StyleLintPlugin({
         files: ['src/**/*.{vue,htm,html,css,sss,less,scss,sass}'],
-      })
+      }),
+      isProd && new CompressionPlugin({
+        filename: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.(js|css|html|svg|ttf|eot|woff)$/,
+        threshold: 10240,
+        minRatio: 0.8
+      }),
+      isProd && new CompressionPlugin({
+        filename: '[path].br[query]',
+        algorithm: 'brotliCompress',
+        test: /\.(js|css|html|svg|ttf|eot|woff)$/,
+        compressionOptions: { level: 11 },
+        threshold: 10240,
+        minRatio: 0.8,
+        deleteOriginalAssets: false,
+      }),
     ].filter(Boolean), // Filter out any falsey plugin array entries.
 
     optimization: {
