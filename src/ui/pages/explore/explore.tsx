@@ -16,6 +16,7 @@ const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
   name: 'Explore',
 })
 export class ExplorePage extends Vue {
+  public logoWidth = 60;
   testExplorerImages = [
     '/assets/stories/Stock1.jpg',
     '/assets/stories/Stock2.jpg',
@@ -221,7 +222,17 @@ export class ExplorePage extends Vue {
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
                           {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
-                          <img class={Styles['logo']} src={business.logo || dummyLogo} alt="Heart logo" />
+                          {business.media.logo && business.media.logo.publicId ? (
+                            <cld-image
+                              class={Styles['logo']}
+                              publicId={business.media.logo && business.media.logo.publicId}
+                              width={`${this.logoWidth}`}
+                              height={`${this.logoWidth}`}
+                              crop="fill"
+                            />
+                          ) : (
+                            <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
+                          )}
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
@@ -230,7 +241,17 @@ export class ExplorePage extends Vue {
                       </div>
 
                       <div class={Styles['story-container']}>
-                        <img class={Styles['story']} src={business.story} alt="image" />
+                        {business.media.stories.images.length > 0 ? (
+                          <cld-image
+                            class={Styles['story']}
+                            publicId={business.media.stories.images[0].publicId}
+                            width={`${Math.min(...[500, window.innerWidth])}`}
+                            height={`${window.innerHeight}`}
+                            crop="fill"
+                          />
+                        ) : (
+                          <img class={Styles['story']} src={business.story} alt="image" />
+                        )}
                       </div>
                     </swiper-slide>
                   );

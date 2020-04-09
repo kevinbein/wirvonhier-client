@@ -161,6 +161,8 @@ export class ProfilePage extends Vue {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public profile: any | unknown | null = null;
+  public profileWidth = Math.round(window.innerWidth - 32);
+  public storyWidth = Math.round(window.innerWidth / 2 - 30);
   public businessName: string | null = null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async loadProfile(businessName: string, business?: any): Promise<void> {
@@ -207,7 +209,8 @@ export class ProfilePage extends Vue {
     this.disableMap();
   }
 
-  mounted(): void {
+  beforeCreate(): void {
+    // this.profileWidth = profileImage && (this.$refs.profileImage as HTMLElement).clientWidth;
     //this.$nextTick(() => {});
   }
 
@@ -328,7 +331,13 @@ export class ProfilePage extends Vue {
         </div>*/}
 
           <div class={Styles['profile-image-container']}>
-            <img class={Styles['profile-image']} src={this.profile.cover} />
+            <cld-image
+              class={Styles['profile-image']}
+              publicId={this.profile.media.cover.image.publicId}
+              height="180"
+              width={`${this.profileWidth}`}
+              crop="fill"
+            />
           </div>
 
           <div class={Styles['details-container']}>
@@ -513,7 +522,12 @@ export class ProfilePage extends Vue {
               return (
                 <div class={Styles['story-container']}>
                   <div class={Styles['story']}>
-                    <img class={Styles['story-image']} src={img.src} />
+                    <cld-image
+                      class={Styles['story-image']}
+                      publicId={img.publicId}
+                      width={`${this.storyWidth}`}
+                      crop="fill"
+                    />
                     <div class={Styles['description']}>{img.title}</div>
                     <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
                   </div>
