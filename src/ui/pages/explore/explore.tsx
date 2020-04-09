@@ -174,6 +174,11 @@ export class ExplorePage extends Vue {
   mounted(): void {
     document.body.style.background = '#000000';
 
+    // @ts-ignore
+    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
+      this.gotoExplorerSlide();
+    });
+
     const zip = 71665;
     //const location = new LatLng(47.78099, 9.61529);
     const radius = 100.42; // km

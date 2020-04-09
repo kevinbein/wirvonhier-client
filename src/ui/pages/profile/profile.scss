@@ -8,6 +8,7 @@
   width: 100%;
   .close-button {
     color: #000 !important;
+    cursor: pointer;
     display: inline-block;
     position: absolute;
     right: 15px;
@@ -63,6 +64,7 @@
       top: 10px;
     }
     .close-button {
+      cursor: pointer;
       display: inline-block;
       float: right;
       .icon {
