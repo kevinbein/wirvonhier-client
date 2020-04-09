@@ -3,8 +3,15 @@ import { App, router, attachHttp, attachDB, attachServices, attachI18n, attachWo
 import { store } from './store';
 import { i18n } from './services';
 import { vuetify } from './ui';
+import Cloudinary from 'cloudinary-vue';
 
 Vue.config.productionTip = false;
+
+Vue.use(Cloudinary, {
+  configuration: {
+    cloudName: CLOUD_NAME,
+  },
+});
 
 attachServices(store);
 attachI18n(store);
