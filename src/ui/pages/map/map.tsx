@@ -471,7 +471,7 @@ export class MapPage extends Vue {
     this.businesses = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `https://api.wirvonhier.net/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
       data: {},
     });
     // eslint-disable-next-line no-console

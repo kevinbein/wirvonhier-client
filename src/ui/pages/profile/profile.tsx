@@ -162,13 +162,18 @@ export class ProfilePage extends Vue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public profile: any | unknown | null = null;
   public businessName: string | null = null;
-  public async loadProfile(businessName: string): Promise<void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async loadProfile(businessName: string, business?: any): Promise<void> {
     this.businessName = businessName;
-    this.profile = await this.$http({
-      method: 'get',
-      url: `https://api.wirvonhier.net/businesses/${businessName}`,
-      data: {},
-    });
+    if (business !== undefined) {
+      this.profile = business;
+    } else {
+      this.profile = await this.$http({
+        method: 'get',
+        url: `/businesses/${businessName}`,
+        data: {},
+      });
+    }
     const image = this.profile.media.cover.image;
     this.profile.cover = image ? image.src : '';
     // eslint-disable-next-line no-console

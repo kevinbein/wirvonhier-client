@@ -98,10 +98,11 @@ export class ExplorePage extends Vue {
   }
 
   public businessName: string | null = null;
-  loadBusiness(businessName: string): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  loadBusiness(businessName: string, business?: any): void {
     this.businessName = businessName;
     // @ts-ignore
-    this.$refs.profile.loadProfile(businessName);
+    this.$refs.profile.loadProfile(businessName, business);
   }
 
   public slideChange(): void {
@@ -130,7 +131,7 @@ export class ExplorePage extends Vue {
     const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
     // @ts-ignore
     const businessName = this.businesses[index].id;
-    this.loadBusiness(businessName);
+    this.loadBusiness(businessName, this.businesses[index]);
   }
 
   // TODO: copied 1:1 to map for now
@@ -138,27 +139,27 @@ export class ExplorePage extends Vue {
   public businesses: any | unknown = null;
   public async loadBusinesses(zip: number, _radius: number): Promise<void> {
     //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
-    this.businesses = await this.$http({
+    const data = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `https://api.wirvonhier.net/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
       data: {},
     });
-    // eslint-disable-next-line no-console
-    console.log('Loaded business', this.businesses);
+    // @ts-ignore
+    this.businesses = data.businesses;
 
-    // eslint-disable-next-line no-console
-    console.log(this.businesses.length);
     for (let i = 0; i < this.businesses.length; ++i) {
-      //const index = i % this.testExplorerImages.length;
-      if (this.businesses[i].media.stories.images.length > 0) {
-        this.businesses[i].logo = this.businesses[i].media.logo.src;
-        const images = this.businesses[i].media.stories.images;
+      const media = this.businesses[i].media;
+      if (media.stories.images.length > 0) {
+        const images = media.stories.images;
         this.businesses[i].story = images[images.length - 1].src;
+      }
+      if (media.logo) {
+        this.businesses[i].logo = media.logo.src;
       }
     }
     // eslint-disable-next-line no-console
-    console.log('Added stories to businesses', this.businesses);
+    console.log('Loaded business', this.businesses, data);
   }
 
   mounted(): void {
@@ -168,13 +169,17 @@ export class ExplorePage extends Vue {
     // TODO: pagination later
     (async () => {
       await this.loadBusinesses(zip, radius);
+      // Lazy load businesses (we can just pass the data from this.businesses instead of forcing a complete reload)
+      // TODO: maybe change later
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const business = this.businesses.find((b: any) => b.id == this.businessName);
       if (this.$route.params.businessName !== undefined) {
-        this.loadBusiness(this.$route.params.businessName);
+        this.loadBusiness(this.$route.params.businessName, business);
         // @ts-ignore
         const swiper = this.$refs.verticalSwiper.$swiper;
         swiper.slideTo(1, 0);
       } else if (this.businesses.length > 0) {
-        this.loadBusiness(this.businesses[0].id);
+        this.loadBusiness(this.businesses[0].id, business);
       }
 
       // @ts-ignore
