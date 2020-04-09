@@ -211,11 +211,6 @@ export class ProfilePage extends Vue {
     this.disableMap();
   }
 
-  beforeCreate(): void {
-    // this.profileWidth = profileImage && (this.$refs.profileImage as HTMLElement).clientWidth;
-    //this.$nextTick(() => {});
-  }
-
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     //const businessId = this.$route.params.businessId;

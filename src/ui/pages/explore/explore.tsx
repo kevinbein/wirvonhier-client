@@ -119,6 +119,8 @@ export class ExplorePage extends Vue {
         this.$router.replace(newPath);
       }
       swiper.allowTouchMove = false;
+      console.log('Update background to #ffffff by going to profile');
+      document.body.style.background = '#ffffff';
     }
     // Opened explore page
     else {
@@ -127,6 +129,8 @@ export class ExplorePage extends Vue {
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
+      console.log('Update background to #000000 by going to explorer');
+      document.body.style.background = '#000000';
     }
   }
 
@@ -169,6 +173,13 @@ export class ExplorePage extends Vue {
   }
 
   mounted(): void {
+    document.body.style.background = '#000000';
+
+    // @ts-ignore
+    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
+      this.gotoExplorerSlide();
+    });
+
     const zip = 71665;
     //const location = new LatLng(47.78099, 9.61529);
     const radius = 100.42; // km

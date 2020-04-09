@@ -36,7 +36,7 @@ export class LandingPage extends Vue {
 
   public gotoExplorer(forceZip?: string): void {
     //console.log('goto explorer', window.localStorage.zip, window.localStorage.zip.length);
-    const zip = window.localStorage.zip;
+    const zip = window.localStorage.zip ? window.localStorage.zip : '';
     if (forceZip !== undefined) {
       window.localStorage.zip = forceZip;
       this.$router.push('explore');
@@ -90,6 +90,10 @@ export class LandingPage extends Vue {
       // Only secure origins are allowed (see: https://goo.gl/Y0ZkNV)
       //console.log('got error', e);
     }
+  }
+
+  mounted(): void {
+    document.body.style.background = 'rgb(232, 232, 232)';
   }
 
   // @ts-ignore: Declared variable is not read
