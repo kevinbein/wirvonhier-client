@@ -184,23 +184,6 @@ export class ProfilePage extends Vue {
     //console.log('TEST');
   }
 
-  openWindowPhone(): void {
-    //window.open('tel:' + this.profile.phone, '_self');
-    window.location.replace('tel:' + this.profile.phone);
-  }
-
-  openWindowFacebook(): void {
-    window.open('https://www.facebook.com/' + this.profile.facebook.trim());
-  }
-
-  openWindowInstagram(): void {
-    window.open('https://www.instagram.com/' + this.profile.instagram.trim());
-  }
-
-  openWindowWhatsapp(): void {
-    window.open('https://api.whatsapp.com/send?phone=' + this.profile.phone.trim().replace(/\s/g, ''));
-  }
-
   disableMap(): void {
     if (this.$refs.locationMap === undefined) {
       return;
@@ -480,7 +463,7 @@ export class ProfilePage extends Vue {
               {this.profile.facebook && (
                 <a
                   class={Styles['button'] + ' ' + Styles['brand']}
-                  href={'https://facebook.com/' + this.profile.facebook.replace('@', '')}
+                  href={'https://www.facebook.com/' + this.profile.facebook.trim()}
                 >
                   <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
                 </a>
@@ -488,7 +471,7 @@ export class ProfilePage extends Vue {
               {this.profile.instagram && (
                 <a
                   class={Styles['button'] + ' ' + Styles['brand']}
-                  href={'https://instagram.com/' + this.profile.instagram.replace('@', '')}
+                  href={'https://www.instagram.com/' + this.profile.instagram.trim()}
                 >
                   <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
                 </a>
@@ -496,7 +479,7 @@ export class ProfilePage extends Vue {
               {this.profile.whatsapp && (
                 <a
                   class={Styles['button'] + ' ' + Styles['brand']}
-                  href={'https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', '')}
+                  href={'https://api.whatsapp.com/send?phone=' + this.profile.phone.trim().replace(/\s/g, '')}
                 >
                   <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
                 </a>
