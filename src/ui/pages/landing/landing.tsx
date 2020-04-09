@@ -36,7 +36,7 @@ export class LandingPage extends Vue {
 
   public gotoExplorer(forceZip?: string): void {
     //console.log('goto explorer', window.localStorage.zip, window.localStorage.zip.length);
-    const zip = window.localStorage.zip;
+    const zip = window.localStorage.zip ? window.localStorage.zip : '';
     if (forceZip !== undefined) {
       window.localStorage.zip = forceZip;
       this.$router.push('explore');
