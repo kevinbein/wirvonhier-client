@@ -176,7 +176,7 @@ export class ProfilePage extends Vue {
         data: {},
       });
     }
-    const image = (this.profile.media.cover && this.profile.meda.cover.image) || dummyCover;
+    const image = (this.profile.media.cover && this.profile.media.cover.image) || dummyCover;
     this.profile.cover = image ? image.src : '';
     // eslint-disable-next-line no-console
     // console.log('Loaded profile', businessName, this.profile);
