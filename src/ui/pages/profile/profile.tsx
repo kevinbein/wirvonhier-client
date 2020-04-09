@@ -8,6 +8,8 @@ import L from 'leaflet';
 //import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'vue2-leaflet';
 
+const dummyCover = '/assets/imgs/dummy-cover-image_800x450.png';
+
 /*type profile = {
   name: string;
   street: string;
@@ -174,10 +176,10 @@ export class ProfilePage extends Vue {
         data: {},
       });
     }
-    const image = this.profile.media.cover.image;
+    const image = (this.profile.media.cover && this.profile.meda.cover.image) || dummyCover;
     this.profile.cover = image ? image.src : '';
     // eslint-disable-next-line no-console
-    console.log('Loaded profile', businessName, this.profile);
+    // console.log('Loaded profile', businessName, this.profile);
   }
 
   handleClick(): void {

@@ -475,7 +475,7 @@ export class MapPage extends Vue {
       data: {},
     });
     // eslint-disable-next-line no-console
-    console.log('Loaded business', this.businesses);
+    // console.log('Loaded business', this.businesses);
 
     /*j// As long as there are no images yet, generate and assign them from an array of given pictures
     for (let i = 0; i < this.businesses.length; ++i) {

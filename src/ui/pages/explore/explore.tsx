@@ -164,7 +164,7 @@ export class ExplorePage extends Vue {
       }
     }
     // eslint-disable-next-line no-console
-    console.log('Loaded business', this.businesses, data);
+    // console.log('Loaded business', this.businesses, data);
   }
 
   mounted(): void {
