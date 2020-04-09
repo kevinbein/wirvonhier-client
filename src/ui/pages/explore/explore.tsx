@@ -9,6 +9,9 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../../pages';
 
+const dummyStory = '/assets/imgs/wvh-after-login_1024x1581.png';
+const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
+
 @Component({
   name: 'Explore',
 })
@@ -153,6 +156,8 @@ export class ExplorePage extends Vue {
       if (media.stories.images.length > 0) {
         const images = media.stories.images;
         this.businesses[i].story = images[images.length - 1].src;
+      } else {
+        this.businesses[i].story = dummyStory;
       }
       if (media.logo) {
         this.businesses[i].logo = media.logo.src;
@@ -216,7 +221,7 @@ export class ExplorePage extends Vue {
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
                           {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
-                          <img class={Styles['logo']} src={business.logo} alt="Heart logo" />
+                          <img class={Styles['logo']} src={business.logo || dummyLogo} alt="Heart logo" />
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
