@@ -369,7 +369,7 @@ export class ProfilePage extends Vue {
             {/*<div class={Styles['feature-container']}>
               <div class={Styles['feature']}>
                 <div class={Styles['icon']}>
-                  <img class={Styles['image']} src="/assets/imgs/profile_delivery_128x128.png" />
+                    <img class={Styles['image']} src="/assets/imgs/profile_contact_128x128.png" />
                 </div>
                 <div class={Styles['title']}>
                   Dein Lieblings-
@@ -389,7 +389,7 @@ export class ProfilePage extends Vue {
               <div class={Styles['feature-container']}>
                 <div class={Styles['feature']}>
                   <div class={Styles['icon']}>
-                    <img class={Styles['image']} src="/assets/imgs/profile_contact_128x128.png" />
+                    <img class={Styles['image']} src="/assets/imgs/profile_delivery_128x128.png" />
                   </div>
                   <div class={Styles['title']}>
                     Kontaktlose
