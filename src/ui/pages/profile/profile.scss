@@ -1,19 +1,19 @@
 .loading-error-container {
   align-items: center;
-  background: #000;
+  background: #fff;
   display: flex;
   height: 100%;
   justify-content: center;
   position: relative;
   width: 100%;
   .close-button {
-    color: #fff !important;
+    color: #000 !important;
     display: inline-block;
     position: absolute;
     right: 15px;
     top: 15px;
     .icon {
-      color: #fff !important;
+      color: #000 !important;
       height: 30px;
       width: 30px;
     }
@@ -21,11 +21,11 @@
   .loading-error {
     text-align: center;
     .message {
-      color: #fff !important;
+      color: #000 !important;
       display: inline-block;
       width: 100%;
       .icon {
-        color: #fff !important;
+        color: #000 !important;
         height: 30px;
         width: 30px;
       }

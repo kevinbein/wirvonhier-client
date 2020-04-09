@@ -209,10 +209,6 @@ export class ProfilePage extends Vue {
     this.disableMap();
   }
 
-  mounted(): void {
-    //this.$nextTick(() => {});
-  }
-
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     //const businessId = this.$route.params.businessId;

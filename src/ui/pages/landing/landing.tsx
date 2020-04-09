@@ -92,6 +92,10 @@ export class LandingPage extends Vue {
     }
   }
 
+  mounted(): void {
+    document.body.style.background = 'rgb(232, 232, 232)';
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
