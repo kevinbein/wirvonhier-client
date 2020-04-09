@@ -98,8 +98,8 @@ export class LandingPage extends Vue {
       <div class={Styles['landing-page']}>
         {/*<NavBar></NavBar>*/}
         <div class={Styles['logo-container']}>
-          {/*<img class={Styles['logo']} src="./assets/imgs/Herz_Logo_negativ.png" />*/}
-          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login.png" alt="Pre login logo" />
+          {/*<img class={Styles['logo']} src="./assets/imgs/logo/logo-schrift_negativ_1024x405.png" />*/}
+          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login_1500px.png" alt="Pre login logo" />
           <div class={Styles['welcome']}>
             <div class={Styles['title']}>Hi,</div>
             <div class={Styles['desc']}>

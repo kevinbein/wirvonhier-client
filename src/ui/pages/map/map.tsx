@@ -20,7 +20,7 @@ export class MapPage extends Vue {
   center: LatLng = new LatLng(48.932237, 8.9585);
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
-    iconUrl: './assets/imgs/logo.png',
+    iconUrl: './assets/imgs/logo/logo_80x80.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -471,7 +471,7 @@ export class MapPage extends Vue {
     this.businesses = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `https://api.wirvonhier.net/businesses?filter_address.zip=equals:${zip}&schema=story`,
       data: {},
     });
     // eslint-disable-next-line no-console
@@ -527,7 +527,7 @@ export class MapPage extends Vue {
 
         <div class={Styles['wvh-header']}>
           <div class={Styles['logo-container']}>
-            <img class={Styles['logo']} src="./assets/imgs/Herz_Logo.png" />
+            <img class={Styles['logo']} src="./assets/imgs/logo/logo-schrift_4722x1868.png" />
           </div>
         </div>
 

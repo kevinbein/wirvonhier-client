@@ -32,7 +32,7 @@ export class ProfilePage extends Vue {
   zoom = 17;
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
-    iconUrl: '/assets/imgs/logo.png',
+    iconUrl: '/assets/imgs/logo/logo_80x80.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -166,11 +166,11 @@ export class ProfilePage extends Vue {
     this.businessName = businessName;
     this.profile = await this.$http({
       method: 'get',
-      url: `/businesses/${businessName}`,
+      url: `https://api.wirvonhier.net/businesses/${businessName}`,
       data: {},
     });
-    const images = this.profile.media.images;
-    this.profile.cover = images[0] ? images[0].src : '';
+    const image = this.profile.media.cover.image;
+    this.profile.cover = image ? image.src : '';
     // eslint-disable-next-line no-console
     console.log('Loaded profile', businessName, this.profile);
   }
@@ -184,15 +184,15 @@ export class ProfilePage extends Vue {
   }
 
   openWindowFacebook(): void {
-    window.open('https://facebook.com/' + this.profile.facebook.replace('@', ''));
+    window.open('https://www.facebook.com/' + this.profile.facebook.trim());
   }
 
   openWindowInstagram(): void {
-    window.open('https://instagram.com/' + this.profile.instagram.replace('@', ''));
+    window.open('https://www.instagram.com/' + this.profile.instagram.trim());
   }
 
   openWindowWhatsapp(): void {
-    window.open('https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', ''));
+    window.open('https://api.whatsapp.com/send?phone=' + this.profile.phone.trim().replace(/\s/g, ''));
   }
 
   disableMap(): void {
@@ -255,7 +255,7 @@ export class ProfilePage extends Vue {
       )) || (
         <div class={Styles['profile-page']}>
           <div class={Styles['close-bar']}>
-            {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
+            {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
             <span class={Styles['shop-title']}>{this.profile.name}</span>
             <div ref="closeProfileButton" class={Styles['close-button']}>
               <v-icon class={Styles['icon']}>fa-times</v-icon>
@@ -295,7 +295,7 @@ export class ProfilePage extends Vue {
             <div class={Styles['content-container']}>
               <div class={Styles['content']}>
                 <div class={Styles['left-side']}>
-                  <img class={Styles['image']} src="/assets/imgs/Delivery.png" />
+                  <img class={Styles['image']} src="/assets/imgs/profile_delivery_128x128.png" />
                 </div>
                 <div class={Styles['right-side']}>
                   <div class={Styles['title']}>KONTAKTLOSE LIEFERUNG</div>
@@ -380,7 +380,7 @@ export class ProfilePage extends Vue {
             {/*<div class={Styles['feature-container']}>
               <div class={Styles['feature']}>
                 <div class={Styles['icon']}>
-                  <img class={Styles['image']} src="/assets/imgs/Delivery.png" />
+                  <img class={Styles['image']} src="/assets/imgs/profile_delivery_128x128.png" />
                 </div>
                 <div class={Styles['title']}>
                   Dein Lieblings-
@@ -400,7 +400,7 @@ export class ProfilePage extends Vue {
               <div class={Styles['feature-container']}>
                 <div class={Styles['feature']}>
                   <div class={Styles['icon']}>
-                    <img class={Styles['image']} src="/assets/imgs/Contact.png" />
+                    <img class={Styles['image']} src="/assets/imgs/profile_contact_128x128.png" />
                   </div>
                   <div class={Styles['title']}>
                     Kontaktlose
@@ -431,7 +431,7 @@ export class ProfilePage extends Vue {
               <div class={Styles['feature-container']}>
                 <div class={Styles['feature']}>
                   <div class={Styles['icon']}>
-                    <img class={Styles['image']} src="/assets/imgs/Payment.png" />
+                    <img class={Styles['image']} src="/assets/imgs/profile_payment_128x128.png" />
                   </div>
                   <div class={Styles['title']}>Einfache Bezahlung</div>
                   <div class={Styles['description']}></div>
@@ -511,7 +511,7 @@ export class ProfilePage extends Vue {
           <div class={Styles['stories']}>
             <div class={Styles['headline']}>Alle Stories</div>
             {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.profile.media.images.map((img: any) => {
+            this.profile.media.stories.images.map((img: any) => {
               return (
                 <div class={Styles['story-container']}>
                   <div class={Styles['story']}>

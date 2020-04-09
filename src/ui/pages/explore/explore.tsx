@@ -141,17 +141,19 @@ export class ExplorePage extends Vue {
     this.businesses = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `https://api.wirvonhier.net/businesses?filter_address.zip=equals:${zip}&schema=story`,
       data: {},
     });
     // eslint-disable-next-line no-console
     console.log('Loaded business', this.businesses);
 
+    // eslint-disable-next-line no-console
+    console.log(this.businesses.length);
     for (let i = 0; i < this.businesses.length; ++i) {
       //const index = i % this.testExplorerImages.length;
-      if (this.businesses[i].media.images.length > 0) {
-        const images = this.businesses[i].media.images;
-        this.businesses[i].cover = images[0].src;
+      if (this.businesses[i].media.stories.images.length > 0) {
+        this.businesses[i].logo = this.businesses[i].media.logo.src;
+        const images = this.businesses[i].media.stories.images;
         this.businesses[i].story = images[images.length - 1].src;
       }
     }
@@ -208,8 +210,8 @@ export class ExplorePage extends Vue {
                     <swiper-slide>
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
-                          {/*<img class={Styles['logo']} src="/assets/imgs/logo.png" alt="Heart logo" />*/}
-                          <img class={Styles['logo']} src={business.cover} alt="Heart logo" />
+                          {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
+                          <img class={Styles['logo']} src={business.logo} alt="Heart logo" />
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
