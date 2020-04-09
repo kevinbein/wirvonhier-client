@@ -468,14 +468,14 @@ export class MapPage extends Vue {
   public businesses: any | unknown = null;
   public async loadBusinesses(zip: number, _radius: number): Promise<void> {
     //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
-    this.businesses = await this.$http({
+    const data = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
       url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
       data: {},
     });
-    // eslint-disable-next-line no-console
-    // console.log('Loaded business', this.businesses);
+    // @ts-ignore
+    this.businesses = data.businesses;
 
     /*j// As long as there are no images yet, generate and assign them from an array of given pictures
     for (let i = 0; i < this.businesses.length; ++i) {
@@ -542,8 +542,13 @@ export class MapPage extends Vue {
             {(this.businesses !== null &&
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               this.businesses.map((business: any) => {
-                if (business.location && business.location.coordinates && business.location.coordinates.length == 2) {
-                  const latLng = [business.location.coordinates[1], business.location.coordinates[0]];
+                if (
+                  business.location &&
+                  business.location.geo &&
+                  business.location.geo.coordinates &&
+                  business.location.geo.coordinates.length == 2
+                ) {
+                  const latLng = [business.location.geo.coordinates[1], business.location.geo.coordinates[0]];
                   return (
                     <l-marker
                       onClick={() => this.openProfile(business.id)}
