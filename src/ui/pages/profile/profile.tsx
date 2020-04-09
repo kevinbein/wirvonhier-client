@@ -180,7 +180,8 @@ export class ProfilePage extends Vue {
   }
 
   openWindowPhone(): void {
-    window.open('tel:' + this.profile.phone);
+    //window.open('tel:' + this.profile.phone, '_self');
+    window.location.replace('tel:' + this.profile.phone);
   }
 
   openWindowFacebook(): void {
@@ -467,24 +468,33 @@ export class ProfilePage extends Vue {
           <div class={Styles['button-row-container']}>
             <div class={Styles['button-row']}>
               {this.profile.phone && (
-                <div class={Styles['button'] + ' ' + Styles['normal']} onClick={() => this.openWindowPhone()}>
+                <a class={Styles['button'] + ' ' + Styles['brand']} href={'tel:' + this.profile.phone}>
                   <v-icon class={Styles['icon']}>fa-phone</v-icon>
-                </div>
+                </a>
               )}
               {this.profile.facebook && (
-                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowFacebook()}>
+                <a
+                  class={Styles['button'] + ' ' + Styles['brand']}
+                  href={'https://facebook.com/' + this.profile.facebook.replace('@', '')}
+                >
                   <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
-                </div>
+                </a>
               )}
               {this.profile.instagram && (
-                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowInstagram()}>
+                <a
+                  class={Styles['button'] + ' ' + Styles['brand']}
+                  href={'https://instagram.com/' + this.profile.instagram.replace('@', '')}
+                >
                   <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
-                </div>
+                </a>
               )}
               {this.profile.whatsapp && (
-                <div class={Styles['button'] + ' ' + Styles['brand']} onClick={() => this.openWindowWhatsapp()}>
+                <a
+                  class={Styles['button'] + ' ' + Styles['brand']}
+                  href={'https://api.whatsapp.com/send?phone=' + this.profile.phone.replace(' ', '')}
+                >
                   <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
-                </div>
+                </a>
               )}
             </div>
           </div>
