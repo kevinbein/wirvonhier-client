@@ -9,7 +9,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../../pages';
 
-const dummyStory = '/assets/imgs/wvh-after-login_1024x1581.png';
+const dummyStory = '/assets/imgs/dummy_story_1405x2500.png';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
 
 @Component({

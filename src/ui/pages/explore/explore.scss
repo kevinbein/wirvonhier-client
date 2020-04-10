@@ -4,7 +4,8 @@
   position: absolute;
   width: 100%;
   .header {
-    height: 85px;
+    background: rgba(0, 0, 0, 0.5);
+    height: 80px;
     position: absolute;
     top: 0;
     width: 100%;
@@ -17,18 +18,20 @@
       .logo {
         border-radius: 15px;
         height: 60px;
-        overflow: hidden;
         width: 60px;
+        img {
+          border-radius: 15px;
+        }
       }
     }
     .right-side {
       color: #fff;
       display: inline-block;
       font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
-      margin: 22px 15px;
+      margin: 15px;
       position: absolute;
       top: 0;
-      width: calc(100% - 120px);
+      width: calc(100% - 100px);
       .name {
         min-width: 0;
       }
@@ -56,14 +59,19 @@
       }
     }
     .controls {
+      //top: 90px;
+      bottom: 15px;
+      left: 15px;
       position: fixed;
-      right: 15px;
-      top: 85px;
-      width: 30px;
       z-index: 1;
       .button {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
         display: block;
-        padding-bottom: 15px;
+        height: 30px;
+        margin: 15px;
+        padding: 15px;
+        widt: 30px;
         .icon {
           color: #fff;
         }

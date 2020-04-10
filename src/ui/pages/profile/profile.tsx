@@ -8,7 +8,7 @@ import L from 'leaflet';
 //import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'vue2-leaflet';
 
-const dummyCover = '/assets/imgs/dummy-cover-image_800x450.png';
+const dummyCover = '/assets/imgs/dummy_cover_1500x844.png';
 
 /*type profile = {
   name: string;
@@ -34,7 +34,7 @@ export class ProfilePage extends Vue {
   zoom = 17;
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   icon = L.icon({
-    iconUrl: '/assets/imgs/logo/logo_80x80.png',
+    iconUrl: '/assets/imgs/logo/logo_192x192.png',
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -166,6 +166,7 @@ export class ProfilePage extends Vue {
   public profileWidth = Math.round(window.innerWidth - 32);
   public storyWidth = Math.round(window.innerWidth / 2 - 30);
   public businessName: string | null = null;
+  public existCover = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async loadProfile(businessName: string, business?: any): Promise<void> {
     this.businessName = businessName;
@@ -178,10 +179,7 @@ export class ProfilePage extends Vue {
         data: {},
       });
     }
-    const image = (this.profile.media.cover && this.profile.meda.cover.image) || dummyCover;
-    this.profile.cover = image ? image.src : '';
-    // eslint-disable-next-line no-console
-    // console.log('Loaded profile', businessName, this.profile);
+    this.existCover = this.profile.media.cover && this.profile.media.cover.image;
   }
 
   handleClick(): void {
@@ -328,13 +326,15 @@ export class ProfilePage extends Vue {
         </div>*/}
 
           <div class={Styles['profile-image-container']}>
-            <cld-image
-              class={Styles['profile-image']}
-              publicId={this.profile.media.cover.image.publicId}
-              height="180"
-              width={`${this.profileWidth}`}
-              crop="fill"
-            />
+            {(this.existCover && (
+              <cld-image
+                class={Styles['profile-image']}
+                publicId={this.profile.media.cover.image.publicId}
+                height="180"
+                width={`${this.profileWidth}`}
+                crop="fill"
+              />
+            )) || <img class={Styles['profile-image']} src={dummyCover} />}
           </div>
 
           <div class={Styles['details-container']}>
