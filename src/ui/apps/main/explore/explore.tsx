@@ -17,6 +17,10 @@ const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
 })
 export class ExplorePage extends Vue {
   public logoWidth = 60;
+  public deviceWidth = window.innerWidth;
+  public deviceHeight = window.innerHeight;
+  public storyWidth = Math.min(500, this.deviceWidth);
+  public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
   testExplorerImages = [
     '/assets/stories/Stock1.jpg',
     '/assets/stories/Stock2.jpg',
@@ -239,8 +243,10 @@ export class ExplorePage extends Vue {
                               publicId={business.media.logo && business.media.logo.publicId}
                               width={`${this.logoWidth}`}
                               height={`${this.logoWidth}`}
-                              crop="fill"
-                            />
+                              dpr={window.devicePixelRatio}
+                            >
+                              <cld-transformation crop="scale" />
+                            </cld-image>
                           ) : (
                             <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
                           )}
@@ -256,10 +262,18 @@ export class ExplorePage extends Vue {
                           <cld-image
                             class={Styles['story']}
                             publicId={business.media.stories.images[0].publicId}
-                            width={`${Math.min(...[500, window.innerWidth])}`}
-                            height={`${window.innerHeight}`}
-                            crop="fill"
-                          />
+                            width={`${this.storyWidth}`}
+                            height={`${this.storyHeight}`}
+                          >
+                            <cld-transformation
+                              fetchFormat="auto"
+                              width={this.storyWidth}
+                              height={this.storyHeight}
+                              crop="fill"
+                              gravity="faces"
+                              dpr={window.devicePixelRatio}
+                            />
+                          </cld-image>
                         ) : (
                           <img class={Styles['story']} src={business.story} alt="image" />
                         )}
