@@ -170,16 +170,17 @@ export class ProfilePage extends Vue {
   public storyWidth = this.deviceWidth >= 500 ? 220 : this.deviceWidth / 2 - 30;
 
   public businessName: string | null = null;
+  public businessId: string | null = null;
   public existCover = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async loadProfile(businessName: string, business?: any): Promise<void> {
-    this.businessName = businessName;
+  public async loadProfile(businessId: string, business?: any): Promise<void> {
+    this.businessId = businessId;
     if (business !== undefined) {
       this.profile = business;
     } else {
       this.profile = await this.$http({
         method: 'get',
-        url: `/businesses/${businessName}`,
+        url: `/businesses/${businessId}`,
         data: {},
       });
     }

@@ -105,12 +105,12 @@ export class ExplorePage extends Vue {
     swiper.slidePrev();
   }
 
-  public businessName: string | null = null;
+  public businessId: string | null = null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  loadBusiness(businessName: string, business?: any): void {
-    this.businessName = businessName;
+  loadBusiness(businessId: string, business?: any): void {
+    this.businessId = businessId;
     // @ts-ignore
-    this.$refs.profile.loadProfile(businessName, business);
+    this.$refs.profile.loadProfile(businessId, business);
   }
 
   public slideChange(): void {
@@ -118,7 +118,7 @@ export class ExplorePage extends Vue {
     const swiper = this.$refs.verticalSwiper.$swiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
-      const newPath = '/explore/' + this.businessName;
+      const newPath = '/explore/' + this.businessId;
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
@@ -142,8 +142,8 @@ export class ExplorePage extends Vue {
     // @ts-ignore
     const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
     // @ts-ignore
-    const businessName = this.businesses[index].id;
-    this.loadBusiness(businessName, this.businesses[index]);
+    const businessId = this.businesses[index].id;
+    this.loadBusiness(businessId, this.businesses[index]);
   }
 
   // TODO: copied 1:1 to map for now
@@ -193,9 +193,9 @@ export class ExplorePage extends Vue {
       // Lazy load businesses (we can just pass the data from this.businesses instead of forcing a complete reload)
       // TODO: maybe change later
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const business = this.businesses.find((b: any) => b.id == this.businessName);
-      if (this.$route.params.businessName !== undefined) {
-        this.loadBusiness(this.$route.params.businessName, business);
+      const business = this.businesses.find((b: any) => b.id == this.businessId);
+      if (this.$route.params.businessId !== undefined) {
+        this.loadBusiness(this.$route.params.businessId, business);
         // @ts-ignore
         const swiper = this.$refs.verticalSwiper.$swiper;
         swiper.slideTo(1, 0);

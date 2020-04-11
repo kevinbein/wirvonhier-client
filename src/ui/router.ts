@@ -26,7 +26,7 @@ const routes = [
         component: MapPage,
       },
       {
-        path: '/explore/:businessName?',
+        path: '/explore/:businessId?',
         name: 'Explore',
         component: ExplorePage,
       },
