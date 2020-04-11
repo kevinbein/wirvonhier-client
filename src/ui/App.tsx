@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import '@/ui/styles/global/index.scss';
-import Styles from './App.scss';
-//import { BusinessModule } from '@/store';
+
 import { IBusinessData } from '@/entities';
 import { CreateElement } from 'vue/types/umd';
 // Check ui/styles/global for directly used classes
@@ -29,11 +28,11 @@ export class App extends Vue {
   render(h: CreateElement): Vue.VNode {
     return (
       <v-app>
-        <div class={Styles['wvh-app-container']}>
-          <div class={Styles['wvh-app']}>
-            <router-view></router-view>
-          </div>
-        </div>
+        {/*<div class={Styles['wvh-app-container']}>
+          <div class={Styles['wvh-app']}>*/}
+        <router-view></router-view>
+        {/*</div>
+        </div>*/}
       </v-app>
     );
   }

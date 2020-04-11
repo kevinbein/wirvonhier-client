@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './map.scss';
 import { CreateElement } from 'vue/types/umd';
-import '../../plugins/leaflet';
+import '../../../plugins/leaflet';
 import { LatLng } from 'leaflet';
 import L from 'leaflet';
 //import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';

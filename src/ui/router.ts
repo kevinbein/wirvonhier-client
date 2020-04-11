@@ -1,65 +1,52 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import {
-  //ProfilePage,
-  GridPage,
-  ExplorePage,
-  MapPage,
-  LandingPage,
-  LoginPage,
-  RegisterPage,
-  //BusinessPage,
-  //EditProfilePage,
-} from './pages';
+import { MainApp, BusinessApp } from './apps';
+import { ExplorePage, MapPage, LandingPage } from './apps/main';
+import { BusinessLandingPage, BusinessProfilePage } from './apps/business';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: LandingPage,
-  },
-  {
-    path: '/home',
-    redirect: '/',
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: LoginPage,
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: RegisterPage,
-  },
-  /*{
-    path: '/profile/:businessId',
-    name: 'Profile',
-    component: ProfilePage,
+    component: MainApp,
     children: [
       {
-        path: 'edit',
-        name: 'EditProfile',
-        component: EditProfilePage,
+        path: '/',
+        name: 'Landing',
+        component: LandingPage,
+      },
+      {
+        path: '/home',
+        redirect: '/',
+      },
+      {
+        path: '/map',
+        name: 'Map',
+        component: MapPage,
+      },
+      {
+        path: '/explore/:businessName?',
+        name: 'Explore',
+        component: ExplorePage,
       },
     ],
-  },*/
-  {
-    path: '/map',
-    name: 'Map',
-    component: MapPage,
   },
   {
-    path: '/grid',
-    name: 'Grid',
-    component: GridPage,
-  },
-  {
-    path: '/explore/:businessName?',
-    name: 'Explore',
-    component: ExplorePage,
+    path: '/business',
+    component: BusinessApp,
+    children: [
+      {
+        path: '/',
+        name: 'BusinessLanding',
+        component: BusinessLandingPage,
+      },
+      {
+        path: '/profile',
+        name: 'BusinessProfile',
+        component: BusinessProfilePage,
+      },
+    ],
   },
 ];
 

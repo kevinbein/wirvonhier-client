@@ -7,7 +7,7 @@ import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
-import { ProfilePage } from './../../pages';
+import { ProfilePage } from './../profile';
 
 const dummyStory = '/assets/imgs/dummy_story_1405x2500.png';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
