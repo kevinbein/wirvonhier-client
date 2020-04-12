@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { MainApp, BusinessApp } from './apps';
+import { MainApp } from './apps';
 import { ExplorePage, MapPage, LandingPage } from './apps/main';
-import { BusinessLandingPage, BusinessProfilePage } from './apps/business';
 
 Vue.use(VueRouter);
 
@@ -34,17 +33,17 @@ const routes = [
   },
   {
     path: '/business',
-    component: BusinessApp,
+    component: () => import(/* webpackChunkName: "BusinessContainer" */ '@/ui/apps/business/BusinessApp'),
     children: [
       {
         path: '/',
         name: 'BusinessLanding',
-        component: BusinessLandingPage,
+        component: () => import(/* webpackChunkName: "BusinessLanding" */ '@/ui/apps/business/landing/landing'),
       },
       {
         path: '/profile',
         name: 'BusinessProfile',
-        component: BusinessProfilePage,
+        component: () => import(/* webpackChunkName: "BusinessProfile" */ '@/ui/apps/business/profile/profile'),
       },
     ],
   },
