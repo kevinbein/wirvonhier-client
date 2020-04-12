@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './story.scss';
+import NavigationBarStyles from './../styles/navigationBar.scss';
 import { ProfileLoader } from '../components';
 //import { WVHButton } from '@/ui/components';
 
@@ -17,7 +18,6 @@ export class BusinessStoryPage extends Vue {
     this.profile = profile;
 
     // sort media by modified date
-
     const images = this.profile.media.stories.images;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const image = images.find((image: any) => image.publicId == this.storyId);
@@ -64,20 +64,20 @@ export class BusinessStoryPage extends Vue {
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && [
           <div class={Styles['story-page-container'] + ' ' + (this.overlay ? Styles['hidden'] : '')}>
-            <v-app-bar dense class={Styles['nav-bar']}>
+            <v-app-bar dense class={NavigationBarStyles['nav-bar']}>
               <v-btn icon on-click={() => this.gotoStories()}>
-                <v-icon class={Styles['back-icon']}>fa-chevron-left</v-icon>
+                <v-icon class={NavigationBarStyles['back-icon']}>fa-chevron-left</v-icon>
               </v-btn>
               <v-spacer />
               <v-toolbar-title>Stories</v-toolbar-title>
               <v-spacer />
               <v-btn icon disabled={this.isSaved}>
                 {(this.isSaved && (
-                  <v-icon on-click={() => this.save()} class={Styles['check-icon']}>
+                  <v-icon on-click={() => this.save()} class={NavigationBarStyles['check-icon']}>
                     fa-check
                   </v-icon>
                 )) || (
-                  <v-icon on-click={() => this.save()} class={Styles['save-icon']}>
+                  <v-icon on-click={() => this.save()} class={NavigationBarStyles['save-icon']}>
                     fa-save
                   </v-icon>
                 )}

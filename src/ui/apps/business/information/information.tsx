@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './information.scss';
+import NavigationBarStyles from './../styles/navigationBar.scss';
 import { ProfileLoader } from './../components/profileLoader';
-import { LogoutButton } from '../components';
 //import { db } from '@/db_tmp';
 //import { WVHButton } from '@/ui/components';
 
@@ -101,20 +101,20 @@ export class BusinessInformationPage extends Vue {
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && (
           <div class={Styles['information-page-container']}>
-            <v-app-bar dense class={Styles['nav-bar']}>
+            <v-app-bar dense class={NavigationBarStyles['nav-bar']}>
               <v-btn icon on-click={() => this.gotoProfile()}>
-                <v-icon class={Styles['back-icon']}>fa-chevron-left</v-icon>
+                <v-icon class={NavigationBarStyles['back-icon']}>fa-chevron-left</v-icon>
               </v-btn>
               <v-spacer />
               <v-toolbar-title>Profil{this.isSaved ? '' : '*'}</v-toolbar-title>
               <v-spacer />
               <v-btn icon disabled={this.isSaved}>
                 {(this.isSaved && (
-                  <v-icon on-click={() => this.save()} class={Styles['check-icon']}>
+                  <v-icon on-click={() => this.save()} class={NavigationBarStyles['check-icon']}>
                     fa-check
                   </v-icon>
                 )) || (
-                  <v-icon on-click={() => this.save()} class={Styles['save-icon']}>
+                  <v-icon on-click={() => this.save()} class={NavigationBarStyles['save-icon']}>
                     fa-save
                   </v-icon>
                 )}
@@ -184,7 +184,6 @@ export class BusinessInformationPage extends Vue {
                   );
                 })}
               </div>
-              <LogoutButton />
             </div>
           </div>
         )}

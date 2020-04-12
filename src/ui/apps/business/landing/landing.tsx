@@ -29,7 +29,8 @@ export class BusinessLandingPage extends Vue {
           <div class={Styles['welcome']}>
             <div class={Styles['title']}>Hi,</div>
             <div class={Styles['desc']}>
-              schön Sie zu sehen! Bitte treten Sie Ihrem Profil bei oder registrieren Sie sich hier!
+              {/*schön Sie zu sehen! Bitte treten Sie Ihrem Profil bei oder registrieren Sie sich hier!*/}
+              schön Sie zu sehen! Bitte melden Sie sich unten an um Ihr Profil zu verwalten.
             </div>
           </div>
         </div>

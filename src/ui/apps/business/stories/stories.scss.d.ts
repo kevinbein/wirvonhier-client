@@ -3,12 +3,10 @@
 interface CssExports {
   'action-button': string;
   'action-buttons': string;
-  'back-icon': string;
   'center': string;
   'date': string;
   'icon': string;
   'info': string;
-  'nav-bar': string;
   'stories': string;
   'stories-page': string;
   'stories-page-container': string;

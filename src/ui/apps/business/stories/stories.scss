@@ -1,21 +1,8 @@
 .stories-page-container {
   /* background: $background; */
   font-family: 'FuturaBT-Medium', sans-serif;
-  min-height: 100%;
-  position: absolute;
+  position: relative;
   width: 100%;
-
-  .nav-bar {
-    background: #fff;
-    color: $primary !important;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    z-index: 1;
-    .back-icon {
-      color: $primary !important;
-    }
-  }
 
   .stories-page {
     margin: 15px;
@@ -27,6 +14,7 @@
       border-radius: 15px;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
       color: #fff;
+      cursor: pointer;
       display: inline-block;
       font-size: 1.4rem;
       margin: auot;

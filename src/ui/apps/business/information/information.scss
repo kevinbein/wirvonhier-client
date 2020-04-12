@@ -1,26 +1,8 @@
 .information-page-container {
   /* background: $background; */
   font-family: 'FuturaBT-Medium', sans-serif;
-  min-height: 100%;
-  position: absolute;
+  position: relative;
   width: 100%;
-  .nav-bar {
-    background: #fff;
-    color: $primary !important;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    z-index: 1;
-    .save-icon {
-      color: rgb(253, 172, 22) !important;
-    }
-    .back-icon {
-      color: $primary !important;
-    }
-    .check-icon {
-      color: $success !important;
-    }
-  }
 
   .information-page {
     margin: 15px;

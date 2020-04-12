@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './stories.scss';
+import NavigationBarStyles from './../styles/navigationBar.scss';
 import { ProfileLoader } from '../components';
 //import { WVHButton } from '@/ui/components';
 
@@ -53,14 +54,15 @@ export class BusinessStoriesPage extends Vue {
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && (
           <div class={Styles['stories-page-container']}>
-            <v-app-bar dense class={Styles['nav-bar']}>
+            <v-app-bar dense class={NavigationBarStyles['nav-bar']}>
               <v-btn icon on-click={() => this.gotoProfile()}>
-                <v-icon class={Styles['back-icon']}>fa-chevron-left</v-icon>
+                <v-icon class={NavigationBarStyles['back-icon']}>fa-chevron-left</v-icon>
               </v-btn>
               <v-spacer />
               <v-toolbar-title>Stories</v-toolbar-title>
               <v-spacer />
-              <v-spacer />
+              {/* needed for the title to be centered .-.*/}
+              <v-btn icon disabled></v-btn>
               {/*<v-btn icon disabled>
                 <v-icon on-click={() => null} class={Styles['check-icon']}>
                   fa-check

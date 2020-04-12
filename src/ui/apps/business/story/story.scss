@@ -2,32 +2,14 @@
   /* background: $background; */
   font-family: 'FuturaBT-Medium', sans-serif;
   position: relative;
+  width: 100%;
 
   &.hidden {
     display: none;
   }
 
-  .nav-bar {
-    background: #fff;
-    color: $primary !important;
-    position: fixed;
-    text-align: center;
-    top: 0;
-    z-index: 1;
-    .save-icon {
-      color: rgb(253, 172, 22) !important;
-    }
-    .back-icon {
-      color: $primary !important;
-    }
-    .check-icon {
-      color: $success !important;
-    }
-  }
-
   .story-page {
     margin: 15px;
-    margin-top: 75px;
     text-align: center;
     .preview {
       padding: 30px 15px;
@@ -68,10 +50,12 @@
     height: 100%;
     left: 0;
     position: absolute;
+    text-align: center;
     top: 0;
     width: 100%;
   }
   .close-button {
+    cursor: pointer;
     height: 20px;
     position: absolute;
     right: 15px;

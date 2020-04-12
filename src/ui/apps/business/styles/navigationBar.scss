@@ -1,0 +1,17 @@
+.nav-bar {
+  background: #fff;
+  color: $primary !important;
+  position: relative;
+  text-align: center;
+  top: 0;
+  z-index: 1;
+  .save-icon {
+    color: rgb(253, 172, 22) !important;
+  }
+  .back-icon {
+    color: $primary !important;
+  }
+  .check-icon {
+    color: $success !important;
+  }
+}
