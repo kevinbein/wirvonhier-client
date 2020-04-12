@@ -471,11 +471,11 @@ export class MapPage extends Vue {
     const data = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `/businesses?filter_location=${zip},50000&schema=story&limit=1000`, // HOTFIX! Use pagination instead of crazy high limit
       data: {},
     });
     // @ts-ignore
-    this.businesses = data.businesses;
+    this.businesses = data.list;
 
     /*j// As long as there are no images yet, generate and assign them from an array of given pictures
     for (let i = 0; i < this.businesses.length; ++i) {

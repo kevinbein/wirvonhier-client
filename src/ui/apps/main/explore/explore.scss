@@ -55,7 +55,17 @@
       overflow: hidden;
       .story {
         display: inline-block;
+        height: 100%;
+        position: relative;
         width: 100%;
+
+        img {
+          left: 50%;
+          min-height: 100%;
+          min-width: 100%;
+          position: absolute;
+          transform: translateX(-50%);
+        }
       }
     }
     .controls {

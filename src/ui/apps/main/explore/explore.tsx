@@ -17,6 +17,10 @@ const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
 })
 export class ExplorePage extends Vue {
   public logoWidth = 60;
+  public deviceWidth = window.innerWidth;
+  public deviceHeight = window.innerHeight;
+  public storyWidth = Math.min(500, this.deviceWidth);
+  public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
   testExplorerImages = [
     '/assets/stories/Stock1.jpg',
     '/assets/stories/Stock2.jpg',
@@ -150,11 +154,11 @@ export class ExplorePage extends Vue {
     const data = await this.$http({
       method: 'get',
       //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `/businesses?filter_address.zip=equals:${zip}&schema=story`,
+      url: `/businesses?filter_location=${zip},50000&schema=story&limit=1000`, // HOTFIX! use pagination instead of crazy high limit
       data: {},
     });
     // @ts-ignore
-    this.businesses = data.businesses;
+    this.businesses = data.list;
 
     for (let i = 0; i < this.businesses.length; ++i) {
       const media = this.businesses[i].media;
@@ -239,11 +243,13 @@ export class ExplorePage extends Vue {
                               publicId={business.media.logo && business.media.logo.publicId}
                               width={`${this.logoWidth}`}
                               height={`${this.logoWidth}`}
-                              crop="fill"
-                            />
+                              dpr={window.devicePixelRatio}
+                            >
+                              <cld-transformation crop="scale" />
+                            </cld-image>
                           ) : (
-                            <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
-                          )}
+                              <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
+                            )}
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
@@ -256,13 +262,21 @@ export class ExplorePage extends Vue {
                           <cld-image
                             class={Styles['story']}
                             publicId={business.media.stories.images[0].publicId}
-                            width={`${Math.min(...[500, window.innerWidth])}`}
-                            height={`${window.innerHeight}`}
-                            crop="fill"
-                          />
+                            width={`${this.storyWidth}`}
+                            height={`${this.storyHeight}`}
+                          >
+                            <cld-transformation
+                              fetchFormat="auto"
+                              width={this.storyWidth}
+                              height={this.storyHeight}
+                              crop="fill"
+                              gravity="faces"
+                              dpr={window.devicePixelRatio}
+                            />
+                          </cld-image>
                         ) : (
-                          <img class={Styles['story']} src={business.story} alt="image" />
-                        )}
+                            <img class={Styles['story']} src={business.story} alt="image" />
+                          )}
                       </div>
                     </swiper-slide>
                   );

@@ -163,8 +163,13 @@ export class ProfilePage extends Vue {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public profile: any | unknown | null = null;
-  public profileWidth = Math.round(window.innerWidth - 32);
-  public storyWidth = Math.round(window.innerWidth / 2 - 30);
+  public deviceWidth = window.innerWidth;
+  public deviceHeight = window.innerHeight;
+  public profileWidth = this.deviceWidth >= 500 ? 500 - 32 : this.deviceWidth;
+  public profileHeight = Math.round((this.profileWidth / 16) * 9);
+  public storyWidth = this.deviceWidth >= 500 ? 220 : this.deviceWidth / 2 - 30;
+
+  public businessName: string | null = null;
   public businessId: string | null = null;
   public existCover = false;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -331,8 +336,10 @@ export class ProfilePage extends Vue {
                 class={Styles['profile-image']}
                 publicId={this.profile.media.cover.image.publicId}
                 height="180"
-                width={`${this.profileWidth}`}
+                width={this.profileWidth}
                 crop="fill"
+                gravity="faces"
+                dpr={window.devicePixelRatio}
               />
             )) || <img class={Styles['profile-image']} src={dummyCover} />}
           </div>
@@ -522,9 +529,13 @@ export class ProfilePage extends Vue {
                     <cld-image
                       class={Styles['story-image']}
                       publicId={img.publicId}
-                      width={`${this.storyWidth}`}
-                      crop="fill"
-                    />
+                      width={this.storyWidth}
+                      crop="scale"
+                      dpr={window.devicePixelRatio}
+                      fetchFormat="auto"
+                    >
+                      <cld-transformation width={this.storyWidth} crop="scale" />
+                    </cld-image>
                     <div class={Styles['description']}>{img.title}</div>
                     <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
                   </div>
