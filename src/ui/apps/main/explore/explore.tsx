@@ -9,7 +9,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
 
-const dummyStory = '/assets/imgs/dummy_story_1405x2500.png';
+const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
 
 @Component({
@@ -41,7 +41,7 @@ export class ExplorePage extends Vue {
     resistance: true,
     resistanceRatio: 1,
     direction: 'vertical',
-    spaceBetween: 15,
+    spaceBetween: 0,
     //allowTouchMove: false,
   };
   horizontalSwiperOptions = {
@@ -61,44 +61,6 @@ export class ExplorePage extends Vue {
     },
   };
 
-  /*private touchstart = 0;
-  private touchstartEvent: MouseEvent | null;
-  verticalTouchStart(e): void {
-    console.log('touchstart', e);
-    this.touchstart = Date.now();
-    this.touchstartEvent = e;
-    //this.$refs.verticalSwiper.$swiper.slideNext();
-  }
-
-  verticalTouchEnd(e): void {
-    if (this.touchstartEvent != null) {
-      const x1 = this.touchstartEvent.screenX;
-      const y1 = this.touchstartEvent.screenY;
-      const x2 = e.screenX;
-      const y2 = e.screenY;
-      const xDir = x1 - x2;
-      const yDir = y1 - y2;
-      const n1 = Math.sqrt(x1 * x1 + y1 * y1);
-      const n2 = Math.sqrt(x2 * x2 + y2 * y2);
-      //const angle = (Math.acos((x1 * x2 + y1 * y2) / (n1 * n2)) * 180) / Math.PI;
-      const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
-      const dist = Math.sqrt(xDir ** 2 + yDir ** 2);
-
-      console.log('dist:', dist);
-      console.log('angle:', angle);
-      if (yDir < 0) {
-        console.log('swipe down');
-      } else {
-        console.log('swipe up');
-      }
-    }
-    console.log('touchend', e);
-    this.touchstartEvent = null;
-    if (yDir < 0 && dist > 200 && angle < 135 && angle > 45) {
-      this.$refs.verticalSwiper.$swiper.slideNext();
-    }
-  }*/
-
   gotoExplorerSlide(): void {
     // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
@@ -106,13 +68,8 @@ export class ExplorePage extends Vue {
   }
 
   public businessId: string | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  loadBusiness(businessId: string, business?: any): void {
-    this.businessId = businessId;
-    // @ts-ignore
-    this.$refs.profile.loadProfile(businessId, business);
-  }
-
+  public profileVisible = false;
+  public currentBusiness: any = null;
   public slideChange(): void {
     // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
@@ -122,12 +79,14 @@ export class ExplorePage extends Vue {
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
+      this.profileVisible = true;
       swiper.allowTouchMove = false;
       // console.log('Update background to #ffffff by going to profile');
       document.body.style.background = '#ffffff';
     }
     // Opened explore page
     else {
+      this.profileVisible = false;
       swiper.allowTouchMove = true;
       const newPath = '/explore/';
       if (this.$route.path != newPath) {
@@ -141,9 +100,8 @@ export class ExplorePage extends Vue {
   public exploreSlideChange(): void {
     // @ts-ignore
     const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
-    // @ts-ignore
-    const businessId = this.businesses[index].id;
-    this.loadBusiness(businessId, this.businesses[index]);
+    this.businessId = this.businesses[index].id;
+    this.currentBusiness = this.businesses[index];
   }
 
   // TODO: copied 1:1 to map for now
@@ -159,7 +117,12 @@ export class ExplorePage extends Vue {
     });
     // @ts-ignore
     this.businesses = data.list;
-
+    if (!this.currentBusiness) {
+      this.currentBusiness = this.businesses[0];
+    }
+    if (this.businessId) {
+      this.businessId = this.businesses[0].id;
+    }
     for (let i = 0; i < this.businesses.length; ++i) {
       const media = this.businesses[i].media;
       if (media.stories.images.length > 0) {
@@ -176,38 +139,14 @@ export class ExplorePage extends Vue {
     // console.log('Loaded business', this.businesses, data);
   }
 
-  mounted(): void {
+  async mounted(): Promise<void> {
     document.body.style.background = '#000000';
-
-    // @ts-ignore
-    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
-      this.gotoExplorerSlide();
-    });
 
     const zip = 71665;
     //const location = new LatLng(47.78099, 9.61529);
     const radius = 100.42; // km
-    // TODO: pagination later
-    (async () => {
-      await this.loadBusinesses(zip, radius);
-      // Lazy load businesses (we can just pass the data from this.businesses instead of forcing a complete reload)
-      // TODO: maybe change later
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const business = this.businesses.find((b: any) => b.id == this.businessId);
-      if (this.$route.params.businessId !== undefined) {
-        this.loadBusiness(this.$route.params.businessId, business);
-        // @ts-ignore
-        const swiper = this.$refs.verticalSwiper.$swiper;
-        swiper.slideTo(1, 0);
-      } else if (this.businesses.length > 0) {
-        this.loadBusiness(this.businesses[0].id, business);
-      }
 
-      // @ts-ignore
-      this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
-        this.gotoExplorerSlide();
-      });
-    })();
+    await this.loadBusinesses(zip, radius);
   }
 
   // @ts-ignore: Declared variable is not read
@@ -225,7 +164,7 @@ export class ExplorePage extends Vue {
           <swiper-slide class={Styles['explorer']}>
             <swiper
               ref="horizontalSwiper"
-              on-slideChange={() => this.exploreSlideChange()}
+              on-slideChange={this.exploreSlideChange.bind(this)}
               options={this.horizontalSwiperOptions}
               class={Styles['vertical-swiper']}
             >
@@ -234,6 +173,7 @@ export class ExplorePage extends Vue {
                 this.businesses.map((business: any) => {
                   return (
                     <swiper-slide>
+                      <div class={Styles['explore-page__background']} />
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
                           {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
@@ -242,18 +182,17 @@ export class ExplorePage extends Vue {
                               class={Styles['logo']}
                               publicId={business.media.logo && business.media.logo.publicId}
                               width={`${this.logoWidth}`}
-                              height={`${this.logoWidth}`}
                               dpr={window.devicePixelRatio}
                             >
                               <cld-transformation crop="scale" />
                             </cld-image>
                           ) : (
-                              <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
-                            )}
+                            <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
+                          )}
                         </div>
                         <div class={Styles['right-side']}>
-                          <div class={Styles['name']}>{business.name}</div>
-                          <div class={Styles['short-desc']}>{business.category[0]}</div>
+                          <div>{business.name}</div>
+                          <div>{business.category[0]}</div>
                         </div>
                       </div>
 
@@ -275,8 +214,8 @@ export class ExplorePage extends Vue {
                             />
                           </cld-image>
                         ) : (
-                            <img class={Styles['story']} src={business.story} alt="image" />
-                          )}
+                          <img class={Styles['story']} src={business.story} alt="image" />
+                        )}
                       </div>
                     </swiper-slide>
                   );
@@ -295,7 +234,12 @@ export class ExplorePage extends Vue {
             </div>
           </swiper-slide>
           <swiper-slide class={Styles['profile']}>
-            <ProfilePage ref="profile"></ProfilePage>
+            {this.currentBusiness && (
+              <ProfilePage
+                profile={this.currentBusiness}
+                on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
+              ></ProfilePage>
+            )}
           </swiper-slide>
         </swiper>
       </div>

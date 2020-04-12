@@ -8,8 +8,6 @@ interface CssExports {
   'button': string;
   'button-row': string;
   'button-row-container': string;
-  'close-bar': string;
-  'close-button': string;
   'contact': string;
   'contacts': string;
   'date': string;
@@ -28,6 +26,8 @@ interface CssExports {
   'left-side': string;
   'loading-error': string;
   'loading-error-container': string;
+  'loading-error-container__close': string;
+  'loading-error-container__close--wrapper': string;
   'location': string;
   'location-container': string;
   'message': string;
@@ -36,10 +36,14 @@ interface CssExports {
   'profile-image': string;
   'profile-image-container': string;
   'profile-page': string;
+  'profile-page__close': string;
+  'profile-page__close--wrapper': string;
+  'profile-page__title': string;
+  'profile-page_container': string;
   'right-side': string;
   'row': string;
-  'shop-title': string;
   'stories': string;
+  'stories__container': string;
   'story': string;
   'story-container': string;
   'story-image': string;

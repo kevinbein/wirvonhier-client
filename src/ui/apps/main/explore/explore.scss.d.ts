@@ -4,16 +4,15 @@ interface CssExports {
   'button': string;
   'controls': string;
   'explore-page': string;
+  'explore-page__background': string;
   'explorer': string;
   'header': string;
   'horizontal-swiper': string;
   'icon': string;
   'left-side': string;
   'logo': string;
-  'name': string;
   'profile': string;
   'right-side': string;
-  'short-desc': string;
   'story': string;
   'story-container': string;
   'vertical-swiper': string;
