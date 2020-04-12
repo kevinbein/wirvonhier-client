@@ -29,9 +29,6 @@
     margin: 15px;
     margin-top: 75px;
     text-align: center;
-    &::scrollbar {
-      width: 0 !important;
-    }
     .preview {
       padding: 30px 15px;
       .button {

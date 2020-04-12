@@ -248,8 +248,8 @@ export class ExplorePage extends Vue {
                               <cld-transformation crop="scale" />
                             </cld-image>
                           ) : (
-                              <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
-                            )}
+                            <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
+                          )}
                         </div>
                         <div class={Styles['right-side']}>
                           <div class={Styles['name']}>{business.name}</div>
@@ -275,8 +275,8 @@ export class ExplorePage extends Vue {
                             />
                           </cld-image>
                         ) : (
-                            <img class={Styles['story']} src={business.story} alt="image" />
-                          )}
+                          <img class={Styles['story']} src={business.story} alt="image" />
+                        )}
                       </div>
                     </swiper-slide>
                   );

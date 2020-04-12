@@ -13,6 +13,7 @@ export class DB {
       url: `/businesses/${businessId}`,
       data: {},
     });
+    // eslint-disable-next-line no-console
     console.log('DB: Loaded profile', profile);
     this.businessId = businessId;
     this.loadedProfile = profile;

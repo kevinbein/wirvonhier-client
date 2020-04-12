@@ -16,12 +16,12 @@ export class BusinessNavigationPage extends Vue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private loadedProfile(profile: any): void {
     this.profile = profile;
-    console.log('received profile', this.profile);
   }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && (
           <div class={Styles['navigation-page']}>

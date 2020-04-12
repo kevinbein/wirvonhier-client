@@ -10,16 +10,20 @@ import { ProfileLoader } from '../components';
 export class BusinessStoryPage extends Vue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public profile: any | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public story: any = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private loadedProfile(profile: any): void {
     this.profile = profile;
 
     // sort media by modified date
 
     const images = this.profile.media.stories.images;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const image = images.find((image: any) => image.publicId == this.storyId);
     if (image === undefined) {
       const videos = this.profile.media.stories.videos;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const video = videos.find((video: any) => video.publicId == this.storyId);
       if (video === undefined) {
         this.$router.push('/business/profile/stories');
@@ -31,7 +35,6 @@ export class BusinessStoryPage extends Vue {
       this.story = image;
       this.story.type = 'image';
     }
-    console.log('Found story', this.story);
   }
 
   private storyId: string | null = null;
@@ -44,43 +47,20 @@ export class BusinessStoryPage extends Vue {
   }
 
   public save(): void {
-    console.log('Save', this.profile.name);
     this.isSaved = true;
   }
 
   public isSaved = true;
   public storyChanged(): void {
-    console.log('Profile changed!');
     this.isSaved = false;
   }
 
   public overlay = false;
-  public showOverlay(): void {
-    this.overlay = true;
-    return;
-    const nullfn = (e) => {
-      console.log('touchmove');
-      window.scrollTo(0, 0);
-      e.preventDefault();
-      return false;
-    };
-    //this.$refs.storyPage.classList.add('active-overlay');
-    document.body.ontouchmove = nullfn;
-    document.body.onscroll = nullfn;
-    document.body.onmousemove = nullfn;
-  }
-
-  public hideOverlay(): void {
-    document.body.ontouchmove = undefined;
-    this.overlay = false;
-  }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
-    if (this.profile !== null) {
-      console.log(this.profile.media.stories.images);
-    }
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && [
           <div class={Styles['story-page-container'] + ' ' + (this.overlay ? Styles['hidden'] : '')}>
@@ -105,12 +85,12 @@ export class BusinessStoryPage extends Vue {
             </v-app-bar>
             <div class={Styles['story-page']}>
               <div class={Styles['preview']}>
-                <v-btn class={Styles['button']} on-click={() => this.showOverlay()}>
+                <v-btn class={Styles['button']} on-click={() => (this.overlay = true)}>
                   Vorschau <v-icon class={Styles['icon']}>fa-image</v-icon>
                 </v-btn>
               </div>
               <div class={Styles['headline']}>Informationen</div>
-              <div class={Styles['field-title']}>
+              <div>
                 <v-textarea
                   label="Titel"
                   value={this.story.title}
@@ -118,25 +98,24 @@ export class BusinessStoryPage extends Vue {
                   outlined
                 ></v-textarea>
               </div>
-              <div class={Styles['field-id']}>
+              <div>
                 <v-text-field label="ID" value={this.story.publicId} outlined disabled></v-text-field>
               </div>
-              <div class={Styles['field-created']}>
+              <div>
                 <v-text-field label="Erstellt" value={this.story.created} outlined disabled></v-text-field>
               </div>
-              <div class={Styles['field-modified']}>
+              <div>
                 <v-text-field label="Geändert" value={this.story.modified} outlined disabled></v-text-field>
               </div>
             </div>
           </div>,
           <div class={Styles['overlay'] + ' ' + (this.overlay ? Styles['visible'] : '')}>
             <div class={Styles['overlay-content']}>
-              <div class={Styles['close-button']} onClick={() => this.hideOverlay()}>
+              <div class={Styles['close-button']} onClick={() => (this.overlay = false)}>
                 <v-icon class={Styles['close-icon']}>fa-times</v-icon>
               </div>
-              <div class={Styles['story-preview']}>
+              <div>
                 <cld-image
-                  class={Styles['cld']}
                   publicId={this.story.publicId}
                   width={`${Math.min(...[500, window.innerWidth])}`}
                   height={`${window.innerHeight}`}

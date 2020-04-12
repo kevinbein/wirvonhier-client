@@ -70,18 +70,17 @@ export class BusinessInformationPage extends Vue {
   ];
 
   public save(): void {
-    console.log('Save', this.profile.name);
     this.isSaved = true;
   }
 
   public isSaved = true;
   public profileChanged(): void {
-    console.log('Profile changed!');
     this.isSaved = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public profile: any | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private loadedProfile(profile: any): void {
     this.profile = profile;
     this.$watch(
@@ -98,6 +97,7 @@ export class BusinessInformationPage extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
         {this.profile !== null && (
           <div class={Styles['information-page-container']}>
@@ -122,17 +122,20 @@ export class BusinessInformationPage extends Vue {
             </v-app-bar>
             <div class={Styles['information-page']}>
               <div class={Styles['editor']}>
-                {this.sections.map((section: any) => {
+                {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                this.sections.map((section: any) => {
                   return (
                     <div class={Styles['section']}>
                       <div class={Styles['title']}>{section.title}</div>
                       <div class={Styles['inputs']}>
-                        {section.fields.map((field: any) => {
+                        {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        section.fields.map((field: any) => {
                           if (field.selection !== undefined) {
                             return (
                               <div class={Styles['selection']}>
                                 <div class={Styles['label']}>{field.label}</div>
-                                {field.selection.map((selection: any) => {
+                                {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                field.selection.map((selection: any) => {
                                   return (
                                     <v-switch
                                       class={Styles['switch']}
