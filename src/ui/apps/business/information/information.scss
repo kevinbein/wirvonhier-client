@@ -1,0 +1,60 @@
+.information-page-container {
+  /* background: $background; */
+  font-family: 'FuturaBT-Medium', sans-serif;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+  .nav-bar {
+    background: #fff;
+    color: $primary !important;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    z-index: 1;
+    .save-icon {
+      color: rgb(253, 172, 22) !important;
+    }
+    .back-icon {
+      color: $primary !important;
+    }
+    .check-icon {
+      color: $success !important;
+    }
+  }
+
+  .information-page {
+    margin: 15px;
+    margin-top: 65px;
+
+    .headline {
+      color: $primary;
+      font-size: 1.4rem;
+      margin: 10px;
+      width: 100%;
+    }
+    .editor {
+      .section {
+        .title {
+          color: $primary;
+          font-size: 1.2rem;
+          margin: 10px;
+          width: 100%;
+        }
+        .inputs {
+          font-size: 0.8rem;
+          margin: 20px;
+        }
+      }
+      .selection {
+        .label {
+          font-size: 1rem;
+          margin-bottom: 10px;
+        }
+        .switch {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

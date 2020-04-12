@@ -30,3 +30,11 @@
 .swiper-slide {
   background: #000;
 }
+
+.pseudo-link {
+  cursor: pointer;
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
+}

@@ -2,7 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { MainApp, BusinessApp } from './apps';
 import { ExplorePage, MapPage, LandingPage } from './apps/main';
-import { BusinessLandingPage, BusinessProfilePage } from './apps/business';
+import {
+  BusinessLandingPage,
+  BusinessNavigationPage,
+  BusinessInformationPage,
+  BusinessStoriesPage,
+  BusinessStoryPage,
+} from './apps/business';
 
 Vue.use(VueRouter);
 
@@ -37,14 +43,29 @@ const routes = [
     component: BusinessApp,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'BusinessLanding',
         component: BusinessLandingPage,
       },
       {
-        path: '/profile',
-        name: 'BusinessProfile',
-        component: BusinessProfilePage,
+        path: 'profile',
+        name: 'BusinessNavigation',
+        component: BusinessNavigationPage,
+      },
+      {
+        path: 'profile/information',
+        name: 'BusinessInformation',
+        component: BusinessInformationPage,
+      },
+      {
+        path: 'profile/stories',
+        name: 'BusinessStories',
+        component: BusinessStoriesPage,
+      },
+      {
+        path: 'profile/stories/:storyId',
+        name: 'BusinessStory',
+        component: BusinessStoryPage,
       },
     ],
   },

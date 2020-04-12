@@ -1,0 +1,75 @@
+.stories-page-container {
+  /* background: $background; */
+  font-family: 'FuturaBT-Medium', sans-serif;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+
+  .nav-bar {
+    background: #fff;
+    color: $primary !important;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    z-index: 1;
+    .back-icon {
+      color: $primary !important;
+    }
+  }
+
+  .stories-page {
+    margin: 15px;
+    margin-top: 65px;
+    text-align: center;
+
+    .upload-button {
+      background: $primary;
+      border-radius: 15px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+      color: #fff;
+      display: inline-block;
+      font-size: 1.4rem;
+      margin: auot;
+      min-width: 250px;
+      padding: 30px 0;
+      text-align: center;
+      width: 50%;
+      .icon {
+        display: inline-block;
+        height: 50%;
+        width: 50%;
+      }
+    }
+    .stories {
+      margin-top: 30px;
+      width: 100%;
+      .table {
+        font-size: 0.8rem;
+        text-align: left;
+        width: 100%;
+        td,
+        th {
+          padding: 0 5px;
+        }
+        .center {
+          text-align: center;
+        }
+        .date {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+        .info {
+          margin-bottom: 10px;
+        }
+      }
+      .action-buttons {
+        width: 90px;
+        .action-button {
+          .icon {
+            color: $primary;
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

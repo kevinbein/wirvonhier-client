@@ -1,0 +1,29 @@
+.wvh-button-container {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-family: 'FuturaBT-Medium', sans-serif;
+  padding: 10px 15px;
+  .wvh-button {
+    color: $primary;
+    .icon {
+      color: $primary;
+      float: right;
+    }
+  }
+  &.primary {
+    background: #fff;
+    border-color: 0;
+    text-align: center;
+    text-transform: uppercase;
+    .icon {
+      float: none;
+      margin-left: 5px;
+    }
+  }
+  &:active,
+  &:hover {
+    background-color: #f2f2f2;
+  }
+}
