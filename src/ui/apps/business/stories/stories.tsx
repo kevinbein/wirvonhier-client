@@ -47,6 +47,14 @@ export class BusinessStoriesPage extends Vue {
     this.$router.push('/business/profile/stories/' + storyId);
   }
 
+  public getMediaType(type: string): string {
+    if (type == 'video') {
+      return 'Video';
+    } else {
+      return 'Bild';
+    }
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
@@ -79,7 +87,7 @@ export class BusinessStoriesPage extends Vue {
                   <thead>
                     <tr>
                       <th>Titel</th>
-                      <th>Typ</th>
+                      <th class={Styles['center']}>Typ</th>
                       <th class={Styles['center']}>Aktion</th>
                     </tr>
                   </thead>
@@ -91,8 +99,8 @@ export class BusinessStoriesPage extends Vue {
                           <td colspan="3">{new Date(item.modified).toLocaleString()}</td>
                         </tr>,
                         <tr class={Styles['info']}>
-                          <td>{item.title} sd fas df asfd asdf </td>
-                          <td class={Styles['center']}>{item.type.charAt(0).toUpperCase() + item.type.slice(1)}</td>
+                          <td>{item.title}</td>
+                          <td class={Styles['center']}>{this.getMediaType(item.type)}</td>
                           <td class={Styles['action-buttons'] + ' ' + Styles['center']}>
                             <v-btn
                               icon
