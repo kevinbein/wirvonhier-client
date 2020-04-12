@@ -79,7 +79,9 @@ export class ExplorePage extends Vue {
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
-      this.profileVisible = true;
+      setTimeout(() => {
+        this.profileVisible = true;
+      }, 50);
       swiper.allowTouchMove = false;
       // console.log('Update background to #ffffff by going to profile');
       document.body.style.background = '#ffffff';
@@ -97,14 +99,16 @@ export class ExplorePage extends Vue {
     }
   }
 
+  public sliderIndex = 3;
   public exploreSlideChange(): void {
     // @ts-ignore
-    const index = this.$refs.horizontalSwiper.$swiper.activeIndex;
-    this.businessId = this.businesses[index].id;
-    this.currentBusiness = this.businesses[index];
+    const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
+    this.businessId = this.slides[newIndex].id;
+    this.currentBusiness = this.slides[newIndex];
   }
 
-  // TODO: copied 1:1 to map for now
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public slides: any[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public businesses: any | unknown = null;
   public async loadBusinesses(zip: number, _radius: number): Promise<void> {
@@ -135,6 +139,7 @@ export class ExplorePage extends Vue {
         this.businesses[i].logo = media.logo.src;
       }
     }
+    this.slides = this.businesses; // Slides should not contain all businesses - probably not implementable with sliderjs
     // eslint-disable-next-line no-console
     // console.log('Loaded business', this.businesses, data);
   }
@@ -168,9 +173,9 @@ export class ExplorePage extends Vue {
               options={this.horizontalSwiperOptions}
               class={Styles['vertical-swiper']}
             >
-              {(this.businesses !== null &&
+              {(this.slides !== null &&
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                this.businesses.map((business: any) => {
+                this.slides.map((business: any) => {
                   return (
                     <swiper-slide>
                       <div class={Styles['explore-page__background']} />
@@ -234,12 +239,16 @@ export class ExplorePage extends Vue {
             </div>
           </swiper-slide>
           <swiper-slide class={Styles['profile']}>
-            {this.currentBusiness && (
-              <ProfilePage
-                profile={this.currentBusiness}
-                on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
-              ></ProfilePage>
-            )}
+            <div class={Styles['profile__placeholder']}>
+              <transition name="fade">
+                {this.currentBusiness && this.profileVisible && (
+                  <ProfilePage
+                    profile={this.currentBusiness}
+                    on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
+                  ></ProfilePage>
+                )}
+              </transition>
+            </div>
           </swiper-slide>
         </swiper>
       </div>
