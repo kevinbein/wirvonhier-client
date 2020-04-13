@@ -515,30 +515,32 @@ export class ProfilePage extends Vue {
           </div>
         </div>*/}
 
-          <div class={Styles['stories']}>
-            <div class={Styles['headline']}>Alle Stories</div>
-            {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-            this.profile.media.stories.images.map((img: any) => {
-              return (
-                <div class={Styles['story-container']}>
-                  <div class={Styles['story']}>
-                    <cld-image
-                      class={Styles['story-image']}
-                      publicId={img.publicId}
-                      width={this.storyWidth}
-                      crop="scale"
-                      dpr={window.devicePixelRatio}
-                      fetchFormat="auto"
-                    >
-                      <cld-transformation width={this.storyWidth} crop="scale" />
-                    </cld-image>
-                    <div class={Styles['description']}>{img.title}</div>
-                    <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
+          {this.profile.media.stories.images.length > 0 && (
+            <div class={Styles['stories']}>
+              <div class={Styles['headline']}>Alle Stories</div>
+              {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+              this.profile.media.stories.images.map((img: any) => {
+                return (
+                  <div class={Styles['story-container']}>
+                    <div class={Styles['story']}>
+                      <cld-image
+                        class={Styles['story-image']}
+                        publicId={img.publicId}
+                        width={this.storyWidth}
+                        crop="scale"
+                        dpr={window.devicePixelRatio}
+                        fetchFormat="auto"
+                      >
+                        <cld-transformation width={this.storyWidth} crop="scale" />
+                      </cld-image>
+                      <div class={Styles['description']}>{img.title}</div>
+                      <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )
     );
