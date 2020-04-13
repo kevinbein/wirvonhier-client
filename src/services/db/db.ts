@@ -1,9 +1,8 @@
 import Dexie from 'dexie';
-import { IDB, IContact } from './db.types';
+import { IDB } from './db.types';
 import { IBusinessFilter, IBusinessData } from '@/entities';
 
 export class DBInstance extends Dexie {
-  public contacts: Dexie.Table<IContact, number>;
   public list: Dexie.Table<IBusinessData, undefined>;
   private _v = 1;
 
@@ -14,12 +13,17 @@ export class DBInstance extends Dexie {
     // Indexes need to be named in initialization if we want to query the table by this index
     // properties stored in the table without matching index will still be stored (just not searchable)
     this.version(this._v).stores({
-      list: '++id, name, description, industry, type',
-      contacts: '++id, name, state, city, street, zip, phone, email, whatsapp, facebook',
-      hours: '++id, monday, tuesdas, wednesday, thursday, friday, saturday, sunday',
+      list: '_id, id, name, description, category, location, distance',
     });
-    this.contacts = this.table('contacts');
     this.list = this.table('list');
+  }
+
+  async findNear(distance = 5000, limit = 25): Promise<IBusinessData[]> {
+    return this.list
+      .where('distance')
+      .below(distance / 1000)
+      .limit(limit)
+      .toArray();
   }
 
   async find(_filter: IBusinessFilter): Promise<IBusinessData[]> {
@@ -30,6 +34,21 @@ export class DBInstance extends Dexie {
     // filter list according to some filter rules
     // query API with this filter and store result in DB
     // update
+  }
+
+  addMany(data: IBusinessData[]): void {
+    this.list.bulkAdd(data).then(
+      () => {
+        // eslint-disable-next-line no-console
+        console.log(`Added ${data.length} objects to Datastore.`);
+      },
+      (e: Dexie.BulkError) => {
+        // eslint-disable-next-line no-console
+        console.log(
+          `Added ${data.length - e.failures.length} objects to Datastore. ${e.failures.length} failed. ${e.message}`,
+        );
+      },
+    );
   }
 }
 
