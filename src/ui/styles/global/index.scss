@@ -18,6 +18,16 @@
   src: url('/assets/fonts/futura/FuturaBT-Medium.ttf') format('truetype');
 }
 
+/* 85vh works for iOS, needs testing on Android */
+.v-application--wrap {
+  min-height: 85vh !important;
+}
+@media all and (display-mode: standalone) {
+  .v-application--wrap {
+    min-height: 100vh !important;
+  }
+}
+
 .v-application a {
   text-decoration: none;
 }

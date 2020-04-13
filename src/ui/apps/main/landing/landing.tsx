@@ -91,6 +91,8 @@ export class LandingPage extends Vue {
 
   mounted(): void {
     document.body.style.background = 'rgb(232, 232, 232)';
+
+    this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
   }
 
   // @ts-ignore: Declared variable is not read

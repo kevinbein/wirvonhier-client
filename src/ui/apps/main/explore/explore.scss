@@ -41,6 +41,23 @@
     .right-side {
       color: #fff;
       font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+      margin: 15px;
+      padding-right: 15px;
+      position: absolute;
+      top: 0;
+      width: calc(100% - 100px);
+      .name {
+        font-size: 0.9rem;
+        min-width: 0;
+
+        /* overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; */
+      }
+      .short-desc {
+        font-size: 0.9rem;
+        min-width: 0;
+      }
     }
   }
   .vertical-swiper,

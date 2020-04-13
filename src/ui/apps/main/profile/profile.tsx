@@ -275,9 +275,9 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
               </div>
             </div>
 
-            <div class={Styles['stories']}>
-              <div class={Styles['headline']}>Alle Stories</div>
-              <div class={Styles.stories__container}>
+            {this.profile.media.stories.images.length > 0 && (
+              <div class={Styles['stories']}>
+                <div class={Styles['headline']}>Alle Stories</div>
                 {// eslint-disable-next-line @typescript-eslint/no-explicit-any
                 this.profile.media.stories.images.map((img: any) => {
                   return (
@@ -300,7 +300,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                   );
                 })}
               </div>
-            </div>
+            )}
           </div>
         </div>
       )

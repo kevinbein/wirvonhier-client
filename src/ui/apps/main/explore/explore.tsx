@@ -61,7 +61,7 @@ export class ExplorePage extends Vue {
     swiper.slidePrev();
   }
 
-  public businessId: string | null = null;
+  public businessId: string | undefined | null = null;
   public profileVisible = false;
   public currentBusiness: Business | null = null;
 
@@ -70,6 +70,7 @@ export class ExplorePage extends Vue {
     const swiper = this.$refs.verticalSwiper.$swiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
+      this.$root.$emit('iosChangeAppBarStyle', 'default');
       const newPath = '/explore/' + this.businessId;
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
@@ -84,6 +85,7 @@ export class ExplorePage extends Vue {
     // Opened explore page
     else {
       this.profileVisible = false;
+      this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
       swiper.allowTouchMove = true;
       const newPath = '/explore/';
       if (this.$route.path != newPath) {
@@ -115,6 +117,14 @@ export class ExplorePage extends Vue {
     const zip = '71665';
     const radius = 100420; // in meters
     this.loadBusinesses(zip, radius);
+    document.body.style.background = '#000000';
+
+    this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
+
+    // @ts-ignore
+    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
+      this.gotoExplorerSlide();
+    });
   }
 
   // @ts-ignore: Declared variable is not read
