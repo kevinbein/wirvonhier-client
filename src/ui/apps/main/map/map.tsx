@@ -488,6 +488,8 @@ export class MapPage extends Vue {
   }
 
   mounted(): void {
+    this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
+
     const zip = 71665;
     //const location = new LatLng(47.78099, 9.61529);
     const radius = 100.42; // km

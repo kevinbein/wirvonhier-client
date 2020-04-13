@@ -118,6 +118,7 @@ export class ExplorePage extends Vue {
     const swiper = this.$refs.verticalSwiper.$swiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
+      this.$root.$emit('iosChangeAppBarStyle', 'default');
       const newPath = '/explore/' + this.businessId;
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
@@ -128,6 +129,7 @@ export class ExplorePage extends Vue {
     }
     // Opened explore page
     else {
+      this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
       swiper.allowTouchMove = true;
       const newPath = '/explore/';
       if (this.$route.path != newPath) {
@@ -178,6 +180,8 @@ export class ExplorePage extends Vue {
 
   mounted(): void {
     document.body.style.background = '#000000';
+
+    this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
 
     // @ts-ignore
     this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {

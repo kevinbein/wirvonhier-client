@@ -18,10 +18,22 @@ export class App extends Vue {
     return this.businesses ? this.businesses.map((b) => b.name).join(' ') : 'nothing found';
   }
 
+  private iosChangeAppBarStyle(_style: string): void {
+    // not working, but I leave it in for now. Maybe there is a way to trigger this change
+    // in ios pwas
+    return;
+    /*const el = document.querySelector("meta[name='apple-mobile-web-app-status-bar-style']");
+    if (el !== null) {
+      el.setAttribute('content', style);
+    }*/
+  }
+
   created(): void {
     // @ts-ignore: Declared variable is not read
     //const ctx = BusinessModule.context(this.$store);
     //ctx.actions.loadBusinesses();
+
+    this.$root.$on('iosChangeAppBarStyle', (style: string) => this.iosChangeAppBarStyle(style));
   }
 
   // @ts-ignore: Declared variable is not read
