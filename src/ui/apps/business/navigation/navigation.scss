@@ -1,0 +1,27 @@
+.navigation-page {
+  font-family: 'FuturaBT-Medium', sans-serif;
+  text-align: center;
+
+  .title {
+    color: $primary;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 15px;
+    position: relative;
+  }
+  .navigation {
+    margin: 15px;
+    .navigation-button-container {
+      .navigation-button {
+        display: inline-block;
+        margin-top: 30px;
+        width: 200px;
+      }
+    }
+  }
+  .logout-button {
+    bottom: 15px;
+    position: absolute;
+    right: 15px;
+  }
+}

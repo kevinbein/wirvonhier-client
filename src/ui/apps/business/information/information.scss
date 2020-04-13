@@ -1,0 +1,42 @@
+.information-page-container {
+  /* background: $background; */
+  font-family: 'FuturaBT-Medium', sans-serif;
+  position: relative;
+  width: 100%;
+
+  .information-page {
+    margin: 15px;
+    margin-top: 65px;
+
+    .headline {
+      color: $primary;
+      font-size: 1.4rem;
+      margin: 10px;
+      width: 100%;
+    }
+    .editor {
+      .section {
+        .title {
+          color: $primary;
+          font-size: 1.2rem;
+          margin: 10px;
+          width: 100%;
+        }
+        .inputs {
+          font-size: 0.8rem;
+          margin: 20px;
+        }
+      }
+      .selection {
+        .label {
+          font-size: 1rem;
+          margin-bottom: 10px;
+        }
+        .switch {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

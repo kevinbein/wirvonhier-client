@@ -36,14 +36,31 @@ const routes = [
     component: () => import(/* webpackChunkName: "BusinessContainer" */ '@/ui/apps/business/BusinessApp'),
     children: [
       {
-        path: '/',
+        path: '',
         name: 'BusinessLanding',
         component: () => import(/* webpackChunkName: "BusinessLanding" */ '@/ui/apps/business/landing/landing'),
       },
       {
-        path: '/profile',
-        name: 'BusinessProfile',
-        component: () => import(/* webpackChunkName: "BusinessProfile" */ '@/ui/apps/business/profile/profile'),
+        path: 'profile',
+        name: 'BusinessNavigation',
+        component: () =>
+          import(/* webpackChunkName: "BusinessNavigation" */ '@/ui/apps/business/navigation/navigation'),
+      },
+      {
+        path: 'profile/information',
+        name: 'BusinessInformation',
+        component: () =>
+          import(/* webpackChunkName: "BusinessInformation" */ '@/ui/apps/business/information/information'),
+      },
+      {
+        path: 'profile/stories',
+        name: 'BusinessStories',
+        component: () => import(/* webpackChunkName: "BusinessStories" */ '@/ui/apps/business/stories/stories'),
+      },
+      {
+        path: 'profile/stories/:storyId',
+        name: 'BusinessStory',
+        component: () => import(/* webpackChunkName: "BusinessStory" */ '@/ui/apps/business/story/story'),
       },
     ],
   },

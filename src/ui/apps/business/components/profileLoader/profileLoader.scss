@@ -1,0 +1,43 @@
+.loading-error-container {
+  align-items: center;
+  background: #fff;
+  display: flex;
+  font-family: 'FuturaBT-Medium', sans-serif;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  .close-button {
+    color: #000 !important;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    .icon {
+      color: #000 !important;
+      height: 30px;
+      width: 30px;
+    }
+  }
+  .loading-error {
+    text-align: center;
+    .message {
+      color: #000 !important;
+      display: inline-block;
+      width: 100%;
+      .error {
+        color: rgb(155, 17, 17);
+      }
+      .icon {
+        color: #000 !important;
+        height: 30px;
+        width: 30px;
+      }
+    }
+
+    .retry {
+      margin: 15px;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+.story-page-container {
+  /* background: $background; */
+  font-family: 'FuturaBT-Medium', sans-serif;
+  position: relative;
+  width: 100%;
+
+  &.hidden {
+    display: none;
+  }
+
+  .story-page {
+    margin: 15px;
+    text-align: center;
+    .preview {
+      padding: 30px 15px;
+      .button {
+        color: $primary;
+        .icon {
+          color: $primary;
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .headline {
+      color: $primary;
+      font-size: 1.2rem;
+      margin: 10px;
+      text-align: left;
+      width: 100%;
+    }
+  }
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  display: none;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  &.visible {
+    display: block;
+  }
+
+  .overlay-content {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+  }
+  .close-button {
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    .close-icon {
+      color: #fff;
+      font-size: 2rem;
+    }
+  }
+}

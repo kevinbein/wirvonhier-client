@@ -52,4 +52,10 @@
 }
 .fade-leave-to {
   opacity: 0;
+.pseudo-link {
+  cursor: pointer;
+  &:hover,
+  &:active {
+    text-decoration: underline;
+  }
 }
