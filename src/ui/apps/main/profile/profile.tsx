@@ -404,11 +404,7 @@ export class ProfilePage extends Vue {
                   <div class={Styles['icon']}>
                     <img class={Styles['image']} src="/assets/imgs/profile_delivery_128x128.png" />
                   </div>
-                  <div class={Styles['title']}>
-                    Kontaktlose
-                    <br />
-                    Lieferung
-                  </div>
+                  <div class={Styles['title']}>Lieferung</div>
                   <div class={Styles['description']}>
                     {this.profile.delivery
                       .map((delivery: string) => {
@@ -435,7 +431,7 @@ export class ProfilePage extends Vue {
                   <div class={Styles['icon']}>
                     <img class={Styles['image']} src="/assets/imgs/profile_payment_128x128.png" />
                   </div>
-                  <div class={Styles['title']}>Einfache Bezahlung</div>
+                  <div class={Styles['title']}>Bezahlung</div>
                   <div class={Styles['description']}></div>
                   <div class={Styles['description']}>
                     {this.profile.paymentMethods
