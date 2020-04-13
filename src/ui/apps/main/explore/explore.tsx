@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './explore.scss';
+import { BusinessModule } from '@/store';
 
 //import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import VueAwesomeSwiper from 'vue-awesome-swiper';
@@ -8,6 +9,7 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
+import { Business } from '@/entities';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
@@ -21,17 +23,7 @@ export class ExplorePage extends Vue {
   public deviceHeight = window.innerHeight;
   public storyWidth = Math.min(500, this.deviceWidth);
   public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
-  testExplorerImages = [
-    '/assets/stories/Stock1.jpg',
-    '/assets/stories/Stock2.jpg',
-    '/assets/stories/Stock3.jpg',
-    '/assets/stories/Stock4.jpg',
-    '/assets/stories/Stock5.jpg',
-    '/assets/stories/Stock6.jpg',
-    '/assets/stories/Stock7.jpg',
-    '/assets/stories/Stock8.jpg',
-    '/assets/stories/Stock9.jpg',
-  ];
+
   verticalSwiperOptions = {
     speed: 300,
     shortSwipes: false,
@@ -61,6 +53,8 @@ export class ExplorePage extends Vue {
     },
   };
 
+  private businessStore = BusinessModule.context(this.$store);
+
   gotoExplorerSlide(): void {
     // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
@@ -69,7 +63,8 @@ export class ExplorePage extends Vue {
 
   public businessId: string | null = null;
   public profileVisible = false;
-  public currentBusiness: any = null;
+  public currentBusiness: Business | null = null;
+
   public slideChange(): void {
     // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
@@ -99,7 +94,6 @@ export class ExplorePage extends Vue {
     }
   }
 
-  public sliderIndex = 3;
   public exploreSlideChange(): void {
     // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
@@ -107,51 +101,20 @@ export class ExplorePage extends Vue {
     this.currentBusiness = this.slides[newIndex];
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public slides: any[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public businesses: any | unknown = null;
-  public async loadBusinesses(zip: number, _radius: number): Promise<void> {
-    //public async loadBusinesses(location: LatLng, radius: number): Promise<void> {
-    const data = await this.$http({
-      method: 'get',
-      //url: '/businesses?zip=' + zip + '&radius=' + radius,
-      url: `/businesses?filter_location=${zip},50000&schema=story&limit=1000`, // HOTFIX! use pagination instead of crazy high limit
-      data: {},
-    });
-    // @ts-ignore
-    this.businesses = data.list;
-    if (!this.currentBusiness) {
-      this.currentBusiness = this.businesses[0];
-    }
-    if (this.businessId) {
-      this.businessId = this.businesses[0].id;
-    }
-    for (let i = 0; i < this.businesses.length; ++i) {
-      const media = this.businesses[i].media;
-      if (media.stories.images.length > 0) {
-        const images = media.stories.images;
-        this.businesses[i].story = images[images.length - 1].src;
-      } else {
-        this.businesses[i].story = dummyStory;
-      }
-      if (media.logo) {
-        this.businesses[i].logo = media.logo.src;
-      }
-    }
-    this.slides = this.businesses; // Slides should not contain all businesses - probably not implementable with sliderjs
-    // eslint-disable-next-line no-console
-    // console.log('Loaded business', this.businesses, data);
+  public get businesses(): Business[] {
+    return this.businessStore.state.businesses;
+  }
+  public get slides(): Business[] {
+    return this.businesses;
+  }
+  public loadBusinesses(zip: string, radius: number): void {
+    this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
   }
 
-  async mounted(): Promise<void> {
-    document.body.style.background = '#000000';
-
-    const zip = 71665;
-    //const location = new LatLng(47.78099, 9.61529);
-    const radius = 100.42; // km
-
-    await this.loadBusinesses(zip, radius);
+  mounted(): void {
+    const zip = '71665';
+    const radius = 100420; // in meters
+    this.loadBusinesses(zip, radius);
   }
 
   // @ts-ignore: Declared variable is not read
@@ -160,8 +123,6 @@ export class ExplorePage extends Vue {
       <div class={Styles['explore-page']}>
         <swiper
           ref="verticalSwiper"
-          /*onTouchEnd={this.verticalTouchEnd}
-          onTouchStart={this.verticalTouchStart}*/
           on-slideChange={() => this.slideChange()}
           options={this.verticalSwiperOptions}
           class={Styles['vertical-swiper']}
@@ -174,14 +135,12 @@ export class ExplorePage extends Vue {
               class={Styles['vertical-swiper']}
             >
               {(this.slides !== null &&
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                this.slides.map((business: any) => {
+                this.slides.map((business: Business) => {
                   return (
                     <swiper-slide>
                       <div class={Styles['explore-page__background']} />
                       <div class={Styles['header']}>
                         <div class={Styles['left-side']}>
-                          {/*<img class={Styles['logo']} src="/assets/imgs/logo/logo_512x512.png" alt="Heart logo" />*/}
                           {business.media.logo && business.media.logo.publicId ? (
                             <cld-image
                               class={Styles['logo']}
@@ -219,7 +178,7 @@ export class ExplorePage extends Vue {
                             />
                           </cld-image>
                         ) : (
-                          <img class={Styles['story']} src={business.story} alt="image" />
+                          <img class={Styles['story']} src={dummyStory} alt="image" />
                         )}
                       </div>
                     </swiper-slide>
@@ -230,9 +189,6 @@ export class ExplorePage extends Vue {
               <router-link to="/" class={Styles['button']}>
                 <v-icon class={Styles['icon']}>fa-cog</v-icon>
               </router-link>
-              {/*<div class={Styles['button']}>
-                        <v-icon class={Styles['icon']}>fa-filter</v-icon>
-                      </div>*/}
               <router-link to="/map" class={Styles['button']}>
                 <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
               </router-link>
@@ -255,3 +211,5 @@ export class ExplorePage extends Vue {
     );
   }
 }
+
+export default ExplorePage;

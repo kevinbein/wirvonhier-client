@@ -2,11 +2,10 @@ import Component from 'vue-class-component';
 import { CreateElement } from 'vue/types/umd';
 import Styles from './profile.scss';
 import '../../../plugins/leaflet';
-//import { LatLng } from 'leaflet';
 import L from 'leaflet';
-//import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'vue2-leaflet';
 import { VueComponent } from '@/ui/vue-ts-component';
+import { Business } from '@/entities';
 
 const dummyCover = '/assets/imgs/dummy_cover_1500x844.png';
 @Component({
@@ -17,8 +16,8 @@ const dummyCover = '/assets/imgs/dummy_cover_1500x844.png';
     },
   },
 })
-export class ProfilePage extends VueComponent<{ profile: any }> {
-  profile!: any;
+export class ProfilePage extends VueComponent<{ profile: Business }> {
+  profile!: Business;
 
   zoom = 17;
   url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -40,19 +39,14 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
 
   constructor() {
     super();
-    // eslint-disable-next-line no-console
-    console.log(this);
     this.existCover = !!this.profile.media.cover && !!this.profile.media.cover.image;
   }
-  handleClick(): void {
-    //console.log('TEST');
-  }
 
-  goToExplorer(): void {
+  public goToExplorer(): void {
     this.$emit('go-to-explorer');
   }
 
-  disableMap(): void {
+  public disableMap(): void {
     if (this.$refs.locationMap === undefined) {
       return;
     }
@@ -68,7 +62,6 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
     if (map.tap) {
       map.tap.disable();
     }
-    //document.getElementsByClassName('leaflet-control-zoom')[0].style.visibility = 'hidden';
   }
 
   loadedMap(): void {
@@ -77,18 +70,10 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
 
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
-    //const businessId = this.$route.params.businessId;
-    //const db = this.$store.$db.businesses;
-    //console.log(businessId, db.find({}));
     let mapCenter = [47.78099, 9.61529];
     const geolocation = mapCenter;
-    if (
-      this.profile !== null &&
-      this.profile.geolocation &&
-      this.profile.geolocation.lat &&
-      this.profile.geolocation.lng
-    ) {
-      mapCenter = [this.profile.geolocation.lat, this.profile.geolocation.lng];
+    if (this.profile !== null && this.profile.location) {
+      mapCenter = [this.profile.location.geo.coordinates[1], this.profile.location.geo.coordinates[0]];
     }
 
     return (
@@ -161,22 +146,28 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
                       <br />
                       <a href={'mailto:' + this.profile.email}>{this.profile.email}</a>
                       <br />
-                      <a href={this.profile.homepage}>{this.profile.homepage}</a>
+                      <a href={this.profile.website}>{this.profile.website}</a>
                     </div>
                   </div>
                   <div class={Styles['right-side']}>
                     <div class={Styles['title']}>Adresse</div>
-                    <div class={Styles['description']}>
-                      {this.profile.address.street} {this.profile.address.streetNumber}
-                      <br />
-                      {this.profile.address.zip} {this.profile.address.city}
-                    </div>
+                    {this.profile.address ? (
+                      <div class={Styles['description']}>
+                        <span>
+                          {this.profile.address.street} {this.profile.address.streetNumber}
+                        </span>
+                        <br />
+                        <span>
+                          {this.profile.address.zip} {this.profile.address.city}
+                        </span>
+                      </div>
+                    ) : (
+                      <span>Keine Adresse verfügbar</span>
+                    )}
                   </div>
                 </div>
                 <div class={Styles['row']}>
-                  <div class={Styles['title'] + ' ' + Styles['updated']}>
-                    {/*Aktualisiert am {this.profile.updated.toLocaleDateString()}*/}
-                  </div>
+                  <div class={Styles['title'] + ' ' + Styles['updated']}></div>
                 </div>
               </div>
             </div>
@@ -273,10 +264,10 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
                     <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
                   </a>
                 )}
-                {this.profile.whatsapp && (
+                {this.profile.whatsApp && (
                   <a
                     class={Styles['button'] + ' ' + Styles['brand']}
-                    href={'https://api.whatsapp.com/send?phone=' + this.profile.phone.trim().replace(/\s/g, '')}
+                    href={'https://api.whatsapp.com/send?phone=' + this.profile.whatsApp.trim().replace(/\s/g, '')}
                   >
                     <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
                   </a>
@@ -316,3 +307,5 @@ export class ProfilePage extends VueComponent<{ profile: any }> {
     );
   }
 }
+
+export default ProfilePage;
