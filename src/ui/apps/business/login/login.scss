@@ -9,19 +9,6 @@
   width: 100%;
 }
 
-.button {
-  background-color: #fff;
-  border-radius: 15px;
-  color: $primary !important;
-  height: 4rem;
-  margin: auto;
-  padding: 1.1rem;
-  position: relative;
-  text-align: center;
-  width: 100%;
-  width: 18rem;
-}
-
 .logo-container {
   display: block;
   height: 100%;
@@ -64,6 +51,28 @@
     position: relative;
     text-align: center;
     width: 100%;
+
+    .text-input {
+      background-color: #fff;
+      border-radius: 15px;
+      color: $primary !important;
+      height: 4rem;
+      margin: auto;
+      padding: 1.1rem;
+      position: relative;
+      text-align: center;
+      width: 100%;
+      width: 18rem;
+    }
+
+    .continue-icon {
+      border-radius: 15px;
+      bottom: 4rem;
+      color: $primary !important;
+      font-size: 1.1rem;
+      left: 7rem;
+      padding: 17px;
+    }
   }
 
   @media (max-height: 800px) {

@@ -4,11 +4,14 @@ interface CssExports {
   'button': string;
   'button-container': string;
   'buttons': string;
+  'continue-icon': string;
   'desc': string;
   'landing-page': string;
   'logo': string;
   'logo-container': string;
+  'text-input': string;
   'title': string;
+  'to-login': string;
   'welcome': string;
 }
 export const cssExports: CssExports;

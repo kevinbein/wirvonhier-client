@@ -36,9 +36,19 @@ const routes = [
     component: () => import(/* webpackChunkName: "BusinessContainer" */ '@/ui/apps/business/BusinessApp'),
     children: [
       {
-        path: '',
+        path: '/',
         name: 'BusinessLanding',
         component: () => import(/* webpackChunkName: "BusinessLanding" */ '@/ui/apps/business/landing/landing'),
+      },
+      {
+        path: 'login',
+        name: 'BusinessLogin',
+        component: () => import(/* webpackChunkName: "BusinessLogin" */ '@/ui/apps/business/login/login'),
+      },
+      {
+        path: 'register',
+        name: 'BusinessRegister',
+        component: () => import(/* webpackChunkName: "BusinessRegister" */ '@/ui/apps/business/register/register'),
       },
       {
         path: 'profile',

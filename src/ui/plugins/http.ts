@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import { IStore } from '@/store';
-import { http } from '@/services';
+import { HTTP } from '@/services';
 
 export const attachHttp = (store: IStore): void => {
-  store.$http = http;
+  store.$http = new HTTP(store);
 
   Vue.mixin({
     beforeCreate() {

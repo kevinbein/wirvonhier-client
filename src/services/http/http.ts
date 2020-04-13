@@ -1,7 +1,8 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { IHttpResponse, IQuery } from './http.types';
+import { IStore } from '@/store';
 
-const withAuth = axios.create({
+const withAuthInstance = axios.create({
   timeout: 3000,
   baseURL: API_URL,
   withCredentials: true,
@@ -10,13 +11,24 @@ const withAuth = axios.create({
 
 export class HTTP {
   private withAuth: AxiosInstance;
+  private store: IStore;
 
-  constructor(withAuth: AxiosInstance) {
+  constructor(store: IStore, withAuth: AxiosInstance = withAuthInstance) {
     this.withAuth = withAuth;
+    this.store = store;
   }
 
   async get(url: string, options?: AxiosRequestConfig): Promise<IHttpResponse> {
     const res = await this.withAuth.get(url, options);
+    return res.data;
+  }
+
+  async post(url: string, data: unknown): Promise<IHttpResponse> {
+    const options: AxiosRequestConfig = {};
+    if (this.store.state.token) {
+      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    }
+    const res = await this.withAuth.post(url, data, options);
     return res.data;
   }
 
@@ -39,5 +51,3 @@ export class HTTP {
     return queryArray.join('&');
   }
 }
-
-export const http = new HTTP(withAuth);
