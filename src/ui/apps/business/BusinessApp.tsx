@@ -15,3 +15,5 @@ export class BusinessApp extends Vue {
     );
   }
 }
+
+export default BusinessApp;

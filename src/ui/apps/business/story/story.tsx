@@ -129,3 +129,5 @@ export class BusinessStoryPage extends Vue {
     );
   }
 }
+
+export default BusinessStoryPage;

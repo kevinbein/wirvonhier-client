@@ -45,3 +45,5 @@ export class BusinessNavigationPage extends Vue {
     );
   }
 }
+
+export default BusinessNavigationPage;

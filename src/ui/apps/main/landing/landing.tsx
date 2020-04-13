@@ -158,3 +158,5 @@ export class LandingPage extends Vue {
     );
   }
 }
+
+export default LandingPage;

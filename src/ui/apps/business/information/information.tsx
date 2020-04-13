@@ -191,3 +191,5 @@ export class BusinessInformationPage extends Vue {
     );
   }
 }
+
+export default BusinessInformationPage;

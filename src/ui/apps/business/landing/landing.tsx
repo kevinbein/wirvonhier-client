@@ -60,3 +60,5 @@ export class BusinessLandingPage extends Vue {
     );
   }
 }
+
+export default BusinessLandingPage;
