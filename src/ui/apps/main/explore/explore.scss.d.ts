@@ -11,9 +11,11 @@ interface CssExports {
   'icon': string;
   'left-side': string;
   'logo': string;
+  'name': string;
   'profile': string;
   'profile__placeholder': string;
   'right-side': string;
+  'short-desc': string;
   'story': string;
   'story-container': string;
   'vertical-swiper': string;

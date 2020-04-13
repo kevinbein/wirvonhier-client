@@ -109,8 +109,10 @@ export class ExplorePage extends Vue {
   public get slides(): Business[] {
     return this.businesses;
   }
-  public loadBusinesses(zip: string, radius: number): void {
-    this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
+  public async loadBusinesses(zip: string, radius: number): Promise<void> {
+    await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
+    this.businessId = this.slides[0].id;
+    this.currentBusiness = this.slides[0];
   }
 
   mounted(): void {
@@ -120,11 +122,6 @@ export class ExplorePage extends Vue {
     document.body.style.background = '#000000';
 
     this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
-
-    // @ts-ignore
-    this.$refs.profile.$refs.closeProfileButton.addEventListener('click', () => {
-      this.gotoExplorerSlide();
-    });
   }
 
   // @ts-ignore: Declared variable is not read

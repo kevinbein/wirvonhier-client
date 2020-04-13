@@ -18,9 +18,10 @@
   .header {
     box-sizing: border-box;
     display: flex;
-    padding: 15px 15px 74px;
+    padding: 15px 74px 15px 15px;
     position: absolute;
     top: 0;
+    width: 100%;
     z-index: 2;
 
     .left-side {
@@ -41,11 +42,7 @@
     .right-side {
       color: #fff;
       font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
-      margin: 15px;
-      padding-right: 15px;
-      position: absolute;
-      top: 0;
-      width: calc(100% - 100px);
+
       .name {
         font-size: 0.9rem;
         min-width: 0;
