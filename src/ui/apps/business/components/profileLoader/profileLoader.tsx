@@ -14,12 +14,12 @@ export class ProfileLoader extends Vue {
   public loadingFailed = false;
   public businessId: string | undefined;
 
-  public async loadProfile(): Promise<void> {
+  public loadProfile(): void {
     this.loadingFailed = false;
     this.profile = null;
     try {
       const fixedProfile = 'WeingutWalz';
-      this.profile = await db.loadProfile(fixedProfile);
+      this.profile = db.loadProfile(fixedProfile);
       this.$emit('loadedProfile', this.profile);
     } catch (e) {
       this.loadingFailed = true;

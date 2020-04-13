@@ -6,6 +6,7 @@ import { IStore } from '@/store';
 import { IQuery } from '../http';
 
 export class BusinessService {
+  // @ts-ignore
   private worker: any;
   private store: IStore;
   private http: HTTP;

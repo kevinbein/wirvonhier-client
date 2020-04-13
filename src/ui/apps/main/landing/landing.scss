@@ -67,13 +67,12 @@
     width: 100%;
     width: 18rem;
   }
-  .text-input input[type='number'] {
-    -moz-appearance: textfield;
+
+  .text-input input[type='number'] {/* stylelint-disable-line */
     appearance: textfield;
   }
   .text-input input::-webkit-outer-spin-button,
   .text-input input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
     appearance: none;
   }
 

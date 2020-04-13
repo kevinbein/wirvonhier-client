@@ -26,12 +26,6 @@ body {
   src: url('/assets/fonts/futura/FuturaBT-Medium.ttf') format('truetype');
 }
 
-@media all and (display-mode: standalone) {
-  .v-application--wrap {
-    min-height: 100vh !important;
-  }
-}
-
 .v-application a {
   text-decoration: none;
 }

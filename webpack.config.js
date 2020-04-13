@@ -151,7 +151,7 @@ module.exports = async function (env, argv) {
           include: [/node_modules/, /ui\/styles\/global/],
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
-            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            false ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             {
               loader: 'css-loader',
               options: {
@@ -181,7 +181,7 @@ module.exports = async function (env, argv) {
           exclude: [/node_modules/, /ui\/styles\/global/],
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
-            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            false ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             {
               loader: 'css-modules-typescript-loader',
               options: {
@@ -334,10 +334,10 @@ module.exports = async function (env, argv) {
 
       isProd && new webpack.optimize.SplitChunksPlugin({}),
 
-      isProd && new MiniCssExtractPlugin({
-        filename: 'css/[name].[contenthash:5].css',
-        chunkFilename: 'css/[name].[contenthash:5].css'
-      }),
+      // isProd && new MiniCssExtractPlugin({
+      //   filename: 'css/[name].[contenthash:5].css',
+      //   chunkFilename: 'css/[name].[contenthash:5].css'
+      // }),
 
       new OptimizeCssAssetsPlugin({
         cssProcessorOptions: {
@@ -390,20 +390,20 @@ module.exports = async function (env, argv) {
       }),
 
       // Inline Critical CSS
-      isProd && new CrittersPlugin({
-        // use <link rel="stylesheet" media="not x" onload="this.media='all'"> hack to load async css:
-        preload: 'media',
-        // inline all styles from any stylesheet below this size:
-        inlineThreshold: 8000,
-        // don't bother lazy-loading non-critical stylesheets below this size, just inline the non-critical styles too:
-        minimumExternalSize: 4000,
-        // don't emit <noscript> external stylesheet links since the app fundamentally requires JS anyway:
-        noscriptFallback: false,
-        // inline fonts
-        inlineFonts: true,
-        // (and don't lazy load them):
-        preloadFonts: false
-      }),
+      // isProd && new CrittersPlugin({
+      //   // use <link rel="stylesheet" media="not x" onload="this.media='all'"> hack to load async css:
+      //   preload: 'media',
+      //   // inline all styles from any stylesheet below this size:
+      //   inlineThreshold: 8000,
+      //   // don't bother lazy-loading non-critical stylesheets below this size, just inline the non-critical styles too:
+      //   minimumExternalSize: 4000,
+      //   // don't emit <noscript> external stylesheet links since the app fundamentally requires JS anyway:
+      //   noscriptFallback: false,
+      //   // inline fonts
+      //   inlineFonts: true,
+      //   // (and don't lazy load them):
+      //   preloadFonts: false
+      // }),
 
       new ForkTsCheckerWebpackPlugin(
         {
