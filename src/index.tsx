@@ -13,11 +13,11 @@ Vue.use(Cloudinary, {
   },
 });
 
-attachServices(store);
 attachI18n(store);
-attachDB(store);
 attachHttp(store);
+attachDB(store);
 attachWorker(store);
+attachServices(store);
 
 new Vue({
   i18n,
