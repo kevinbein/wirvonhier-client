@@ -1,5 +1,8 @@
+import { Location } from './state.types';
+
 export class RootState {
-  someState = 1;
+  currentLocation: undefined | Location = undefined;
+  currentZip: undefined | string = undefined;
 }
 
 export function getRootState(): RootState {
