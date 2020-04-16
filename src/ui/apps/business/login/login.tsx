@@ -27,6 +27,9 @@ export class BusinessLoginPage extends Vue {
       // eslint-disable-next-line no-console
       console.log(res);
     }
+    if (res.status === 'success') {
+      this.$router.push({ name: 'BusinessNavigation' });
+    }
   }
 
   public update(key: 'email' | 'password', value: string): void {

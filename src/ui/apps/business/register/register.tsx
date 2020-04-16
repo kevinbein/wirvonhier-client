@@ -31,6 +31,9 @@ export class BusinessRegisterPage extends Vue {
       // eslint-disable-next-line no-console
       console.log(res);
     }
+    if (res.status === 'success') {
+      this.$router.push({ name: 'BusinessNavigation' });
+    }
   }
 
   public update(key: 'email' | 'password' | 'dataProtStatement', value: string): void {

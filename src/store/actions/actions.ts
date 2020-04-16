@@ -22,7 +22,6 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
       const res = await this.store.$http.post('/login?strategy=local', credentials);
       window.localStorage.setItem('token', res.token);
       this.commit('SET_TOKEN', res.token);
-      router.push({ name: '' });
       return { status: 'success' };
     } catch (e) {
       return { status: 'failure', message: e.message };
@@ -34,7 +33,6 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
       const res = await this.store.$http.post('/register?strategy=local', registerOptions);
       window.localStorage.setItem('token', res.token);
       this.commit('SET_TOKEN', res.token);
-      router.push({ name: '' });
       return { status: 'success' };
     } catch (e) {
       return { status: 'failure', message: e.message };
