@@ -65,7 +65,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   }
 
   loadedMap(): void {
-    //this.disableMap();
+    this.disableMap();
   }
 
   // @ts-ignore: Declared variable is not read
