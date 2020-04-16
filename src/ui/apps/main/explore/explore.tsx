@@ -99,6 +99,7 @@ export class ExplorePage extends Vue {
   public exploreSlideChange(): void {
     // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
+    window.localStorage.explorerIndex = newIndex;
     this.businessId = this.slides[newIndex].id;
     this.currentBusiness = this.slides[newIndex];
   }
@@ -113,6 +114,25 @@ export class ExplorePage extends Vue {
     await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
     this.businessId = this.slides[0].id;
     this.currentBusiness = this.slides[0];
+
+    // @ts-ignore
+    const hSwiper = this.$refs.horizontalSwiper.$swiper;
+    // @ts-ignore
+    const vSwiper = this.$refs.verticalSwiper.$swiper;
+    if (this.$route.params.businessId !== undefined) {
+      const paramBusinessId = this.$route.params.businessId;
+      const explorerIndex = this.slides.findIndex((business: Business) => business.id == paramBusinessId);
+      if (explorerIndex !== -1) {
+        this.businessId = this.slides[explorerIndex].id;
+        this.currentBusiness = this.slides[explorerIndex];
+        hSwiper.slideTo(explorerIndex, 0);
+        vSwiper.slideTo(1, 0);
+      }
+    } else if (window.localStorage.explorerIndex < this.businesses.length) {
+      // @ts-ignore
+      const explorerIndex = window.localStorage.explorerIndex;
+      hSwiper.slideTo(explorerIndex, 0);
+    }
   }
 
   mounted(): void {

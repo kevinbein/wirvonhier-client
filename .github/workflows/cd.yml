@@ -3,7 +3,7 @@ name: Continuous Deployment - Client
 
 # Workflow triggers on pull requests targeting production branch
 on:
-  pull_request:
+  push:
     branches:
       - production
 

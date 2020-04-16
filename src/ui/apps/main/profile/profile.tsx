@@ -37,6 +37,16 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   public businessId: string | null = null;
   public existCover = false;
 
+  get whatsAppApiNumber() {
+    // remove non numeric characters
+    let number = this.profile.whatsApp.trim().replace(/\s/g, '');
+    // add german phone code when this part is missing (needed by the api)
+    if (number.startsWith('0')) {
+      number = '49' + number.substr(1);
+    }
+    return number;
+  }
+
   constructor() {
     super();
     this.existCover = !!this.profile.media.cover && !!this.profile.media.cover.image;
@@ -71,7 +81,6 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     let mapCenter = [47.78099, 9.61529];
-    const geolocation = mapCenter;
     if (this.profile !== null && this.profile.location) {
       mapCenter = [this.profile.location.geo.coordinates[1], this.profile.location.geo.coordinates[0]];
     }
@@ -106,7 +115,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                 center={mapCenter}
               >
                 <l-tile-layer url={this.url}></l-tile-layer>
-                <l-marker lat-lng={geolocation} icon={this.icon}></l-marker>
+                <l-marker lat-lng={mapCenter} icon={this.icon}></l-marker>
               </l-map>
             </div>
             <div class={Styles['bar']}>
@@ -261,10 +270,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                   </a>
                 )}
                 {this.profile.whatsApp && (
-                  <a
-                    class={Styles['button'] + ' ' + Styles['brand']}
-                    href={'https://api.whatsapp.com/send?phone=' + this.profile.whatsApp.trim().replace(/\s/g, '')}
-                  >
+                  <a class={Styles['button'] + ' ' + Styles['brand']} href={'https://wa.me/' + this.whatsAppApiNumber}>
                     <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
                   </a>
                 )}
