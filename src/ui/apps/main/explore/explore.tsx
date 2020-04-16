@@ -113,6 +113,16 @@ export class ExplorePage extends Vue {
     await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
     this.businessId = this.slides[0].id;
     this.currentBusiness = this.slides[0];
+
+    if (this.$route.params.businessId !== undefined) {
+      const paramBusinessId = this.$route.params.businessId;
+      if (this.slides.find((business: Business) => business.id == paramBusinessId)) {
+        this.businessId = paramBusinessId;
+        // @ts-ignore
+        const swiper = this.$refs.verticalSwiper.$swiper;
+        swiper.slideTo(1, 0);
+      }
+    }
   }
 
   mounted(): void {

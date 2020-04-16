@@ -71,11 +71,9 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     let mapCenter = [47.78099, 9.61529];
-    const geolocation = mapCenter;
     if (this.profile !== null && this.profile.location) {
       mapCenter = [this.profile.location.geo.coordinates[1], this.profile.location.geo.coordinates[0]];
     }
-    console.log(mapCenter);
 
     return (
       (this.profile === null && (
