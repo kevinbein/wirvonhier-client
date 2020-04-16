@@ -65,7 +65,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   }
 
   loadedMap(): void {
-    this.disableMap();
+    //this.disableMap();
   }
 
   // @ts-ignore: Declared variable is not read
@@ -75,6 +75,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
     if (this.profile !== null && this.profile.location) {
       mapCenter = [this.profile.location.geo.coordinates[1], this.profile.location.geo.coordinates[0]];
     }
+    console.log(mapCenter);
 
     return (
       (this.profile === null && (
@@ -106,7 +107,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                 center={mapCenter}
               >
                 <l-tile-layer url={this.url}></l-tile-layer>
-                <l-marker lat-lng={geolocation} icon={this.icon}></l-marker>
+                <l-marker lat-lng={mapCenter} icon={this.icon}></l-marker>
               </l-map>
             </div>
             <div class={Styles['bar']}>
