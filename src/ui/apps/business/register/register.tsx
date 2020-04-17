@@ -87,7 +87,9 @@ export class BusinessRegisterPage extends Vue {
             </div>
             <div class={Styles['button-container']}>
               <div class={Styles['to-login']}>Sie haben schon einen Account?</div>
-              <button class={Styles.button}>Zum Login</button>
+              <router-link to={{ name: 'BusinessLogin' }} class={Styles.button}>
+                Zum Login
+              </router-link>
             </div>
           </div>
         </form>

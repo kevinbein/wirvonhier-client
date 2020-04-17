@@ -22,3 +22,11 @@ export interface ILocationFilter {
   zip?: string;
   maxDistance: number;
 }
+
+export interface ITokenPayload {
+  email: string;
+  exp: number;
+  iat: number;
+  id: string;
+  roles: string[];
+}

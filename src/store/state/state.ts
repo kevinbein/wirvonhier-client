@@ -6,7 +6,7 @@ export class RootState {
 
   dataProtStatements: IDataProtStatement[] | null = null;
 
-  token: string = window.localStorage.getItem('token') || '';
+  token = '';
 }
 
 export function getRootState(): RootState {
