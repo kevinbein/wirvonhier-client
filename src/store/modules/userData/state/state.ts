@@ -1,3 +1,4 @@
 export class UserDataState {
-  someValue = 1;
+  id = null;
+  email = '';
 }
