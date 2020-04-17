@@ -37,7 +37,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
   public businessId: string | null = null;
   public existCover = false;
 
-  get whatsAppApiNumber() {
+  get whatsAppApiNumber(): string {
     // remove non numeric characters
     let number = this.profile.whatsApp.trim().replace(/\s/g, '');
     // add german phone code when this part is missing (needed by the api)
