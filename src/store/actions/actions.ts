@@ -3,7 +3,6 @@ import { Store } from 'vuex';
 import { RootState, RootGetters, RootMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { IHttpResponse } from '@/services';
-import { router } from '@/ui';
 
 export class RootActions extends Actions<RootState, RootGetters, RootMutations, RootActions> {
   private store!: Store<RootState>;
