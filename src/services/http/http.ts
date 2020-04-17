@@ -26,6 +26,9 @@ export class HTTP {
   async post(url: string, data: unknown): Promise<IHttpResponse> {
     const options: AxiosRequestConfig = {};
     if (this.store.state.token) {
+      if (!options.headers) {
+        options.headers = {};
+      }
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     const res = await this.withAuth.post(url, data, options);
