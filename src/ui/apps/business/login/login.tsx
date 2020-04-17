@@ -23,9 +23,10 @@ export class BusinessLoginPage extends Vue {
       email: this.formData.email,
       password: this.formData.password,
     });
-    if (res.status === 'failed') {
+    if (res.status === 'failure') {
       // eslint-disable-next-line no-console
       console.log(res);
+      return;
     }
     if (res.status === 'success') {
       this.$router.push({ name: 'BusinessNavigation' });

@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './profileLoader.scss';
 import { WVHButton } from '@/ui/components';
-import { db } from '@/db_tmp';
+//import { db } from '@/db_tmp';
+import { BusinessModule } from '@/store';
 
 @Component({
   name: 'ProfileLoader',
@@ -13,17 +14,22 @@ export class ProfileLoader extends Vue {
   public profile: any | unknown | null = null;
   public loadingFailed = false;
   public businessId: string | undefined;
+  //public rootStore = rootModule.context(this.$store);
 
-  public loadProfile(): void {
+  public async loadProfile(): Promise<void> {
     this.loadingFailed = false;
     this.profile = null;
-    try {
-      const fixedProfile = 'WeingutWalz';
-      this.profile = db.loadProfile(fixedProfile);
-      this.$emit('loadedProfile', this.profile);
-    } catch (e) {
+    const fixedProfileId = 'WeingutWalz';
+    const businessStore = BusinessModule.context(this.$store);
+    const ret = await businessStore.actions.loadBusiness(fixedProfileId);
+    if (ret.status === 'failure') {
       this.loadingFailed = true;
+      // eslint-disable-next-line no-console
+      console.log('caught error', ret.message, ret.data);
+      return;
     }
+    this.profile = ret.data.business;
+    this.$emit('loadedProfile', this.profile);
   }
 
   logout(): void {
