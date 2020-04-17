@@ -3,8 +3,7 @@ import { Store } from 'vuex';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { RootState } from '@/store';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
-import { IBusinessFilter, IBusinessData } from '@/entities';
-import { IHttpResponse } from '@/services';
+import { Business } from '@/entities';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: Store<RootState>;
@@ -13,22 +12,13 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.store = store;
   }
 
-  async loadBusinesses(): Promise<void> {
-    const businesses = await this.store.$db.businesses.find(this.state.filter);
-    this.commit('SET_BUSINESSES', businesses);
-  }
-
-  async loadBusiness(id: string): Promise<IHttpResponse> {
-    try {
-      const business = await this.store.$http.get('businesses/' + id);
-      return { status: 'success', data: { business: business } };
-    } catch (e) {
-      return { status: 'failure', message: e.message };
-    }
-  }
-
   async loadNearBusinesses(options: IFindNearBusinessesOptions): Promise<void> {
     const businesses = await this.store.$services.business.findNear(options);
     this.commit('SET_BUSINESSES', businesses);
+  }
+
+  async selectBusiness(businessId: string): Promise<void> {
+    const selectedBusiness = await this.store.$services.business.getBusinessById(businessId);
+    if (selectedBusiness) this.commit('SET_SELECTED_BUSINESS', new Business(selectedBusiness));
   }
 }

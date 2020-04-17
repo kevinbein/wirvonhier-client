@@ -20,6 +20,6 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
     const userId = this.state.id;
     if (!userId) return;
     const user = await this.store.$http.get(`/users/${userId}`, true);
-    this.setUserData(user);
+    this.actions.setUserData(user);
   }
 }

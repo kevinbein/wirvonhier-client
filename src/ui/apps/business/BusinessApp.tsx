@@ -9,10 +9,6 @@ import { rootModule, UserData as userModule } from '@/store';
     userId: {
       immediate: true,
       handler(this: BusinessApp, newId: string) {
-        // eslint-disable-next-line no-console
-        console.log('this: ', this);
-        // eslint-disable-next-line no-console
-        console.log('newId: ', newId);
         if (!newId) return;
         this.userModule.actions.loadUserAndSaveUserData();
       },

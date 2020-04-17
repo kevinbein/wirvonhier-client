@@ -36,8 +36,6 @@ export class HTTP {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     const res = await this.withAuth.post(url, data, options);
-    // eslint-disable-next-line no-console
-    console.dir(res);
     return res.data;
   }
 

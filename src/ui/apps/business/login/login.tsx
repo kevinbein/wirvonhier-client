@@ -26,7 +26,6 @@ export class BusinessLoginPage extends Vue {
     if (res.status === 'failure') {
       // eslint-disable-next-line no-console
       console.log(res);
-      return;
     }
     if (res.status === 'success') {
       this.$router.push({ name: 'BusinessNavigation' });

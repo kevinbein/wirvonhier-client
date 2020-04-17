@@ -3,7 +3,7 @@ import { IDB } from './db.types';
 import { IBusinessFilter, IBusinessData } from '@/entities';
 
 export class DBInstance extends Dexie {
-  public list: Dexie.Table<IBusinessData, undefined>;
+  public list: Dexie.Table<IBusinessData, string>;
   private _v = 1;
 
   constructor(dbname: string) {
