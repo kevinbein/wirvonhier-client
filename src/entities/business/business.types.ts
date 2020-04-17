@@ -109,4 +109,5 @@ export type IBusiness = IBusinessData;
 
 export interface IBusinessFilter {
   any?: string;
+  id?: string;
 }
