@@ -15,4 +15,11 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
   setUserData(userData: Partial<IUserData>): void {
     this.commit('SET_USER_DATA', userData);
   }
+
+  async loadUserAndSaveUserData(): Promise<void> {
+    const userId = this.state.id;
+    if (!userId) return;
+    const user = await this.store.$http.get(`/users/${userId}`, true);
+    this.setUserData(user);
+  }
 }
