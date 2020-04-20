@@ -1,4 +1,4 @@
-.nutzungsbedingungen {
+.legal {
   color: #707070;
   font-size: 0.8rem;
   padding: 15px;
@@ -6,6 +6,9 @@
     font-size: 1.2rem;
   }
   &__section {
+    font-size: 1rem;
+  }
+  &__subsection {
     font-size: 1rem;
   }
 }

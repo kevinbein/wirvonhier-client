@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import Styles from './impressum.scss';
+import Styles from './../legal.scss';
 
 @Component
-export class Impressum extends Vue {
+export class CompanyDetailsPage extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
-      <div class={Styles['impressum']}>
-        <div class={Styles['impressum__title']}>Impressum</div>
+      <div class={Styles['legal']}>
+        <div class={Styles['legal__title']}>Impressum</div>
         <p>Diese Webseite (www.wirvonhier.net) ist erst vor kurzem, am 24.03.2020, veröffentlicht worden.</p>
 
         <p>
@@ -33,13 +33,13 @@ export class Impressum extends Vue {
           Möglichkeit zu geben, sich hier über den Anbieter dieses Dienstes zu informieren. Bitte haben Sie Verständnis
           dafür, dass es sich um einen Wettbewerbsbeitrag handelt, der für den Publikumsverkehr erst in den nächsten
           Tagen und Wochen genutzt werden kann. Soweit sich für diesen Beitrag eine Betreibergesellschaft findet, resp.
-          bildet, wird diese das Impressum sofort auf den dann geltenden Stand bringen. Bis dahin gilt als
-          Dienstanbieter dieses noch experimentellen Angebots die
+          bildet, wird diese das legal sofort auf den dann geltenden Stand bringen. Bis dahin gilt als Dienstanbieter
+          dieses noch experimentellen Angebots die
         </p>
 
         <p>wirvonhier GbR (in Gründung)</p>
 
-        <div class={Styles['impressum__section']}>Kontakt</div>
+        <div class={Styles['legal__section']}>Kontakt</div>
         <p>
           Telefon: in Bearbeitung
           <br />
@@ -56,20 +56,20 @@ export class Impressum extends Vue {
           PLZ, Ort
         </p>
 
-        <div class={Styles['impressum__section']}>EU-Streitschlichtung</div>
+        <div class={Styles['legal__section']}>EU-Streitschlichtung</div>
         <p>
           Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
           https://ec.europa.eu/consumers/odr.
         </p>
-        <p>Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
+        <p>Unsere E-Mail-Adresse finden Sie oben im legal.</p>
 
-        <div class={Styles['impressum__section']}>Verbraucherstreitbeilegung/Universalschlichtungsstelle</div>
+        <div class={Styles['legal__section']}>Verbraucherstreitbeilegung/Universalschlichtungsstelle</div>
         <p>
           Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
           teilzunehmen.
         </p>
 
-        <div class={Styles['impressum__section']}>Haftung für Inhalte</div>
+        <div class={Styles['legal__section']}>Haftung für Inhalte</div>
         <p>
           Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen
           Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet,
@@ -84,7 +84,7 @@ export class Impressum extends Vue {
           Inhalte umgehend entfernen.
         </p>
 
-        <div class={Styles['impressum__section']}>Haftung für Links</div>
+        <div class={Styles['legal__section']}>Haftung für Links</div>
         <p>
           Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb
           können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist
@@ -99,7 +99,7 @@ export class Impressum extends Vue {
           entfernen.
         </p>
 
-        <div class={Styles['impressum__section']}>Urheberrecht</div>
+        <div class={Styles['legal__section']}>Urheberrecht</div>
         <p>
           Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
           Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen
@@ -120,4 +120,4 @@ export class Impressum extends Vue {
   }
 }
 
-//export default Impressum;
+export default CompanyDetailsPage;

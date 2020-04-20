@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import Styles from './datenschutz.scss';
+import Styles from './../legal.scss';
 
 @Component
-export class Datenschutz extends Vue {
+export class PrivacyPolicyPage extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
-      <div class={Styles['datenschutz']}>
-        <div class={Styles['datenschutz__title']}>Datenschutzerklärung</div>
+      <div class={Styles['legal']}>
+        <div class={Styles['legal__title']}>Datenschutzerklärung</div>
         <p>
           Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen
           Stellenwert für die Geschäftsleitung der WirVonHier. Eine Nutzung der Internetseiten der WirVonHier ist
@@ -37,7 +37,7 @@ export class Datenschutz extends Vue {
           telefonisch, an uns zu übermitteln.
         </p>
 
-        <div class={Styles['datenschutz__section']}>1. Begriffsbestimmungen</div>
+        <div class={Styles['legal__section']}>1. Begriffsbestimmungen</div>
         <p>
           Die Datenschutzerklärung der WirVonHier beruht auf den Begrifflichkeiten, die durch den Europäischen
           Richtlinien- und Verordnungsgeber beim Erlass der Datenschutz-Grundverordnung (DS-GVO) verwendet wurden.
@@ -50,7 +50,7 @@ export class Datenschutz extends Vue {
 
         <ul>
           <li>
-            <div class={Styles['datenschutz__subsection']}>a) personenbezogene Daten</div>
+            <div class={Styles['legal__subsection']}>a) personenbezogene Daten</div>
             <p>
               Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare
               natürliche Person (im Folgenden „betroffene Person“) beziehen. Als identifizierbar wird eine natürliche
@@ -63,7 +63,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>b) betroffene Person</div>
+            <div class={Styles['legal__subsection']}>b) betroffene Person</div>
             <p>
               Betroffene Person ist jede identifizierte oder identifizierbare natürliche Person, deren personenbezogene
               Daten von dem für die Verarbeitung Verantwortlichen verarbeitet werden.
@@ -71,7 +71,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>c) Verarbeitung</div>
+            <div class={Styles['legal__subsection']}>c) Verarbeitung</div>
             <p>
               Verarbeitung ist jeder mit oder ohne Hilfe automatisierter Verfahren ausgeführte Vorgang oder jede solche
               Vorgangsreihe im Zusammenhang mit personenbezogenen Daten wie das Erheben, das Erfassen, die Organisation,
@@ -82,7 +82,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>d) Einschränkung der Verarbeitung</div>
+            <div class={Styles['legal__subsection']}>d) Einschränkung der Verarbeitung</div>
             <p>
               Einschränkung der Verarbeitung ist die Markierung gespeicherter personenbezogener Daten mit dem Ziel, ihre
               künftige Verarbeitung einzuschränken.
@@ -90,7 +90,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>e) Profiling</div>
+            <div class={Styles['legal__subsection']}>e) Profiling</div>
             <p>
               Profiling ist jede Art der automatisierten Verarbeitung personenbezogener Daten, die darin besteht, dass
               diese personenbezogenen Daten verwendet werden, um bestimmte persönliche Aspekte, die sich auf eine
@@ -101,7 +101,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>f) Pseudonymisierung</div>
+            <div class={Styles['legal__subsection']}>f) Pseudonymisierung</div>
             <p>
               Pseudonymisierung ist die Verarbeitung personenbezogener Daten in einer Weise, auf welche die
               personenbezogenen Daten ohne Hinzuziehung zusätzlicher Informationen nicht mehr einer spezifischen
@@ -113,7 +113,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>
+            <div class={Styles['legal__subsection']}>
               g) Verantwortlicher oder für die Verarbeitung Verantwortlicher
             </div>
             <p>
@@ -127,7 +127,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>h) Auftragsverarbeiter</div>
+            <div class={Styles['legal__subsection']}>h) Auftragsverarbeiter</div>
             <p>
               Auftragsverarbeiter ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle,
               die personenbezogene Daten im Auftrag des Verantwortlichen verarbeitet.
@@ -135,7 +135,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>i) Empfänger</div>
+            <div class={Styles['legal__subsection']}>i) Empfänger</div>
             <p>
               Empfänger ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle, der
               personenbezogene Daten offengelegt werden, unabhängig davon, ob es sich bei ihr um einen Dritten handelt
@@ -146,7 +146,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>j) Dritter</div>
+            <div class={Styles['legal__subsection']}>j) Dritter</div>
             <p>
               Dritter ist eine natürliche oder juristische Person, Behörde, Einrichtung oder andere Stelle außer der
               betroffenen Person, dem Verantwortlichen, dem Auftragsverarbeiter und den Personen, die unter der
@@ -156,7 +156,7 @@ export class Datenschutz extends Vue {
           </li>
 
           <li>
-            <div class={Styles['datenschutz__subsection']}>k) Einwilligung</div>
+            <div class={Styles['legal__subsection']}>k) Einwilligung</div>
             <p>
               Einwilligung ist jede von der betroffenen Person freiwillig für den bestimmten Fall in informierter Weise
               und unmissverständlich abgegebene Willensbekundung in Form einer Erklärung oder einer sonstigen
@@ -166,9 +166,7 @@ export class Datenschutz extends Vue {
           </li>
         </ul>
 
-        <div class={Styles['datenschutz__section']}>
-          2. Name und Anschrift des für die Verarbeitung Verantwortlichen
-        </div>
+        <div class={Styles['legal__section']}>2. Name und Anschrift des für die Verarbeitung Verantwortlichen</div>
         <p>
           Verantwortlicher im Sinne der Datenschutz-Grundverordnung, sonstiger in den Mitgliedstaaten der Europäischen
           Union geltenden Datenschutzgesetze und anderer Bestimmungen mit datenschutzrechtlichem Charakter ist die:
@@ -188,7 +186,7 @@ export class Datenschutz extends Vue {
 
         <p>Website: wirvonhier.net</p>
 
-        <div class={Styles['datenschutz__section']}>3. Cookies</div>
+        <div class={Styles['legal__section']}>3. Cookies</div>
         <p>
           Die Internetseiten der WirVonHier verwenden Cookies. Cookies sind Textdateien, welche über einen
           Internetbrowser auf einem Computersystem abgelegt und gespeichert werden.
@@ -228,7 +226,7 @@ export class Datenschutz extends Vue {
           Funktionen unserer Internetseite vollumfänglich nutzbar.
         </p>
 
-        <div class={Styles['datenschutz__section']}>4. Erfassung von allgemeinen Daten und Informationen</div>
+        <div class={Styles['legal__section']}>4. Erfassung von allgemeinen Daten und Informationen</div>
         <p>
           Die Internetseite der WirVonHier erfasst mit jedem Aufruf der Internetseite durch eine betroffene Person oder
           ein automatisiertes System eine Reihe von allgemeinen Daten und Informationen. Diese allgemeinen Daten und
@@ -254,7 +252,7 @@ export class Datenschutz extends Vue {
           getrennt von allen durch eine betroffene Person angegebenen personenbezogenen Daten gespeichert.
         </p>
 
-        <div class={Styles['datenschutz__section']}>5. Registrierung auf unserer Internetseite</div>
+        <div class={Styles['legal__section']}>5. Registrierung auf unserer Internetseite</div>
         <p>
           Die betroffene Person hat die Möglichkeit, sich auf der Internetseite des für die Verarbeitung
           Verantwortlichen unter Angabe von personenbezogenen Daten zu registrieren. Welche personenbezogenen Daten
@@ -294,7 +292,7 @@ export class Datenschutz extends Vue {
           Ansprechpartner zur Verfügung.
         </p>
 
-        <div class={Styles['datenschutz__section']}>6. Abonnement unseres Newsletters</div>
+        <div class={Styles['legal__section']}>6. Abonnement unseres Newsletters</div>
         <p>
           Auf der Internetseite der WirVonHier wird den Benutzern die Möglichkeit eingeräumt, den Newsletter unseres
           Unternehmens zu abonnieren. Welche personenbezogenen Daten bei der Bestellung des Newsletters an den für die
@@ -333,7 +331,7 @@ export class Datenschutz extends Vue {
           abzumelden oder dies dem für die Verarbeitung Verantwortlichen auf andere Weise mitzuteilen.
         </p>
 
-        <div class={Styles['datenschutz__section']}>7. Newsletter-Tracking</div>
+        <div class={Styles['legal__section']}>7. Newsletter-Tracking</div>
         <p>
           Die Newsletter der WirVonHier enthalten sogenannte Zählpixel. Ein Zählpixel ist eine Miniaturgrafik, die in
           solche E-Mails eingebettet wird, welche im HTML-Format versendet werden, um eine Logdatei-Aufzeichnung und
@@ -354,7 +352,7 @@ export class Datenschutz extends Vue {
           Widerruf.
         </p>
 
-        <div class={Styles['datenschutz__section']}>8. Kontaktmöglichkeit über die Internetseite</div>
+        <div class={Styles['legal__section']}>8. Kontaktmöglichkeit über die Internetseite</div>
         <p>
           Die Internetseite der WirVonHier enthält aufgrund von gesetzlichen Vorschriften Angaben, die eine schnelle
           elektronische Kontaktaufnahme zu unserem Unternehmen sowie eine unmittelbare Kommunikation mit uns
@@ -367,7 +365,7 @@ export class Datenschutz extends Vue {
           an Dritte.
         </p>
 
-        <div class={Styles['datenschutz__section']}>9. Kommentarfunktion im Blog auf der Internetseite</div>
+        <div class={Styles['legal__section']}>9. Kommentarfunktion im Blog auf der Internetseite</div>
         <p>
           Die WirVonHier bietet den Nutzern auf einem Blog, der sich auf der Internetseite des für die Verarbeitung
           Verantwortlichen befindet, die Möglichkeit, individuelle Kommentare zu einzelnen Blog-Beiträgen zu
@@ -391,7 +389,7 @@ export class Datenschutz extends Vue {
           Verantwortlichen dient.
         </p>
 
-        <div class={Styles['datenschutz__section']}>10. Abonnement von Kommentaren im Blog auf der Internetseite</div>
+        <div class={Styles['legal__section']}>10. Abonnement von Kommentaren im Blog auf der Internetseite</div>
         <p>
           Die im Blog der WirVonHier abgegebenen Kommentare können grundsätzlich von Dritten abonniert werden.
           Insbesondere besteht die Möglichkeit, dass ein Kommentator die seinem Kommentar nachfolgenden Kommentare zu
@@ -405,9 +403,7 @@ export class Datenschutz extends Vue {
           Abonnement von Kommentaren kann jederzeit beendet werden.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          11. Routinemäßige Löschung und Sperrung von personenbezogenen Daten
-        </div>
+        <div class={Styles['legal__section']}>11. Routinemäßige Löschung und Sperrung von personenbezogenen Daten</div>
         <p>
           Der für die Verarbeitung Verantwortliche verarbeitet und speichert personenbezogene Daten der betroffenen
           Person nur für den Zeitraum, der zur Erreichung des Speicherungszwecks erforderlich ist oder sofern dies durch
@@ -421,8 +417,8 @@ export class Datenschutz extends Vue {
           routinemäßig und entsprechend den gesetzlichen Vorschriften gesperrt oder gelöscht.
         </p>
 
-        <div class={Styles['datenschutz__section']}>12. Rechte der betroffenen Person</div>
-        <div class={Styles['datenschutz__subsection']}>a) Recht auf Bestätigung</div>
+        <div class={Styles['legal__section']}>12. Rechte der betroffenen Person</div>
+        <div class={Styles['legal__subsection']}>a) Recht auf Bestätigung</div>
         <p>
           Jede betroffene Person hat das vom Europäischen Richtlinien- und Verordnungsgeber eingeräumte Recht, von dem
           für die Verarbeitung Verantwortlichen eine Bestätigung darüber zu verlangen, ob sie betreffende
@@ -430,7 +426,7 @@ export class Datenschutz extends Vue {
           nehmen, kann sie sich hierzu jederzeit an einen Mitarbeiter des für die Verarbeitung Verantwortlichen wenden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>b) Recht auf Auskunft</div>
+        <div class={Styles['legal__subsection']}>b) Recht auf Auskunft</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, jederzeit von dem für die Verarbeitung Verantwortlichen unentgeltliche
@@ -479,7 +475,7 @@ export class Datenschutz extends Vue {
           einen Mitarbeiter des für die Verarbeitung Verantwortlichen wenden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>c) Recht auf Berichtigung</div>
+        <div class={Styles['legal__subsection']}>c) Recht auf Berichtigung</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, die unverzügliche Berichtigung sie betreffender unrichtiger personenbezogener
@@ -493,7 +489,7 @@ export class Datenschutz extends Vue {
           einen Mitarbeiter des für die Verarbeitung Verantwortlichen wenden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>d) Recht auf Löschung (Recht auf Vergessen werden)</div>
+        <div class={Styles['legal__subsection']}>d) Recht auf Löschung (Recht auf Vergessen werden)</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, von dem Verantwortlichen zu verlangen, dass die sie betreffenden
@@ -545,7 +541,7 @@ export class Datenschutz extends Vue {
           veranlassen.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>e) Recht auf Einschränkung der Verarbeitung</div>
+        <div class={Styles['legal__subsection']}>e) Recht auf Einschränkung der Verarbeitung</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, von dem Verantwortlichen die Einschränkung der Verarbeitung zu verlangen,
@@ -578,7 +574,7 @@ export class Datenschutz extends Vue {
           </li>
         </ul>
 
-        <div class={Styles['datenschutz__subsection']}>f) Recht auf Datenübertragbarkeit</div>
+        <div class={Styles['legal__subsection']}>f) Recht auf Datenübertragbarkeit</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, die sie betreffenden personenbezogenen Daten, welche durch die betroffene
@@ -604,7 +600,7 @@ export class Datenschutz extends Vue {
           Mitarbeiter der WirVonHier wenden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>g) Recht auf Widerspruch</div>
+        <div class={Styles['legal__subsection']}>g) Recht auf Widerspruch</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, aus Gründen, die sich aus ihrer besonderen Situation ergeben, jederzeit gegen
@@ -643,7 +639,7 @@ export class Datenschutz extends Vue {
           werden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>
+        <div class={Styles['legal__subsection']}>
           h) Automatisierte Entscheidungen im Einzelfall einschließlich Profiling
         </div>
         <p>
@@ -672,9 +668,7 @@ export class Datenschutz extends Vue {
           hierzu jederzeit an einen Mitarbeiter des für die Verarbeitung Verantwortlichen wenden.
         </p>
 
-        <div class={Styles['datenschutz__subsection']}>
-          i) Recht auf Widerruf einer datenschutzrechtlichen Einwilligung
-        </div>
+        <div class={Styles['legal__subsection']}>i) Recht auf Widerruf einer datenschutzrechtlichen Einwilligung</div>
         <p>
           Jede von der Verarbeitung personenbezogener Daten betroffene Person hat das vom Europäischen Richtlinien- und
           Verordnungsgeber gewährte Recht, eine Einwilligung zur Verarbeitung personenbezogener Daten jederzeit zu
@@ -686,7 +680,7 @@ export class Datenschutz extends Vue {
           jederzeit an einen Mitarbeiter des für die Verarbeitung Verantwortlichen wenden.
         </p>
 
-        <div class={Styles['datenschutz__section']}>13. Datenschutz bei Bewerbungen und im Bewerbungsverfahren</div>
+        <div class={Styles['legal__section']}>13. Datenschutz bei Bewerbungen und im Bewerbungsverfahren</div>
         <p>
           Der für die Verarbeitung Verantwortliche erhebt und verarbeitet die personenbezogenen Daten von Bewerbern zum
           Zwecke der Abwicklung des Bewerbungsverfahrens. Die Verarbeitung kann auch auf elektronischem Wege erfolgen.
@@ -702,9 +696,7 @@ export class Datenschutz extends Vue {
           dem Allgemeinen Gleichbehandlungsgesetz (AGG).
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          14. Datenschutzbestimmungen zu Einsatz und Verwendung von Facebook
-        </div>
+        <div class={Styles['legal__section']}>14. Datenschutzbestimmungen zu Einsatz und Verwendung von Facebook</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite Komponenten des Unternehmens Facebook
           integriert. Facebook ist ein soziales Netzwerk.
@@ -765,9 +757,7 @@ export class Datenschutz extends Vue {
           werden, um eine Datenübermittlung an Facebook zu unterdrücken.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          15. Datenschutzbestimmungen zu Einsatz und Verwendung von Instagram
-        </div>
+        <div class={Styles['legal__section']}>15. Datenschutzbestimmungen zu Einsatz und Verwendung von Instagram</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite Komponenten des Dienstes Instagram
           integriert. Instagram ist ein Dienst, der als audiovisuelle Plattform zu qualifizieren ist und den Nutzern das
@@ -814,9 +804,7 @@ export class Datenschutz extends Vue {
           werden.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          16. Datenschutzbestimmungen zu Einsatz und Verwendung von LinkedIn
-        </div>
+        <div class={Styles['legal__section']}>16. Datenschutzbestimmungen zu Einsatz und Verwendung von LinkedIn</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite Komponenten der LinkedIn Corporation
           integriert. LinkedIn ist ein Internetbasiertes soziales Netzwerk, das eine Konnektierung der Nutzer mit
@@ -865,13 +853,11 @@ export class Datenschutz extends Vue {
           nutzt ferner Partner wie Quantcast, Google Analytics, BlueKai, DoubleClick, Nielsen, Comscore, Eloqua und
           Lotame, die Cookies setzen können. Solche Cookies können unter https://www.linkedin.com/legal/cookie-policy
           abgelehnt werden. Die geltenden Datenschutzbestimmungen von LinkedIn sind unter
-          https://www.linkedin.com/legal/privacy-policy abrufbar. Die Cookie-Richtlinie von LinkedIn ist unter
+          https://www.linkedin.com/legal/legal abrufbar. Die Cookie-Richtlinie von LinkedIn ist unter
           https://www.linkedin.com/legal/cookie-policy abrufbar.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          17. Datenschutzbestimmungen zu Einsatz und Verwendung von Shariff
-        </div>
+        <div class={Styles['legal__section']}>17. Datenschutzbestimmungen zu Einsatz und Verwendung von Shariff</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite die Komponente Shariff integriert. Die
           Shariff-Komponente stellt Social-Media-Buttons zur Verfügung, die datenschutzkonform sind. Shariff wurde für
@@ -895,12 +881,10 @@ export class Datenschutz extends Vue {
 
         <p>
           Weitere Informationen und die geltenden Datenschutzbestimmungen von GitHub können unter
-          https://help.github.com/articles/github-privacy-policy/ abgerufen werden.
+          https://help.github.com/articles/github-legal/ abgerufen werden.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          18. Datenschutzbestimmungen zu Einsatz und Verwendung von Twitter
-        </div>
+        <div class={Styles['legal__section']}>18. Datenschutzbestimmungen zu Einsatz und Verwendung von Twitter</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite Komponenten von Twitter integriert.
           Twitter ist ein multilingualer öffentlich zugänglicher Mikroblogging-Dienst, auf welchem die Nutzer sogenannte
@@ -952,9 +936,7 @@ export class Datenschutz extends Vue {
           Die geltenden Datenschutzbestimmungen von Twitter sind unter https://twitter.com/privacy?lang=de abrufbar.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          19. Datenschutzbestimmungen zu Einsatz und Verwendung von YouTube
-        </div>
+        <div class={Styles['legal__section']}>19. Datenschutzbestimmungen zu Einsatz und Verwendung von YouTube</div>
         <p>
           Der für die Verarbeitung Verantwortliche hat auf dieser Internetseite Komponenten von YouTube integriert.
           YouTube ist ein Internet-Videoportal, dass Video-Publishern das kostenlose Einstellen von Videoclips und
@@ -1000,7 +982,7 @@ export class Datenschutz extends Vue {
           Verarbeitung und Nutzung personenbezogener Daten durch YouTube und Google.
         </p>
 
-        <div class={Styles['datenschutz__section']}>20. Rechtsgrundlage der Verarbeitung</div>
+        <div class={Styles['legal__section']}>20. Rechtsgrundlage der Verarbeitung</div>
         <p>
           Art. 6 I lit. a DS-GVO dient unserem Unternehmen als Rechtsgrundlage für Verarbeitungsvorgänge, bei denen wir
           eine Einwilligung für einen bestimmten Verarbeitungszweck einholen. Ist die Verarbeitung personenbezogener
@@ -1026,7 +1008,7 @@ export class Datenschutz extends Vue {
           (Erwägungsgrund 47 Satz 2 DS-GVO).
         </p>
 
-        <div class={Styles['datenschutz__section']}>
+        <div class={Styles['legal__section']}>
           21. Berechtigte Interessen an der Verarbeitung, die von dem Verantwortlichen oder einem Dritten verfolgt
           werden
         </div>
@@ -1036,16 +1018,14 @@ export class Datenschutz extends Vue {
           unserer Anteilseigner.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
-          22. Dauer, für die die personenbezogenen Daten gespeichert werden
-        </div>
+        <div class={Styles['legal__section']}>22. Dauer, für die die personenbezogenen Daten gespeichert werden</div>
         <p>
           Das Kriterium für die Dauer der Speicherung von personenbezogenen Daten ist die jeweilige gesetzliche
           Aufbewahrungsfrist. Nach Ablauf der Frist werden die entsprechenden Daten routinemäßig gelöscht, sofern sie
           nicht mehr zur Vertragserfüllung oder Vertragsanbahnung erforderlich sind.
         </p>
 
-        <div class={Styles['datenschutz__section']}>
+        <div class={Styles['legal__section']}>
           23. Gesetzliche oder vertragliche Vorschriften zur Bereitstellung der personenbezogenen Daten;
           Erforderlichkeit für den Vertragsabschluss; Verpflichtung der betroffenen Person, die personenbezogenen Daten
           bereitzustellen; mögliche Folgen der Nichtbereitstellung
@@ -1065,7 +1045,7 @@ export class Datenschutz extends Vue {
           Nichtbereitstellung der personenbezogenen Daten hätte.
         </p>
 
-        <div class={Styles['datenschutz__section']}>24. Bestehen einer automatisierten Entscheidungsfindung</div>
+        <div class={Styles['legal__section']}>24. Bestehen einer automatisierten Entscheidungsfindung</div>
         <p>
           Als verantwortungsbewusstes Unternehmen verzichten wir auf eine automatische Entscheidungsfindung oder ein
           Profiling.
@@ -1080,4 +1060,4 @@ export class Datenschutz extends Vue {
   }
 }
 
-//export default Impressum;
+export default PrivacyPolicyPage;

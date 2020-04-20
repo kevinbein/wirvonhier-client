@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { MainApp } from './apps';
 import { ExplorePage, MapPage, LandingPage } from './apps/main';
+import { CompanyDetailsPage, PrivacyPolicyPage, TermsOfUsePage } from './apps/main/legal';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,21 @@ const routes = [
       {
         path: '/home',
         redirect: '/',
+      },
+      {
+        path: '/datenschutz',
+        name: 'Privacy',
+        component: PrivacyPolicyPage,
+      },
+      {
+        path: '/nutzungsbedingungen',
+        name: 'Nutzungsbedingungen',
+        component: TermsOfUsePage,
+      },
+      {
+        path: '/impressum',
+        name: 'Impressum',
+        component: CompanyDetailsPage,
       },
       {
         path: '/map',
