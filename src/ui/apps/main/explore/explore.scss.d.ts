@@ -15,6 +15,10 @@ interface CssExports {
   'profile': string;
   'profile__placeholder': string;
   'right-side': string;
+  'settings': string;
+  'settings-navigation': string;
+  'settings-navigation__item': string;
+  'settings-navigation__link': string;
   'short-desc': string;
   'story': string;
   'story-container': string;

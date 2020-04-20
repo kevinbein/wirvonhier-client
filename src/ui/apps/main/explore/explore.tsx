@@ -10,6 +10,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
 import { Business } from '@/entities';
+import { SlideInPage } from '@/ui/components';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
@@ -135,6 +136,8 @@ export class ExplorePage extends Vue {
     }
   }
 
+  public slideIn = false;
+
   mounted(): void {
     const zip = '71665';
     const radius = 100420; // in meters
@@ -181,10 +184,7 @@ export class ExplorePage extends Vue {
                             <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
                           )}
                         </div>
-                        <div class={Styles['right-side']}>
-                          <div>{business.name}</div>
-                          <div>{business.category[0]}</div>
-                        </div>
+                        <div class={Styles['right-side']}>{business.name}</div>
                       </div>
 
                       <div class={Styles['story-container']}>
@@ -213,12 +213,15 @@ export class ExplorePage extends Vue {
                 })) || <div>Loading ...</div>}
             </swiper>
             <div class={Styles['controls']}>
-              <router-link to="/" class={Styles['button']}>
-                <v-icon class={Styles['icon']}>fa-cog</v-icon>
-              </router-link>
-              <router-link to="/map" class={Styles['button']}>
-                <v-icon class={Styles['icon']}>fa-location-arrow</v-icon>
-              </router-link>
+              {(this.slideIn === false && (
+                <div on-click={() => (this.slideIn = true)} class={Styles['button']}>
+                  <i class={`${Styles['icon']} fa fa-bars`}></i>
+                </div>
+              )) || (
+                <div on-click={() => (this.slideIn = false)} class={Styles['button']}>
+                  <i class={`${Styles['icon']} fa fa-times`}></i>
+                </div>
+              )}
             </div>
           </swiper-slide>
           <swiper-slide class={Styles['profile']}>
@@ -234,6 +237,57 @@ export class ExplorePage extends Vue {
             </div>
           </swiper-slide>
         </swiper>
+
+        <SlideInPage
+          value={this.slideIn}
+          class={Styles['settings']}
+          height={this.currentBusiness?.website ? 375 : 340}
+          closeButton={false}
+          onClose={() => (this.slideIn = false)}
+        >
+          <ul class={Styles['settings-navigation']}>
+            {this.currentBusiness?.website && (
+              <li class={Styles['settings-navigation__item']}>
+                <a
+                  class={Styles['settings-navigation__link']}
+                  href={this.currentBusiness.website}
+                  alt={`Link zu ${this.currentBusiness.name}`}
+                >
+                  Händlerseite
+                </a>
+              </li>
+            )}
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/map" class={Styles['settings-navigation__link']}>
+                Zur Karte
+              </router-link>
+            </li>
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/datenschutz" class={Styles['settings-navigation__link']}>
+                Datenschutz
+              </router-link>
+            </li>
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/nutzungsbedingungen" class={Styles['settings-navigation__link']}>
+                Nutzungsbedingungen
+              </router-link>
+            </li>
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/impressum" class={Styles['settings-navigation__link']}>
+                Impressum
+              </router-link>
+            </li>
+            <li class={Styles['settings-navigation__item']}>
+              <a
+                href="mailto:office@wirvonhier.net"
+                alt="Link zu WirVonHier"
+                class={Styles['settings-navigation__link']}
+              >
+                Kontakt zu WirVonHier
+              </a>
+            </li>
+          </ul>
+        </SlideInPage>
       </div>
     );
   }
