@@ -5,6 +5,8 @@
   font-size: 1rem;
   font-weight: normal;
   height: 100%;
+  overflow: hidden;
+  position: relative;
   text-decoration: uppercase;
   width: 100%;
 }
@@ -128,6 +130,33 @@
   @media (min-height: 801px) {
     bottom: 20vh;
     position: absolute;
+  }
+}
+
+.links {
+  bottom: 15px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  .business {
+    visibility: visible;
+    &__link {
+      color: $primary;
+      font-size: 0.9rem;
+    }
+  }
+  .other {
+    width: 100%;
+    &__link {
+      color: $primary;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 0.7rem;
+      width: 33%;
+    }
+    &__link:hover {
+      text-decoration: underline;
+    }
   }
 }
 
