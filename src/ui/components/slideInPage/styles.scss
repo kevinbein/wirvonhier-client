@@ -1,0 +1,74 @@
+$overlay-height: 54px;
+$indicator-height: 30px;
+$header-height: $overlay-height + $indicator-height;
+
+.page {
+  bottom: 0;
+  max-height: 0;
+  min-height: 0;
+  overflow: hidden;
+  position: absolute;
+  transition: max-height 0.3s linear;
+  width: 100%;
+  &--active {
+    bottom: 0;
+    max-height: 100%;
+    min-height: $header-height;
+    overflow-y: scroll;
+    transition: max-height 0.3s linear;
+  }
+}
+
+.slider {
+  height: $header-height;
+  position: relative;
+  top: 0;
+  &__overlay {
+    height: $overlay-height;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  &__close-button {
+    color: #707070;
+    cursor: pointer;
+    height: 24px;
+    margin: 15px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    width: 24px;
+  }
+  &__indicator-container {
+    background: #fff;
+    border-radius: 18px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 0 20px #00000029;
+    height: $indicator-height + 1; // without the plus one, there is a 1px gap on mac os chrome browser
+    position: absolute;
+    text-align: center;
+    top: $overlay-height;
+    width: 100%;
+  }
+  &__indicator {
+    background: #707070 0% 0% no-repeat padding-box;
+    border-radius: 1px;
+    display: inline-block;
+    height: 4px;
+    margin: auto;
+    opacity: 1;
+    width: 42px;
+  }
+}
+
+.content {
+  background: #fff;
+  color: #707070;
+  font-size: 0.9rem;
+  height: calc(100% - #{$header-height});
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+  width: 100%;
+}
