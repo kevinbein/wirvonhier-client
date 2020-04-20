@@ -7,9 +7,10 @@ interface IProps {
   // content: will be the size of the content and any overflow will result in scrolling past 100%
   // fixed: Fixed size, overflow will result in scroll. Needs attribute height
   closeButton?: boolean;
-  height?: string;
+  height?: number;
   value?: boolean;
   onClose?: () => void;
+  class?: string;
 }
 
 type Swipe = {
