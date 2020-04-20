@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
-import { SlideInPage } from '@/ui/components';
-import { Datenschutz } from './datenschutz';
-import { Nutzungsbedingungen } from './nutzungsbedingungen';
-import { Impressum } from './impressum';
-//import { NavBar } from './../../components/navBar/navBar';
 
 @Component
 export class LandingPage extends Vue {
@@ -93,9 +88,6 @@ export class LandingPage extends Vue {
     }
   }
 
-  public slideIn = false;
-  public slideInPage = '';
-
   mounted(): void {
     document.body.style.background = 'rgb(232, 232, 232)';
 
@@ -140,50 +132,17 @@ export class LandingPage extends Vue {
           </div>
 
           <div class={Styles['other']}>
-            <div
-              on-click={() => {
-                this.slideIn = true;
-                this.slideInPage = 'datenschutz';
-              }}
-              href=""
-              class={Styles['other__link']}
-            >
+            <router-link to="/datenschutz" class={Styles['other__link']}>
               Datenschutz
-            </div>
-            <div
-              on-click={() => {
-                this.slideIn = true;
-                this.slideInPage = 'nutzungsbedingungen';
-              }}
-              href=""
-              class={Styles['other__link']}
-            >
+            </router-link>
+            <router-link to="/nutzungsbedingungen" class={Styles['other__link']}>
               Nutzungsbedingungen
-            </div>
-            <div
-              on-click={() => {
-                this.slideIn = true;
-                this.slideInPage = 'impressum';
-              }}
-              href=""
-              class={Styles['other__link']}
-            >
+            </router-link>
+            <router-link to="/impressum" class={Styles['other__link']}>
               Impressum
-            </div>
+            </router-link>
           </div>
         </div>
-
-        <SlideInPage
-          value={this.slideIn}
-          closeButton={true}
-          onClose={() => {
-            this.slideIn = false;
-          }}
-        >
-          {this.slideInPage === 'datenschutz' && <Datenschutz />}
-          {this.slideInPage === 'nutzungsbedingungen' && <Nutzungsbedingungen />}
-          {this.slideInPage === 'impressum' && <Impressum />}
-        </SlideInPage>
 
         <v-overlay class={Styles['overlay']} value={this.overlay} opacity={0.9}>
           <div class={Styles['close-button']}>
