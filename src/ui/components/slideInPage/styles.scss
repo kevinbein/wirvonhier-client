@@ -14,7 +14,7 @@ $header-height: $overlay-height + $indicator-height;
     bottom: 0;
     max-height: 100%;
     min-height: $header-height;
-    overflow-y: scroll;
+    overflow-y: auto;
     transition: max-height 0.3s linear;
   }
 }
@@ -68,7 +68,7 @@ $header-height: $overlay-height + $indicator-height;
   font-size: 0.9rem;
   height: calc(100% - #{$header-height});
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
   width: 100%;
 }
