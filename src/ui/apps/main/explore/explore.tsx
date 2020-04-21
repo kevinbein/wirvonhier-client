@@ -3,7 +3,6 @@ import Component from 'vue-class-component';
 import Styles from './explore.scss';
 import { BusinessModule } from '@/store';
 
-//import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
@@ -11,6 +10,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 import { ProfilePage } from './../profile';
 import { Business, IVideo } from '@/entities';
 import { SlideInPage } from '@/ui/components';
+import { VueComponent } from '@/ui/vue-ts-component';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
@@ -26,10 +26,16 @@ const dummyVideo: IVideo = {
   type: 'video',
 };
 
+interface IRefs {
+  [key: string]: Vue | Element | Vue[] | Element[];
+  // Why vue-awesome-swiper no provide Typing??
+  verticalSwiper: any; // eslint-disable-line
+  horizontalSwiper: any; // eslint-disable-line
+}
 @Component({
   name: 'Explore',
 })
-export class ExplorePage extends Vue {
+export class ExplorePage extends VueComponent<{}, IRefs> {
   public logoWidth = 60;
   public deviceWidth = window.innerWidth;
   public deviceHeight = window.innerHeight;
@@ -68,7 +74,6 @@ export class ExplorePage extends Vue {
   private businessStore = BusinessModule.context(this.$store);
 
   gotoExplorerSlide(): void {
-    // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
     swiper.slidePrev();
   }
@@ -79,7 +84,6 @@ export class ExplorePage extends Vue {
   public lastExploreIndex = -1;
 
   public slideChange(): void {
-    // @ts-ignore
     const swiper = this.$refs.verticalSwiper.$swiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
@@ -118,7 +122,6 @@ export class ExplorePage extends Vue {
       lastVideoEl.currentTime = 0;
     }
 
-    // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
     window.localStorage.lastExploreIndex = newIndex;
     this.businessId = this.slides[newIndex].id;
@@ -126,7 +129,7 @@ export class ExplorePage extends Vue {
 
     // start playing current video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const videoEl: any = this.$refs['story-video-' + newIndex];
+    const videoEl = this.$refs['story-video-' + newIndex] as HTMLVideoElement;
     if (videoEl) {
       videoEl.play();
     }
@@ -145,9 +148,7 @@ export class ExplorePage extends Vue {
 
     this.businessStore.state.businesses[0].media.stories.videos.push(dummyVideo);
 
-    // @ts-ignore
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
-    // @ts-ignore
     const vSwiper = this.$refs.verticalSwiper.$swiper;
     if (this.$route.params.businessId !== undefined) {
       const paramBusinessId = this.$route.params.businessId;
@@ -160,7 +161,6 @@ export class ExplorePage extends Vue {
       }
       window.localStorage.lastExploreIndex = exploreIndex;
     } else if (window.localStorage.lastExploreIndex < this.businesses.length) {
-      // @ts-ignore
       hSwiper.slideTo(window.localStorage.lastExploreIndex, 0);
     } else {
       window.localStorage.lastExploreIndex = 0;
@@ -323,6 +323,7 @@ export class ExplorePage extends Vue {
               <a
                 href="mailto:office@wirvonhier.net"
                 alt="Link zu WirVonHier"
+                target="_blank"
                 class={Styles['settings-navigation__link']}
               >
                 Kontakt zu WirVonHier

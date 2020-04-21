@@ -39,8 +39,6 @@ export class ProfileLoader extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     if (this.business != null) {
-      // @ts-ignore Missing undefined error blah, again ... It is defined, it always is if included as component
-      //return this.$slots.default;
       return <div>{this.$slots.default}</div>;
     }
     return (
