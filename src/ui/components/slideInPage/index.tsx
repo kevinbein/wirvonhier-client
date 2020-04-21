@@ -13,6 +13,11 @@ interface IProps {
   class?: string;
 }
 
+interface IRefs {
+  [key: string]: Vue | Element | Vue[] | Element[];
+  page: HTMLDivElement;
+}
+
 type Swipe = {
   startY: number;
   lastY: number;
@@ -42,7 +47,7 @@ type Swipe = {
     },
   },
 })
-export class SlideInPage extends VueComponent<IProps> {
+export class SlideInPage extends VueComponent<IProps, IRefs> {
   public closeButton?: boolean;
   public height?: number;
   public value?: boolean;
@@ -86,7 +91,6 @@ export class SlideInPage extends VueComponent<IProps> {
     this.swiping.lastDiff = touchObj.pageY - this.swiping.lastY;
     this.swiping.lastY = touchObj.pageY;
     const diffY = this.getSwipeDiffY(touchObj);
-    // @ts-ignore ts doesn't like the style.height
     this.$refs.page.style.height = diffY + 'px';
   }
 
@@ -99,10 +103,8 @@ export class SlideInPage extends VueComponent<IProps> {
     if (diffY > 0) {
       if (this.swiping.lastDiff >= 0) {
         this.$emit('close', true);
-        // @ts-ignore ts doesn't like the style.height
         setTimeout(() => (this.$refs.page.style.height = this.finalHeight + 'px'), 300);
       } else {
-        // @ts-ignore ts doesn't like the style.height
         this.$refs.page.style.height = this.finalHeight + 'px';
       }
     }
