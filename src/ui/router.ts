@@ -67,6 +67,16 @@ const routes = [
         component: () => import(/* webpackChunkName: "BusinessRegister" */ '@/ui/apps/business/register/register'),
       },
       {
+        path: 'verify',
+        name: 'UserVerify',
+        component: () => import(/* webpackChunkName: "UserVerify" */ '@/ui/apps/business/verify/verify'),
+      },
+      {
+        path: 'create',
+        name: 'CreateBusiness',
+        component: () => import(/* webpackChunkName: "CreateBusiness" */ '@/ui/apps/business/create/create'),
+      },
+      {
         path: 'profile',
         name: 'BusinessNavigation',
         component: () =>
