@@ -18,6 +18,7 @@ export interface IBusinessData {
   email: string;
 
   readonly website: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly dataProtStatement: any;
   readonly description: string;
   readonly owner: IUser;
@@ -54,6 +55,7 @@ export interface IImage {
   title: string;
   description?: string;
   src: string;
+  type: 'image';
 }
 export interface IVideo {
   _id: string;
@@ -63,6 +65,7 @@ export interface IVideo {
   title: string;
   description?: string;
   src: string;
+  type: 'video';
 }
 
 export interface IAddress {

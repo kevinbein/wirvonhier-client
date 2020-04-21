@@ -9,11 +9,22 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
-import { Business } from '@/entities';
+import { Business, IVideo } from '@/entities';
 import { SlideInPage } from '@/ui/components';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
+
+const dummyVideo: IVideo = {
+  _id: 'dummy',
+  publicId: 'dummy',
+  created: '21-04-2020T01:15:27',
+  modified: '21-04-2020T01:15:27',
+  title: 'Dummy video',
+  description: 'This is a test video story',
+  src: '/assets/stories/dummy_story_video.mov',
+  type: 'video',
+};
 
 @Component({
   name: 'Explore',
@@ -99,11 +110,26 @@ export class ExplorePage extends Vue {
   }
 
   public exploreSlideChange(): void {
+    // stop previous story video
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const lastVideoEl: any = this.$refs['story-video-' + window.localStorage.lastExploreIndex];
+    if (lastVideoEl) {
+      lastVideoEl.pause();
+      lastVideoEl.currentTime = 0;
+    }
+
     // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
     window.localStorage.lastExploreIndex = newIndex;
     this.businessId = this.slides[newIndex].id;
     this.currentBusiness = this.slides[newIndex];
+
+    // start playing current video
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const videoEl: any = this.$refs['story-video-' + newIndex];
+    if (videoEl) {
+      videoEl.play();
+    }
   }
 
   public get businesses(): Business[] {
@@ -116,6 +142,8 @@ export class ExplorePage extends Vue {
     await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
     this.businessId = this.slides[0].id;
     this.currentBusiness = this.slides[0];
+
+    this.businessStore.state.businesses[0].media.stories.videos.push(dummyVideo);
 
     // @ts-ignore
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
@@ -136,6 +164,14 @@ export class ExplorePage extends Vue {
       hSwiper.slideTo(window.localStorage.lastExploreIndex, 0);
     } else {
       window.localStorage.lastExploreIndex = 0;
+    }
+  }
+
+  public playFirstVideo(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const videoEl: any = this.$refs['story-video-' + window.localStorage.lastExploreIndex];
+    if (videoEl) {
+      videoEl.play();
     }
   }
 
@@ -168,7 +204,7 @@ export class ExplorePage extends Vue {
               class={Styles['vertical-swiper']}
             >
               {(this.slides !== null &&
-                this.slides.map((business: Business) => {
+                this.slides.map((business: Business, index: number) => {
                   return (
                     <swiper-slide>
                       <div class={Styles['explore-page__background']} />
@@ -191,25 +227,28 @@ export class ExplorePage extends Vue {
                       </div>
 
                       <div class={Styles['story-container']}>
-                        {business.media.stories.images.length > 0 ? (
-                          <cld-image
-                            class={Styles['story']}
-                            publicId={business.media.stories.images[0].publicId}
-                            width={`${this.storyWidth}`}
-                            height={`${this.storyHeight}`}
-                          >
-                            <cld-transformation
-                              fetchFormat="auto"
-                              width={this.storyWidth}
-                              height={this.storyHeight}
-                              crop="fill"
-                              gravity="faces"
-                              dpr={window.devicePixelRatio}
-                            />
-                          </cld-image>
-                        ) : (
-                          <img class={Styles['story']} src={dummyStory} alt="image" />
-                        )}
+                        {(business.media.stories.videos.length > 0 && (
+                          <video onCanplay={() => this.playFirstVideo()} muted="muted" ref={`story-video-${index}`}>
+                            <source src={business.media.stories.videos[0].src} type="video/mp4" />
+                          </video>
+                        )) ||
+                          (business.media.stories.images.length > 0 && (
+                            <cld-image
+                              class={Styles['story']}
+                              publicId={business.media.stories.images[0].publicId}
+                              width={`${this.storyWidth}`}
+                              height={`${this.storyHeight}`}
+                            >
+                              <cld-transformation
+                                fetchFormat="auto"
+                                width={this.storyWidth}
+                                height={this.storyHeight}
+                                crop="fill"
+                                gravity="faces"
+                                dpr={window.devicePixelRatio}
+                              />
+                            </cld-image>
+                          )) || <img class={Styles['story']} src={dummyStory} alt="image" />}
                       </div>
                     </swiper-slide>
                   );
