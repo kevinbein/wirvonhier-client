@@ -65,6 +65,7 @@ export class ExplorePage extends Vue {
   public businessId: string | undefined | null = null;
   public profileVisible = false;
   public currentBusiness: Business | null = null;
+  public lastExploreIndex = -1;
 
   public slideChange(): void {
     // @ts-ignore
@@ -100,7 +101,7 @@ export class ExplorePage extends Vue {
   public exploreSlideChange(): void {
     // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
-    window.localStorage.explorerIndex = newIndex;
+    window.localStorage.lastExploreIndex = newIndex;
     this.businessId = this.slides[newIndex].id;
     this.currentBusiness = this.slides[newIndex];
   }
@@ -122,17 +123,19 @@ export class ExplorePage extends Vue {
     const vSwiper = this.$refs.verticalSwiper.$swiper;
     if (this.$route.params.businessId !== undefined) {
       const paramBusinessId = this.$route.params.businessId;
-      const explorerIndex = this.slides.findIndex((business: Business) => business.id == paramBusinessId);
-      if (explorerIndex !== -1) {
-        this.businessId = this.slides[explorerIndex].id;
-        this.currentBusiness = this.slides[explorerIndex];
-        hSwiper.slideTo(explorerIndex, 0);
+      const exploreIndex = this.slides.findIndex((business: Business) => business.id == paramBusinessId);
+      if (exploreIndex !== -1) {
+        this.businessId = this.slides[exploreIndex].id;
+        this.currentBusiness = this.slides[exploreIndex];
+        hSwiper.slideTo(exploreIndex, 0);
         vSwiper.slideTo(1, 0);
       }
-    } else if (window.localStorage.explorerIndex < this.businesses.length) {
+      window.localStorage.lastExploreIndex = exploreIndex;
+    } else if (window.localStorage.lastExploreIndex < this.businesses.length) {
       // @ts-ignore
-      const explorerIndex = window.localStorage.explorerIndex;
-      hSwiper.slideTo(explorerIndex, 0);
+      hSwiper.slideTo(window.localStorage.lastExploreIndex, 0);
+    } else {
+      window.localStorage.lastExploreIndex = 0;
     }
   }
 
@@ -241,7 +244,7 @@ export class ExplorePage extends Vue {
         <SlideInPage
           value={this.slideIn}
           class={Styles['settings']}
-          height={this.currentBusiness?.website ? 375 : 340}
+          height={375}
           closeButton={false}
           onClose={() => (this.slideIn = false)}
         >
@@ -250,10 +253,10 @@ export class ExplorePage extends Vue {
               <li class={Styles['settings-navigation__item']}>
                 <a
                   class={Styles['settings-navigation__link']}
-                  href={this.currentBusiness.website}
-                  alt={`Link zu ${this.currentBusiness.name}`}
+                  href={this.currentBusiness?.website}
+                  alt={`Link zur Händlerseite`}
                 >
-                  Händlerseite
+                  Händlerseite {this.currentBusiness?.name}
                 </a>
               </li>
             )}
