@@ -1,13 +1,28 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
-import { rootModule } from '@/store';
+import { rootModule, UserData as userModule } from '@/store';
 
 @Component({
   name: 'BusinessLanding',
+
+  watch: {
+    userId: {
+      immediate: true,
+      handler(this: BusinessLandingPage, newId: string) {
+        if (!newId) return;
+        this.$router.push({ name: 'BusinessNavigation' });
+      },
+    },
+  },
 })
 export class BusinessLandingPage extends Vue {
   public rootStore = rootModule.context(this.$store);
+  public userModule = userModule.context(this.$store);
+
+  public get userId(): string | null {
+    return this.userModule.state.id;
+  }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {

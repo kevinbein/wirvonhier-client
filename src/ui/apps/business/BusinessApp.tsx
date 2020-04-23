@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { VirtualMobile } from '@/ui/components';
 import { rootModule, UserData as userModule } from '@/store';
+import { VerificationToast } from './components/verificationToast';
 
 @Component({
   name: 'Business',
@@ -9,8 +10,17 @@ import { rootModule, UserData as userModule } from '@/store';
     userId: {
       immediate: true,
       handler(this: BusinessApp, newId: string) {
-        if (!newId) return;
+        if (!newId) {
+          this.userModule.actions.authenticateMe();
+        }
         this.userModule.actions.loadUserAndSaveUserData();
+      },
+    },
+    userIsVerified: {
+      immediate: true,
+      handler(this: BusinessApp, isVerified) {
+        if (isVerified || !this.userId) return;
+        this.$toast(VerificationToast);
       },
     },
   },
@@ -21,6 +31,9 @@ export class BusinessApp extends Vue {
 
   public get userId(): string | null {
     return this.userModule.state.id;
+  }
+  public get userIsVerified(): boolean {
+    return this.userModule.state.verified;
   }
 
   created(): void {

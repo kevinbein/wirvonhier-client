@@ -44,6 +44,12 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     }
   }
 
+  async requestVerificationEmail(): Promise<void> {
+    // ask server to resend verification
+    // eslint-disable-next-line no-console
+    console.log('requesting...');
+  }
+
   async verifyUserEmail(verificationToken: string): Promise<IHttpResponse> {
     const res = await this.store.$http.post('/verify', { verificationToken });
     if ('error' in res) return { status: 'failure', error: res.error };
