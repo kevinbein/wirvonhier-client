@@ -38,26 +38,25 @@ export class ProfileLoader extends Vue {
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
-    if (this.business != null) {
-      // @ts-ignore Missing undefined error blah, again ... It is defined, it always is if included as component
-      //return this.$slots.default;
-      return <div>{this.$slots.default}</div>;
-    }
     return (
-      <div class={Styles['loading-error-container']}>
-        <div on-click={this.logout.bind(this)} class={Styles['close-button']}>
-          <v-icon class={Styles['icon']}>fa-sign-out-alt</v-icon>
-        </div>
-        <div class={Styles['loading-error']}>
-          <div class={Styles['message']}>
-            Loading profile &nbsp;
-            {(this.loadingFailed && (
-              <span>
-                ... <span class={Styles['error']}>failed!</span>
-              </span>
-            )) || <v-icon class={Styles['icon']}>fas fa-spinner fa-spin</v-icon>}
+      <div>
+        {this.$slots.default || (
+          <div class={Styles['loading-error-container']}>
+            <div on-click={this.logout.bind(this)} class={Styles['close-button']}>
+              <v-icon class={Styles['icon']}>fa-sign-out-alt</v-icon>
+            </div>
+            <div class={Styles['loading-error']}>
+              <div class={Styles['message']}>
+                Loading profile &nbsp;
+                {(this.loadingFailed && (
+                  <span>
+                    ... <span class={Styles['error']}>failed!</span>
+                  </span>
+                )) || <v-icon class={Styles['icon']}>fas fa-spinner fa-spin</v-icon>}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

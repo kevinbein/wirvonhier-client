@@ -44,6 +44,12 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     }
   }
 
+  async verifyUserEmail(verificationToken: string): Promise<IHttpResponse> {
+    const res = await this.store.$http.post('/verify', { verificationToken });
+    if ('error' in res) return { status: 'failure', error: res.error };
+    return { status: 'success' };
+  }
+
   logout(): void {
     // TODO: reset all user-specifig data
   }

@@ -22,7 +22,7 @@ export class BusinessNavigationPage extends Vue {
   render(h): Vue.VNode {
     return (
       <ProfileLoader>
-        {this.profile !== null && (
+        {this.profile !== null ? (
           <div class={Styles['navigation-page']}>
             <div class={Styles['title']}>{this.profile.name}</div>
             <div class={Styles['navigation']}>
@@ -39,6 +39,10 @@ export class BusinessNavigationPage extends Vue {
             </div>
             <LogoutButton class={Styles['logout-button']} />
           </div>
+        ) : (
+          <WVHButton icon="fa-user" to={{ name: 'CreateBusiness' }} class={Styles['navigation-button']}>
+            Neues Profil erstellen
+          </WVHButton>
         )}
       </ProfileLoader>
     );

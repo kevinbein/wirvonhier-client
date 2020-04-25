@@ -92,7 +92,7 @@
         }
       }
     }
-    .controls {
+    .top-controls {
       position: fixed;
       right: 0;
       top: 0;
@@ -141,5 +141,47 @@
   }
   &__link {
     color: #131415 !important;
+  }
+}
+
+.explore-controls {
+  background: red;
+  bottom: 30px;
+  color: #fff;
+  font-size: 1.2rem;
+  position: absolute;
+  width: 100%;
+  z-index: 3;
+  &__left-arrow,
+  &__right-arrow {
+    bottom: 0;
+    height: 24px;
+    margin: 15px;
+    position: absolute;
+    text-align: center;
+    width: 24px;
+  }
+  &__left-arrow {
+    left: 30px;
+  }
+  &__right-arrow {
+    right: 30px;
+  }
+  &__text {
+    bottom: 0;
+    font-size: 0.7rem;
+    margin: 15px 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+  }
+  &__middle-arrow {
+    bottom: 30px;
+    height: 36px;
+    left: calc(50% - 15px - 18px);
+    margin: 15px;
+    position: absolute;
+    text-align: center;
+    width: 36px;
   }
 }
