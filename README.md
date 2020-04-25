@@ -1,5 +1,4 @@
 # WirvonHier Client
-=========================
 
 ## Installation
 
