@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import Styles from './login.scss';
+import Styles from './logout.scss';
 import { rootModule } from '@/store';
 
 @Component({
-  name: 'BusinessLogin',
+  name: 'BusinessLogout',
 })
-export class BusinessLoginPage extends Vue {
+export class BusinessLogout extends Vue {
   private formData = {
     email: '',
     password: '',
@@ -81,4 +81,4 @@ export class BusinessLoginPage extends Vue {
   }
 }
 
-export default BusinessLoginPage;
+export default BusinessLogout;

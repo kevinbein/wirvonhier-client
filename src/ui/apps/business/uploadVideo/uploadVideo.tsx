@@ -1,17 +1,22 @@
 import { VueStrong } from '@/ui';
 import Component from 'vue-class-component';
 import { rootModule } from '@/store';
+import Styles from './uploadVideo.scss';
 
 @Component({
-  name: 'CreateBusiness',
+  name: 'BusinessUploadVideo',
 })
-export class CreateBusinessPage extends VueStrong {
+export class BusinessUploadVideo extends VueStrong {
   public rootStore = rootModule.context(this.$store);
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
-    return <div>Create new BUsiness</div>;
+    return (
+      <main role="main" class={Styles.page}>
+        Create new BUsiness
+      </main>
+    );
   }
 }
 
-export default CreateBusinessPage;
+export default BusinessUploadVideo;

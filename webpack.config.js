@@ -151,7 +151,7 @@ module.exports = async function (env, argv) {
           include: [/node_modules/, /ui\/styles\/global/],
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
-            false ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             {
               loader: 'css-loader',
               options: {
@@ -181,18 +181,18 @@ module.exports = async function (env, argv) {
           exclude: [/node_modules/, /ui\/styles\/global/],
           use: [
             // In production, CSS is extracted to files on disk. In development, it's inlined into JS:
-            false ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+            isProd ? MiniCssExtractPlugin.loader : 'vue-style-loader',
             {
               loader: 'css-modules-typescript-loader',
               options: {
-                // mode: isProd ? 'verify' : 'emit'
+                mode: isProd ? 'verify' : 'emit'
               }
             },
             {
               loader: 'css-loader',
               options: {
                 modules: true,
-                importLoaders: 2,
+                importLoaders: 1,
                 sourceMap: isProd
               }
             },

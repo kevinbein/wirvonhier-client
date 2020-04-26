@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { VirtualMobile } from '@/ui/components';
-import { rootModule, UserData as userModule } from '@/store';
+import { rootModule, UserModule } from '@/store';
 import { VerificationToast } from './components/verificationToast';
 
 @Component({
@@ -14,6 +14,7 @@ import { VerificationToast } from './components/verificationToast';
           this.userModule.actions.authenticateMe();
         }
         this.userModule.actions.loadUserAndSaveUserData();
+        this.userModule.actions.loadUserBusinesses();
       },
     },
     userIsVerified: {
@@ -27,7 +28,7 @@ import { VerificationToast } from './components/verificationToast';
 })
 export class BusinessApp extends Vue {
   public rootStore = rootModule.context(this.$store);
-  public userModule = userModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
 
   public get userId(): string | null {
     return this.userModule.state.id;
@@ -39,6 +40,7 @@ export class BusinessApp extends Vue {
   created(): void {
     this.rootStore.actions.loadDataProtStatements();
   }
+
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (

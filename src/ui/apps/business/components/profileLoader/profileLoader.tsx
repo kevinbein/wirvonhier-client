@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './profileLoader.scss';
-import { BusinessModule, UserData as UserModule } from '@/store';
+import { BusinessModule, UserModule } from '@/store';
 import { Business } from '@/entities';
 
 @Component({

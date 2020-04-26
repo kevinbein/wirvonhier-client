@@ -28,4 +28,15 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
     const user = await this.store.$http.get(`/users/${userId}`, true);
     this.actions.setUserData(user);
   }
+
+  async loadUserBusinesses(): Promise<void> {
+    const businessIds = this.state.businesses;
+    const promises = [];
+    for (const businessId of businessIds) {
+      if (typeof businessId !== 'string') continue;
+      promises.push(this.store.$services.business.getBusinessById(businessId));
+    }
+    const businesses = await Promise.all(promises);
+    this.commit('SET_USER_DATA', { userBusinesses: businesses });
+  }
 }
