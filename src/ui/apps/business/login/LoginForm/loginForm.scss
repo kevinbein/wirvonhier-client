@@ -1,0 +1,12 @@
+@import '../../../../styles/main';
+
+.login {
+  &__form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: #{$base-unit / 4}px auto #{$base-unit / 2}px;
+    max-width: 300px;
+    width: 300px;
+  }
+}

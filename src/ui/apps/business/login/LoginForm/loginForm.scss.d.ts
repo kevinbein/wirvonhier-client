@@ -5,10 +5,7 @@ interface CssExports {
   'input--text': string;
   'input__wrapper': string;
   'link--small': string;
-  'login__button': string;
-  'login__page': string;
-  'login__subtitle': string;
-  'login__title': string;
+  'login__form': string;
   'page': string;
   'page__subtitle': string;
   'page__title': string;
