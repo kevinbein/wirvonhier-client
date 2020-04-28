@@ -12,10 +12,13 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
     this.store = store;
   }
 
-  async authenticateMe(): Promise<void> {
-    const data = await this.store.$http.get('/me', true);
-    if (!data) return;
-    this.commit('SET_USER_DATA', data);
+  async authenticateMe(): Promise<boolean> {
+    const { status, data } = await this.store.$http.get('/me', true);
+    if (status === 'success') {
+      this.commit('SET_USER_DATA', data);
+      return true;
+    }
+    return false;
   }
 
   setUserData(userData: Partial<IUserData>): void {
