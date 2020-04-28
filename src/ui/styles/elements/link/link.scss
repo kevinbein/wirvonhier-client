@@ -1,0 +1,7 @@
+.link {
+  &--small {
+    color: $col-grey !important; // important here because of vuetify
+    font-size: smaller;
+    text-decoration: underline !important; // important here because of vuetify
+  }
+}

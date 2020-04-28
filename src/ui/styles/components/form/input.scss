@@ -1,0 +1,28 @@
+.input {
+  &__wrapper {
+    display: block;
+    margin-bottom: 1px;
+    position: relative;
+    width: 100%;
+
+    .input {
+      &--text.amplifier {
+        background-color: #fff;
+        border-radius: 24px;
+        color: $primary !important;
+        margin: auto;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: #{$base-unit / 4}px !important;
+        position: relative;
+        text-align: center;
+        width: 100%;
+
+        label {
+          color: inherit !important;
+        }
+      }
+    }
+  }
+}
