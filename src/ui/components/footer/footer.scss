@@ -1,0 +1,11 @@
+@import '../../styles/main';
+
+.footer {
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  left: 0;
+  padding: #{$base-unit / 3}px;
+  position: absolute;
+  right: 0;
+}
