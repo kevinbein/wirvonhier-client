@@ -57,6 +57,8 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
   }
 
   logout(): void {
-    // TODO: reset all user-specifig data
+    this.commit('SET_TOKEN', '');
+    this.user.actions.setUserData({ id: undefined });
+    this.store.$http.post('/logout', {});
   }
 }
