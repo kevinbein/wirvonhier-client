@@ -20,17 +20,27 @@ export class HTTP {
   }
 
   async get(url: string, withAuth?: boolean, options?: AxiosRequestConfig): Promise<IHttpResponse> {
-    if (withAuth) await this.checkAndRefreshToken();
+    if (withAuth) {
+      const authenticated = await this.checkAndRefreshToken();
+      if (!authenticated) return { status: 'failure' };
+    }
     const opts: AxiosRequestConfig = { headers: {}, ...options };
     if (this.store.state.token) {
       opts.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
-    const res = await this.withAuth.get(url, opts);
-    return res.data;
+    try {
+      const { data } = await this.withAuth.get(url, opts);
+      return { status: 'success', data };
+    } catch (e) {
+      return { status: 'failure', reason: e };
+    }
   }
 
-  async post(url: string, data: unknown, withAuth?: boolean): Promise<IHttpResponse> {
-    if (withAuth) await this.checkAndRefreshToken();
+  async post(url: string, data?: unknown, withAuth?: boolean): Promise<IHttpResponse> {
+    if (withAuth) {
+      const authenticated = await this.checkAndRefreshToken();
+      if (!authenticated) return {};
+    }
     const options: AxiosRequestConfig = { headers: {} };
     if (this.store.state.token) {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
@@ -40,18 +50,20 @@ export class HTTP {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  private async checkAndRefreshToken(): Promise<void> {
+  private async checkAndRefreshToken(): Promise<boolean> {
     const token = this.store.state.token;
     if (token) {
       const decoded = jwtDecode<ITokenPayload>(token);
       const isExpired = Date.now() >= decoded.exp * 1000;
-      if (!isExpired) return;
+      if (!isExpired) return false;
     }
     try {
       const res = await this.withAuth.post('/refresh-token');
       this.store.commit('SET_TOKEN', res.data.token);
+      return true;
     } catch (_error) {
       // User not authenticated possibly redirect to login
+      return false;
     }
   }
 
