@@ -89,7 +89,7 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     if (diffY > 0) {
       if (this.swiping.lastDiff >= 0) {
         this.$emit('close', true);
-        setTimeout(() => (this.translateY = 0), 300);
+        setTimeout(() => (this.translateY = 0), 600);
       }
     }
     this.swiping = null;
