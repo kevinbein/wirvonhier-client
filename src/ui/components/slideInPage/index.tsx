@@ -119,7 +119,7 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
   render(h): Vue.VNode {
     const activeClass = this.value === true ? Styles['page--active'] : '';
     return (
-      <div ref="page" class={`${Styles['page']} ${activeClass}`} style={{ height: this.finalHeight + 'px' }}>
+      <div ref="page" class={`${Styles['page']} ${activeClass}`}>
         <header
           ref="slider"
           class={Styles['slider']}
