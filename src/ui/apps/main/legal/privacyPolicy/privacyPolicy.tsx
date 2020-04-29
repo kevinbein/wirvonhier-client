@@ -8,7 +8,12 @@ export class PrivacyPolicyPage extends Vue {
   render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['legal']}>
-        <div class={Styles['legal__title']}>Datenschutzerklärung</div>
+        <div>
+          <div class={Styles['legal__title']}>Datenschutzerklärung</div>
+          <router-link to="/" class={Styles['close-button']}>
+            <v-icon class={Styles['icon']}>fa-times</v-icon>
+          </router-link>
+        </div>
         <p>
           Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen
           Stellenwert für die Geschäftsleitung der WirVonHier. Eine Nutzung der Internetseiten der WirVonHier ist

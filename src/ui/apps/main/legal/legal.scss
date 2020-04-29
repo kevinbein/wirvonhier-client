@@ -11,4 +11,15 @@
   &__subsection {
     font-size: 1rem;
   }
+  .close-button {
+    margin: 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 402;
+    .icon {
+      color: $primary;
+      text-decoration: none !important;
+    }
+  }
 }

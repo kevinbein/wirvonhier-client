@@ -6,7 +6,13 @@ import Styles from './../legal.scss';
 export class TermsOfUsePage extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
-    return <div class={Styles['legal']}>Fehlt noch</div>;
+    return (
+    <div div class={Styles['legal']}>
+      <div class={Styles['legal__title']}>Fehlt noch</div>
+      <router-link to="/" class={Styles['close-button']}>
+        <v-icon class={Styles['icon']}>fa-times</v-icon>
+      </router-link>
+    </div>);
   }
 }
 
