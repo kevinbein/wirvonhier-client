@@ -49,10 +49,9 @@ type Swipe = {
 })
 export class SlideInPage extends VueComponent<IProps, IRefs> {
   public closeButton?: boolean;
-  public height?: number;
-  public value?: boolean;
-
-  public finalHeight = 0;
+  public height!: number;
+  public value!: boolean;
+  public translateY = 0;
 
   public close(): void {
     this.$emit('close', true);
@@ -70,19 +69,6 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     //e.preventDefault();
   }
 
-  private getSwipeDiffY(touchObj: Touch): number {
-    if (this.swiping === null) {
-      return 0;
-    }
-    let diff = touchObj.pageY - this.swiping.startY;
-    if (this.finalHeight !== undefined) {
-      diff = this.finalHeight - diff;
-    } else {
-      diff = window.innerHeight - diff;
-    }
-    return diff;
-  }
-
   public moveSwiping(e: TouchEvent): void {
     if (this.swiping === null) {
       return;
@@ -90,8 +76,8 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     const touchObj = e.changedTouches[0];
     this.swiping.lastDiff = touchObj.pageY - this.swiping.lastY;
     this.swiping.lastY = touchObj.pageY;
-    const diffY = this.getSwipeDiffY(touchObj);
-    this.$refs.page.style.height = diffY + 'px';
+    const deltaY = this.swiping.lastY > this.swiping.startY ? this.getSwipeDiffY(touchObj) : 0;
+    this.translateY = deltaY;
   }
 
   public endSwiping(e: TouchEvent): void {
@@ -103,16 +89,10 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     if (diffY > 0) {
       if (this.swiping.lastDiff >= 0) {
         this.$emit('close', true);
-        setTimeout(() => (this.$refs.page.style.height = this.finalHeight + 'px'), 300);
-      } else {
-        this.$refs.page.style.height = this.finalHeight + 'px';
+        setTimeout(() => (this.translateY = 0), 300);
       }
     }
     this.swiping = null;
-  }
-
-  mounted(): void {
-    this.finalHeight = this.height === undefined ? window.innerHeight : this.height;
   }
 
   // @ts-ignore: Declared variable is not read
@@ -120,26 +100,35 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     const activeClass = this.value === true ? Styles['page--active'] : '';
     return (
       <div ref="page" class={`${Styles['page']} ${activeClass}`}>
-        <header
-          ref="slider"
-          class={Styles['slider']}
-          onTouchstart={(e: TouchEvent) => this.startSwiping(e)}
-          onTouchmove={(e: TouchEvent) => this.moveSwiping(e)}
-          onTouchend={(e: TouchEvent) => this.endSwiping(e)}
-        >
-          <div class={Styles['slider__overlay']}></div>
-          <div class={Styles['slider__indicator-container']}>
-            <div class={Styles['slider__indicator']}></div>
-          </div>
-          {this.closeButton && (
-            <div on-click={() => this.close()} class={Styles['slider__close-button']}>
-              <i class="fa fa-times"></i>
+        <div style={{ transform: `translateY(${this.translateY}px)` }}>
+          <header
+            ref="slider"
+            class={Styles['slider']}
+            onTouchstart={(e: TouchEvent) => this.startSwiping(e)}
+            onTouchmove={(e: TouchEvent) => this.moveSwiping(e)}
+            onTouchend={(e: TouchEvent) => this.endSwiping(e)}
+          >
+            <div class={Styles['slider__overlay']}></div>
+            <div class={Styles['slider__indicator-container']}>
+              <div class={Styles['slider__indicator']}></div>
             </div>
-          )}
-        </header>
-        <article class={Styles['content']}>{this.$slots.default}</article>
+            {this.closeButton && (
+              <div on-click={() => this.close()} class={Styles['slider__close-button']}>
+                <i class="fa fa-times"></i>
+              </div>
+            )}
+          </header>
+          <article class={Styles['content']}>{this.$slots.default}</article>
+        </div>
       </div>
     );
+  }
+
+  private getSwipeDiffY(touchObj: Touch): number {
+    if (this.swiping === null) {
+      return 0;
+    }
+    return touchObj.pageY - this.swiping.startY;
   }
 }
 
