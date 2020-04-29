@@ -4,15 +4,19 @@ import Styles from './../legal.scss';
 
 @Component
 export class PrivacyPolicyPage extends Vue {
+  goBack(): void {
+    this.$router.go(-1);
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['legal']}>
         <div>
           <div class={Styles['legal__title']}>Datenschutzerklärung</div>
-          <router-link to="/" class={Styles['close-button']}>
+          <div onClick={() => this.goBack()} class={Styles['close-button']}>
             <v-icon class={Styles['icon']}>fa-times</v-icon>
-          </router-link>
+          </div>
         </div>
         <p>
           Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen
