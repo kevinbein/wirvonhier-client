@@ -5,7 +5,10 @@ import { i18n } from './services';
 import { vuetify } from './ui';
 import Cloudinary from 'cloudinary-vue';
 //import vueVimeoPlayer from 'vue-vimeo-player';
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 
+Vue.use(Toast);
 Vue.config.productionTip = false;
 
 Vue.use(Cloudinary, {

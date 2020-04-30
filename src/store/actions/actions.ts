@@ -4,15 +4,15 @@ import { RootState, RootGetters, RootMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { IHttpResponse, ITokenPayload } from '@/services';
 import JwtDecode from 'jwt-decode';
-import { UserData } from '@/store/modules/userData';
+import { UserModule } from '@/store/modules/user';
 
 export class RootActions extends Actions<RootState, RootGetters, RootMutations, RootActions> {
   private store!: Store<RootState>;
-  private user!: Context<typeof UserData>;
+  private user!: Context<typeof UserModule>;
 
   $init(store: Store<RootState>): void {
     this.store = store;
-    this.user = UserData.context(store);
+    this.user = UserModule.context(store);
   }
 
   async loadDataProtStatements(): Promise<void> {
@@ -42,6 +42,12 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     } catch (e) {
       return { status: 'failure', message: e.message };
     }
+  }
+
+  async requestVerificationEmail(): Promise<void> {
+    // ask server to resend verification
+    // eslint-disable-next-line no-console
+    console.log('requesting...');
   }
 
   async verifyUserEmail(verificationToken: string): Promise<IHttpResponse> {

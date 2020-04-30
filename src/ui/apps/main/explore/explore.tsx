@@ -30,6 +30,13 @@ const dummyVideo: IVideo = {
   type: 'video',
 };
 
+interface IRefs {
+  //[key: string]: Vue | Element | Vue[] | Element[];
+
+  // Why vue-awesome-swiper no provide Typing??
+  verticalSwiper: any; // eslint-disable-line
+  horizontalSwiper: any; // eslint-disable-line
+}
 @Component({
   name: 'Explore',
 })
@@ -137,7 +144,6 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
 
     this.businessStore.state.businesses[0].media.stories.videos.push(dummyVideo);
 
-    // @ts-ignore
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
     const vSwiper = this.$refs.verticalSwiper.$swiper;
     if (this.$route.params.businessId !== undefined) {

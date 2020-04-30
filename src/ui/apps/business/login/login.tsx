@@ -28,7 +28,7 @@ export class BusinessLoginPage extends Vue {
       console.log(res);
     }
     if (res.status === 'success') {
-      this.$router.push({ name: 'BusinessNavigation' });
+      this.$router.push({ name: 'BusinessDashboard' });
     }
   }
 

@@ -1,30 +1,39 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import Styles from './navigation.scss';
+import Styles from './profile.scss';
 import { WVHButton } from '@/ui/components';
 
-import { BusinessModule } from '@/store';
-import { ProfileLoader } from './../components/profileLoader';
+import { BusinessModule, UserDataState, UserModule } from '@/store';
+import { ProfileLoader } from '../components/profileLoader';
 import { LogoutButton } from '../components/logoutButton/logoutButton';
 import { Business } from '@/entities';
 
 @Component({
-  name: 'BusinessNavigation',
+  name: 'BusinessProfile',
 })
-export class BusinessNavigationPage extends Vue {
+export class BusinessProfile extends Vue {
   public businessModule = BusinessModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
 
-  public get profile(): Business | null {
+  public get user(): UserDataState {
+    return this.userModule.state;
+  }
+
+  public get business(): Business | null {
     return this.businessModule.state.selectedBusiness;
+  }
+
+  public created(): void {
+    this.loadCorrectBusiness();
   }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
       <ProfileLoader>
-        {this.profile !== null ? (
+        {this.business !== null ? (
           <div class={Styles['navigation-page']}>
-            <div class={Styles['title']}>{this.profile.name}</div>
+            <div class={Styles['title']}>{this.business.name}</div>
             <div class={Styles['navigation']}>
               <div class={Styles['navigation-button-container']}>
                 <WVHButton icon="fa-user" to="profile/information" class={Styles['navigation-button']}>
@@ -47,6 +56,20 @@ export class BusinessNavigationPage extends Vue {
       </ProfileLoader>
     );
   }
+
+  private loadCorrectBusiness(): void {
+    const businessId = this.$route.query.business;
+    if (typeof businessId !== 'string') {
+      this.$router.push({ name: 'BusinessDashboard' });
+      return;
+    }
+    if (this.business && this.business.id === businessId) return;
+    if (this.user.businesses.includes(businessId)) {
+      this.businessModule.actions.selectBusiness(businessId);
+      return;
+    }
+    this.$router.push({ name: 'BusinessDashboard' });
+  }
 }
 
-export default BusinessNavigationPage;
+export default BusinessProfile;

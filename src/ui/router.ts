@@ -67,20 +67,35 @@ const routes = [
         component: () => import(/* webpackChunkName: "BusinessRegister" */ '@/ui/apps/business/register/register'),
       },
       {
+        path: 'logout',
+        name: 'BusinessLogout',
+        component: () => import(/* webpackChunkName: "BusinessLogout" */ '@/ui/apps/business/logout/logout'),
+      },
+      {
         path: 'verify',
         name: 'UserVerify',
         component: () => import(/* webpackChunkName: "UserVerify" */ '@/ui/apps/business/verify/verify'),
       },
       {
-        path: 'create',
-        name: 'CreateBusiness',
-        component: () => import(/* webpackChunkName: "CreateBusiness" */ '@/ui/apps/business/create/create'),
+        path: 'upload-video',
+        name: 'BusinessUploadVideo',
+        component: () =>
+          import(/* webpackChunkName: "BusinessUploadVideo" */ '@/ui/apps/business/uploadVideo/uploadVideo'),
+      },
+      {
+        path: 'edit-video',
+        name: 'BusinessEditVideo',
+        component: () => import(/* webpackChunkName: "BusinessEditVideo" */ '@/ui/apps/business/editVideo/editVideo'),
+      },
+      {
+        path: 'dashboard',
+        name: 'BusinessDashboard',
+        component: () => import(/* webpackChunkName: "BusinessDashboard" */ '@/ui/apps/business/dashboard/dashboard'),
       },
       {
         path: 'profile',
-        name: 'BusinessNavigation',
-        component: () =>
-          import(/* webpackChunkName: "BusinessNavigation" */ '@/ui/apps/business/navigation/navigation'),
+        name: 'BusinessProfile',
+        component: () => import(/* webpackChunkName: "BusinessProfile" */ '@/ui/apps/business/profile/profile'),
       },
       {
         path: 'profile/information',

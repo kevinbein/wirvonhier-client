@@ -16,11 +16,7 @@ Install all necessary node packages:
 
 `npm install`
 
-Copy the default environment file to make certain configurations locally available:
-
-`cd client`
-
-`cp .env.default .env`
+A `.env` file with several environment variables is required. Please inquire us directly for details.
 
 Afterwards, install the server. See [https://github.com/wirvonhier/server](https://github.com/wirvonhier/server) for instructions.
 
