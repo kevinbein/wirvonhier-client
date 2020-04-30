@@ -4,11 +4,20 @@ import Styles from './../legal.scss';
 
 @Component
 export class CompanyDetailsPage extends Vue {
+  goBack(): void {
+    this.$router.go(-1);
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['legal']}>
-        <div class={Styles['legal__title']}>Impressum</div>
+        <div>
+          <div class={Styles['legal__title']}>Impressum</div>
+          <div onClick={() => this.goBack()} class={Styles['close-button']}>
+            <v-icon class={Styles['icon']}>fa-times</v-icon>
+          </div>
+        </div>
         <p>Diese Webseite (www.wirvonhier.net) ist erst vor kurzem, am 24.03.2020, veröffentlicht worden.</p>
 
         <p>
