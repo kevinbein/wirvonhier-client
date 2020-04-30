@@ -1,0 +1,85 @@
+.explore-page {
+  background: #000;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  .header {
+    background: rgba(0, 0, 0, 0.5);
+    height: 80px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+    .left-side {
+      display: inline-block;
+      line-height: 0;
+      margin: 0;
+      margin: 15px;
+      .logo {
+        border-radius: 15px;
+        height: 60px;
+        width: 60px;
+        img {
+          border-radius: 15px;
+        }
+      }
+    }
+    .right-side {
+      color: #fff;
+      display: inline-block;
+      font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+      margin: 15px;
+      position: absolute;
+      top: 0;
+      width: calc(100% - 100px);
+      .name {
+        min-width: 0;
+      }
+      .short-desc {
+        min-width: 0;
+      }
+    }
+  }
+  .vertical-swiper,
+  .horizontal-swiper {
+    height: 100%;
+    top: 0;
+    width: 100%;
+  }
+  .explorer {
+    .story-container {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      overflow: hidden;
+      .story {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+    .controls {
+      //top: 90px;
+      bottom: 15px;
+      left: 15px;
+      position: fixed;
+      z-index: 1;
+      .button {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        display: block;
+        height: 30px;
+        margin: 15px;
+        padding: 15px;
+        width: 30px;
+        .icon {
+          color: #fff;
+        }
+      }
+    }
+  }
+  .profile {
+    overflow: overlay;
+    //overflow: scroll;
+  }
+}

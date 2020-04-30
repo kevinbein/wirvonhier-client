@@ -1,0 +1,6 @@
+--colors
+--webpack-config webpack.config.js
+--webpack-env test
+--require test/unit/setup.ts
+--recursive
+'**/*.spec.{js,ts}'

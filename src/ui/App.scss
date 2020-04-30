@@ -1,0 +1,30 @@
+.wvh-app-container {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  .wvh-app {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+}
+@media (min-width: $max-desktop-width) {
+  .wvh-app-container {
+    align-items: center;
+    height: 100%;
+    padding: 25px;
+    position: flex;
+    text-align: center;
+    width: 100%;
+    .wvh-app {
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      height: 100%;
+      margin: auto;
+      max-width: $max-desktop-width;
+      position: relative;
+      text-align: left;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "short_name": "WirVonHier",
+  "name": "WirVonHier",
+  "icons": [
+    {
+        "src":"assets/imgs/logo/logo_80x80.png",
+        "type": "image/png",
+        "sizes": "80x80"
+    },
+    {
+        "src":"assets/imgs/logo/logo_152x152.png",
+        "type": "image/png",
+        "sizes": "152x152"
+    },
+    {
+        "src":"assets/imgs/logo/logo_167x167.png",
+        "type": "image/png",
+        "sizes": "167x167"
+    },
+    {
+        "src":"assets/imgs/logo/logo_180x180.png",
+        "type": "image/png",
+        "sizes": "180x180"
+    },
+    {
+        "src":"assets/imgs/logo/logo_192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    },
+  {
+        "src":"assets/imgs/logo/logo_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFF",
+  "theme_color": "#5F6DAF",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/"
+}

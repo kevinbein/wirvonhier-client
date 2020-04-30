@@ -1,0 +1,7 @@
+.leaflet-tile-pane {
+  //-webkit-filter: grayscale(50%);
+  filter: grayscale(50%);
+}
+.leaflet-control-zoom {
+  visibility: hidden;
+}
