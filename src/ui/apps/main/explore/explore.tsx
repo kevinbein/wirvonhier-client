@@ -8,12 +8,16 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
-import { Business, IVideo } from '@/entities';
-import { SlideInPage } from '@/ui/components';
+import { Business, Story, IVideo } from '@/entities';
+import { SlideInPage, StoryView } from '@/ui/components';
 import { VueComponent } from '@/ui/vue-ts-component';
 
-const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
-const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
+interface IRefs {
+  [key: string]: Vue | Element | Vue[] | Element[];
+  // Why vue-awesome-swiper no provide Typing??
+  verticalSwiper: any; // eslint-disable-line
+  horizontalSwiper: any; // eslint-disable-line
+}
 
 const dummyVideo: IVideo = {
   _id: 'dummy',
@@ -26,23 +30,10 @@ const dummyVideo: IVideo = {
   type: 'video',
 };
 
-interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
-  // Why vue-awesome-swiper no provide Typing??
-  verticalSwiper: any; // eslint-disable-line
-  horizontalSwiper: any; // eslint-disable-line
-}
-
 @Component({
   name: 'Explore',
 })
 export class ExplorePage extends VueComponent<{}, IRefs> {
-  public logoWidth = 60;
-  public deviceWidth = window.innerWidth;
-  public deviceHeight = window.innerHeight;
-  public storyWidth = Math.min(500, this.deviceWidth);
-  public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
-
   verticalSwiperOptions = {
     speed: 300,
     shortSwipes: false,
@@ -117,36 +108,32 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   public exploreSlideChange(): void {
     // stop previous story video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const lastVideoEl: any = this.$refs['story-video-' + window.localStorage.lastExploreIndex];
-    if (lastVideoEl) {
-      lastVideoEl.pause();
-      lastVideoEl.currentTime = 0;
-    }
+    const lastVideoEl: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
+    lastVideoEl.$emit('hideStory');
 
-    // @ts-ignore
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
     window.localStorage.lastExploreIndex = newIndex;
-    this.businessId = this.slides[newIndex].id;
-    this.currentBusiness = this.slides[newIndex];
+    this.businessId = this.slides[newIndex].business.id;
+    this.currentBusiness = this.slides[newIndex].business;
 
     // start playing current video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const videoEl: any = this.$refs['story-video-' + newIndex];
-    if (videoEl) {
-      videoEl.play();
-    }
+    const videoEl: any = this.$refs['story-' + newIndex];
+    videoEl.$emit('showStory');
   }
 
   public get businesses(): Business[] {
     return this.businessStore.state.businesses;
   }
-  public get slides(): Business[] {
-    return this.businesses;
+
+  public get slides(): Story[] {
+    return this.businessStore.getters.getMixedStories();
   }
+
   public async loadBusinesses(zip: string, radius: number): Promise<void> {
     await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
-    this.businessId = this.slides[0].id;
-    this.currentBusiness = this.slides[0];
+    this.businessId = this.slides[0].business.id;
+    this.currentBusiness = this.slides[0].business;
 
     this.businessStore.state.businesses[0].media.stories.videos.push(dummyVideo);
 
@@ -155,10 +142,10 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     const vSwiper = this.$refs.verticalSwiper.$swiper;
     if (this.$route.params.businessId !== undefined) {
       const paramBusinessId = this.$route.params.businessId;
-      const exploreIndex = this.slides.findIndex((business: Business) => business.id == paramBusinessId);
+      const exploreIndex = this.slides.findIndex((story: Story) => story.business.id == paramBusinessId);
       if (exploreIndex !== -1) {
-        this.businessId = this.slides[exploreIndex].id;
-        this.currentBusiness = this.slides[exploreIndex];
+        this.businessId = this.slides[exploreIndex].business.id;
+        this.currentBusiness = this.slides[exploreIndex].business;
         hSwiper.slideTo(exploreIndex, 0);
         vSwiper.slideTo(1, 0);
       }
@@ -167,14 +154,6 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       hSwiper.slideTo(window.localStorage.lastExploreIndex, 0);
     } else {
       window.localStorage.lastExploreIndex = 0;
-    }
-  }
-
-  public playFirstVideo(): void {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const videoEl: any = this.$refs['story-video-' + window.localStorage.lastExploreIndex];
-    if (videoEl) {
-      videoEl.play();
     }
   }
 
@@ -207,57 +186,15 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
               class={Styles['vertical-swiper']}
             >
               {(this.slides !== null &&
-                this.slides.map((business: Business, index: number) => {
+                this.slides.map((story: Story, index: number) => {
                   return (
                     <swiper-slide>
-                      <div class={Styles['explore-page__background']} />
-                      <div class={Styles['header']}>
-                        <div class={Styles['left-side']}>
-                          {business.media.logo && business.media.logo.publicId ? (
-                            <cld-image
-                              class={Styles['logo']}
-                              publicId={business.media.logo && business.media.logo.publicId}
-                              width={`${this.logoWidth}`}
-                              dpr={window.devicePixelRatio}
-                            >
-                              <cld-transformation crop="scale" />
-                            </cld-image>
-                          ) : (
-                            <img class={Styles['logo']} src={dummyLogo} alt="Heart logo" />
-                          )}
-                        </div>
-                        <div class={Styles['right-side']}>{business.name}</div>
-                      </div>
-
-                      <div class={Styles['story-container']}>
-                        {(business.media.stories.videos.length > 0 && (
-                          <video onCanplay={() => this.playFirstVideo()} muted="muted" ref={`story-video-${index}`}>
-                            <source src={business.media.stories.videos[0].src} type="video/mp4" />
-                          </video>
-                        )) ||
-                          (business.media.stories.images.length > 0 && (
-                            <cld-image
-                              class={Styles['story']}
-                              publicId={business.media.stories.images[0].publicId}
-                              width={`${this.storyWidth}`}
-                              height={`${this.storyHeight}`}
-                            >
-                              <cld-transformation
-                                fetchFormat="auto"
-                                width={this.storyWidth}
-                                height={this.storyHeight}
-                                crop="fill"
-                                gravity="faces"
-                                dpr={window.devicePixelRatio}
-                              />
-                            </cld-image>
-                          )) || <img class={Styles['story']} src={dummyStory} alt="image" />}
-                      </div>
+                      <StoryView ref={`story-${index}`} story={story}></StoryView>
                     </swiper-slide>
                   );
                 })) || <div>Loading ...</div>}
             </swiper>
-            <div class={Styles['controls']}>
+            <div class={Styles['top-controls']}>
               {(this.slideIn === false && (
                 <div on-click={() => (this.slideIn = true)} class={Styles['button']}>
                   <i class={`${Styles['icon']} fa fa-bars`}></i>
@@ -267,6 +204,18 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                   <i class={`${Styles['icon']} fa fa-times`}></i>
                 </div>
               )}
+            </div>
+            <div class={Styles['explore-controls']}>
+              <div class={Styles['explore-controls__left-arrow']}>
+                <i class="fa fa-angle-left"></i>
+              </div>
+              <div class={Styles['explore-controls__middle-arrow']}>
+                <i class="fa fa-angle-double-up"></i>
+              </div>
+              <div class={Styles['explore-controls__text']}>Zum Händlerprofil</div>
+              <div class={Styles['explore-controls__right-arrow']}>
+                <i class="fa fa-angle-right"></i>
+              </div>
             </div>
           </swiper-slide>
           <swiper-slide class={Styles['profile']}>

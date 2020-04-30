@@ -1,4 +1,14 @@
-import { IBusinessData, IAddress, IBusinessMedia, IUser, ILocation, IPaymentMethod } from './business.types';
+import {
+  IBusinessData,
+  IAddress,
+  IBusinessMedia,
+  IUser,
+  ILocation,
+  IPaymentMethod,
+  IStory,
+  IVideo,
+  IImage,
+} from './business.types';
 
 export class Business implements IBusinessData {
   readonly _id?: string;
@@ -71,6 +81,25 @@ export class Business implements IBusinessData {
     this._distance = distance * 1000;
   }
 
+  public getSortedImagesAndVideos(): (IImage | IVideo)[] {
+    // sort media by modified date
+    const imagesAndVideos: (IImage | IVideo)[] = [];
+    this.media.stories.images.map((image: IImage) => {
+      image.type = 'image';
+      imagesAndVideos.push(image);
+    });
+    this.media.stories.videos.map((video: IVideo) => {
+      video.type = 'video';
+      imagesAndVideos.push(video);
+    });
+    imagesAndVideos.sort((story1: IImage | IVideo, story2: IImage | IVideo) => {
+      const time1 = new Date(story1.modified).getTime();
+      const time2 = new Date(story2.modified).getTime();
+      return time1 - time2;
+    });
+    return imagesAndVideos;
+  }
+
   public delete(): void {
     // delte this from the database
   }
@@ -108,5 +137,28 @@ export class Business implements IBusinessData {
       .replace(/ +/g, '-')
       .toLowerCase();
     return normalizedString;
+  }
+}
+
+export class Story implements IStory {
+  public _id: string;
+  public business: Business;
+  public publicId: string;
+  public created: string;
+  public modified: string;
+  public title: string;
+  public description?: string;
+  public src: string;
+  public type: string;
+  constructor(data: IVideo | IImage, business: Business) {
+    this._id = data._id;
+    this.business = business;
+    this.publicId = data.publicId;
+    this.created = data.created;
+    this.modified = data.modified;
+    this.title = data.title;
+    this.description = data.description;
+    this.src = data.src;
+    this.type = data.type;
   }
 }
