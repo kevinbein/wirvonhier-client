@@ -34,18 +34,54 @@ export class StoryView extends VueComponent<IProps, IRefs> {
   public storyWidth = Math.min(500, this.deviceWidth);
   public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
 
+  private videoEl: HTMLMediaElement | null = null;
+  private videoControlsEl: HTMLDivElement | null = null;
+
   public showStory(): void {
-    if (this.story.type === 'video') {
-      const videoEl: HTMLMediaElement = this.$refs['story-video'] as HTMLMediaElement;
-      videoEl.play();
-    }
+    this.videoEl?.play();
   }
 
   public hideStory(): void {
+    if (this.videoEl !== null) {
+      this.videoEl.pause();
+      this.videoEl.currentTime = 0;
+    }
+  }
+
+  public showVideoPlayButton = false;
+  public playVideo(): void {
+    if (this.videoEl === null) {
+      return;
+    }
+    this.videoEl
+      .play()
+      .then(() => {
+        this.showVideoPlayButton = false;
+      })
+      .catch(() => {
+        // play() failed because the user didn't interact with the document first
+        this.showVideoPlayButton = true;
+      });
+  }
+
+  public pauseVideo(): void {
+    this.videoEl?.pause();
+  }
+
+  public resumeVideo(): void {
+    this.videoEl?.play();
+  }
+
+  public initVideo(): void {
     if (this.story.type === 'video') {
-      const videoEl: HTMLMediaElement = this.$refs['story-video'] as HTMLMediaElement;
-      videoEl.pause();
-      videoEl.currentTime = 0;
+      this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
+      this.videoControlsEl = this.$refs['story-video-controls'] as HTMLDivElement;
+
+      this.videoControlsEl.addEventListener('click', () => this.playVideo()); //this.pauseVideo());
+      this.videoControlsEl.addEventListener('mousedown', () => this.pauseVideo());
+      this.videoControlsEl.addEventListener('touchdown', () => this.pauseVideo());
+      this.videoControlsEl.addEventListener('mouseup', () => this.resumeVideo());
+      this.videoControlsEl.addEventListener('touchup', () => this.resumeVideo());
     }
   }
 
@@ -89,9 +125,18 @@ export class StoryView extends VueComponent<IProps, IRefs> {
                             player-height={`${this.storyHeight}`}
                         ></vimeo-player>*/}
           {(this.story.type === 'video' && (
-            <video ref="story-video">
-              <source src={this.story.src} type="video/mp4" />
-            </video>
+            <div class={Styles['story-video-controls']} ref="story-video-controls">
+              <video ref="story-video" onCanplay={() => this.playVideo()} onLoadeddata={() => this.initVideo()}>
+                <source src={this.story.src} type="video/mp4" />
+              </video>
+              {this.showVideoPlayButton && (
+                <div class={Styles['video-play-button-container']}>
+                  <div class={Styles['video-play-button-container__button']}>
+                    <i class="fa fa-play"></i>
+                  </div>
+                </div>
+              )}
+            </div>
           )) ||
             (this.story.type === 'image' && (
               <cld-image
