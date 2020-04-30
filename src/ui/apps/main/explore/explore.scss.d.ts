@@ -10,6 +10,7 @@ interface CssExports {
   'explore-page': string;
   'explore-page__background': string;
   'explorer': string;
+  'fadeInExploreControls': string;
   'horizontal-swiper': string;
   'icon': string;
   'profile': string;

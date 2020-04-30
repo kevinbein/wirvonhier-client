@@ -112,6 +112,21 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     }
   }
 
+  public nextSlide(): void {
+    const hSwiper = this.$refs.horizontalSwiper.$swiper;
+    hSwiper.slideTo(hSwiper.activeIndex + 1);
+  }
+
+  public previousSlide(): void {
+    const hSwiper = this.$refs.horizontalSwiper.$swiper;
+    hSwiper.slideTo(hSwiper.activeIndex - 1);
+  }
+
+  public gotoProfile(): void {
+    const vSwiper = this.$refs.verticalSwiper.$swiper;
+    vSwiper.slideTo(1);
+  }
+
   public exploreSlideChange(): void {
     // stop previous story video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -212,14 +227,14 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
               )}
             </div>
             <div class={Styles['explore-controls']}>
-              <div class={Styles['explore-controls__left-arrow']}>
+              <div class={Styles['explore-controls__left-arrow']} onClick={() => this.previousSlide()}>
                 <i class="fa fa-angle-left"></i>
               </div>
-              <div class={Styles['explore-controls__middle-arrow']}>
+              <div class={Styles['explore-controls__middle-arrow']} onClick={() => this.gotoProfile()}>
                 <i class="fa fa-angle-double-up"></i>
               </div>
               <div class={Styles['explore-controls__text']}>Zum Händlerprofil</div>
-              <div class={Styles['explore-controls__right-arrow']}>
+              <div class={Styles['explore-controls__right-arrow']} onClick={() => this.nextSlide()}>
                 <i class="fa fa-angle-right"></i>
               </div>
             </div>
