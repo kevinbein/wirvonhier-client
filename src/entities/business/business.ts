@@ -12,8 +12,8 @@ import {
 
 export class Business implements IBusinessData {
   readonly _id?: string;
-  readonly created?: string;
-  readonly modified?: string;
+  readonly createdAt?: string;
+  readonly modifiedAt?: string;
   public dataProtStatement: string;
   public ownerFirstName: string;
   public ownerLastName: string;
@@ -38,8 +38,8 @@ export class Business implements IBusinessData {
 
   constructor(data: IBusinessData) {
     this._id = data._id;
-    this.created = data.created;
-    this.modified = data.modified;
+    this.createdAt = data.created;
+    this.modifiedAt = data.modified;
     this.dataProtStatement = data.dataProtStatement;
     this.id = data.id;
     this.name = data.name;
