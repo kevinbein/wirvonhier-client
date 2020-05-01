@@ -283,12 +283,17 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
         <SlideInPage
           value={this.slideIn}
           class={Styles['settings']}
-          height={375}
+          height={410}
           closeButton={false}
           onClose={() => (this.slideIn = false)}
         >
           <ul class={Styles['settings-navigation']}>
-            {this.currentBusiness?.website && (
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/" class={Styles['settings-navigation__link']}>
+                Startseite
+              </router-link>
+            </li>
+            {/*this.currentBusiness?.website && (
               <li class={Styles['settings-navigation__item']}>
                 <a
                   class={Styles['settings-navigation__link']}
@@ -298,10 +303,15 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                   Händlerseite {this.currentBusiness?.name}
                 </a>
               </li>
-            )}
+            )*/}
             <li class={Styles['settings-navigation__item']}>
               <router-link to="/map" class={Styles['settings-navigation__link']}>
                 Zur Karte
+              </router-link>
+            </li>
+            <li class={Styles['settings-navigation__item']}>
+              <router-link to="/business" class={Styles['settings-navigation__link']}>
+                Händlerlogin
               </router-link>
             </li>
             <li class={Styles['settings-navigation__item']}>
