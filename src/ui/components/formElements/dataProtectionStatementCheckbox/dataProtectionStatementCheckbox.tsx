@@ -13,10 +13,17 @@ interface IProps {
       type: Boolean,
       required: true,
     },
+    errorMessages: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
   },
 })
 export class DataProtStatementComponent extends VueComponent<IProps> {
   public value!: boolean;
+  public errorMessages!: string[];
 
   public get dataProtStatement(): IDataProtStatement {
     return this.$store.state.dataProtStatements[0];
@@ -32,13 +39,15 @@ export class DataProtStatementComponent extends VueComponent<IProps> {
         >
           <div class={`${Styles['checkbox']} ${this.value ? Styles['checkbox--active'] : ''}`} />
           <span>
-            Bitte akzeptieren Sie unsere{' '}
-            <router-link to={{ name: this.$route.name, query: { dataProtModal: true } }}>
-              Datenschutzerkärung
-            </router-link>
-            .
+            Bitte akzeptieren Sie unsere <router-link to={{ name: 'DataProtection' }}>Datenschutzerkärung</router-link>{' '}
+            und <router-link to={{ name: 'AGB' }}>AGBs</router-link>.
           </span>
         </label>
+        <div class={Styles['input__error-messages']}>
+          {this.errorMessages.map((msg) => (
+            <div class={Styles['input__error-message']}>{msg}</div>
+          ))}
+        </div>
       </div>
     );
   }

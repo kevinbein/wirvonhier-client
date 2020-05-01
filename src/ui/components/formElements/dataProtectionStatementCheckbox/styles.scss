@@ -1,6 +1,7 @@
+@import '../../../styles/main';
+
 .input {
-  margin: auto;
-  max-width: 18rem;
+  margin: 12px auto 0;
 
   .checkbox {
     border: 2px solid $primary;
