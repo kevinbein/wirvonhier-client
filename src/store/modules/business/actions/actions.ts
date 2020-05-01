@@ -17,7 +17,8 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.commit('SET_BUSINESSES', businesses);
   }
 
-  async selectBusiness(businessId: string): Promise<void> {
+  async selectBusiness(businessId: string | undefined): Promise<void> {
+    if (!businessId) return;
     const selectedBusiness = await this.store.$services.business.getBusinessById(businessId);
     if (selectedBusiness) this.commit('SET_SELECTED_BUSINESS', new Business(selectedBusiness));
   }
