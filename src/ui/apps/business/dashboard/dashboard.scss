@@ -6,28 +6,22 @@
     background-color: $col-white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding-top: #{$base-unit}px;
   }
 
   &__logo {
     display: inline-block;
-    margin: 0 0 #{$base-unit}px 0;
-    width: 50%;
+    margin: 0 0 #{$base-unit / 2}px 0;
+    width: 40%;
   }
 
   &__button {
     margin: #{$base-unit / 4}px 0;
+    max-width: 80%;
+    width: 260px;
 
     &:nth-of-type(3) {
-      margin: #{$base-unit}px 0;
+      margin: #{$base-unit / 1.5}px 0;
     }
-  }
-
-  &__logout {
-    bottom: #{$base-unit / 3}px;
-    color: $col-grey !important; // important here because of vuetify
-    font-size: smaller;
-    position: absolute;
-    text-decoration: underline !important; // important here because of vuetify
   }
 }
