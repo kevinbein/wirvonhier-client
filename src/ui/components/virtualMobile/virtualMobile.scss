@@ -1,9 +1,12 @@
 .wvh-app-container {
   height: 100%;
+  max-height: 100vh;
   position: relative;
   width: 100%;
+
   .wvh-app {
     height: 100%;
+    overflow: auto;
     position: absolute;
     width: 100%;
   }
@@ -13,7 +16,6 @@
   .wvh-app-container {
     align-items: center;
     height: 100%;
-    max-height: 100%;
     padding: 25px;
     text-align: center;
     width: 100%;

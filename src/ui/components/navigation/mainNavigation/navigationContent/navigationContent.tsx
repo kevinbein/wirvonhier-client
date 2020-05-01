@@ -43,15 +43,15 @@ export class NavigationContent extends VueComponent<{}> {
         name: 'Zur Nutzer-Ansicht',
       },
       {
-        to: { name: 'DataProtection' },
+        to: { name: 'Privacy' },
         name: 'Datenschutz',
       },
       {
-        to: { name: 'LegalNotice' },
+        to: { name: 'Impressum' },
         name: 'Impressum',
       },
       {
-        to: { name: 'AGB' },
+        to: { name: 'Nutzungsbedingungen' },
         name: 'Nutzungsbedingungen',
       },
       this.logoutLogin,
