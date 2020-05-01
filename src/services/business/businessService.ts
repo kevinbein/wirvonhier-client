@@ -58,8 +58,8 @@ export class BusinessService {
     if (fromDB) return fromDB;
     const fromAPI = await this.http.get(`businesses/${businessId}`);
     if (fromAPI) {
-      this.db.businesses.list.add(fromAPI as IBusinessData);
-      return fromAPI as IBusinessData;
+      this.db.businesses.list.add((fromAPI as unknown) as IBusinessData);
+      return (fromAPI as unknown) as IBusinessData;
     }
     return null;
   }
