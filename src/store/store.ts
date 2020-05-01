@@ -7,7 +7,7 @@ import { RootActions } from './actions';
 import { RootMutations } from './mutations';
 import { RootGetters } from './getters';
 import { RootState } from './state';
-import { BusinessModule, UserModule } from './modules';
+import { BusinessModule, UserModule, AppearanceModule } from './modules';
 
 Vue.use(Vuex);
 
@@ -19,6 +19,7 @@ export const rootModule = new Module({
   modules: {
     User: UserModule,
     Business: BusinessModule,
+    Appearance: AppearanceModule,
   },
 });
 
