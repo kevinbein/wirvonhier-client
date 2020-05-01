@@ -12,8 +12,11 @@ $col-background: rgb(232, 232, 232);
 $col-white: rgb(255, 255, 255);
 $col-primary: rgb(95, 109, 175);
 $col-primary-dark: rgb(67, 79, 143);
-$col-grey: rgb(110, 110, 110);
-$col-grey-light: rgb(242, 242, 242);
+$col-error: rgb(255, 82, 82);
+$col-disabled: rgb(136, 136, 136);
+$col-red: rgb(151, 10, 10);
+$col-grey: rgb(134, 134, 134);
+$col-grey-light: rgb(232, 232, 232);
 
 // SHADOWS
 $elevation-1: 0 1px 3px rgba(0, 0, 0, 0.15); // Background-elements (e.g. Image)

@@ -1,7 +1,6 @@
 .input {
   &__wrapper {
     display: block;
-    margin-bottom: 1px;
     position: relative;
     width: 100%;
 
@@ -24,5 +23,19 @@
         }
       }
     }
+  }
+  &__error-messages {
+    display: flex;
+    flex-direction: column;
+    padding: #{$base-unit / 6}px 0;
+  }
+
+  &__error-message {
+    color: $col-error;
+    font-size: 12px;
+    line-height: 12px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 }
