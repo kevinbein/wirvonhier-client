@@ -105,7 +105,10 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
               <v-icon class={Styles['icon']}>fa-times</v-icon>
             </div>
           </div>
-          <router-link to="/map" class={Styles['location-container']}>
+          <router-link
+            to={{ name: 'Map', params: { lat: mapCenter[0], lng: mapCenter[1] } }}
+            class={Styles['location-container']}
+          >
             <div class={Styles['location']}>
               <l-map
                 on-ready={() => this.loadedMap()}

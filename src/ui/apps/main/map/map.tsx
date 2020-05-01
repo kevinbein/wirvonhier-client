@@ -50,6 +50,11 @@ export class MapPage extends Vue {
     const zip = '71665';
     const radius = 1004200; // in meters
     this.loadBusinesses(zip, radius);
+    if (this.$route.params.lat && this.$route.params.lng) {
+      const centerLat = parseFloat(this.$route.params.lat);
+      const centerLng = parseFloat(this.$route.params.lng);
+      this.center = new LatLng(centerLat, centerLng);
+    }
   }
 
   // @ts-ignore: Declared variable is not read

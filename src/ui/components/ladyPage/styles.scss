@@ -1,0 +1,29 @@
+.lady-page {
+  background: rgb(234, 234, 242);
+  display: block;
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  &--centered {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  &__logo {
+    bottom: 0%;
+    display: block;
+    margin: 0;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 2rem 0;
+    position: absolute;
+    right: 0;
+  }
+  &__content {
+    position: relative;
+    &--centered {
+      position: relative;
+    }
+  }
+}

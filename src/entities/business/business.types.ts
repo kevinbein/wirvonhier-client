@@ -1,3 +1,5 @@
+import { Business } from './business';
+
 export interface IBusinessData {
   readonly _id?: string; // MongoDB ID
   readonly created?: string;
@@ -18,6 +20,7 @@ export interface IBusinessData {
   email: string;
 
   readonly website: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly dataProtStatement: any;
   readonly description: string;
   readonly owner: IUser;
@@ -54,6 +57,7 @@ export interface IImage {
   title: string;
   description?: string;
   src: string;
+  type: 'image';
 }
 export interface IVideo {
   _id: string;
@@ -63,6 +67,18 @@ export interface IVideo {
   title: string;
   description?: string;
   src: string;
+  type: 'video';
+}
+export interface IStory {
+  _id: string;
+  business: Business;
+  publicId: string;
+  created: string;
+  modified: string;
+  title: string;
+  description?: string;
+  src: string;
+  type: string;
 }
 
 export interface IAddress {
