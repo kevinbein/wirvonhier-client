@@ -10,6 +10,12 @@
     padding: #{$base-unit / 4}px #{$base-unit / 3}px;
     text-align: center;
 
+    .icon {
+      color: $col-primary !important; // important here because of vuetify
+      float: right;
+      margin-left: 5px;
+    }
+
     &:active,
     &:hover {
       background-color: $col-grey-light;
@@ -24,24 +30,18 @@
       &:hover {
         background-color: $col-primary-dark;
       }
-
-      .icon {
-        margin-left: 5px;
-      }
     }
 
     &--large {
       font-size: larger;
       padding: #{$base-unit / 3.25}px #{$base-unit / 2}px;
-
-      .icon {
-        margin-left: 5px;
-      }
     }
 
-    .icon {
-      color: $col-primary !important; // important here because of vuetify
-      float: right;
+    &--disabled {
+      background-color: $col-disabled;
+      color: $col-white !important;
+      cursor: default;
+      opacity: 0.7;
     }
   }
 }

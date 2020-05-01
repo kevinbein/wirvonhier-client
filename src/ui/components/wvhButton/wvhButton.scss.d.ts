@@ -3,6 +3,7 @@
 interface CssExports {
   'icon': string;
   'wvh-button__container': string;
+  'wvh-button__container--disabled': string;
   'wvh-button__container--large': string;
   'wvh-button__container--primary': string;
 }

@@ -10,6 +10,7 @@ interface IProps {
   icon?: string;
   to?: RawLocation;
   large?: boolean;
+  disabled?: boolean;
 }
 @Component({
   name: 'wvh-button',
@@ -19,6 +20,10 @@ interface IProps {
       default: false,
     },
     large: {
+      type: Boolean,
+      default: false,
+    },
+    disabled: {
       type: Boolean,
       default: false,
     },
@@ -39,6 +44,7 @@ interface IProps {
 export class WVHButton extends VueComponent<IProps> {
   public primary: boolean | undefined;
   public large: boolean | undefined;
+  public disabled: boolean | undefined;
   public width: string | undefined;
   public icon: string | undefined;
   // router-link
@@ -66,7 +72,8 @@ export class WVHButton extends VueComponent<IProps> {
         class={`
           ${Styles['wvh-button__container']}
           ${this.primary ? Styles['wvh-button__container--primary'] : ''}
-          ${this.large ? Styles['wvh-button__container--large'] : ''}`}
+          ${this.large ? Styles['wvh-button__container--large'] : ''}
+          ${this.disabled ? Styles['wvh-button__container--disabled'] : ''}`}
       >
         <div>
           {this.$slots.default}
@@ -80,7 +87,8 @@ export class WVHButton extends VueComponent<IProps> {
         class={`
           ${Styles['wvh-button__container']}
           ${this.primary ? Styles['wvh-button__container--primary'] : ''}
-          ${this.large ? Styles['wvh-button__container--large'] : ''}`}
+          ${this.large ? Styles['wvh-button__container--large'] : ''}
+          ${this.disabled ? Styles['wvh-button__container--disabled'] : ''}`}
       >
         <div>
           {this.$slots.default}
