@@ -32,21 +32,25 @@ export class HTTP {
       const { data } = await this.withAuth.get(url, opts);
       return { status: 'success', data };
     } catch (e) {
-      return { status: 'failure', reason: e };
+      return { status: 'failure', error: e };
     }
   }
 
-  async post(url: string, data?: unknown, withAuth?: boolean): Promise<IHttpResponse> {
+  async post(url: string, body?: unknown, withAuth?: boolean): Promise<IHttpResponse> {
     if (withAuth) {
       const authenticated = await this.checkAndRefreshToken();
-      if (!authenticated) return {};
+      if (!authenticated) return { status: 'failure' };
     }
     const options: AxiosRequestConfig = { headers: {} };
     if (this.store.state.token) {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
-    const res = await this.withAuth.post(url, data, options);
-    return res.data;
+    try {
+      const { data } = await this.withAuth.post(url, body, options);
+      return { status: 'success', data };
+    } catch (e) {
+      return { status: 'failure', error: e };
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -55,7 +59,7 @@ export class HTTP {
     if (token) {
       const decoded = jwtDecode<ITokenPayload>(token);
       const isExpired = Date.now() >= decoded.exp * 1000;
-      if (!isExpired) return false;
+      if (!isExpired) return true;
     }
     try {
       const res = await this.withAuth.post('/refresh-token');
