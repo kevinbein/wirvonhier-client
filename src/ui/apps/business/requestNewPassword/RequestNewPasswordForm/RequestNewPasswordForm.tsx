@@ -72,7 +72,7 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
             ref="email"
             class={`${Styles['input--text']} ${Styles['amplifier']}`}
             label="EMAIL"
-            autocomplete="current-password"
+            autocomplete="email"
             error-messages={this.errors.email}
             value={this.formData.email}
             on-input={(value: string) => this.update('email', value)}

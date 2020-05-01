@@ -29,13 +29,13 @@ export class RequestNewPasswordSuccessPage extends Vue {
       <div class={`${Styles.page} ${Styles['request-new-password-success__page']}`}>
         <div class={Styles['request-new-password-success__title']}>E-Mail versendet!</div>
         <p class={`${Styles['text--primary']} ${Styles.amplifier}`}>
-          Wir haben Ihnen soeben eine E-Mail an {this.recipient} gesendet, die weiter Instruktionen enthält um Ihr
-          Passwort zurückzusetzen.
+          Wir haben Ihnen soeben eine E-Mail an <b>{this.recipient}</b> gesendet, die weitere Instruktionen enthält um
+          Ihr Passwort zurückzusetzen.
         </p>
-        <WVHButton to={{ name: 'BusinessLogin' }} primary>
+        <WVHButton to={{ name: 'BusinessLogin' }} primary class={Styles['request-new-password-success__button']}>
           Zurück zum Login
         </WVHButton>
-        <p class={Styles['text--primary']}>
+        <p class={`${Styles['text--primary']} ${Styles['text--small']}`}>
           Keine E-Mail erhalten? Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut oder kontaktieren Sie unseren
           Support unter{' '}
           <a href={`mailto:${this.email}`} target="_blank" title="E-Mail an WirVonHier senden" class={Styles.link}>

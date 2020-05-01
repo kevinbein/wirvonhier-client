@@ -12,6 +12,7 @@ interface CssExports {
   'page__subtitle': string;
   'page__title': string;
   'request-new-password-success__back': string;
+  'request-new-password-success__button': string;
   'request-new-password-success__page': string;
   'request-new-password-success__title': string;
   'submit': string;
