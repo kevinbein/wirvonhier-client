@@ -6,7 +6,15 @@ import { CompanyDetailsPage, PrivacyPolicyPage, TermsOfUsePage } from './apps/ma
 import { store } from '@/store';
 
 Vue.use(VueRouter);
-
+const privateRoutes = [
+  'BusinessProfile',
+  'BusinessInformation',
+  'BusinessStories',
+  'BusinessStory',
+  'BusinessDashboard',
+  'BusinessEditVideo',
+  'BusinessUploadVideo',
+];
 const routes = [
   {
     path: '/',
@@ -57,6 +65,11 @@ const routes = [
     path: '/business',
     component: () => import(/* webpackChunkName: "BusinessContainer" */ '@/ui/apps/business/BusinessApp'),
     beforeEnter: async (to: Route, _from: Route, next: (val?: RawLocation) => void) => {
+      const requiresPermission = privateRoutes.some((route) => route === to.name);
+      if (!requiresPermission) {
+        next();
+        return;
+      }
       const hasPermission = await store.dispatch('hasPermission', to);
       if (hasPermission && to.name !== 'BusinessDashboard') {
         next({ name: 'BusinessDashboard' });
@@ -64,6 +77,7 @@ const routes = [
         next({ name: 'BusinessLanding' });
       } else next();
     },
+    redirect: '/business/dashboard',
     children: [
       {
         path: 'landing',
@@ -175,15 +189,6 @@ export const router = new VueRouter({
   routes,
 });
 
-const privateRoutes = [
-  'BusinessProfile',
-  'BusinessInformation',
-  'BusinessStories',
-  'BusinessStory',
-  'BusinessDashboard',
-  'BusinessEditVideo',
-  'BusinessUploadVideo',
-];
 const protectPrivateRoutes: NavigationGuard<Vue> = async (to, from, next) => {
   const requiresPermission = privateRoutes.some((route) => route === to.name);
   if (!requiresPermission) {

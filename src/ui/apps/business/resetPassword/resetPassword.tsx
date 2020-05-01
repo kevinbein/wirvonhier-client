@@ -19,6 +19,7 @@ export class BusinessResetPasswordPage extends Vue {
     return (
       <div class={`${Styles.page} ${Styles['reset-password__page']}`}>
         <div class={Styles['reset-password__title']}>Passwort zurücksetzen</div>
+        <p>Bitte setze ein neues Passwort.</p>
         <ResetPasswordForm />
       </div>
     );

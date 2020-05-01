@@ -19,8 +19,8 @@ export class RequestNewPasswordSuccessPage extends Vue {
     return (
       <div class={`${Styles.page} ${Styles['reset-password-success__page']}`}>
         <div class={Styles['reset-password-success__title']}>Passwort erfolgreich geändert!</div>
-        <WVHButton to={{ name: 'BusinessDashboard' }} primary>
-          Zurück zum Dashboard
+        <WVHButton to={{ name: 'BusinessLogin' }} primary>
+          Weiter zum Login
         </WVHButton>
       </div>
     );

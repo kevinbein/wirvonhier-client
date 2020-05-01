@@ -1,0 +1,12 @@
+.verification-toast {
+  &__send-again {
+    background-color: $col-white;
+    border-radius: 5px;
+    color: $col-error;
+    cursor: pointer;
+    font-size: smaller;
+    font-weight: bold;
+    margin: 1em auto 0;
+    padding: 0.4em 0.8em;
+  }
+}

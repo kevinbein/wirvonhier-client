@@ -26,7 +26,7 @@ import { POSITION, TYPE } from 'vue-toastification';
       immediate: true,
       handler(this: BusinessApp, isVerified) {
         if (isVerified || !this.userId || this.isYoungerThanTwentyMinutes) return;
-        this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.WARNING, timeout: false });
+        this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.ERROR, timeout: false });
       },
     },
   },

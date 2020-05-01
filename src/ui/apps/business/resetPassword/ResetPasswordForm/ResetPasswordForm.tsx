@@ -40,7 +40,9 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
 
   public beforeMount(): void {
     this.token = typeof this.$route.query.token === 'string' ? this.$route.query.token : '';
-    if (!this.token) this.$router.push({ name: 'BusinessLanding' });
+    if (!this.token) {
+      this.$router.push({ name: 'BusinessLanding' });
+    }
   }
 
   public mounted(): void {
@@ -84,7 +86,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
           <v-text-field
             ref="password"
             class={`${Styles['input--text']} ${Styles['amplifier']}`}
-            label="PASSWORT"
+            label="NEUES PASSWORT"
             autocomplete="new-password"
             error-messages={this.errors.password}
             value={this.formData.password}
