@@ -1,60 +1,39 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
-import { rootModule, UserModule } from '@/store';
+import { rootModule, UserModule, AppearanceModule } from '@/store';
+import { WVHButton } from '@/ui';
 
 @Component({
   name: 'BusinessLanding',
-
-  watch: {
-    userId: {
-      immediate: true,
-      handler(this: BusinessLandingPage, newId: string) {
-        if (!newId) return;
-        this.$router.push({ name: 'BusinessDashboard' });
-      },
-    },
-  },
 })
 export class BusinessLandingPage extends Vue {
   public rootStore = rootModule.context(this.$store);
   public userModule = UserModule.context(this.$store);
+  public appearanceModule = AppearanceModule.context(this.$store);
 
-  public get userId(): string | null {
-    return this.userModule.state.id;
+  public created(): void {
+    this.appearanceModule.actions.setNavigationVisibility(false);
   }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div class={Styles['landing-page']}>
-        <div class={Styles['logo-container']}>
-          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login_1500px.png" alt="Pre login logo" />
-          <div class={Styles['welcome']}>
-            <div class={Styles['title']}>Hi,</div>
-            <div class={Styles['desc']}>
-              {/*schön Sie zu sehen! Bitte treten Sie Ihrem Profil bei oder registrieren Sie sich hier!*/}
-              schön Sie zu sehen! Haben Sie schon einen Account bei uns?
-            </div>
-          </div>
+      <div class={`${Styles.page} ${Styles['landing__page']}`}>
+        <div class={Styles['landing__title']}>Hi,</div>
+        <div class={Styles['landing__subtitle']}>schön Sie zu sehen! Haben Sie schon einen Account bei uns?</div>
+        <div class={Styles['landing__buttons']}>
+          <WVHButton to={{ name: 'BusinessLogin' }} class={Styles['landing__button']}>
+            Zum Login
+          </WVHButton>
+          <div class={Styles['landing__text']}>oder</div>
+          <WVHButton to={{ name: 'BusinessRegister' }} class={Styles['landing__button']}>
+            Jetzt registrieren
+          </WVHButton>
         </div>
-        <form>
-          <div class={Styles['buttons']}>
-            <div class={Styles['button-container']}>
-              <router-link to={{ name: 'BusinessLogin', query: { strategy: 'local' } }} class={Styles.button}>
-                Zum Login
-              </router-link>
-            </div>
-            <div class={Styles['button-container']}>
-              <div class={Styles['desc']}>Oder</div>
-            </div>
-            <div class={Styles['button-container']}>
-              <router-link to={{ name: 'BusinessRegister', query: { strategy: 'local' } }} class={Styles.button}>
-                Jetzt registrieren
-              </router-link>
-            </div>
-          </div>
-        </form>
+        <router-link to={{ name: 'Landing' }} class={Styles['landing__to-user-frontend']}>
+          Zur Nutzer-Ansicht
+        </router-link>
       </div>
     );
   }
