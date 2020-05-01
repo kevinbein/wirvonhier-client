@@ -1,21 +1,16 @@
 import Component from 'vue-class-component';
 import Styles from './logout.scss';
 import Vue from 'vue';
-import { WVHButton, Footer } from '@/ui';
-import { UserModule, rootModule } from '@/store';
+import { WVHButton } from '@/ui';
+import { rootModule } from '@/store';
 
 @Component({
   name: 'BusinessLogout',
 })
 export class BusinessLogoutPage extends Vue {
-  public userModule = UserModule.context(this.$store);
   public rootModule = rootModule.context(this.$store);
 
-  public get userId(): string | null {
-    return this.userModule.state.id;
-  }
-
-  public created(): void {
+  created(): void {
     this.rootModule.actions.logout();
   }
 
@@ -29,10 +24,9 @@ export class BusinessLogoutPage extends Vue {
         <WVHButton class={Styles['logout__button']} to={{ name: 'BusinessLogin' }}>
           LOGIN
         </WVHButton>
-        <WVHButton class={Styles['logout__button']} to={{ name: 'BusinessRegsiter' }}>
+        <WVHButton class={Styles['logout__button']} to={{ name: 'BusinessRegister' }}>
           REGISTRIEREN
         </WVHButton>
-        <Footer />
       </div>
     );
   }
