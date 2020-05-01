@@ -7,6 +7,10 @@ export class RootState {
   dataProtStatements: IDataProtStatement[] | null = null;
 
   token = '';
+
+  emails = {
+    support: 'office@wirvonhier.net',
+  };
 }
 
 export function getRootState(): RootState {
