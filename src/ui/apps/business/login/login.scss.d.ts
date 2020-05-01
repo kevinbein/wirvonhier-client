@@ -3,11 +3,15 @@
 interface CssExports {
   'amplifier': string;
   'input--text': string;
+  'input__error-message': string;
+  'input__error-messages': string;
   'input__wrapper': string;
+  'link': string;
   'link--small': string;
+  'login__back': string;
   'login__button': string;
+  'login__new-user': string;
   'login__page': string;
-  'login__subtitle': string;
   'login__title': string;
   'page': string;
   'page__subtitle': string;

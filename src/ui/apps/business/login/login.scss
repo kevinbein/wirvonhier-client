@@ -6,19 +6,37 @@
     background: $col-white;
     display: flex;
     flex-direction: column;
-    padding: #{$base-unit / 2}px #{$base-unit / 4}px;
+    justify-content: space-between;
+    min-height: 100%;
+    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+
+    .login {
+      &__back {
+        color: $col-primary;
+        left: 15px;
+        position: absolute;
+        top: 15px;
+      }
+    }
   }
 
   &__title {
     color: $primary;
-    font-size: 1.8em;
+    font-size: 1.4em;
     font-weight: bold;
-    width: 330px;
+    margin: 0 auto;
   }
-  &__subtitle {
-    color: $primary;
-    font-size: 1.2em;
-    max-width: 330px;
+
+  &__new-user {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      &.text--primary {
+        margin-bottom: 0.5em;
+      }
+    }
   }
 
   &__button {
