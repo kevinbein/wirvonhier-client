@@ -39,15 +39,8 @@ export class DataProtStatementComponent extends VueComponent<IProps> {
         >
           <div class={`${Styles['checkbox']} ${this.value ? Styles['checkbox--active'] : ''}`} />
           <span>
-            Bitte akzeptieren Sie unsere{' '}
-            <router-link to={{ name: 'Privacy' }} target="_blank">
-              Datenschutzerkärung
-            </router-link>{' '}
-            und{' '}
-            <router-link to={{ name: 'Nutzungsbedingungen' }} target="_blank">
-              AGBs
-            </router-link>
-            .
+            Bitte akzeptieren Sie unsere <router-link to={{ name: 'Privacy' }}>Datenschutzerkärung</router-link> und{' '}
+            <router-link to={{ name: 'Nutzungsbedingungen' }}>AGBs</router-link>.
           </span>
         </label>
         <div class={Styles['input__error-messages']}>
