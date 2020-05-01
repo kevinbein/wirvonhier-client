@@ -11,11 +11,7 @@ interface CssExports {
   'page': string;
   'page__subtitle': string;
   'page__title': string;
-  'register__back': string;
-  'register__button': string;
-  'register__existing-user': string;
-  'register__page': string;
-  'register__title': string;
+  'register__form': string;
   'submit': string;
   'text': string;
   'text--large': string;

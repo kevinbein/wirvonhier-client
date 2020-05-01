@@ -1,97 +1,45 @@
-.landing-page {
-  background: rgb(232, 232, 232);
-  color: #fff;
-  font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
-  font-size: 1rem;
-  font-weight: normal;
-  height: 100%;
-  text-decoration: uppercase;
-  width: 100%;
-}
-.to-login {
-  font-size: 0.8rem;
-}
-.button {
-  background-color: #fff;
-  border-radius: 15px;
-  color: $primary !important;
-  margin: auto;
-  padding: 0.5em 1em;
-  position: relative;
-  text-align: center;
-}
-.logo-container {
-  display: block;
-  height: 100%;
-  position: relative;
-  width: 100%;
+@import '../../../styles/main';
 
-  .logo {
-    bottom: 0%;
-    display: block;
-    margin: 0;
-    max-height: 100%;
-    max-width: 100%;
-    padding: 2rem 0;
-    position: absolute;
-    right: 0;
-  }
+.register {
+  &__page {
+    align-items: center;
+    background: $col-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
 
-  .welcome {
-    color: #5f6daf;
-    left: 15px;
-    position: absolute;
-    top: 15px;
-    .title {
-      font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-      font-weight: bold;
-    }
-    .desc {
-      font-size: calc(1.2rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-    }
-  }
-}
-
-.buttons {
-  display: block;
-  width: 100%;
-
-  .button-container {
-    display: block;
-    margin-bottom: 15px;
-    position: relative;
-    text-align: center;
-    width: 100%;
-
-    .text-input {
-      background-color: #fff;
-      border-radius: 15px;
-      color: $primary !important;
-      height: 4rem;
-      margin: auto;
-      padding: 1.1rem;
-      position: relative;
-      text-align: center;
-      width: 100%;
-      width: 18rem;
-    }
-
-    .continue-icon {
-      border-radius: 15px;
-      bottom: 4rem;
-      color: $primary !important;
-      font-size: 1.1rem;
-      left: 7rem;
-      padding: 17px;
+    .register {
+      &__back {
+        color: $col-primary;
+        left: 15px;
+        position: absolute;
+        top: 15px;
+      }
     }
   }
 
-  @media (max-height: 800px) {
-    bottom: 10vh;
-    position: absolute;
+  &__title {
+    color: $primary;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 auto;
   }
-  @media (min-height: 801px) {
-    bottom: 20vh;
-    position: absolute;
+
+  &__existing-user {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      &.text--primary {
+        margin-bottom: 0.5em;
+      }
+    }
+  }
+
+  &__button {
+    width: 300px;
   }
 }

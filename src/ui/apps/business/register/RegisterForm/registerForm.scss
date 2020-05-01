@@ -1,0 +1,13 @@
+@import '../../../../styles/main';
+
+.register {
+  &__form {
+    align-items: center;
+    color: $primary;
+    display: flex;
+    flex-direction: column;
+    margin: #{$base-unit / 3}px auto #{$base-unit / 3}px;
+    max-width: 300px;
+    width: 300px;
+  }
+}
