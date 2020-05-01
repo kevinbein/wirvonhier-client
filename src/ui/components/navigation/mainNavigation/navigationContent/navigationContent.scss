@@ -1,0 +1,25 @@
+.navigation-content {
+  list-style-type: none;
+  padding: #{$base-unit / 4}px #{$base-unit / 4}px #{$base-unit / 2}px;
+
+  &__item {
+    border: 1px solid rgba(112, 112, 112, 0.3);
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 1px;
+    display: flex;
+    font-size: 0.8rem;
+    justify-content: center;
+    padding: 10px 0;
+
+    &:last-child {
+      border-bottom-width: 1px;
+    }
+
+    &--logout {
+      color: $col-red;
+      font-weight: bold;
+    }
+  }
+}

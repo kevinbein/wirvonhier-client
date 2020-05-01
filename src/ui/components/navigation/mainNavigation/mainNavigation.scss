@@ -1,0 +1,22 @@
+.navigation {
+  display: contents;
+
+  &__trigger {
+    align-items: center;
+    color: $col-primary;
+    cursor: pointer;
+    display: flex;
+    font-size: 1.6em;
+    height: 36px;
+    justify-content: center;
+    position: fixed;
+    right: #{$base-unit / 3}px;
+    top: #{$base-unit / 3}px;
+    width: 36px;
+    z-index: 1;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
