@@ -5,7 +5,7 @@ import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './registerForm.scss';
 import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
-import { DataProtStatementComponent } from '@/ui/components/formElements';
+import { PrivacyAndAGBAgreement } from '@/ui/components/formElements';
 
 interface IRefs {
   [key: string]: Vue | Element | Vue[] | Element[];
@@ -18,7 +18,6 @@ interface IErrors {
   email: string[];
   password: string[];
   passwordRepeat: string[];
-  dataProtStatement: string[];
 }
 
 @Component({
@@ -36,7 +35,6 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
     email: [],
     password: [],
     passwordRepeat: [],
-    dataProtStatement: [],
   };
 
   private formData = {
@@ -65,20 +63,23 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
     this.errors.password = this.formData.password.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     this.errors.passwordRepeat =
       this.formData.password !== this.formData.passwordRepeat ? ['Die Passwörter stimmen nicht überein.'] : [];
-    this.errors.dataProtStatement =
-      this.formData.dataProtStatement.length === 0
-        ? ['Bitte akzeptieren Sie unsere Datenschutzerklärung und AGBs.']
-        : [];
-    if (
-      this.errors.email.length > 0 ||
-      this.errors.password.length > 0 ||
-      this.errors.passwordRepeat.length > 0 ||
-      this.errors.dataProtStatement.length > 0
-    )
+
+    if (this.errors.email.length > 0 || this.errors.password.length > 0 || this.errors.passwordRepeat.length > 0)
       return;
 
+    const dataProtStatement = this.rootStore.state.dataProtStatements && this.rootStore.state.dataProtStatements[0];
+
+    if (!dataProtStatement) {
+      this.$toast('Fehlgeschlagen. Bitte überprüfe deine Internetverbindung und versuche es erneut.', {
+        type: TYPE.ERROR,
+        timeout: 10000,
+        position: POSITION.TOP_CENTER,
+      });
+      return;
+    }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordRepeat, ...payload } = this.formData;
+    payload.dataProtStatement = dataProtStatement.version;
     const res = await this.rootStore.actions.register(payload);
     if (res.status === 'failure') {
       this.$toast(res.message, { type: TYPE.ERROR, timeout: 15000, position: POSITION.TOP_CENTER });
@@ -88,7 +89,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
     }
   }
 
-  public update(key: 'email' | 'password' | 'passwordRepeat' | 'dataProtStatement', value: string): void {
+  public update(key: 'email' | 'password' | 'passwordRepeat', value: string): void {
     this.formData[key] = value;
   }
 
@@ -132,11 +133,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
           />
         </div>
         <div class={Styles['input__wrapper']}>
-          <DataProtStatementComponent
-            error-messages={this.errors.dataProtStatement}
-            value={!!this.formData.dataProtStatement}
-            on-update-value={(value: string) => this.update('dataProtStatement', value)}
-          />
+          <PrivacyAndAGBAgreement />
         </div>
         <WVHButton primary class={Styles['submit']} on-click={this.register.bind(this)}>
           Registrieren
