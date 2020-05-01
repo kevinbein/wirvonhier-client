@@ -3,6 +3,7 @@ import { Store } from 'vuex';
 import { UserDataState, UserDataGetters, UserDataMutations } from '..';
 import { RootState } from '@/store';
 import { IUserData } from '../state/state.types';
+import { Business, IBusinessData } from '@/entities';
 
 export class UserDataActions extends Actions<UserDataState, UserDataGetters, UserDataMutations, UserDataActions> {
   // @ts-ignore
@@ -28,8 +29,9 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
   async loadUserAndSaveUserData(): Promise<void> {
     const userId = this.state.id;
     if (!userId) return;
-    const user = await this.store.$http.get(`/users/${userId}`, true);
-    this.actions.setUserData(user);
+    const { status, data } = await this.store.$http.get(`/users/${userId}`, true);
+    if (status === 'failure') return;
+    this.actions.setUserData(data);
   }
 
   async loadUserBusinesses(): Promise<void> {
@@ -39,7 +41,10 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
       if (typeof businessId !== 'string') continue;
       promises.push(this.store.$services.business.getBusinessById(businessId));
     }
-    const businesses = await Promise.all(promises);
+    const businessesData = await Promise.all(promises);
+    const businesses = (businessesData.filter((data) => !!data) as IBusinessData[]).map(
+      (business) => new Business(business),
+    );
     this.commit('SET_USER_DATA', { userBusinesses: businesses });
   }
 }
