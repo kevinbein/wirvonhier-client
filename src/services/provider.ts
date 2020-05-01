@@ -4,7 +4,7 @@ import { DB } from '@/services/db';
 import { HTTP } from './http';
 import { IStore } from '@/store';
 
-export function provider(store: IStore, worker: any, db: DB, http: HTTP): IProvider {
+export function provider(store: IStore, worker: unknown, db: DB, http: HTTP): IProvider {
   return {
     business: new BusinessService(store, worker, db, http),
   };

@@ -1,19 +1,16 @@
 export interface IHttpResponse {
   status: 'success' | 'failure';
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error?: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+  error?: unknown;
+  data?: unknown;
 }
 export interface IHttpActionResponse {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  [key: string]: unknown;
   status: 'success' | 'failure';
   message?: string;
 }
 
 export interface IQuery {
-  [key: string]: any;
+  [key: string]: unknown;
   limit?: number;
   page?: number;
   filters: IFilter[];

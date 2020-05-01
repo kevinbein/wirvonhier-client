@@ -7,12 +7,12 @@ import { IQuery } from '../http';
 
 export class BusinessService {
   // @ts-ignore
-  private worker: any;
+  private worker: unknown;
   private store: IStore;
   private http: HTTP;
   private db: DB;
 
-  constructor(store: IStore, worker: any, db: DB, http: HTTP) {
+  constructor(store: IStore, worker: unknown, db: DB, http: HTTP) {
     this.worker = worker;
     this.db = db;
     this.http = http;

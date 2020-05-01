@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 interface IRef {
-  [key: string]: Vue | Element | Vue[] | Element[] | any;
+  [key: string]: Vue | Element | HTMLElement | Vue[] | Element[] | HTMLElement[];
 }
 
 export class VueComponent<P, R extends IRef = IRef> extends Vue {

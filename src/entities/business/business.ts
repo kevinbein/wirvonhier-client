@@ -100,34 +100,6 @@ export class Business implements IBusinessData {
     return imagesAndVideos;
   }
 
-  public delete(): void {
-    // delte this from the database
-  }
-
-  public addImage(): void {
-    // upload image to cloudinary then append here + send to server
-  }
-
-  public addVideo(): void {
-    // upload image to cloudinary then append here + send to server
-  }
-
-  public removeVideo(): void {
-    // remove Video
-  }
-
-  public removeImage(): void {
-    // remove Video
-  }
-
-  public editData(): void {
-    // edit any text fields
-  }
-
-  public registerView(): void {
-    // analytics data
-  }
-
   private normalizeString(string: string): string {
     let normalizedString = '';
     if (!string) return normalizedString;

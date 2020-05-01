@@ -33,13 +33,6 @@ const dummyVideo: IVideo = {
   type: 'video',
 };
 
-interface IRefs {
-  //[key: string]: Vue | Element | Vue[] | Element[];
-
-  // Why vue-awesome-swiper no provide Typing??
-  verticalSwiper: any; // eslint-disable-line
-  horizontalSwiper: any; // eslint-disable-line
-}
 @Component({
   name: 'Explore',
 })

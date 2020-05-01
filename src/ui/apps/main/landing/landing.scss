@@ -141,11 +141,11 @@
   .business {
     visibility: visible;
     &__link {
-      color: $primary;
       background-color: #fff;
       border-radius: 5px;
-      padding: 5px;
+      color: $primary;
       font-size: 0.9rem;
+      padding: 5px;
     }
   }
   .other {

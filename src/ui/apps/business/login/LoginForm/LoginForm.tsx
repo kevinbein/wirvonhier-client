@@ -7,7 +7,7 @@ import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
+  [key: string]: Vue | Element | HTMLElement | Vue[] | Element[] | HTMLElement[];
   email: Vue;
   password: Vue;
 }
