@@ -1,7 +1,7 @@
 import { IBusinessData } from '@/entities';
-import { IHttpResponse, IQuery } from '../http';
+import { IQuery } from '../http';
 
-export interface IBusinessesHTTPResponse extends IHttpResponse {
+export interface IHttpBusinessResponse {
   total: number;
   page: 0;
   perPage: 1000;

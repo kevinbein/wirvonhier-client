@@ -4,6 +4,7 @@ import { UserDataState, UserDataGetters, UserDataMutations } from '..';
 import { RootState } from '@/store';
 import { IUserData } from '../state/state.types';
 import { Business, IBusinessData } from '@/entities';
+import { IHttpSuccessResponse } from '@/services';
 
 export class UserDataActions extends Actions<UserDataState, UserDataGetters, UserDataMutations, UserDataActions> {
   // @ts-ignore
@@ -14,8 +15,9 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
   }
 
   async authenticateMe(): Promise<boolean> {
-    const { status, data } = await this.store.$http.get('/me', true);
+    const { status, ...res } = await this.store.$http.get<{ id: string }>('/me', true);
     if (status === 'success') {
+      const data = (res as IHttpSuccessResponse<{ id: string }>).data;
       this.commit('SET_USER_DATA', data);
       return true;
     }
@@ -29,9 +31,12 @@ export class UserDataActions extends Actions<UserDataState, UserDataGetters, Use
   async loadUserAndSaveUserData(): Promise<void> {
     const userId = this.state.id;
     if (!userId) return;
-    const { status, data } = await this.store.$http.get(`/users/${userId}`, true);
+    const { status, ...res } = await this.store.$http.get<Partial<IUserData>>(`/users/${userId}`, true);
     if (status === 'failure') return;
-    this.actions.setUserData(data);
+    else {
+      const data = (res as IHttpSuccessResponse<Partial<IUserData>>).data;
+      this.actions.setUserData(data);
+    }
   }
 
   async loadUserBusinesses(): Promise<void> {

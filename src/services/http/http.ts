@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { IHttpResponse, IQuery, ITokenPayload } from './http.types';
+import { IQuery, ITokenPayload, IHttpSuccessResponse, IHttpErrorResponse } from './http.types';
 import { IStore } from '@/store';
 
 const withAuthInstance = axios.create({
@@ -19,7 +19,11 @@ export class HTTP {
     this.store = store;
   }
 
-  async get(url: string, withAuth?: boolean, options?: AxiosRequestConfig): Promise<IHttpResponse> {
+  async get<T>(
+    url: string,
+    withAuth?: boolean,
+    options?: AxiosRequestConfig,
+  ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
     if (withAuth) {
       const authenticated = await this.checkAndRefreshToken();
       if (!authenticated) return { status: 'failure' };
@@ -36,7 +40,11 @@ export class HTTP {
     }
   }
 
-  async post(url: string, body?: unknown, withAuth?: boolean): Promise<IHttpResponse> {
+  async post<T>(
+    url: string,
+    body?: unknown,
+    withAuth?: boolean,
+  ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
     if (withAuth) {
       const authenticated = await this.checkAndRefreshToken();
       if (!authenticated) return { status: 'failure' };

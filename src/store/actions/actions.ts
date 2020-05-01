@@ -2,10 +2,11 @@ import { Actions, Context } from 'vuex-smart-module';
 import { Store } from 'vuex';
 import { RootState, RootGetters, RootMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
-import { ITokenPayload, IHttpActionResponse } from '@/services';
+import { ITokenPayload, IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import JwtDecode from 'jwt-decode';
 import { UserModule } from '@/store/modules/user';
 import { Route } from 'vue-router';
+import { IDataProtStatement } from '../state/state.types';
 
 export class RootActions extends Actions<RootState, RootGetters, RootMutations, RootActions> {
   private store!: Store<RootState>;
@@ -16,42 +17,63 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     this.user = UserModule.context(store);
   }
 
-  async loadDataProtStatements(): Promise<void> {
-    const { data } = await this.store.$http.get('/data-prot-statements');
-    this.commit('SET_DATA_PROT_STATEMENTS', data.data);
+  async loadDataProtStatements(): Promise<IHttpActionResponse> {
+    const { status, ...res } = await this.store.$http.get<{ statements: IDataProtStatement[] }>(
+      '/data-prot-statements',
+    );
+    if (status === 'failure') {
+      const error = (res as IHttpErrorResponse<{ statements: IDataProtStatement[] }>).error;
+      const statusCode = error?.response?.status || 500;
+      const message =
+        statusCode >= 400 && statusCode < 500
+          ? 'E-Mail oder Passwort falsch.'
+          : 'Unbekannter Fehler. Bitte überprüfe deine Internetverbindung und versuche es später erneut.';
+      return { status: 'failure', message };
+    } else {
+      const data = (res as IHttpSuccessResponse<{ statements: IDataProtStatement[] }>).data;
+      this.commit('SET_DATA_PROT_STATEMENTS', data);
+      return { status: 'success' };
+    }
   }
 
   async login(credentials: ICredentials): Promise<IHttpActionResponse> {
-    try {
-      const { data } = await this.store.$http.post('/login?strategy=local', credentials);
+    const { status, ...res } = await this.store.$http.post<{ token: string }>('/login?strategy=local', credentials);
+    if (status === 'failure') {
+      const error = (res as IHttpErrorResponse<{ token: string }>).error;
+      const statusCode = error?.response?.status || 500;
+      const message =
+        statusCode >= 400 && statusCode < 500
+          ? 'E-Mail oder Passwort falsch.'
+          : 'Unbekannter Fehler. Bitte überprüfe deine Internetverbindung und versuche es später erneut.';
+      return { status: 'failure', message };
+    } else {
+      const data = (res as IHttpSuccessResponse<{ token: string }>).data;
       const decoded = JwtDecode<ITokenPayload>(data.token);
       this.user.actions.setUserData({ id: decoded.id, email: decoded.email });
       this.commit('SET_TOKEN', data.token);
       return { status: 'success' };
-    } catch (e) {
-      const statusCode = e.response.status;
-      const message =
-        statusCode >= 400 && statusCode < 500
-          ? 'E-Mail oder Passwort falsch.'
-          : 'Unbekannter Fehler. Bitte versuche es später erneut.';
-      return { status: 'failure', message };
     }
   }
 
   async register(registerOptions: IRegisterOptions): Promise<IHttpActionResponse> {
-    try {
-      const { data } = await this.store.$http.post('/register?strategy=local', registerOptions);
-      const decoded = JwtDecode<ITokenPayload>(data.token);
-      this.user.actions.setUserData({ id: decoded.id, email: decoded.email });
-      this.commit('SET_TOKEN', data.token);
-      return { status: 'success' };
-    } catch (e) {
-      const statusCode = e.response.status;
+    const { status, ...res } = await this.store.$http.post<{ token: string }>(
+      '/register?strategy=local',
+      registerOptions,
+    );
+    if (status === 'failure') {
+      const error = (res as IHttpErrorResponse<{ token: string }>).error;
+      const statusCode = error?.response?.status || 500;
       const message =
         statusCode >= 400 && statusCode < 500
           ? `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.state.emails.support}.`
           : 'Unbekannter Fehler. Bitte versuche es später erneut.';
       return { status: 'failure', message };
+    } else {
+      const data = (res as IHttpSuccessResponse<{ token: string }>).data;
+      const decoded = JwtDecode<ITokenPayload>(data.token);
+      this.user.actions.setUserData({ id: decoded.id, email: decoded.email });
+      this.commit('SET_TOKEN', data.token);
+      return { status: 'success' };
     }
   }
 
@@ -76,23 +98,31 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
   }
 
   async requestVerificationEmail(email: string): Promise<IHttpActionResponse> {
-    const res = await this.store.$http.post('/resend-email-verification', { email });
-    if ('error' in res)
+    const { status, ...res } = await this.store.$http.post<{ email: string }>('/resend-email-verification', { email });
+    if (status === 'failure') {
       return {
         status: 'failure',
         message: `Oops! Wir konnten keine E-Mail an Sie versenden. Bitte kontaktieren Sie uns unter: ${this.state.emails.support}.`,
       };
-    return { status: 'success', email: res.data.email };
+    } else {
+      const data = (res as IHttpSuccessResponse<{ email: string }>).data;
+      return { status: 'success', email: data && data.email };
+    }
   }
 
   async verifyUserEmail(verificationToken: string): Promise<IHttpActionResponse> {
-    const res = await this.store.$http.post('/verify-email', { verificationToken });
-    if ('error' in res)
+    const { status, ...res } = await this.store.$http.post<{ verified: string }>('/verify-email', {
+      verificationToken,
+    });
+    if (status === 'failure') {
       return {
         status: 'failure',
         message: `Oops! Wir konnten Ihre E-Mail nicht verifizieren. Bitte kontaktiere Sie uns unter: ${this.state.emails.support}.`,
       };
-    return { status: 'success', verified: res.data.verified };
+    } else {
+      const data = (res as IHttpSuccessResponse<{ verified: string }>).data;
+      return { status: 'success', verified: data && data.verified };
+    }
   }
 
   async hasPermission(_route: Route): Promise<boolean> {

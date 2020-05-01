@@ -1,8 +1,14 @@
-export interface IHttpResponse {
-  status: 'success' | 'failure';
-  error?: unknown;
-  data?: unknown;
+import { AxiosError } from 'axios';
+
+export interface IHttpSuccessResponse<T> {
+  status: 'success';
+  data: T;
 }
+export interface IHttpErrorResponse<T> {
+  status: 'failure';
+  error?: AxiosError<T>;
+}
+
 export interface IHttpActionResponse {
   [key: string]: unknown;
   status: 'success' | 'failure';

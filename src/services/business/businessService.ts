@@ -1,9 +1,9 @@
 import { Business, IBusinessData } from '@/entities';
 import { DB } from '../db';
 import { HTTP } from '..';
-import { IBusinessesHTTPResponse, IFindNearBusinessesOptions } from './businessService.types';
+import { IFindNearBusinessesOptions, IHttpBusinessResponse } from './businessService.types';
 import { IStore } from '@/store';
-import { IQuery } from '../http';
+import { IQuery, IHttpSuccessResponse } from '../http';
 
 export class BusinessService {
   // @ts-ignore
@@ -48,7 +48,9 @@ export class BusinessService {
   async loadBusinessesAndUpdateDB(query: IQuery): Promise<IBusinessData[]> {
     const queryString = this.http.constructQueryString(query);
     const url = `/businesses?${queryString}`;
-    const data = (await this.http.get(url)) as IBusinessesHTTPResponse;
+    const { status, ...res } = await this.http.get<IHttpBusinessResponse>(url);
+    if (status === 'failure') return [];
+    const data = (res as IHttpSuccessResponse<IHttpBusinessResponse>).data;
     this.db.businesses.addMany(data.list);
     return data.list;
   }
@@ -56,11 +58,10 @@ export class BusinessService {
   async getBusinessById(businessId: string): Promise<IBusinessData | null> {
     const fromDB = await this.db.businesses.list.get(businessId);
     if (fromDB) return fromDB;
-    const fromAPI = await this.http.get(`businesses/${businessId}`);
-    if (fromAPI) {
-      this.db.businesses.list.add((fromAPI as unknown) as IBusinessData);
-      return (fromAPI as unknown) as IBusinessData;
-    }
-    return null;
+    const { status, ...res } = await this.http.get(`businesses/${businessId}`);
+    if (status === 'failure') return null;
+    const data = (res as IHttpSuccessResponse<IBusinessData>).data;
+    this.db.businesses.list.add(data);
+    return data;
   }
 }
