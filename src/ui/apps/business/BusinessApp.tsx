@@ -1,27 +1,32 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { VirtualMobile } from '@/ui/components';
-import { rootModule, UserModule } from '@/store';
+import { VirtualMobile, MainNavigation } from '@/ui/components';
+import { rootModule, UserModule, BusinessModule, AppearanceModule } from '@/store';
 import { VerificationToast } from './components/verificationToast';
+import { POSITION, TYPE } from 'vue-toastification';
 
 @Component({
   name: 'Business',
   watch: {
     userId: {
       immediate: true,
-      handler(this: BusinessApp, newId: string) {
+      async handler(this: BusinessApp, newId: string) {
         if (!newId) {
-          this.userModule.actions.authenticateMe();
+          const authenticated = await this.userModule.actions.authenticateMe();
+          if (!authenticated) {
+            return;
+          }
         }
-        this.userModule.actions.loadUserAndSaveUserData();
-        this.userModule.actions.loadUserBusinesses();
+        await this.userModule.actions.loadUserAndSaveUserData();
+        await this.userModule.actions.loadUserBusinesses();
+        this.businessModule.actions.selectBusiness(this.userModule.state.businesses[0]);
       },
     },
     userIsVerified: {
       immediate: true,
       handler(this: BusinessApp, isVerified) {
-        if (isVerified || !this.userId) return;
-        this.$toast(VerificationToast);
+        if (isVerified || !this.userId || this.isYoungerThanTwentyMinutes) return;
+        this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.WARNING, timeout: false });
       },
     },
   },
@@ -29,12 +34,20 @@ import { VerificationToast } from './components/verificationToast';
 export class BusinessApp extends Vue {
   public rootStore = rootModule.context(this.$store);
   public userModule = UserModule.context(this.$store);
+  public businessModule = BusinessModule.context(this.$store);
+  public appearanceModule = AppearanceModule.context(this.$store);
 
   public get userId(): string | null {
     return this.userModule.state.id;
   }
+  public get isYoungerThanTwentyMinutes(): boolean {
+    return this.userModule.state.createdAt >= new Date(Date.now() - 1200000);
+  }
   public get userIsVerified(): boolean {
-    return this.userModule.state.verified;
+    return this.userModule.state.isVerified;
+  }
+  public get isNavVisible(): boolean {
+    return this.appearanceModule.state.isNavigationVisible;
   }
 
   created(): void {
@@ -45,6 +58,7 @@ export class BusinessApp extends Vue {
   render(h): Vue.VNode {
     return (
       <VirtualMobile>
+        {this.isNavVisible && <MainNavigation />}
         <router-view></router-view>
       </VirtualMobile>
     );
