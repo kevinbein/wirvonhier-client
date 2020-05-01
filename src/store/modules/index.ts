@@ -1,2 +1,2 @@
-export * from './userData';
+export * from './user';
 export * from './business';

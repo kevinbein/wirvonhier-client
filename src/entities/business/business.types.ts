@@ -1,3 +1,5 @@
+import { Business } from './business';
+
 export interface IBusinessData {
   readonly _id?: string; // MongoDB ID
   readonly created?: string;
@@ -66,6 +68,17 @@ export interface IVideo {
   description?: string;
   src: string;
   type: 'video';
+}
+export interface IStory {
+  _id: string;
+  business: Business;
+  publicId: string;
+  created: string;
+  modified: string;
+  title: string;
+  description?: string;
+  src: string;
+  type: string;
 }
 
 export interface IAddress {

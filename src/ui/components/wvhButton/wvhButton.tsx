@@ -1,21 +1,45 @@
-import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './wvhButton.scss';
 import { RawLocation } from 'vue-router';
+import { VueComponent } from '@/ui/vue-ts-component';
 
+interface IProps {
+  class?: string;
+  primary?: boolean;
+  width?: string;
+  icon?: string;
+  to?: RawLocation;
+  large?: boolean;
+}
 @Component({
   name: 'wvh-button',
-  /*props: {
+  props: {
     primary: {
-      default: 'something',
+      type: Boolean,
+      default: false,
     },
-  },*/
-  // default is undefined and true if no value is given but the attribute
-  // is defined
-  props: ['primary', 'icon', 'to'],
+    large: {
+      type: Boolean,
+      default: false,
+    },
+    width: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
+    to: {
+      type: Object,
+      default: null,
+    },
+  },
 })
-export class WVHButton extends Vue {
-  public primary: string | undefined;
+export class WVHButton extends VueComponent<IProps> {
+  public primary: boolean | undefined;
+  public large: boolean | undefined;
+  public width: string | undefined;
   public icon: string | undefined;
   // router-link
   public to: RawLocation | undefined;
@@ -26,23 +50,39 @@ export class WVHButton extends Vue {
   created(): void {
     if (this.$listeners.click !== undefined) {
       this.onClick = this.$listeners.click;
-    } else if (this.to !== undefined) {
+    } else {
       this.onClick = () => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.$router.push(this.to!);
+        if (this.to !== undefined) this.$router.push(this.to);
       };
     }
   }
 
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
-    //console.log(this);
-    return (
+    return this.to ? (
+      <router-link
+        to={this.to}
+        style={{ width: this.width }}
+        class={`
+          ${Styles['wvh-button__container']}
+          ${this.primary ? Styles['wvh-button__container--primary'] : ''}
+          ${this.large ? Styles['wvh-button__container--large'] : ''}`}
+      >
+        <div>
+          {this.$slots.default}
+          {this.icon && <v-icon class={Styles['icon']}>{this.icon}</v-icon>}
+        </div>
+      </router-link>
+    ) : (
       <div
         onClick={this.onClick}
-        class={Styles['wvh-button-container'] + ' ' + (this.primary ? Styles['primary'] : '')}
+        style={{ width: this.width }}
+        class={`
+          ${Styles['wvh-button__container']}
+          ${this.primary ? Styles['wvh-button__container--primary'] : ''}
+          ${this.large ? Styles['wvh-button__container--large'] : ''}`}
       >
-        <div class={Styles['wvh-button']}>
+        <div>
           {this.$slots.default}
           {this.icon && <v-icon class={Styles['icon']}>{this.icon}</v-icon>}
         </div>

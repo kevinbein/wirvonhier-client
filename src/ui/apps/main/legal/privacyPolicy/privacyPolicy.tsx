@@ -4,11 +4,20 @@ import Styles from './../legal.scss';
 
 @Component
 export class PrivacyPolicyPage extends Vue {
+  goBack(): void {
+    this.$router.go(-1);
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
       <div class={Styles['legal']}>
-        <div class={Styles['legal__title']}>Datenschutzerklärung</div>
+        <div>
+          <div class={Styles['legal__title']}>Datenschutzerklärung</div>
+          <div onClick={() => this.goBack()} class={Styles['close-button']}>
+            <v-icon class={Styles['icon']}>fa-times</v-icon>
+          </div>
+        </div>
         <p>
           Wir freuen uns sehr über Ihr Interesse an unserem Unternehmen. Datenschutz hat einen besonders hohen
           Stellenwert für die Geschäftsleitung der WirVonHier. Eine Nutzung der Internetseiten der WirVonHier ist

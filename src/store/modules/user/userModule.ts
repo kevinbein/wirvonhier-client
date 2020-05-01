@@ -5,7 +5,7 @@ import { UserDataMutations } from './mutations';
 import { UserDataGetters } from './getters';
 import { UserDataState } from './state';
 
-export const UserData = new Module({
+export const UserModule = new Module({
   actions: UserDataActions,
   mutations: UserDataMutations,
   getters: UserDataGetters,
