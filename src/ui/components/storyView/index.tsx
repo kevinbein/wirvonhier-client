@@ -77,11 +77,11 @@ export class StoryView extends VueComponent<IProps, IRefs> {
       this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
       this.videoControlsEl = this.$refs['story-video-controls'] as HTMLDivElement;
 
-      this.videoControlsEl.addEventListener('click', () => this.playVideo()); //this.pauseVideo());
-      this.videoControlsEl.addEventListener('mousedown', () => this.pauseVideo());
-      this.videoControlsEl.addEventListener('touchdown', () => this.pauseVideo());
-      this.videoControlsEl.addEventListener('mouseup', () => this.resumeVideo());
-      this.videoControlsEl.addEventListener('touchup', () => this.resumeVideo());
+      this.videoControlsEl?.addEventListener('click', () => this.playVideo()); //this.pauseVideo());
+      this.videoControlsEl?.addEventListener('mousedown', () => this.pauseVideo());
+      this.videoControlsEl?.addEventListener('touchdown', () => this.pauseVideo());
+      this.videoControlsEl?.addEventListener('mouseup', () => this.resumeVideo());
+      this.videoControlsEl?.addEventListener('touchup', () => this.resumeVideo());
     }
   }
 

@@ -9,7 +9,7 @@ Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
 import { Business, Story, IVideo } from '@/entities';
-import { SlideInPage, StoryView } from '@/ui/components';
+import { SlideInPage, StoryView, WVHButton, LadyPage } from '@/ui/components';
 import { VueComponent } from '@/ui/vue-ts-component';
 
 interface IRefs {
@@ -26,7 +26,10 @@ const dummyVideo: IVideo = {
   modified: '21-04-2020T01:15:27',
   title: 'Dummy video',
   description: 'This is a test video story',
-  src: '/assets/stories/dummy_story_video.mov',
+  //src: '/assets/stories/dummy_story_video.mov',
+  //src: 'https://player.vimeo.com/external/413906286.sd.mp4?s=e90fc4fc2d1d05dc9a0f9efbd2e6d0e9c9a83a82&profile_id=165',
+  src: 'https://player.vimeo.com/external/413907965.sd.mp4?s=9f998fec8306c61a2ec8dc025d60b5852e88dfe2&profile_id=165',
+  //src: 'https://player.vimeo.com/external/413907857.sd.mp4?s=48ddc9edb04faa61c44c7fb8140b7f726819c6fd&profile_id=165',
   type: 'video',
 };
 
@@ -127,37 +130,46 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     vSwiper.slideTo(1);
   }
 
+  public gotoBeginning(): void {
+    const hSwiper = this.$refs.horizontalSwiper.$swiper;
+    hSwiper.slideTo(0, 0);
+  }
+
   public exploreSlideChange(): void {
     // stop previous story video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const lastVideoEl: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
-    lastVideoEl.$emit('hideStory');
+    lastVideoEl?.$emit('hideStory');
 
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
     window.localStorage.lastExploreIndex = newIndex;
+    if (this.slides === null || newIndex >= this.slides.length) {
+      // reached last slide
+      return;
+    }
     this.businessId = this.slides[newIndex].business.id;
     this.currentBusiness = this.slides[newIndex].business;
 
     // start playing current video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const videoEl: any = this.$refs['story-' + newIndex];
-    videoEl.$emit('showStory');
+    videoEl?.$emit('showStory');
   }
 
   public get businesses(): Business[] {
     return this.businessStore.state.businesses;
   }
 
-  public get slides(): Story[] {
-    return this.businessStore.getters.getMixedStories();
-  }
+  public slides: Story[] | null = null;
 
   public async loadBusinesses(zip: string, radius: number): Promise<void> {
     await this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
-    this.businessId = this.slides[0].business.id;
-    this.currentBusiness = this.slides[0].business;
 
     this.businessStore.state.businesses[0].media.stories.videos.push(dummyVideo);
+
+    this.slides = this.businessStore.getters.getMixedStories();
+    this.businessId = this.slides[0].business.id;
+    this.currentBusiness = this.slides[0].business;
 
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
     const vSwiper = this.$refs.verticalSwiper.$swiper;
@@ -171,7 +183,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
         vSwiper.slideTo(1, 0);
       }
       window.localStorage.lastExploreIndex = exploreIndex;
-    } else if (window.localStorage.lastExploreIndex < this.businesses.length) {
+    } else if (window.localStorage.lastExploreIndex > 0) {
       hSwiper.slideTo(window.localStorage.lastExploreIndex, 0);
     } else {
       window.localStorage.lastExploreIndex = 0;
@@ -206,14 +218,29 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
               options={this.horizontalSwiperOptions}
               class={Styles['vertical-swiper']}
             >
-              {(this.slides !== null &&
+              {this.slides !== null &&
+                this.slides.length > 0 &&
                 this.slides.map((story: Story, index: number) => {
                   return (
                     <swiper-slide>
                       <StoryView ref={`story-${index}`} story={story}></StoryView>
                     </swiper-slide>
                   );
-                })) || <div>Loading ...</div>}
+                })}
+              {this.slides !== null && this.slides.length > 0 && (
+                <swiper-slide>
+                  <LadyPage class={Styles['last-page']}>
+                    <div class={Styles['last-page__text']}>Du hast alles gesehen</div>
+                    <WVHButton on-click={() => this.gotoBeginning()} class={Styles['last-page__button']}>
+                      Zurück zum Anfang
+                    </WVHButton>
+                    <WVHButton on-click={() => this.$router.push({ name: 'Map' })} class={Styles['last-page__button']}>
+                      Zur Kartenansicht
+                    </WVHButton>
+                  </LadyPage>
+                </swiper-slide>
+              )}
+              {this.slides === null && <div>Loading ...</div>}
             </swiper>
             <div class={Styles['top-controls']}>
               {(this.slideIn === false && (

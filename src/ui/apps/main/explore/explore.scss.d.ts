@@ -13,6 +13,9 @@ interface CssExports {
   'fadeInExploreControls': string;
   'horizontal-swiper': string;
   'icon': string;
+  'last-page': string;
+  'last-page__button': string;
+  'last-page__text': string;
   'profile': string;
   'profile__placeholder': string;
   'settings': string;

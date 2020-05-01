@@ -84,6 +84,17 @@
   }
 }
 
+.last-page {
+  position: relative;
+  &__text {
+    color: #767676;
+    font-size: 1.5rem;
+  }
+  &__button {
+    margin: 30px 0;
+  }
+}
+
 .explore-controls {
   animation: fadeInExploreControls;
   animation-delay: 3s;
@@ -107,7 +118,7 @@
   &__right-arrow {
     bottom: 0;
     height: 24px;
-    margin: 15px;
+    padding: 15px;
     position: absolute;
     text-align: center;
     width: 24px;
