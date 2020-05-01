@@ -334,10 +334,10 @@ module.exports = async function (env, argv) {
 
       isProd && new webpack.optimize.SplitChunksPlugin({}),
 
-      // isProd && new MiniCssExtractPlugin({
-      //   filename: 'css/[name].[contenthash:5].css',
-      //   chunkFilename: 'css/[name].[contenthash:5].css'
-      // }),
+      isProd && new MiniCssExtractPlugin({
+        filename: 'css/[name].[contenthash:5].css',
+        chunkFilename: 'css/[name].[contenthash:5].css'
+      }),
 
       new OptimizeCssAssetsPlugin({
         cssProcessorOptions: {
@@ -373,7 +373,7 @@ module.exports = async function (env, argv) {
         VUE_APP_BASE_URL: JSON.stringify('http://127.0.0.1:8080'),
         VUE_APP_SERVER: JSON.stringify('http://127.0.0.1:3001'),
         BASE_URL: JSON.stringify('/'),
-        API_URL: JSON.stringify(process.env.API_URL),
+        API_URL: JSON.stringify(isProd ? process.env.API_URL : process.env.API_URL_LOCAL),
         CLOUD_NAME: JSON.stringify(process.env.CLOUDINARY_CLOUD_NAME),
       }),
 
