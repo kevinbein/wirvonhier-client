@@ -1,8 +1,9 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
+import VueRouter, { NavigationGuard, Route, RawLocation } from 'vue-router';
 import { MainApp } from './apps';
 import { ExplorePage, MapPage, LandingPage } from './apps/main';
 import { CompanyDetailsPage, PrivacyPolicyPage, TermsOfUsePage } from './apps/main/legal';
+import { store } from '@/store';
 
 Vue.use(VueRouter);
 
@@ -45,14 +46,27 @@ const routes = [
         name: 'Explore',
         component: ExplorePage,
       },
+      {
+        path: 'logout',
+        name: 'BusinessLogout',
+        component: () => import(/* webpackChunkName: "BusinessLogout" */ '@/ui/apps/business/logout/logout'),
+      },
     ],
   },
   {
     path: '/business',
     component: () => import(/* webpackChunkName: "BusinessContainer" */ '@/ui/apps/business/BusinessApp'),
+    beforeEnter: async (to: Route, _from: Route, next: (val?: RawLocation) => void) => {
+      const hasPermission = await store.dispatch('hasPermission', to);
+      if (hasPermission && to.name !== 'BusinessDashboard') {
+        next({ name: 'BusinessDashboard' });
+      } else if (!hasPermission && to.name !== 'BusinessLanding') {
+        next({ name: 'BusinessLanding' });
+      } else next();
+    },
     children: [
       {
-        path: '/',
+        path: 'landing',
         name: 'BusinessLanding',
         component: () => import(/* webpackChunkName: "BusinessLanding" */ '@/ui/apps/business/landing/landing'),
       },
@@ -67,14 +81,47 @@ const routes = [
         component: () => import(/* webpackChunkName: "BusinessRegister" */ '@/ui/apps/business/register/register'),
       },
       {
-        path: 'logout',
-        name: 'BusinessLogout',
-        component: () => import(/* webpackChunkName: "BusinessLogout" */ '@/ui/apps/business/logout/logout'),
+        path: 'register-complete',
+        name: 'BusinessRegisterComplete',
+        component: () =>
+          import(
+            /* webpackChunkName: "BusinessRegisterComplete" */ '@/ui/apps/business/registerComplete/registerComplete'
+          ),
       },
       {
-        path: 'verify',
-        name: 'UserVerify',
-        component: () => import(/* webpackChunkName: "UserVerify" */ '@/ui/apps/business/verify/verify'),
+        path: 'request-new-password',
+        name: 'BusinessRequestNewPassword',
+        component: () =>
+          import(
+            /* webpackChunkName: "BusinessRequestNewPassword" */ '@/ui/apps/business/requestNewPassword/requestNewPassword'
+          ),
+      },
+      {
+        path: 'request-new-password-success',
+        name: 'BusinessRequestNewPasswordSuccess',
+        component: () =>
+          import(
+            /* webpackChunkName: "BusinessRequestNewPasswordSuccess" */ '@/ui/apps/business/requestNewPasswordSuccess/requestNewPasswordSuccess'
+          ),
+      },
+      {
+        path: 'reset-password',
+        name: 'BusinessResetPassword',
+        component: () =>
+          import(/* webpackChunkName: "BusinessResetPassword" */ '@/ui/apps/business/resetPassword/resetPassword'),
+      },
+      {
+        path: 'reset-password-success',
+        name: 'BusinessResetPasswordSuccess',
+        component: () =>
+          import(
+            /* webpackChunkName: "BusinessResetPasswordSuccess" */ '@/ui/apps/business/resetPasswordSuccess/resetPasswordSuccess'
+          ),
+      },
+      {
+        path: 'verify-email',
+        name: 'VerifyEmail',
+        component: () => import(/* webpackChunkName: "VerifyEmail" */ '@/ui/apps/business/verifyEmail/verifyEmail'),
       },
       {
         path: 'upload-video',
@@ -115,6 +162,11 @@ const routes = [
       },
     ],
   },
+  {
+    path: '*',
+    name: 'PageNotFound',
+    component: () => import(/* webpackChunkName: "PageNotFound" */ '@/ui/apps/main/pageNotFound/pageNotFound'),
+  },
 ];
 
 export const router = new VueRouter({
@@ -122,3 +174,34 @@ export const router = new VueRouter({
   base: BASE_URL,
   routes,
 });
+
+const privateRoutes = [
+  'BusinessProfile',
+  'BusinessInformation',
+  'BusinessStories',
+  'BusinessStory',
+  'BusinessDashboard',
+  'BusinessEditVideo',
+  'BusinessUploadVideo',
+];
+const protectPrivateRoutes: NavigationGuard<Vue> = async (to, from, next) => {
+  const requiresPermission = privateRoutes.some((route) => route === to.name);
+  if (!requiresPermission) {
+    next();
+    return;
+  }
+
+  const hasPermission = await store.dispatch('hasPermission', to);
+
+  if (hasPermission) {
+    next();
+  } else if (from.name !== 'BusinessLogin') {
+    next({
+      name: 'BusinessLogin',
+    });
+  } else {
+    next(false);
+  }
+};
+
+router.beforeEach(protectPrivateRoutes);
