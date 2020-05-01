@@ -2,5 +2,5 @@
 @import 'elements';
 
 .amplifier {
-  color: inherit; // this is only used to enhance specificity
+  will-change: opacity; // this is only used to enhance specificity
 }

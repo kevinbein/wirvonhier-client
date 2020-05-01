@@ -1,11 +1,11 @@
 import Component from 'vue-class-component';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './navigationContent.scss';
-import { RawLocation } from 'vue-router';
+import { Location } from 'vue-router';
 import { rootModule, UserModule } from '@/store';
 
 interface ILink {
-  to?: RawLocation;
+  to?: Location;
   action?: () => void;
   name: string;
   type?: string;
@@ -60,7 +60,9 @@ export class NavigationContent extends VueComponent<{}> {
 
   public navigate(link: ILink): void {
     this.$emit('close');
-    if (link.to) this.$router.push(link.to);
+    if (link.to && this.$route.name !== link.to.name) {
+      this.$router.push(link.to);
+    }
   }
 
   // @ts-ignore

@@ -63,6 +63,8 @@ export class HTTP {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   private async checkAndRefreshToken(): Promise<boolean> {
+    const hasPublicToken = document.cookie.includes('public_refresh_token');
+    if (!hasPublicToken) return false;
     const token = this.store.state.token;
     if (token) {
       const decoded = jwtDecode<ITokenPayload>(token);
