@@ -25,7 +25,7 @@ import { POSITION, TYPE } from 'vue-toastification';
     userIsVerified: {
       immediate: true,
       handler(this: BusinessApp, isVerified) {
-        if (isVerified || !this.userId || this.isYoungerThanTwentyMinutes) return;
+        if (isVerified || !this.userId || this.isYoungerThanTwentyMinutes || this.$route.name === 'VerifyEmail') return;
         this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.ERROR, timeout: false });
       },
     },
