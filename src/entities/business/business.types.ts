@@ -132,11 +132,19 @@ export interface IBusinessFilter {
 
 export interface IValidationError {
   status: 'failure';
-  field: { [key: string]: unknown };
+  field: {
+    [key: string]: unknown;
+    path: string;
+    isArray: boolean;
+  };
 }
 export interface IValidationSuccess {
   status: 'success';
-  field: { [key: string]: unknown };
+  field: {
+    [key: string]: unknown;
+    path: string;
+    isArray: boolean;
+  };
 }
 
 export interface IUpdateSuccess {

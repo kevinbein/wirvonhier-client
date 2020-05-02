@@ -47,10 +47,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
   async save(business: Business): Promise<boolean> {
     const success = await this.store.$services.business.save(business.getData());
     if (!success) {
-      this.store.$toast(
-        `Wir konnten die Änderungen nicht speichern. Bitte wende dich an unseren support und versuche es später erneut.`,
-        { type: TYPE.ERROR, position: POSITION.TOP_CENTER, timeout: 10000 },
-      );
+      // TODO|PWA: If we are offline, update Business later.
       return false;
     }
     return true;
