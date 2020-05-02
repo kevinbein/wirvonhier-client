@@ -9,6 +9,7 @@
     margin: #{$base-unit / 8}px;
     padding: #{$base-unit / 4}px #{$base-unit / 3}px;
     text-align: center;
+    user-select: none;
 
     .icon {
       color: $col-primary !important; // important here because of vuetify
@@ -42,6 +43,15 @@
       color: $col-white !important;
       cursor: default;
       opacity: 0.7;
+      pointer-events: none;
+
+      &:hover,
+      &:active {
+        background-color: $col-disabled;
+        color: $col-white !important;
+        cursor: default;
+        opacity: 0.7;
+      }
     }
   }
 }
