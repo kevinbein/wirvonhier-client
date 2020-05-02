@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './resetPassword.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import { ResetPasswordForm } from './ResetPasswordForm';
 import { AppearanceModule } from '@/store';
@@ -17,7 +18,7 @@ export class BusinessResetPasswordPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['reset-password__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['reset-password__page']}`}>
         <div class={Styles['reset-password__title']}>Passwort zurücksetzen</div>
         <p>Bitte setze ein neues Passwort.</p>
         <ResetPasswordForm />

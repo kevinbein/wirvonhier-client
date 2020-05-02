@@ -1,6 +1,7 @@
 import Component from 'vue-class-component';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './WVHTextareaField.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 
 interface IProps {
   label: string;
@@ -64,12 +65,12 @@ export class WVHTextareaField extends VueComponent<IProps> {
   // @ts-ignore
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles['textarea__wrapper']} ${Styles['input__wrapper']}`}>
-        <label class={`${Styles['textarea__label']} ${Styles['input__label']}`}>
+      <div class={`${Styles['textarea__wrapper']} ${SharedStyles['input__wrapper']}`}>
+        <label class={`${Styles['textarea__label']} ${SharedStyles['input__label']}`}>
           {this.errorMessages.length > 0 && (
-            <div class={`${Styles['textarea__errors']} ${Styles['input__errors']}`}>
+            <div class={`${Styles['textarea__errors']} ${SharedStyles['input__errors']}`}>
               {this.errorMessages.map((error) => (
-                <div class={`${Styles['input__error']} ${Styles['textarea__error']}`}>{error}</div>
+                <div class={`${SharedStyles['input__error']} ${Styles['textarea__error']}`}>{error}</div>
               ))}
             </div>
           )}

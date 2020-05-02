@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './login.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import LoginForm from './LoginForm/LoginForm';
 import { WVHButton } from '@/ui';
@@ -18,7 +19,7 @@ export class BusinessLoginPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['login__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['login__page']}`}>
         <router-link to={{ name: 'BusinessLanding' }} title="zurück" class={Styles['login__back']}>
           zurück
         </router-link>

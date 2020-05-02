@@ -3,6 +3,7 @@ import Component from 'vue-class-component';
 import { RegisterForm } from './RegisterForm';
 import { WVHButton } from '@/ui';
 import Styles from './register.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { AppearanceModule } from '@/store';
 
 @Component({
@@ -18,7 +19,7 @@ export class BusinessRegisterPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['register__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['register__page']}`}>
         <router-link to={{ name: 'BusinessLanding' }} title="zurück" class={Styles['register__back']}>
           zurück
         </router-link>

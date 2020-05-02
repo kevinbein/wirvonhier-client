@@ -3,6 +3,7 @@ import Vue from 'vue/types/umd';
 import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './requestNewPasswordForm.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
@@ -67,10 +68,10 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['request-new-password__form']}>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="email"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             label="EMAIL"
             autocomplete="email"
             error-messages={this.errors.email}
@@ -78,7 +79,7 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('email', value)}
           />
         </div>
-        <WVHButton primary class={Styles['submit']} on-click={this.requestNewPassword.bind(this)}>
+        <WVHButton primary class={SharedStyles['submit']} on-click={this.requestNewPassword.bind(this)}>
           PASSWORT ZURÜCKSETZEN
         </WVHButton>
       </form>

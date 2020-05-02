@@ -3,6 +3,7 @@ import Vue from 'vue/types/umd';
 import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './registerForm.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 import { PrivacyAndAGBAgreement } from '@/ui/components/formElements';
@@ -97,10 +98,10 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['register__form']}>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="email"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             label="EMAIL"
             autocomplete="email"
             error-messages={this.errors.email}
@@ -108,10 +109,10 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('email', value)}
           />
         </div>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="password"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             type="password"
             label="PASSWORT"
             autocomplete="new-password"
@@ -120,10 +121,10 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('password', value)}
           />
         </div>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="passwordRepeat"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             type="password"
             autocomplete="new-password"
             label="PASSWORT WIEDERHOLEN"
@@ -132,10 +133,10 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('passwordRepeat', value)}
           />
         </div>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <PrivacyAndAGBAgreement />
         </div>
-        <WVHButton primary class={Styles['submit']} on-click={this.register.bind(this)}>
+        <WVHButton primary class={SharedStyles['submit']} on-click={this.register.bind(this)}>
           Registrieren
         </WVHButton>
       </form>

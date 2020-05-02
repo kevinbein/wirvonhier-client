@@ -1,6 +1,7 @@
 import Component from 'vue-class-component';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './WVHTextField.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 
 type InputType = 'email' | 'hidden' | 'number' | 'password' | 'reset' | 'search' | 'tel' | 'text' | 'url';
 interface IProps {
@@ -74,16 +75,16 @@ export class WVHTextField extends VueComponent<IProps> {
   // @ts-ignore
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles['text-input__wrapper']} ${Styles['input__wrapper']}`}>
-        <label class={`${Styles['text-input__inner']} ${Styles['input__wrapper']}`}>
+      <div class={`${Styles['text-input__wrapper']} ${SharedStyles['input__wrapper']}`}>
+        <label class={`${Styles['text-input__inner']} ${SharedStyles['input__wrapper']}`}>
           {this.errorMessages.length > 0 && (
-            <div class={`${Styles['text-input__errors']} ${Styles['input__errors']}`}>
+            <div class={`${Styles['text-input__errors']} ${SharedStyles['input__errors']}`}>
               {this.errorMessages.map((error) => (
-                <div class={`${Styles['input__error']} ${Styles['text-input__error']}`}>{error}</div>
+                <div class={`${SharedStyles['input__error']} ${Styles['text-input__error']}`}>{error}</div>
               ))}
             </div>
           )}
-          <div class={`${Styles['text-input__label']} ${Styles['input__label']}`}>{this.label}</div>
+          <div class={`${Styles['text-input__label']} ${SharedStyles['input__label']}`}>{this.label}</div>
           <input
             type={this.type}
             autocomplete={this.autocomplete}

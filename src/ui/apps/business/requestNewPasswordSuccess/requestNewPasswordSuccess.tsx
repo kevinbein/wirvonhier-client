@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './requestNewPasswordSuccess.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import { rootModule, AppearanceModule } from '@/store';
 import { WVHButton } from '@/ui/components';
@@ -26,7 +27,7 @@ export class RequestNewPasswordSuccessPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['request-new-password-success__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['request-new-password-success__page']}`}>
         <div class={Styles['request-new-password-success__title']}>E-Mail versendet!</div>
         <p class={`${Styles['text--primary']} ${Styles.amplifier}`}>
           Wir haben Ihnen soeben eine E-Mail an <b>{this.recipient}</b> gesendet, die weitere Instruktionen enthält um
@@ -35,10 +36,15 @@ export class RequestNewPasswordSuccessPage extends Vue {
         <WVHButton to={{ name: 'BusinessLogin' }} primary class={Styles['request-new-password-success__button']}>
           Zurück zum Login
         </WVHButton>
-        <p class={`${Styles['text--primary']} ${Styles['text--small']}`}>
+        <p class={`${Styles['text--primary']} ${SharedStyles['text--small']}`}>
           Keine E-Mail erhalten? Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut oder kontaktieren Sie unseren
           Support unter{' '}
-          <a href={`mailto:${this.email}`} target="_blank" title="E-Mail an WirVonHier senden" class={Styles.link}>
+          <a
+            href={`mailto:${this.email}`}
+            target="_blank"
+            title="E-Mail an WirVonHier senden"
+            class={SharedStyles.link}
+          >
             {this.email}
           </a>
         </p>

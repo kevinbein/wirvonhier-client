@@ -3,6 +3,7 @@ import Vue from 'vue/types/umd';
 import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './resetPasswordForm.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
@@ -82,10 +83,10 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['request-new-password__form']}>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="password"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             label="NEUES PASSWORT"
             autocomplete="new-password"
             error-messages={this.errors.password}
@@ -93,10 +94,10 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('password', value)}
           />
         </div>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="passwordRepeat"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             label="PASSWORT WIEDERHOLEN"
             autocomplete="new-password"
             error-messages={this.errors.passwordRepeat}
@@ -104,7 +105,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('passwordRepeat', value)}
           />
         </div>
-        <WVHButton primary class={Styles['submit']} on-click={this.resetPassword.bind(this)}>
+        <WVHButton primary class={SharedStyles['submit']} on-click={this.resetPassword.bind(this)}>
           PASSWORT ZURÜCKSETZEN
         </WVHButton>
       </form>

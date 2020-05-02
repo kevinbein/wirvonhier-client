@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './verifyEmail.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import { AppearanceModule, rootModule } from '@/store';
 import { WVHButton, Loader } from '@/ui/components';
@@ -37,7 +38,7 @@ export class VerifyEmailPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['verify-email__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['verify-email__page']}`}>
         {this.status === 'verified' && (
           <div class={Styles['verify-email__title']}>E-Mail Adresse erfolgreich verifiziert!</div>
         )}
@@ -47,8 +48,8 @@ export class VerifyEmailPage extends Vue {
             Fehlgeschlagen: E-Mail Adresse konnte nicht verifiziert werden!
             <br />
             Bitte kontaktiere unsere Support unter:{' '}
-            <a href={this.email} title="E-Mail an WirVonHier senden" target="_blank">
-              ${this.email}
+            <a href={`mailto:${this.email}`} title="E-Mail an WirVonHier senden" target="_blank">
+              {this.email}
             </a>
             .
           </div>

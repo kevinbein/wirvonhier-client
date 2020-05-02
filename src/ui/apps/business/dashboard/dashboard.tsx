@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './dashboard.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { BusinessModule, UserModule, UserDataState, AppearanceModule } from '@/store';
 import { WVHButton } from '@/ui';
 import { Business } from '@/entities';
@@ -32,7 +33,7 @@ export class BusinessDashboard extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['dashboard__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['dashboard__page']}`}>
         <img class={Styles['dashboard__logo']} src="/assets/imgs/logo/logo-schrift_512x203.png" alt="WirVonHier Logo" />
         <WVHButton class={Styles['dashboard__button']} disabled={!this.hasVideo} to={{ name: 'BusinessEditVideo' }}>
           Mein aktuelles Video

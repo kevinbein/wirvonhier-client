@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './resetPasswordSuccess.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import { AppearanceModule } from '@/store';
 import { WVHButton } from '@/ui/components';
@@ -17,7 +18,7 @@ export class RequestNewPasswordSuccessPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['reset-password-success__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['reset-password-success__page']}`}>
         <div class={Styles['reset-password-success__title']}>Passwort erfolgreich geändert!</div>
         <WVHButton to={{ name: 'BusinessLogin' }} primary>
           Weiter zum Login

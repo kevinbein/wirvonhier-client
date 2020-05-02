@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { rootModule, UserModule, AppearanceModule } from '@/store';
 import { WVHButton } from '@/ui';
 
@@ -19,7 +20,7 @@ export class BusinessLandingPage extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['landing__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['landing__page']}`}>
         <div class={Styles['landing__title']}>Hi,</div>
         <div class={Styles['landing__subtitle']}>schön Sie zu sehen! Haben Sie schon einen Account bei uns?</div>
         <div class={Styles['landing__buttons']}>

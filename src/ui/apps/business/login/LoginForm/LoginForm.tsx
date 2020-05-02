@@ -3,6 +3,7 @@ import Vue from 'vue/types/umd';
 import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './loginForm.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { WVHButton } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
@@ -73,10 +74,10 @@ export class LoginForm extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['login__form']}>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="email"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             label="EMAIL"
             autocomplete="email"
             error-messages={this.errors.email}
@@ -84,10 +85,10 @@ export class LoginForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('email', value)}
           />
         </div>
-        <div class={Styles['input__wrapper']}>
+        <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="password"
-            class={`${Styles['input--text']} ${Styles['amplifier']}`}
+            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
             type="password"
             label="PASSWORT"
             autocomplete="current-password"
@@ -96,10 +97,10 @@ export class LoginForm extends VueComponent<{}, IRefs> {
             on-input={(value: string) => this.update('password', value)}
           />
         </div>
-        <WVHButton primary class={Styles['submit']} on-click={this.login.bind(this)}>
+        <WVHButton primary class={SharedStyles['submit']} on-click={this.login.bind(this)}>
           Einloggen
         </WVHButton>
-        <router-link to={{ name: 'BusinessRequestNewPassword' }} class={Styles['link--small']}>
+        <router-link to={{ name: 'BusinessRequestNewPassword' }} class={SharedStyles['link--small']}>
           Sie haben ihr Passwort vergessen?
         </router-link>
       </form>

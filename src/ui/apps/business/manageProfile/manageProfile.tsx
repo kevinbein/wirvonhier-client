@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './manageProfile.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { BusinessModule, UserDataState, UserModule, AppearanceModule } from '@/store';
 import { Business } from '@/entities';
 import { ManageProfileForm } from './manageProfileForm';
@@ -30,7 +31,7 @@ export class BusinessManageProfile extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['manage-profile__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['manage-profile__page']}`}>
         <router-link to={{ name: 'BusinessDashboard' }} title="zurück" class={Styles['manage-profile__back']}>
           zurück
         </router-link>

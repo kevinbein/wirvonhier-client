@@ -1,5 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './requestNewPassword.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
 import { RequestNewPasswordForm } from './RequestNewPasswordForm';
 import { rootModule, AppearanceModule } from '@/store';
@@ -22,7 +23,7 @@ export class RequestNewPasswordPage extends Vue {
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles.page} ${Styles['request-new-password__page']}`}>
+      <div class={`${SharedStyles.page} ${Styles['request-new-password__page']}`}>
         <router-link to={{ name: 'BusinessLogin' }} title="zurück" class={Styles['request-new-password__back']}>
           zurück
         </router-link>
@@ -34,7 +35,12 @@ export class RequestNewPasswordPage extends Vue {
         <p class={Styles['text--primary']}>
           Keine E-Mail erhalten? Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut oder kontaktieren Sie unseren
           Support unter{' '}
-          <a href={`mailto:${this.email}`} target="_blank" title="E-Mail an WirVonHier senden" class={Styles.link}>
+          <a
+            href={`mailto:${this.email}`}
+            target="_blank"
+            title="E-Mail an WirVonHier senden"
+            class={SharedStyles.link}
+          >
             {this.email}
           </a>
         </p>

@@ -1,6 +1,7 @@
 import Component from 'vue-class-component';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './WVHCheckboxField.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 
 interface IProps {
   label: string;
@@ -43,16 +44,16 @@ export class WVHCheckboxField extends VueComponent<IProps> {
   // @ts-ignore
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles['checkbox__wrapper']} ${Styles['input__wrapper']}`}>
-        <label class={`${Styles['checkbox__inner']} ${Styles['input__inner']}`}>
+      <div class={`${Styles['checkbox__wrapper']} ${SharedStyles['input__wrapper']}`}>
+        <label class={`${Styles['checkbox__inner']} ${SharedStyles['input__inner']}`}>
           {this.errorMessages.length > 0 && (
-            <div class={`${Styles['checkbox__errors']} ${Styles['input__errors']}`}>
+            <div class={`${Styles['checkbox__errors']} ${SharedStyles['input__errors']}`}>
               {this.errorMessages.map((error) => (
-                <div class={`${Styles['input__error']} ${Styles['checkbox__error']}`}>{error}</div>
+                <div class={`${SharedStyles['input__error']} ${Styles['checkbox__error']}`}>{error}</div>
               ))}
             </div>
           )}
-          <div class={`${Styles['checkbox__label']} ${Styles['input__label']}`}>{this.label}</div>
+          <div class={`${Styles['checkbox__label']} ${SharedStyles['input__label']}`}>{this.label}</div>
           <div class={`${Styles['checkbox']} ${this.value ? Styles['checkbox--active'] : ''}`} />
         </label>
       </div>

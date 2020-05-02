@@ -3,7 +3,7 @@ import { Store } from 'vuex';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { RootState } from '@/store';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
-import { Business, IBusinessData, IValidationError, IUpdateSuccess, IUpdateError } from '@/entities';
+import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
 import { IBusinessUpdateOptions } from './actions.types';
 
