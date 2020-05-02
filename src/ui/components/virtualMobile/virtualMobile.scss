@@ -6,8 +6,9 @@
 
   .wvh-app {
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
     position: absolute;
+    transform: translate(0);
     width: 100%;
   }
 }
