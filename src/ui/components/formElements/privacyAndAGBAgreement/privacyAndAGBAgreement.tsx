@@ -22,11 +22,11 @@ export class PrivacyAndAGBAgreement extends VueComponent<{}> {
   render(h): Vue.VNode {
     return (
       <div class={`${Styles['input']}`}>
-        <label class={Styles['input__label--checkbox']}>
+        <label class={Styles['input__label']}>
           <span>
             Mit der Registrierung akzeptieren Sie unsere{' '}
             <router-link to={{ name: 'Privacy' }}>Datenschutzerkärung</router-link> und{' '}
-            <router-link to={{ name: 'Nutzungsbedingungen' }}>AGBs</router-link>.
+            <router-link to={{ name: 'Nutzungsbedingungen' }}>Nutzungsbedingungen</router-link>.
           </span>
         </label>
       </div>
