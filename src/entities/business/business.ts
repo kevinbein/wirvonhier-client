@@ -1,4 +1,5 @@
 import set from 'lodash/set';
+import get from 'lodash/get';
 
 import {
   IBusinessData,
@@ -117,7 +118,7 @@ export class Business implements IBusinessData {
 
   public update(path: string, value: unknown): IUpdateSuccess | IUpdateError {
     const { status, field } = this.validate(path, value);
-    set(this, path, value);
+    if (status === 'success') set(this, path, value);
     return { business: this, status, field };
   }
 
@@ -125,8 +126,10 @@ export class Business implements IBusinessData {
     return this as IBusinessData;
   }
 
-  private validate(path: string, value: unkown): IValidationSuccess | IValidationError {
-    return { status: 'success', field: {} };
+  private validate(path: string, value: unknown): IValidationSuccess | IValidationError {
+    const validValue = typeof get(this, path) === typeof value;
+    const status = validValue ? 'success' : 'failure';
+    return { status, field: {} };
   }
 
   private normalizeString(string: string): string {

@@ -63,6 +63,7 @@ interface IProps {
   },
 })
 export class WVHTextField extends VueComponent<IProps> {
+  public id!: string;
   public maxLength?: number;
   public label!: string;
   public value!: string;
@@ -71,6 +72,11 @@ export class WVHTextField extends VueComponent<IProps> {
   public errorMessages!: string[];
   public required!: boolean;
   public type!: InputType;
+
+  public update(e: Event): void {
+    const value = (e.target as HTMLInputElement).value;
+    this.$emit('change', { key: this.id, value });
+  }
 
   // @ts-ignore
   public render(h): Vue.VNode {
@@ -90,6 +96,8 @@ export class WVHTextField extends VueComponent<IProps> {
             autocomplete={this.autocomplete}
             placeholder={this.placeholder}
             class={Styles['text-input']}
+            value={this.value}
+            on-change={this.update.bind(this)}
           />
         </label>
       </div>

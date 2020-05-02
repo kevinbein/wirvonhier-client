@@ -36,16 +36,22 @@ interface IProps {
   },
 })
 export class WVHCheckboxField extends VueComponent<IProps> {
+  public id!: string;
   public maxLength?: number;
   public label!: string;
   public value!: boolean;
   public errorMessages!: string[];
 
+  public update(): void {
+    const value = !this.value;
+    this.$emit('change', { key: this.id, value });
+  }
+
   // @ts-ignore
   public render(h): Vue.VNode {
     return (
       <div class={`${Styles['checkbox__wrapper']} ${SharedStyles['input__wrapper']}`}>
-        <label class={`${Styles['checkbox__inner']} ${SharedStyles['input__inner']}`}>
+        <label class={`${Styles['checkbox__inner']} ${SharedStyles['input__inner']}`} on-click={this.update.bind(this)}>
           {this.errorMessages.length > 0 && (
             <div class={`${Styles['checkbox__errors']} ${SharedStyles['input__errors']}`}>
               {this.errorMessages.map((error) => (

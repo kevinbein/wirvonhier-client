@@ -18,7 +18,7 @@ export class ManageProfileForm extends Vue {
     return this.businessModule.state.selectedBusiness as Business;
   }
 
-  public async update(key: 'email' | 'password', value: string): Promise<void> {
+  public async update({ key, value }: { key: string; value: string }): Promise<void> {
     const { field, status } = await this.businessModule.actions.update({
       business: this.business,
       key,

@@ -52,6 +52,7 @@ interface IProps {
   },
 })
 export class WVHTextareaField extends VueComponent<IProps> {
+  public id!: string;
   public maxLength?: number;
   public value!: string;
   public placeholder!: string;
@@ -60,6 +61,11 @@ export class WVHTextareaField extends VueComponent<IProps> {
 
   public get currentLength(): number {
     return this.value.length;
+  }
+
+  public update(e: Event): void {
+    const value = (e.target as HTMLTextAreaElement).value;
+    this.$emit('change', { key: this.id, value });
   }
 
   // @ts-ignore
@@ -74,7 +80,7 @@ export class WVHTextareaField extends VueComponent<IProps> {
               ))}
             </div>
           )}
-          <textarea class={Styles.textarea} />
+          <textarea class={Styles.textarea} value={this.value} on-change={this.update.bind(this)} />
           <span class={Styles['textarea__max-length']}>
             {this.currentLength} {this.maxLength ? `${this.currentLength} / ${this.maxLength} ` : ''}
           </span>
