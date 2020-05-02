@@ -1,3 +1,5 @@
+import set from 'lodash/set';
+
 import {
   IBusinessData,
   IAddress,
@@ -8,6 +10,10 @@ import {
   IStory,
   IVideo,
   IImage,
+  IValidationError,
+  IValidationSuccess,
+  IUpdateSuccess,
+  IUpdateError,
 } from './business.types';
 
 export class Business implements IBusinessData {
@@ -17,7 +23,7 @@ export class Business implements IBusinessData {
   public dataProtStatement: string;
   public ownerFirstName: string;
   public ownerLastName: string;
-  public address?: IAddress;
+  public address: IAddress;
   public media: IBusinessMedia;
   public delivery: string[];
   public category: string[];
@@ -42,22 +48,31 @@ export class Business implements IBusinessData {
     this.modifiedAt = data.modified;
     this.dataProtStatement = data.dataProtStatement;
     this.id = data.id;
-    this.name = data.name;
-    this.ownerFirstName = data.ownerFirstName;
-    this.ownerLastName = data.ownerLastName;
-    this.address = data.address;
+    this.name = data.name || '';
+    this.ownerFirstName = data.ownerFirstName || '';
+    this.ownerLastName = data.ownerLastName || '';
+    this.address = data.address
+      ? data.address
+      : {
+          street: '',
+          streetNumber: '',
+          zip: '',
+          city: '',
+          state: '',
+          country: '',
+        };
     this.media = data.media;
-    this.delivery = data.delivery;
-    this.category = data.category;
-    this.paymentMethods = data.paymentMethods;
-    this.phone = data.phone;
-    this.onlineShop = data.onlineShop;
-    this.whatsApp = data.whatsApp;
-    this.instagram = data.instagram;
-    this.facebook = data.facebook;
-    this.website = data.website;
-    this.email = data.email;
-    this.description = data.description;
+    this.delivery = data.delivery || [];
+    this.category = data.category || [];
+    this.paymentMethods = data.paymentMethods || [];
+    this.phone = data.phone || '';
+    this.onlineShop = data.onlineShop || '';
+    this.whatsApp = data.whatsApp || '';
+    this.instagram = data.instagram || '';
+    this.facebook = data.facebook || '';
+    this.website = data.website || '';
+    this.email = data.email || '';
+    this.description = data.description || '';
     this.owner = data.owner;
     this.location = data.location;
   }
@@ -98,6 +113,20 @@ export class Business implements IBusinessData {
       return time1 - time2;
     });
     return imagesAndVideos;
+  }
+
+  public update(path: string, value: unknown): IUpdateSuccess | IUpdateError {
+    const { status, field } = this.validate(path, value);
+    set(this, path, value);
+    return { business: this, status, field };
+  }
+
+  public getData(): IBusinessData {
+    return this as IBusinessData;
+  }
+
+  private validate(path: string, value: unkown): IValidationSuccess | IValidationError {
+    return { status: 'success', field: {} };
   }
 
   private normalizeString(string: string): string {
