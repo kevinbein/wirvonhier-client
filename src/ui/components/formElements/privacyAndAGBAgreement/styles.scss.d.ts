@@ -8,7 +8,7 @@ interface CssExports {
   'input--text': string;
   'input__error-message': string;
   'input__error-messages': string;
-  'input__label--checkbox': string;
+  'input__label': string;
   'input__wrapper': string;
   'link': string;
   'link--small': string;
