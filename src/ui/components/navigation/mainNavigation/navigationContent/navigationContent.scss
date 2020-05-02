@@ -8,11 +8,15 @@
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 1px;
+    cursor: pointer;
     display: flex;
     font-size: 0.8rem;
     justify-content: center;
     padding: 10px 0;
 
+    &:hover {
+      background-color: $col-grey-light;
+    }
     &:last-child {
       border-bottom-width: 1px;
     }
