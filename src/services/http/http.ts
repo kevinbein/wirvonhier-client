@@ -33,7 +33,7 @@ export class HTTP {
       opts.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     try {
-      const { data } = await this.withAuth.get(url, opts);
+      const { data } = await this.withAuth.get<T>(url, opts);
       return { status: 'success', data };
     } catch (e) {
       return { status: 'failure', error: e };
@@ -54,7 +54,28 @@ export class HTTP {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     try {
-      const { data } = await this.withAuth.post(url, body, options);
+      const { data } = await this.withAuth.post<T>(url, body, options);
+      return { status: 'success', data };
+    } catch (e) {
+      return { status: 'failure', error: e };
+    }
+  }
+
+  async patch<T>(
+    url: string,
+    body?: unknown,
+    withAuth?: boolean,
+  ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
+    if (withAuth) {
+      const authenticated = await this.checkAndRefreshToken();
+      if (!authenticated) return { status: 'failure' };
+    }
+    const options: AxiosRequestConfig = { headers: {} };
+    if (this.store.state.token) {
+      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    }
+    try {
+      const { data } = await this.withAuth.patch<T>(url, body, options);
       return { status: 'success', data };
     } catch (e) {
       return { status: 'failure', error: e };
@@ -72,7 +93,7 @@ export class HTTP {
       if (!isExpired) return true;
     }
     try {
-      const res = await this.withAuth.post('/refresh-token');
+      const res = await this.withAuth.post<{ token: string }>('/refresh-token');
       this.store.commit('SET_TOKEN', res.data.token);
       return true;
     } catch (_error) {
