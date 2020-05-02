@@ -43,7 +43,10 @@ export class BusinessDashboard extends Vue {
         <WVHButton class={Styles['dashboard__button']} primary to={{ name: 'BusinessUploadVideo' }}>
           Video Hochladen
         </WVHButton>
-        <WVHButton class={Styles['dashboard__button']} to={{ name: 'BusinessProfile' }}>
+        <WVHButton
+          class={Styles['dashboard__button']}
+          to={{ name: 'BusinessManageProfile', query: this.business ? { selected: this.business.id } : undefined }}
+        >
           Mein Profil bearbeiten
         </WVHButton>
       </div>

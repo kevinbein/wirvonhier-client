@@ -7,7 +7,7 @@ import { store } from '@/store';
 
 Vue.use(VueRouter);
 const privateRoutes = [
-  'BusinessProfile',
+  'BusinessManageProfile',
   'BusinessInformation',
   'BusinessStories',
   'BusinessStory',
@@ -155,8 +155,9 @@ const routes = [
       },
       {
         path: 'profile',
-        name: 'BusinessProfile',
-        component: () => import(/* webpackChunkName: "BusinessProfile" */ '@/ui/apps/business/profile/profile'),
+        name: 'BusinessManageProfile',
+        component: () =>
+          import(/* webpackChunkName: "BusinessManageProfile" */ '@/ui/apps/business/manageProfile/manageProfile'),
       },
       {
         path: 'profile/information',

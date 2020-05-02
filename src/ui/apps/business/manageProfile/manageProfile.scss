@@ -1,0 +1,36 @@
+@import '../../../styles/main';
+
+.manage-profile {
+  &__page {
+    align-items: center;
+    background: $col-white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+
+    .manage-profile {
+      &__back {
+        color: $col-primary;
+        left: 15px;
+        position: absolute;
+        top: 15px;
+      }
+    }
+  }
+
+  &__title {
+    color: $primary;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 auto;
+  }
+
+  &__form-wrapper {
+    background-color: $col-primary-light;
+    flex: 1 1 100%;
+    position: relative;
+    width: 100%;
+  }
+}
