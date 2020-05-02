@@ -25,7 +25,7 @@ export interface IBusinessData {
   readonly description: string;
   readonly owner: IUser;
   readonly location: ILocation;
-  readonly address?: IAddress;
+  readonly address: IAddress;
   readonly media: IBusinessMedia;
   readonly delivery: string[];
   readonly category: string[];
@@ -121,10 +121,31 @@ export type IPaymentMethod =
   | 'ondelivery'
   | 'sepa'
   | 'other';
+export type IDeliveryOptions = 'collect' | 'delivery';
 export type IBusiness = IBusinessData;
 
 export interface IBusinessFilter {
   any?: string;
   id?: string;
   _id?: string;
+}
+
+export interface IValidationError {
+  status: 'failure';
+  field: { [key: string]: unknown };
+}
+export interface IValidationSuccess {
+  status: 'success';
+  field: { [key: string]: unknown };
+}
+
+export interface IUpdateSuccess {
+  status: 'success';
+  field: { [key: string]: unknown };
+  business: Business;
+}
+export interface IUpdateError {
+  status: 'failure';
+  field: { [key: string]: unknown };
+  business: Business;
 }

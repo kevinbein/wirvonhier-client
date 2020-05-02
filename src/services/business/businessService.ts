@@ -64,4 +64,20 @@ export class BusinessService {
     this.db.businesses.list.add(data);
     return data;
   }
+
+  async create(businessData?: Partial<IBusinessData>): Promise<Business[] | null> {
+    const { status, ...res } = await this.http.post<Partial<IBusinessData>>('/businesses', {
+      businesses: [businessData || {}],
+    });
+    if (status === 'failure') return null;
+    const data = (res as IHttpSuccessResponse<{ createdBusinesses: IBusinessData[]; message: string }>).data;
+    return data.createdBusinesses.map((business) => new Business(business));
+  }
+
+  async save(businessData: IBusinessData): Promise<boolean> {
+    const { id } = businessData;
+    const { status } = await this.http.patch(`/businesses/${id}`, businessData);
+    if (status === 'failure') return false;
+    return true;
+  }
 }
