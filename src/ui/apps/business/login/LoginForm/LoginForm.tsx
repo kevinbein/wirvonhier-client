@@ -55,7 +55,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
     if (this.errors.email.length > 0 || this.errors.password.length > 0) return;
 
     const res = await this.rootStore.actions.login({
-      email: this.formData.email,
+      email: this.formData.email.toLowerCase(),
       password: this.formData.password,
     });
     if (res.status === 'failure') {

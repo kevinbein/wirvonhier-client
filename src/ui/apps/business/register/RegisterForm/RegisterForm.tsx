@@ -78,8 +78,14 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
       });
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { passwordRepeat, ...payload } = this.formData;
+
+    const payload = {
+      email: this.formData.email.toLowerCase(),
+      password: this.formData.password,
+      dataProtStatementLang: this.formData.dataProtStatementLang,
+      dataProtStatement: this.formData.dataProtStatement,
+    };
+
     payload.dataProtStatement = dataProtStatement.version;
     const res = await this.rootStore.actions.register(payload);
     if (res.status === 'failure') {
