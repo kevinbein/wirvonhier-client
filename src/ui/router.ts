@@ -160,10 +160,10 @@ const routes = [
           import(/* webpackChunkName: "BusinessManageProfile" */ '@/ui/apps/business/manageProfile/manageProfile'),
       },
       {
-        path: 'profile/information',
-        name: 'BusinessInformation',
+        path: 'images',
+        name: 'BusinessManageImages',
         component: () =>
-          import(/* webpackChunkName: "BusinessInformation" */ '@/ui/apps/business/information/information'),
+          import(/* webpackChunkName: "BusinessManageImages" */ '@/ui/apps/business/manageImages/manageImages'),
       },
       {
         path: 'profile/stories',
