@@ -1,4 +1,6 @@
 // classes here are available as-is
+@import 'transitions';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -44,25 +46,6 @@ body {
 
 .swiper-slide {
   background: #000;
-}
-
-.fade-enter {
-  opacity: 0;
-}
-.fade-enter-active {
-  transition: opacity 120ms;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-.fade-leave {
-  opacity: 1;
-}
-.fade-leave-active {
-  transition: opacity 120ms;
-}
-.fade-leave-to {
-  opacity: 0;
 }
 
 .pseudo-link {
