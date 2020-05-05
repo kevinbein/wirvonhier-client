@@ -5,6 +5,7 @@
     box-shadow: $elevation-3;
     color: $col-primary !important; // important here because of vuetify
     cursor: pointer;
+    display: inline-block;
     font-family: 'FuturaBT-Medium', sans-serif;
     margin: #{$base-unit / 8}px;
     padding: #{$base-unit / 4}px #{$base-unit / 3}px;
@@ -30,6 +31,16 @@
       &:active,
       &:hover {
         background-color: $col-primary-dark;
+      }
+    }
+    &--cancel {
+      background: $col-red;
+      color: $col-white !important; // important here because of vuetify
+      text-transform: uppercase;
+
+      &:active,
+      &:hover {
+        background-color: $col-red-dark;
       }
     }
 
