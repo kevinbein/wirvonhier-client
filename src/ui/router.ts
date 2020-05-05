@@ -72,9 +72,9 @@ const routes = [
       }
       const hasPermission = await store.dispatch('hasPermission', to);
       if (hasPermission && to.name !== 'BusinessDashboard') {
-        next({ name: 'BusinessDashboard' });
-      } else if (!hasPermission && to.name !== 'BusinessLanding') {
-        next({ name: 'BusinessLanding' });
+        next();
+      } else if (!hasPermission && to.name !== 'BusinessLogin') {
+        next({ name: 'BusinessLogin' });
       } else next();
     },
     redirect: '/business/dashboard',
