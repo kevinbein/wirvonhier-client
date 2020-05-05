@@ -6,6 +6,7 @@ import { IFindNearBusinessesOptions } from '@/services/business/businessService.
 import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
 import { IBusinessUpdateOptions } from './actions.types';
+import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: Store<RootState>;
@@ -51,5 +52,18 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       return false;
     }
     return true;
+  }
+
+  async uploadImages(images: IImageData[]): Promise<unknown> {
+    const result = [];
+    for (const image of images) {
+      const res = this.store.$services.images.uploadImage(image);
+      result.push(res);
+    }
+    return Promise.all(result);
+  }
+
+  async validateImageUploads(publicIds: string[]): Promise<void> {
+    const { status, ...res } = await this.store.$http.post('/image-upload-confirmed', { publicIds });
   }
 }

@@ -2,8 +2,8 @@ import { Business } from './business';
 
 export interface IBusinessData {
   readonly _id?: string; // MongoDB ID
-  readonly created?: string;
-  readonly modified?: string;
+  readonly createdAt?: string;
+  readonly modifiedAt?: string;
   readonly id: string; // readable ID from name
   readonly name: string; // Business Name
 
@@ -49,32 +49,37 @@ export interface IBusinessMedia {
   };
 }
 
+export enum MEDIATYPE {
+  IMAGE = 'image',
+  VIDEO = 'video',
+}
+
 export interface IImage {
   _id: string;
   publicId: string;
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
   title: string;
   description?: string;
   src: string;
-  type: 'image';
+  type: MEDIATYPE;
 }
 export interface IVideo {
   _id: string;
   publicId: string;
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
   title: string;
   description?: string;
   src: string;
-  type: 'video';
+  type: MEDIATYPE;
 }
 export interface IStory {
   _id: string;
   business: Business;
   publicId: string;
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
   title: string;
   description?: string;
   src: string;
@@ -90,16 +95,16 @@ export interface IAddress {
   country: string;
 }
 export interface ILocation {
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
   geo: {
     type: 'Point';
     coordinates: number[];
   };
 }
 export interface IUser {
-  created: string;
-  modified: string;
+  createdAt: string;
+  modifiedAt: string;
   email: string;
   roles: string[];
   firstName?: string;
