@@ -1,0 +1,25 @@
+.image-input {
+  background-color: $col-white;
+  color: $col-text;
+  font-family: inherit;
+
+  &__wrapper {
+    margin-bottom: #{$base-unit / 8}px;
+  }
+
+  &__inner {
+    display: flex;
+  }
+
+  &__errors {
+    color: $col-error;
+  }
+  &__error {
+    color: inherit;
+  }
+  &__button {
+    margin: auto;
+    max-width: 300px;
+    width: 100%;
+  }
+}
