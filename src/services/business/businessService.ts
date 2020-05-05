@@ -61,7 +61,7 @@ export class BusinessService {
     const { status, ...res } = await this.http.get(`businesses/${businessId}`);
     if (status === 'failure') return null;
     const data = (res as IHttpSuccessResponse<IBusinessData>).data;
-    this.db.businesses.list.add(data);
+    this.db.businesses.list.put(data);
     return data;
   }
 
