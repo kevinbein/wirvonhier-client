@@ -61,11 +61,7 @@ export class BusinessManageProfile extends Vue {
     // CASE_2: Business exists + User owns business, load it
     if (typeof businessId === 'string' && this.user.businesses.includes(businessId)) {
       this.businessModule.actions.selectBusiness(businessId);
-      return;
     }
-
-    // CASE_3: Create new business
-    if (!businessId) this.businessModule.actions.create();
   }
 }
 

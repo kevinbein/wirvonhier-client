@@ -265,17 +265,13 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   private loadCorrectBusiness(): void {
     const businessId = this.$route.query.selected;
 
-    // CASE_1: Edit active business
+    if (!businessId && this.business) return;
+
     if (this.business && this.business.id === businessId) return;
 
-    // CASE_2: Business exists + User owns business, load it
     if (typeof businessId === 'string' && this.user.businesses.includes(businessId)) {
       this.businessModule.actions.selectBusiness(businessId);
-      return;
     }
-
-    // CASE_3: Create new business
-    if (!businessId) this.businessModule.actions.create();
   }
 
   private _checkScrollTop(): void {
