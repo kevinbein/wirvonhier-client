@@ -4,7 +4,6 @@ import { IQuery, ITokenPayload, IHttpSuccessResponse, IHttpErrorResponse } from 
 import { IStore } from '@/store';
 
 const withAuthInstance = axios.create({
-  timeout: 3000,
   baseURL: API_URL,
   withCredentials: true,
   responseType: 'json',
@@ -29,7 +28,7 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const opts: AxiosRequestConfig = { headers: {}, ...options };
-    if (this.store.state.token) {
+    if (this.store.state.token && opts.withCredentials !== false) {
       opts.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     try {
@@ -44,13 +43,14 @@ export class HTTP {
     url: string,
     body?: unknown,
     withAuth?: boolean,
+    requestOptions?: AxiosRequestConfig,
   ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
     if (withAuth) {
       const authenticated = await this.checkAndRefreshToken();
       if (!authenticated) return { status: 'failure' };
     }
-    const options: AxiosRequestConfig = { headers: {} };
-    if (this.store.state.token) {
+    const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
+    if (this.store.state.token && options.withCredentials !== false) {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     try {
@@ -65,13 +65,14 @@ export class HTTP {
     url: string,
     body?: unknown,
     withAuth?: boolean,
+    requestOptions?: AxiosRequestConfig,
   ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
     if (withAuth) {
       const authenticated = await this.checkAndRefreshToken();
       if (!authenticated) return { status: 'failure' };
     }
-    const options: AxiosRequestConfig = { headers: {} };
-    if (this.store.state.token) {
+    const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
+    if (this.store.state.token && options.withCredentials !== false) {
       options.headers.Authentication = `Bearer ${this.store.state.token}`;
     }
     try {
