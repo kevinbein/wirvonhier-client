@@ -300,7 +300,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                             <cld-transformation width={this.storyWidth} crop="scale" />
                           </cld-image>
                           <div class={Styles['description']}>{img.title}</div>
-                          <div class={Styles['date']}>{new Date(img.modified).toLocaleDateString()}</div>
+                          <div class={Styles['date']}>{new Date(img.modifiedAt).toLocaleDateString()}</div>
                         </div>
                       </div>
                     );
