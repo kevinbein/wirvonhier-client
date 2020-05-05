@@ -1,0 +1,62 @@
+.manage-images {
+  &__page {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+
+    .manage-images {
+      &__back {
+        color: $col-primary;
+        left: 15px;
+        position: absolute;
+        top: 15px;
+      }
+    }
+  }
+
+  &__title {
+    color: $primary;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 0 auto;
+  }
+  &__section-title {
+    color: $primary;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 0.4em 0;
+  }
+
+  &__images-wrapper {
+    width: 100%;
+  }
+
+  &__stories-wrapper {
+    column-gap: #{$base-unit / 4}px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: #{$base-unit / 4}px;
+  }
+}
+
+.buttons {
+  &__wrapper {
+    bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+  }
+
+  &__button {
+    flex: 0 1 200px;
+
+    &--cancel {
+      padding: 8px 14px;
+    }
+  }
+}

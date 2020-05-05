@@ -5,7 +5,7 @@ import SharedStyles from '@/ui/styles/main.scss';
 import { BusinessModule, UserDataState, UserModule, AppearanceModule } from '@/store';
 import { Business } from '@/entities';
 import { ManageProfileForm } from './manageProfileForm';
-import { Loader } from '@/ui/components';
+import { Loader, WVHButton } from '@/ui/components';
 
 @Component({
   name: 'BusinessManageProfile',
@@ -37,7 +37,16 @@ export class BusinessManageProfile extends Vue {
         </router-link>
         <div class={Styles['manage-profile__title']}>PROFIL VERWALTEN</div>
         <div class={Styles['manage-profile__form-wrapper']}>
-          {this.business ? <ManageProfileForm /> : <Loader size={64} />}
+          {this.business ? (
+            <div style="display: contents">
+              <WVHButton to={{ name: 'BusinessManageImages', query: this.$route.query }} primary>
+                Bilder verwalten
+              </WVHButton>
+              <ManageProfileForm />
+            </div>
+          ) : (
+            <Loader size={64} />
+          )}
         </div>
       </div>
     );
@@ -56,11 +65,7 @@ export class BusinessManageProfile extends Vue {
     }
 
     // CASE_3: Create new business
-    if (!businessId) return this.initBusiness();
-  }
-
-  private initBusiness(): void {
-    this.businessModule.actions.create();
+    if (!businessId) this.businessModule.actions.create();
   }
 }
 
