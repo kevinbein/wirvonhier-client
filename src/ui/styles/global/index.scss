@@ -17,6 +17,12 @@ body {
   height: 100%;
   width: 100%;
 }
+
+.cld-image {
+  img {
+    display: block;
+  }
+}
 @font-face {
   font-family: 'FuturaBT-Medium';
   font-style: normal;

@@ -60,6 +60,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     const result = [];
     for (const image of images) {
       const res = this.store.$services.images.uploadImage(image);
+      if (!res) continue;
       result.push(res);
     }
     return Promise.all(result);

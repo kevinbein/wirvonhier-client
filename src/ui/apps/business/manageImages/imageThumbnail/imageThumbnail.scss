@@ -1,7 +1,8 @@
 .thumbnail {
   border-radius: 15px;
-  box-shadow: $elevation-2;
+  box-shadow: $elevation-3;
   object-fit: cover;
+  overflow: hidden;
   position: relative;
 
   &__wrapper {
@@ -55,6 +56,8 @@
   &__title {
     color: $col-primary;
     font-size: smaller;
+    overflow-wrap: anywhere;
+    padding: 0 10px;
   }
 }
 

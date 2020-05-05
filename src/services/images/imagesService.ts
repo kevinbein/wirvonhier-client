@@ -20,11 +20,12 @@ export class ImagesService {
     this.store = store;
   }
 
-  async uploadImage(
+  uploadImage(
     image: IImageData,
-  ): Promise<
+  ): null | Promise<
     IHttpSuccessResponse<ICloudinaryImageUploadResponse> | IHttpErrorResponse<ICloudinaryImageUploadResponse>
   > {
+    if (!image.src) return null;
     const options = {
       file: image.src,
       upload_preset: CLOUDINARY_IMAGE_PRESET, // eslint-disable-line @typescript-eslint/camelcase

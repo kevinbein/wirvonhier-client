@@ -5,7 +5,7 @@ import SharedStyles from '@/ui/styles/main.scss';
 import Styles from './manageImages.scss';
 import { ImageThumbnail } from './imageThumbnail';
 import { WVHButton } from '@/ui';
-import { Business, MEDIATYPE } from '@/entities';
+import { Business, MEDIATYPE, IBusiness } from '@/entities';
 import { BusinessModule, AppearanceModule, UserModule, UserDataState } from '@/store';
 import { IImageData } from './manageImages.types';
 import { ManageImagesForm } from './manageImagesForm';
@@ -17,9 +17,8 @@ interface IRefs {
   page: HTMLDivElement;
 }
 
-interface IFile {
-  file: File;
-  id: string;
+interface IFiles {
+  [key: string]: string;
 }
 
 @Component({
@@ -39,7 +38,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public showImages = false;
   public showButtons = false;
   public imageSelectedForEdit: IImageData | null = null;
-  public files: IFile[] = [];
+  public files: IFiles = {};
   public checkScrollTop!: () => void;
 
   public get business(): Business | null {
@@ -69,6 +68,13 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     return this.newCoverImage || existingCover || dummyCover;
   }
 
+  public get coverImageThumbnail(): IImageData {
+    return {
+      ...this.coverImage,
+      src: this.files[this.coverImage.publicId],
+    };
+  }
+
   public get savedStoryImages(): IImageData[] {
     const stories = this.business?.media.stories.images;
     return stories
@@ -79,6 +85,13 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public get allStoryImages(): IImageData[] {
     const allImages = [...this.newStoryImages, ...this.savedStoryImages];
     return allImages.filter(Boolean);
+  }
+
+  public get allStoryImageThumbnails(): IImageData[] {
+    return this.allStoryImages.map((image) => {
+      image.src = this.files[image.publicId];
+      return image;
+    });
   }
 
   public get imagesMarkedForDelete(): IImageData[] {
@@ -96,21 +109,19 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public async saveChanges(): Promise<void> {
     if (!this.business) return;
     const media = this.business.media;
-    const cover = { ...this.coverImage };
-    cover.src = '';
     const businessMedia = {
       ...media,
       logo: media.logo, // LOGO MISSING
       cover: {
         ...(media.cover || {}),
-        image: cover,
+        image: { ...this.coverImage },
+      },
+      profile: {
+        ...(media.profile || {}),
+        image: null,
       },
       stories: {
-        images: this.allStoryImages.map((img) => {
-          const copy = { ...img };
-          copy.src = '';
-          return copy;
-        }),
+        images: this.allStoryImages.map((img) => ({ ...img })),
         videos: media.stories.videos,
       },
     };
@@ -126,13 +137,32 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
       console.log('Some UpdateError: ', updateRes);
     }
 
+    const { media: updatedMedia } = updateRes.business as IBusiness;
+
+    if (updatedMedia.cover && updatedMedia.cover.image) {
+      updatedMedia.cover.image.src = '';
+    }
+    if (updatedMedia.profile && updatedMedia.profile.image) {
+      updatedMedia.profile.image.src = '';
+    }
+    if (updatedMedia.logo) {
+      updatedMedia.logo.src = '';
+    }
+    if (updatedMedia.stories && updatedMedia.stories.images) {
+      updatedMedia.stories.images = updatedMedia.stories.images.map((img) => {
+        img.src = '';
+        return img;
+      });
+    }
+
     const success = await this.businessModule.actions.save(updateRes.business);
     if (!success) {
       // eslint-disable-next-line no-console
       console.log('Some SaveError');
+      return;
     }
-
-    const all = [...this.allStoryImages, this.coverImage];
+    const all = [...this.newStoryImages, this.newCoverImage].filter(Boolean) as IImageData[];
+    this.newStoryImages = [];
     const uploadRes = await this.businessModule.actions.uploadImages(all);
     const successfulUploads = uploadRes
       .filter((item: any) => item.status === 'success') // eslint-disable-line
@@ -167,6 +197,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   }
 
   public addImage(data: IImageData): void {
+    this.files[data.publicId] = data.src;
     if (data.isCover) {
       this.newCoverImage = data;
     } else {
@@ -222,7 +253,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
           <div class={Styles['manage-images__images-wrapper']}>
             <h3 class={Styles['manage-images__section-title']}>Cover-Bild</h3>
             <ImageThumbnail
-              image={this.coverImage}
+              image={this.coverImageThumbnail}
               width={this.coverWidth}
               height={this.coverHeight}
               on-remove={this.removeImage.bind(this)}
@@ -230,7 +261,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
             />
             <h3 class={Styles['manage-images__section-title']}>Story-Bilder</h3>
             <div class={Styles['manage-images__stories-wrapper']}>
-              {this.allStoryImages.map((image) => (
+              {this.allStoryImageThumbnails.map((image) => (
                 <ImageThumbnail
                   image={image}
                   width={this.storyWidth}

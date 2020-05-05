@@ -60,7 +60,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
         on-click={this.focus.bind(this)}
         on-blur={this.blur.bind(this)}
       >
-        {this.image.src ? (
+        {this.image.src || !this.image.saved ? (
           <img
             class={Styles.thumbnail}
             width={this.width}
@@ -76,9 +76,8 @@ export class ImageThumbnail extends VueComponent<IProps> {
             height={this.height}
             crop="scale"
             dpr={window.devicePixelRatio}
-            fetchFormat="auto"
           >
-            <cld-transformation width={this.width} height={this.height} crop="scale" />
+            <cld-transformation quality="auto" fetchFormat="auto" />
           </cld-image>
         )}
         {this.image.title !== 'dummy' && <div class={Styles['thumbnail__title']}>{this.image.title}</div>}
