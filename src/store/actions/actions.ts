@@ -1,10 +1,10 @@
 import { Actions, Context } from 'vuex-smart-module';
 import { Store } from 'vuex';
-import { RootState, RootGetters, RootMutations, BusinessModule } from '..';
+import { RootState, RootGetters, RootMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { ITokenPayload, IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import JwtDecode from 'jwt-decode';
-import { UserModule } from '@/store/modules/user';
+import { UserModule, BusinessModule } from '@/store/modules';
 import { Route } from 'vue-router';
 import { IDataProtStatement } from '../state/state.types';
 
