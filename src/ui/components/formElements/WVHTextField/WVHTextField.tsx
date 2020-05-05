@@ -15,6 +15,7 @@ interface IProps {
   autocomplete?: string;
   required?: boolean;
   type?: InputType;
+  autofocus?: boolean;
 }
 
 @Component({
@@ -60,6 +61,10 @@ interface IProps {
       type: Boolean,
       default: false,
     },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 export class WVHTextField extends VueComponent<IProps> {
@@ -71,6 +76,7 @@ export class WVHTextField extends VueComponent<IProps> {
   public placeholder!: string;
   public errorMessages!: string[];
   public required!: boolean;
+  public autofocus!: boolean;
   public type!: InputType;
 
   public update(e: Event): void {
@@ -95,6 +101,7 @@ export class WVHTextField extends VueComponent<IProps> {
             type={this.type}
             autocomplete={this.autocomplete}
             placeholder={this.placeholder}
+            autofocus={this.autofocus}
             class={Styles['text-input']}
             value={this.value}
             on-change={this.update.bind(this)}
