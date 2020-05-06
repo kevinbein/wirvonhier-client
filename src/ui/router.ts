@@ -73,6 +73,11 @@ const routes = [
       const hasPermission = await store.dispatch('hasPermission', to);
       if (hasPermission && to.name !== 'BusinessDashboard') {
         next();
+      } else if (
+        hasPermission &&
+        ['BusinessLanding', 'BusinessLogin', 'BusinessRegister'].includes(to.name as string)
+      ) {
+        next({ name: 'BusinessDashboard' });
       } else if (!hasPermission && to.name !== 'BusinessLogin') {
         next({ name: 'BusinessLogin' });
       } else next();

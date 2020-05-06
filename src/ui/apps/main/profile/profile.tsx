@@ -35,7 +35,6 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
 
   public businessName: string | null = null;
   public businessId: string | null = null;
-  public existCover = false;
 
   get whatsAppApiNumber(): string {
     // remove non numeric characters
@@ -49,7 +48,12 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
 
   constructor() {
     super();
-    this.existCover = !!this.profile.media.cover && !!this.profile.media.cover.image;
+  }
+
+  public get coverId(): string {
+    return (
+      (this.profile.media.cover && this.profile.media.cover.image && this.profile.media.cover.image.publicId) || ''
+    );
   }
 
   public goToExplorer(): void {
@@ -131,10 +135,10 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
           <div class={Styles['profile-page_container']}>
             <h1 class={Styles['profile-page__title']}>{this.profile.name}</h1>
             <div class={Styles['profile-image-container']}>
-              {(this.existCover && (
+              {(this.coverId && (
                 <cld-image
                   class={Styles['profile-image']}
-                  publicId={this.profile.media.cover.image.publicId}
+                  publicId={this.coverId}
                   height="180"
                   width={this.profileWidth}
                   crop="fill"

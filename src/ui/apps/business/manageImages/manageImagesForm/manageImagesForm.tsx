@@ -20,6 +20,8 @@ interface IProps {
   coverHeight: number;
   storyWidth: number;
   storyHeight: number;
+  logoWidth: number;
+  logoHeight: number;
   image: IImageData | null;
 }
 
@@ -31,7 +33,7 @@ interface IErrors {
 
 type K = Extract<keyof IImageData, string>;
 
-type IFormInputs = ITitle | IDesc | IFile;
+type IFormInputs = ITitle | IDesc | IFile | ICheckbox;
 interface ITitle {
   key: 'title';
   value: string;
@@ -44,6 +46,10 @@ interface IFile {
   key: 'file';
   value: FileList;
 }
+interface ICheckbox {
+  key: 'isLogo' | 'isCover' | 'isStory';
+  value: boolean;
+}
 
 const initialFormData: IImageData = {
   _id: '',
@@ -54,8 +60,8 @@ const initialFormData: IImageData = {
   src: '',
   description: '',
   isCover: false,
+  isStory: false,
   saved: false,
-  markedForDelete: false,
   type: MEDIATYPE.IMAGE,
 };
 
@@ -78,6 +84,14 @@ const initialFormData: IImageData = {
       type: Number,
       default: 0,
     },
+    logoHeight: {
+      type: Number,
+      default: 0,
+    },
+    logoWidth: {
+      type: Number,
+      default: 0,
+    },
     image: {
       type: Object,
       default: () => null,
@@ -88,8 +102,7 @@ const initialFormData: IImageData = {
       deep: true,
       handler(this: ManageImagesForm, newImage: IImageData) {
         if (!newImage) return;
-        this.formData = { ...initialFormData };
-        this.formData = { ...newImage };
+        this.$set(this, 'formData', { ...newImage });
       },
     },
   },
@@ -101,6 +114,8 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
   public coverHeight!: number;
   public storyWidth!: number;
   public storyHeight!: number;
+  public logoWidth!: number;
+  public logoHeight!: number;
   public image: IImageData | null = null;
   public formErrors: IErrors = {
     title: [],
@@ -112,17 +127,24 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
     title: false,
     description: false,
   };
-  private formData: IImageData = { ...initialFormData };
+  private initialFormData = initialFormData;
+  private formData: IImageData = { ...this.initialFormData };
 
   public get business(): Business | null {
     return this.businessModule.state.selectedBusiness;
   }
 
   public get previewHeight(): number {
-    return this.formData.isCover ? this.coverHeight : this.storyHeight;
+    if (this.formData.isCover) return this.coverHeight;
+    if (this.formData.isLogo) return this.logoHeight;
+    if (this.formData.isStory) return this.storyHeight;
+    return this.storyHeight;
   }
   public get previewWidth(): number {
-    return this.formData.isCover ? this.coverWidth : this.storyWidth;
+    if (this.formData.isCover) return this.coverWidth;
+    if (this.formData.isLogo) return this.logoWidth;
+    if (this.formData.isStory) return this.storyWidth;
+    return this.storyWidth;
   }
 
   public get isImageSelected(): boolean {
@@ -145,25 +167,29 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
       title: this.formData.title,
       src: this.formData.src,
       isCover: this.formData.isCover,
+      isProfile: this.formData.isProfile,
+      isStory: this.formData.isStory,
+      isLogo: this.formData.isLogo,
       description: this.formData.description,
       saved: this.formData.saved,
-      markedForDelete: false,
-      publicId: this.formData.publicId || this.business.generateImagePublicId(this.formData),
+      publicId:
+        this.formData.publicId ||
+        `${this.$services.images.folder}${this.business.generateImagePublicId(this.formData)}`,
       type: MEDIATYPE.IMAGE,
     };
     this.$emit('new-image', data);
 
-    for (const key in initialFormData) {
-      this.$set(this.formData, key, initialFormData[key as K]);
+    for (const key in this.initialFormData) {
+      this.$set(this.formData, key, this.initialFormData[key as K]);
     }
   }
 
   public cancel(e: Event): void {
     e.preventDefault();
-    for (const key in initialFormData) {
-      this.$set(this.formData, key, initialFormData[key as K]);
+    for (const key in this.initialFormData) {
+      this.$set(this.formData, key, this.initialFormData[key as K]);
     }
-    this.$emit('canel');
+    this.$emit('cancel');
   }
 
   public update(options: IFormInputs): void {
@@ -175,9 +201,22 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
         this.$set(this.formData, 'src', reader.result);
       };
       reader.readAsDataURL(value[0]);
+    } else if (options.key === 'isCover') {
+      this.$set(this.formData, 'isCover', true);
+      this.$set(this.formData, 'isLogo', false);
+      this.$set(this.formData, 'isStory', false);
+    } else if (options.key === 'isLogo') {
+      this.$set(this.formData, 'isLogo', true);
+      this.$set(this.formData, 'isCover', false);
+      this.$set(this.formData, 'isStory', false);
+    } else if (options.key === 'isStory') {
+      this.$set(this.formData, 'isStory', true);
+      this.$set(this.formData, 'isLogo', false);
+      this.$set(this.formData, 'isCover', false);
     } else {
       this.$set(this.formData, key, value);
     }
+    this.$forceUpdate();
   }
 
   // @ts-ignore: Declared variable is not read
@@ -211,7 +250,23 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
             <FormCheckbox
               id="isCover"
               label="Als Cover-Bild auswählen"
-              value={this.formData.isCover}
+              value={!!this.formData.isCover}
+              is-Valid={true}
+              error-messages={[]}
+              on-change={this.update.bind(this)}
+            />
+            <FormCheckbox
+              id="isLogo"
+              label="Als Logo auswählen"
+              value={!!this.formData.isLogo}
+              is-Valid={true}
+              error-messages={[]}
+              on-change={this.update.bind(this)}
+            />
+            <FormCheckbox
+              id="isStory"
+              label="Als Story auswählen"
+              value={!!this.formData.isStory}
               is-Valid={true}
               error-messages={[]}
               on-change={this.update.bind(this)}

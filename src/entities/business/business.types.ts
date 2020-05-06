@@ -34,14 +34,14 @@ export interface IBusinessData {
 }
 
 export interface IBusinessMedia {
-  logo: IImage;
+  logo: IImage | null;
   cover: {
-    image: IImage;
-    video: IVideo;
+    image: IImage | null;
+    video: IVideo | null;
   };
   profile: {
-    image: IImage;
-    video: IVideo;
+    image: IImage | null;
+    video: IVideo | null;
   };
   stories: {
     images: IImage[];

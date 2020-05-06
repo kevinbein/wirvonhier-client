@@ -7,6 +7,7 @@ interface IProps {
   image: IImageData;
   width: number;
   height: number;
+  'marked-for-delete': boolean;
 }
 
 @Component({
@@ -24,6 +25,10 @@ interface IProps {
       type: Number,
       default: 0,
     },
+    markedForDelete: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 export class ImageThumbnail extends VueComponent<IProps> {
@@ -31,10 +36,11 @@ export class ImageThumbnail extends VueComponent<IProps> {
   public width!: number;
   public height!: number;
   public isFocused = false;
+  public markedForDelete!: boolean;
 
-  public remove(): void {
+  public toggleRemove(): void {
     if (this.image._id === '0') return;
-    this.$emit('remove', this.image);
+    this.$emit('toggle-remove', this.image);
   }
 
   public edit(): void {
@@ -82,7 +88,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
         )}
         {this.image.title !== 'dummy' && <div class={Styles['thumbnail__title']}>{this.image.title}</div>}
         <div
-          class={`${Styles.overlay} ${this.image.markedForDelete ? Styles['overlay--delete'] : ''}
+          class={`${Styles.overlay} ${this.markedForDelete ? Styles['overlay--delete'] : ''}
           ${!this.image.saved ? Styles['overlay--new'] : ''}`}
         />
         <transition name="fade">
@@ -93,8 +99,11 @@ export class ImageThumbnail extends VueComponent<IProps> {
               <button class={Styles['thumbnail__button']} on-click={this.edit.bind(this)}>
                 <i class={`${Styles['thumbnail__icon']} fa fa-edit`} />
               </button>
-              <button class={Styles['thumbnail__button']} on-click={this.remove.bind(this)}>
-                <i class={`${Styles['thumbnail__icon']} fa fa-times`} />
+              <button
+                class={`${Styles['thumbnail__button']} ${Styles['thumbnail__button--delete']}`}
+                on-click={this.toggleRemove.bind(this)}
+              >
+                <i class={`${Styles['thumbnail__icon']} far fa-trash-alt`} />
               </button>
             </div>
           )}
