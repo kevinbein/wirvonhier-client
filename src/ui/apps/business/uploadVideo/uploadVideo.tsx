@@ -1,4 +1,4 @@
-import { VueStrong } from '@/ui';
+import Vue from 'vue';
 import Component from 'vue-class-component';
 import { rootModule } from '@/store';
 import SharedStyles from '@/ui/styles/main.scss';
@@ -6,7 +6,7 @@ import SharedStyles from '@/ui/styles/main.scss';
 @Component({
   name: 'BusinessUploadVideo',
 })
-export class BusinessUploadVideo extends VueStrong {
+export class BusinessUploadVideo extends Vue {
   public rootStore = rootModule.context(this.$store);
 
   // @ts-ignore: Declared variable is not read
