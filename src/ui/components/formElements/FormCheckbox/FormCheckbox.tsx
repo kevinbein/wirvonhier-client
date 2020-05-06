@@ -42,10 +42,6 @@ export class FormCheckbox extends VueComponent<IProps> {
   public value!: boolean;
   public errorMessages!: string[];
 
-  public created(): void {
-    this.value = false;
-  }
-
   public update(): void {
     this.$emit('change', { key: this.id, value: !this.value });
   }
