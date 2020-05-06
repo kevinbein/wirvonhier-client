@@ -1,52 +1,51 @@
 .selection {
-
   &__wrapper {
-    width: 100%;
-    position: relative;
-    margin: 0 auto (1.0 * $unit-font-input) auto;
     display: flex;
-    flex-direction: row;
     flex: 1 1 100%;
+    flex-direction: row;
+    margin: 0 auto $unit-font-input auto;
+    position: relative;
+    width: 100%;
   }
-  
+
   &__label {
     background-color: inherit;
     color: $col-input-label;
-    position: relative;
     display: flex;
-    justify-self: flex-start;
     font-size: $unit-font-input;
+    justify-self: flex-start;
     line-height: 1.5 * $unit-font-input;
     padding: 0 $dist-input-padding;
-    
+    position: relative;
+
     &--active {
       color: $col-input-label-focus;
     }
   }
-  
-  &__checkbox { 
-    position: relative;
-    flex-shrink: 0;
-    width: $unit-checkbox;
-    height: $unit-checkbox;
-    margin: 0 0.25*$unit-checkbox;
+
+  &__checkbox {
     background-color: inherit;
-    border: 2px solid $col-input-label;       
+    border: 2px solid $col-input-label;
     border-radius: 0.125 * $unit-nav-icon;
-           
+    flex-shrink: 0;
+    height: $unit-checkbox;
+    margin: 0 (0.25 * $unit-checkbox);
+    position: relative;
+    width: $unit-checkbox;
+
     &:focus {
       outline: none;
     }
 
     &::after {
-      position: absolute;
       background-color: $col-input-underline-focus;
       border-radius: 0.125 * $unit-checkbox;
       content: '';
       height: 0.5 * $unit-checkbox;
-      width: 0.5 * $unit-checkbox;
       margin: ($unit-checkbox - (0.5 * $unit-checkbox) - (2 * 2px)) / 2;
       opacity: 0;
+      position: absolute;
+      width: 0.5 * $unit-checkbox;
     }
 
     &--selected {
@@ -54,21 +53,20 @@
 
       &::after {
         opacity: 1;
-      } 
+      }
     }
+  }
 
-  }
-  
   &__markup {
-    display: none;
     color: $col-input-label;
+    display: none;
   }
-    
+
   &__errors {
+    color: $col-error;
     display: flex;
     flex-direction: column;
     padding: ($unit-base / 6) 0;
-    color: $col-error;
   }
 
   &__error {

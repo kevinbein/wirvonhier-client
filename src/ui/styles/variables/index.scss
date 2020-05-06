@@ -5,7 +5,7 @@ $max-desktop-width: 500px;
 $col-background: hsl(0, 0%, 91%); // former hsl(233, 27%, 94%)
 $col-white: hsl(0, 0%, 100%);
 $col-text: hsl(0, 0%, 15%);
-$col-primary: hsl(230, 33%, 53%); 
+$col-primary: hsl(230, 33%, 53%);
 $col-primary-light: hsl(233, 27%, 94%); // former hsl(231, 56%, 74%)
 $col-primary-dark: hsl(231, 36%, 41%);
 $col-secondary: hsl(320, 33%, 53%);
@@ -33,30 +33,30 @@ $unit-nav-icon: 48px;
 $unit-checkbox: 24px;
 
 $unit-base: 64px; // better would be grid system with % values
-$unit-base-half: $unit-base / 2;                  // = 32 px
-$unit-base-quarter: $unit-base / 4;               // = 16 px
+$unit-base-half: $unit-base / 2; //               = 32 px
+$unit-base-quarter: $unit-base / 4; //            = 16 px
 
 %unit-page-padding {
   padding: $unit-base $unit-base-quarter ($unit-base * 1.5);
-}  
+}
 
-$unit-font-default: 1rem;                         // = 1.0 rem
-$unit-font-title: 1.4 * $unit-font-default;       // = 1.4 rem
-$unit-font-subtitle: 1.1 * $unit-font-default;  // = 1.125 rem
-$unit-font-input: 1.0 * $unit-font-default;       // = 1.0 rem
+$unit-font-default: 1rem; //                      = 1.0 rem
+$unit-font-title: 1.4 * $unit-font-default; //    = 1.4 rem
+$unit-font-subtitle: 1.1 * $unit-font-default; // = 1.125 rem
+$unit-font-input: $unit-font-default; //          = 1.0 rem
 
-// FONT 
+// FONT
 %font-title {
-  font-size: $unit-font-title;
-  line-height: $unit-font-title;
-  letter-spacing: -0.05rem;
-  font-weight: bold;
   color: $col-primary;
+  font-size: $unit-font-title;
+  font-weight: bold;
+  letter-spacing: -0.05rem;
+  line-height: $unit-font-title;
 }
 
 // DISTANCES
-$dist-nav-top: $unit-base / 3;                    // = 21 px
-$dist-title-top: $unit-base * (7 / 16);           // = 28 px
-$dist-padding-bottom: $unit-base * 1.5;           // = 96 px
+$dist-nav-top: $unit-base / 3; //                    = 21 px
+$dist-title-top: $unit-base * (7 / 16); //           = 28 px
+$dist-padding-bottom: $unit-base * 1.5; //           = 96 px
 
-$dist-input-padding: $unit-font-input * 0.25;     // = 0.25 rem
+$dist-input-padding: $unit-font-input * 0.25; //     = 0.25 rem
