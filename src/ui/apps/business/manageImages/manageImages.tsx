@@ -270,95 +270,89 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <div ref="page" class={`${SharedStyles.page} ${Styles['manage-images__page']}`}>
-        <router-link
-          to={{ name: 'BusinessManageProfile', query: this.$route.query }}
-          title="zurück"
-          class={Styles['manage-images__back']}
-        >
-          zurück
-        </router-link>
-        <h1 class={Styles['manage-images__title']}>PROFIL VERWALTEN</h1>
-        <ManageImagesForm
-          on-new-image={this.addImage.bind(this)}
-          on-cancel={() => (this.imageSelectedForEdit = null)}
-          image={this.imageSelectedForEdit}
-          coverHeight={this.coverHeight}
-          coverWidth={this.coverWidth - (48 / 16) * 9}
-          storyWidth={this.storyWidth}
-          storyHeight={this.storyHeight}
-          logoWidth={this.logoWidth}
-          logoHeight={this.logoHeight}
-        />
-        <h2 class={Styles['manage-images__title']}>Derzeitige Bilder</h2>
-        {this.showImages && (
-          <div class={Styles['manage-images__images-wrapper']}>
-            <h3 class={Styles['manage-images__section-title']}>Logo</h3>
-            <ImageThumbnail
-              image={this.newLogoThumbnail}
-              width={this.logoWidth}
-              height={this.logoHeight}
-              marked-for-delete={this.imagesMarkedForDelete.has(this.newLogoThumbnail.publicId)}
-              on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
-              on-edit={this.editImage.bind(this)}
-            />
-            <h3 class={Styles['manage-images__section-title']}>Cover-Bild</h3>
-            <ImageThumbnail
-              image={this.newCoverThumbnail}
-              width={this.coverWidth}
-              height={this.coverHeight}
-              marked-for-delete={this.imagesMarkedForDelete.has(this.newCoverThumbnail.publicId)}
-              on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
-              on-edit={this.editImage.bind(this)}
-            />
-            <h3 class={Styles['manage-images__section-title']}>Story-Bilder</h3>
-            <div class={Styles['manage-images__stories-wrapper']}>
-              {this.allStoriesThumbnails.map((image) => (
-                <ImageThumbnail
-                  image={image}
-                  width={this.storyWidth}
-                  height={this.storyHeight}
-                  marked-for-delete={this.imagesMarkedForDelete.has(image.publicId)}
-                  on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
-                  on-edit={this.editImage.bind(this)}
-                />
-              ))}
-            </div>
+        <router-link to={{ name: 'BusinessManageProfile', query: this.$route.query }} title="zurück">
+          <div class={Styles['manage-images__back']}>
+            <img src="/assets/icons/icon_arrow-left-492.svg" alt="arrow-back" />
           </div>
-        )}
-        <transition name="bounce">
-          {this.hasChanges && this.showButtons && (
-            <div class={Styles['buttons__wrapper']}>
-              <WVHButton
-                cancel
-                on-click={this.cancelChanges.bind(this)}
-                class={`${Styles['buttons__button']} ${Styles['buttons__button--cancel']}`}
-              >
-                VERWERFEN
-              </WVHButton>
-              <WVHButton primary on-click={this.saveChanges.bind(this)} class={Styles['buttons__button']}>
-                SPEICHERN
-              </WVHButton>
+          <div class={Styles['manage-images__business-name']}>{this.business?.name}</div>
+        </router-link>
+        <div class={Styles['manage-images__page-wrapper']}>
+          <h1 class={Styles['manage-images__title']}>BILDER VERWALTEN</h1>
+          <ManageImagesForm
+            on-new-image={this.addImage.bind(this)}
+            on-cancel={() => (this.imageSelectedForEdit = null)}
+            image={this.imageSelectedForEdit}
+            coverHeight={this.coverHeight}
+            coverWidth={this.coverWidth - (48 / 16) * 9}
+            storyWidth={this.storyWidth}
+            storyHeight={this.storyHeight}
+            logoWidth={this.logoWidth}
+            logoHeight={this.logoHeight}
+          />
+          <h2 class={Styles['manage-images__title']}>Derzeitige Bilder</h2>
+          {this.showImages && (
+            <div class={Styles['manage-images__images-wrapper']}>
+              <h3 class={Styles['manage-images__section-title']}>Logo</h3>
+              <ImageThumbnail
+                image={this.newLogoThumbnail}
+                width={this.logoWidth}
+                height={this.logoHeight}
+                marked-for-delete={this.imagesMarkedForDelete.has(this.newLogoThumbnail.publicId)}
+                on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
+                on-edit={this.editImage.bind(this)}
+              />
+              <h3 class={Styles['manage-images__section-title']}>Cover-Bild</h3>
+              <ImageThumbnail
+                image={this.newCoverThumbnail}
+                width={this.coverWidth}
+                height={this.coverHeight}
+                marked-for-delete={this.imagesMarkedForDelete.has(this.newCoverThumbnail.publicId)}
+                on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
+                on-edit={this.editImage.bind(this)}
+              />
+              <h3 class={Styles['manage-images__section-title']}>Story-Bilder</h3>
+              <div class={Styles['manage-images__stories-wrapper']}>
+                {this.allStoriesThumbnails.map((image) => (
+                  <ImageThumbnail
+                    image={image}
+                    width={this.storyWidth}
+                    height={this.storyHeight}
+                    marked-for-delete={this.imagesMarkedForDelete.has(image.publicId)}
+                    on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
+                    on-edit={this.editImage.bind(this)}
+                  />
+                ))}
+              </div>
             </div>
           )}
-        </transition>
+          <transition name="bounce">
+            {this.hasChanges && this.showButtons && (
+              <div class={Styles['buttons__wrapper']}>
+                <WVHButton cancel on-click={this.cancelChanges.bind(this)} class={`${Styles['buttons__button']}`}>
+                  VERWERFEN
+                </WVHButton>
+                <WVHButton primary on-click={this.saveChanges.bind(this)} class={Styles['buttons__button']}>
+                  SPEICHERN
+                </WVHButton>
+              </div>
+            )}
+          </transition>
+        </div>
       </div>
     );
   }
 
   private async loadCorrectBusiness(): Promise<void> {
     const businessId = this.$route.query.selected;
-
     if (!businessId && this.business) return;
-
     if (this.business && this.business.id === businessId) return;
-
     if (typeof businessId === 'string' && this.user.businesses.includes(businessId)) {
       await this.businessModule.actions.selectBusiness(businessId);
     }
   }
 
   private _checkScrollTop(): void {
-    const show = this.$refs.page.scrollTop > 200;
+    const show = this.$refs.page.scrollTop > 100;
     if (this.showButtons !== show) {
       this.showButtons = show;
       this.$forceUpdate();
@@ -373,15 +367,17 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     this.$set(this.mediaData, 'logo', initialLogo);
 
     this.$set(this.mediaData, 'cover', {});
-    const initialCoverImage = cover.image ? { ...(cover.image || {}), saved: true, isCover: true } : null;
+    const initialCoverImage = cover && cover.image ? { ...(cover.image || {}), saved: true, isCover: true } : null;
     this.$set(this.mediaData.cover, 'image', initialCoverImage);
-    const initialCoverVideo = cover.video ? { ...(cover.video || {}), saved: true, isCover: true } : null;
+    const initialCoverVideo = cover && cover.video ? { ...(cover.video || {}), saved: true, isCover: true } : null;
     this.$set(this.mediaData.cover, 'video', initialCoverVideo);
 
     this.$set(this.mediaData, 'profile', {});
-    const initialProfileImage = profile.image ? { ...(profile.image || {}), saved: true, isProfile: true } : null;
+    const initialProfileImage =
+      profile && profile.image ? { ...(profile.image || {}), saved: true, isProfile: true } : null;
     this.$set(this.mediaData.profile, 'image', initialProfileImage);
-    const initialProfileVideo = profile.video ? { ...(profile.video || {}), saved: true, isProfile: true } : null;
+    const initialProfileVideo =
+      profile && profile.video ? { ...(profile.video || {}), saved: true, isProfile: true } : null;
     this.$set(this.mediaData.profile, 'video', initialProfileVideo);
 
     this.$set(this.mediaData, 'stories', {});

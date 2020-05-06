@@ -2,23 +2,25 @@
   &__form {
     align-items: center;
     background-color: $col-primary-very-light;
-    border-radius: 15px;
+    border-radius: $unit-base-quarter;
     display: flex;
     flex-direction: column;
-    margin: #{$unit-base / 3}px auto #{$unit-base}px;
-    padding: 15px;
+    margin: 0 auto $unit-base-half;
+    padding: $unit-base-quarter;
     width: 100%;
 
     &-preview {
-      border-radius: 15px;
+      border-radius: $unit-base-quarter;
       box-shadow: $elevation-2;
       display: block;
       flex-shrink: 0;
       margin: auto;
       object-fit: cover;
     }
+    &-buttons {
+      margin: (0.75 * $unit-font-default) 0 (0.25 * $unit-font-default) (-0.25 * $unit-font-default);
+    }
   }
-
   &__upload-image-button {
     margin: 0;
     width: 100%;
@@ -31,23 +33,26 @@
     display: flex;
     flex-wrap: wrap;
     font-size: smaller;
-    justify-content: space-around;
-    margin: 15px auto;
+    justify-content: center;
+    margin: $unit-base-quarter auto;
     width: 100%;
   }
   &__title {
     flex: 1 0 100%;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.5 * $unit-font-default;
     text-align: center;
   }
   &__left {
+    border-right: 1px solid $col-primary;
     display: flex;
     flex-direction: column;
-    margin: auto 15px;
+    margin: auto 0;
+    padding-right: 0.5 * $unit-font-default;
   }
   &__right {
     display: flex;
     flex-direction: column;
-    margin: auto 15px;
+    margin: auto 0;
+    padding-left: 0.5 * $unit-font-default;
   }
 }

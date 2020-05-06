@@ -293,12 +293,14 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
                 <cld-transformation width={this.previewWidth} height={this.previewHeight} crop="scale" />
               </cld-image>
             )}
-            <WVHButton primary class={SharedStyles['submit']} on-click={this.addImage.bind(this)}>
-              Bestätigen
-            </WVHButton>
-            <WVHButton cancel class={SharedStyles['cancel']} on-click={this.cancel.bind(this)}>
-              Abbrechen
-            </WVHButton>
+            <div class={Styles['manage-images__form-buttons']}>
+              <WVHButton primary class={SharedStyles['submit']} on-click={this.addImage.bind(this)}>
+                Bestätigen
+              </WVHButton>
+              <WVHButton cancel class={SharedStyles['cancel']} on-click={this.cancel.bind(this)}>
+                Abbrechen
+              </WVHButton>
+            </div>
           </div>
         ) : (
           <div style="display: contents">

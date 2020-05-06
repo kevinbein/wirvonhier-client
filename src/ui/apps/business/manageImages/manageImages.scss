@@ -1,63 +1,80 @@
 .manage-images {
   &__page {
     align-items: center;
+    background: $col-white;
     display: flex;
     flex-direction: column;
-    padding: #{$unit-base}px #{$unit-base / 4}px #{$unit-base * 1.5}px;
+    justify-content: space-between;
+    min-height: 100%;
+    overflow-y: scroll;
+    padding: $unit-base 0 0 0;
+  }
+  &__back {
+    display: block;
+    margin: (-0.61 * $unit-nav-icon) 0 0 (-1.75 * $unit-nav-icon);
+    position: relative;
 
-    .manage-images {
-      &__back {
-        color: $col-primary;
-        left: 15px;
-        position: absolute;
-        top: 15px;
-      }
+    &:first-child {
+      height: 0.5 * $unit-nav-icon;
+      width: 0.5 * $unit-nav-icon;
     }
   }
-
-  &__title {
-    color: $col-primary;
-    font-size: 1.4em;
+  &__business-name {
+    color: $col-text;
+    font-family: inherit;
+    font-size: $unit-font-default;
     font-weight: bold;
-    margin: 0 auto;
+    margin: (-0.5 * $unit-nav-icon) 0 (0.5 * $unit-nav-icon) (-1.25 * $unit-nav-icon);
+    position: relative;
+  }
+  &__page-wrapper {
+    background-color: $col-background;
+    border-radius: $unit-base-quarter $unit-base-quarter 0 0;
+    flex: 1 1 100%;
+    margin-top: $unit-base-quarter;
+    padding: $unit-base-quarter $unit-base-quarter (1.75 * $unit-base);
+    position: relative;
+    width: 100%;
+  }
+  &__title {
+    @extend %font-title;
+
+    margin: (0.25 * $unit-font-title) auto (0.5 * $unit-font-title);
+    position: relative;
+    text-align: center;
   }
   &__section-title {
-    color: $col-primary;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0.4em 0;
-  }
+    @extend %font-subtitle;
 
+    margin: (0.5 * $unit-font-subtitle) 0 (0.75 * $unit-font-subtitle);
+  }
   &__images-wrapper {
     padding-bottom: 200px;
     width: 100%;
   }
 
   &__stories-wrapper {
-    column-gap: #{$unit-base / 4}px;
+    column-gap: $unit-base-quarter;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: #{$unit-base / 4}px;
+    margin-top: $unit-base-quarter;
+    row-gap: $unit-base-quarter;
   }
 }
 
 .buttons {
   &__wrapper {
-    bottom: 24px;
+    bottom: 0.375 * $unit-base;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    left: 0;
+    justify-content: space-evenly;
+    padding: 0 $unit-base-quarter;
     position: fixed;
     width: 100%;
     z-index: 100;
   }
-
   &__button {
-    flex: 0 1 200px;
-
-    &--cancel {
-      padding: 8px 14px;
-    }
+    flex: 0 1 (10 * $unit-font-default);
+    padding: 0.2 * $unit-base;
   }
 }

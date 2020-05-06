@@ -6,6 +6,7 @@ interface CssExports {
   'form-hints__title': string;
   'form-hints__wrapper': string;
   'manage-images__form': string;
+  'manage-images__form-buttons': string;
   'manage-images__form-preview': string;
   'manage-images__upload-image-button': string;
 }

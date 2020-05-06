@@ -10,11 +10,23 @@
     padding: $unit-base 0 0 0;
   }
 
+  &__back {
+    display: block;
+    margin: (-0.61 * $unit-nav-icon) 0 0 (-1.75 * $unit-nav-icon);
+    position: relative;
+
+    &:first-child {
+      height: 0.5 * $unit-nav-icon;
+      width: 0.5 * $unit-nav-icon;
+    }
+  }
+
   &__business-name {
+    color: $col-text;
     font-family: inherit;
     font-size: $unit-font-default;
     font-weight: bold;
-    margin: (-1.8 * $unit-font-default) auto (1.8 * $unit-font-default) (1.8 * $unit-font-default);
+    margin: (-0.5 * $unit-nav-icon) 0 (0.5 * $unit-nav-icon) (-1.25 * $unit-nav-icon);
     position: relative;
   }
 
@@ -24,13 +36,6 @@
     margin: (0.25 * $unit-font-title) auto;
     position: relative;
     text-align: center;
-  }
-
-  &__back {
-    color: $col-primary;
-    left: 15px;
-    position: absolute;
-    top: 15px;
   }
 
   &__button-images {
@@ -43,6 +48,7 @@
     background-color: $col-background;
     border-radius: $unit-base-quarter $unit-base-quarter 0 0;
     flex: 1 1 100%;
+    margin-top: $unit-base-quarter;
     padding: $unit-base-quarter $unit-base-quarter $unit-base-half;
     position: relative;
     width: 100%;

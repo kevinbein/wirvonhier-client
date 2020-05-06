@@ -35,7 +35,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
   public image!: IImageData;
   public width!: number;
   public height!: number;
-  public isFocused = false;
+  public hasFocus = false;
   public markedForDelete!: boolean;
 
   public toggleRemove(): void {
@@ -50,10 +50,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
 
   public focus(): void {
     if (this.image._id === '0') return;
-    this.isFocused = true;
-  }
-  public blur(): void {
-    this.isFocused = false;
+    this.hasFocus = !this.hasFocus;
   }
 
   // @ts-ignore
@@ -63,8 +60,8 @@ export class ImageThumbnail extends VueComponent<IProps> {
         class={Styles['thumbnail__wrapper']}
         tabindex="0"
         style={{ width: `${this.width}px`, height: `${this.height}px` }}
-        on-click={this.focus.bind(this)}
-        on-blur={this.blur.bind(this)}
+        on-focus={this.focus.bind(this)}
+        on-blur={this.focus.bind(this)}
       >
         {this.image.src || !this.image.saved ? (
           <img
@@ -92,7 +89,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
           ${!this.image.saved ? Styles['overlay--new'] : ''}`}
         />
         <transition name="fade">
-          {this.isFocused && (
+          {this.hasFocus && (
             <div
               class={`${Styles['thumbnail__buttons']} ${this.image.isCover ? Styles['thumbnail__buttons--cover'] : ''}`}
             >

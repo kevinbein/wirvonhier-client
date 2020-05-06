@@ -32,10 +32,12 @@ export class BusinessManageProfile extends Vue {
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['manage-profile__page']}`}>
-        {/*<router-link to={{ name: 'BusinessDashboard' }} title="zurück" class={Styles['manage-profile__back']}>
-          Zurück
-        </router-link>*/}
-        <div class={Styles['manage-profile__business-name']}>{this.business?.name}</div>
+        <router-link to={{ name: 'BusinessDashboard', query: this.$route.query }} title="zurück">
+          <div class={Styles['manage-profile__back']}>
+            <img src="/assets/icons/icon_arrow-left-492.svg" alt="arrow-back" />
+          </div>
+          <div class={Styles['manage-profile__business-name']}>{this.business?.name}</div>
+        </router-link>
         <div class={Styles['manage-profile__form-wrapper']}>
           <div class={Styles['manage-profile__title']}>PROFIL VERWALTEN</div>
           {this.business ? (
