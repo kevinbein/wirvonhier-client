@@ -61,6 +61,8 @@ const initialFormData: IImageData = {
   description: '',
   isCover: false,
   isStory: false,
+  isProfile: false,
+  isLogo: false,
   saved: false,
   type: MEDIATYPE.IMAGE,
 };
@@ -195,6 +197,10 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
   public update(options: IFormInputs): void {
     const { key, value } = options;
     if (key === 'file' && value instanceof FileList) {
+      const { isCover, isLogo, isProfile, isStory } = this.formData;
+      if (!isCover && !isLogo && !isProfile && !isStory) {
+        this.formData.isStory = true;
+      }
       this.$set(this.formData, 'title', value[0].name);
       const reader = new FileReader();
       reader.onload = () => {
