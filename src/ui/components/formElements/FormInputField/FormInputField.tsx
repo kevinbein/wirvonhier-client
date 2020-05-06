@@ -130,7 +130,7 @@ export class FormInputField extends VueComponent<IProps> {
               : `${Styles['text-input']} ${SharedStyles['input__field']}`
           }
           value={this.value}
-          on-change={this.update.bind(this)}
+          on-input={this.update.bind(this)}
           on-focus={this.changeFocus.bind(this)}
           on-blur={this.changeFocus.bind(this)}
         />
