@@ -16,6 +16,9 @@ import { POSITION, TYPE } from 'vue-toastification';
           if (!authenticated) {
             return;
           }
+          if (['BusinessLanding', 'BusinessLogin', 'BusinessRegister'].includes(this.$route.name as string)) {
+            this.$router.push({ name: 'BusinessDashboard' });
+          }
         }
         await this.userModule.actions.loadUserAndSaveUserData();
         await this.userModule.actions.loadUserBusinesses();

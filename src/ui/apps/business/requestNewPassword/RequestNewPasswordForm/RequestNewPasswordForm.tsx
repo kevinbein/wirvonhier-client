@@ -50,7 +50,7 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
     if (this.errors.email.length > 0) return;
 
     const res = await this.rootStore.actions.requestNewPassword({
-      email: this.formData.email,
+      email: this.formData.email.toLowerCase(),
     });
     if (res.status === 'failure') {
       this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });

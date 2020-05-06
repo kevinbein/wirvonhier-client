@@ -26,8 +26,8 @@ export class BusinessGetters extends Getters<BusinessState> {
       }
     }
     stories.sort((story1: Story, story2: Story) => {
-      const time1 = new Date(story1.modified).getTime();
-      const time2 = new Date(story2.modified).getTime();
+      const time1 = new Date(story1.modifiedAt).getTime();
+      const time2 = new Date(story2.modifiedAt).getTime();
       return time1 - time2;
     });
     return stories;

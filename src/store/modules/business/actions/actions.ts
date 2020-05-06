@@ -5,7 +5,10 @@ import { RootState } from '@/store';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
 import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
-import { IBusinessUpdateOptions } from './actions.types';
+import { IBusinessUpdateOptions, IUploadImagesResult } from './actions.types';
+import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
+import { ICloudinaryImageUploadResponse } from '@/services/images/imageService.types';
+import { IHttpErrorResponse } from '@/services';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: Store<RootState>;
@@ -51,5 +54,33 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       return false;
     }
     return true;
+  }
+
+  async uploadImages(images: IImageData[]): Promise<IUploadImagesResult[]> {
+    const result = [];
+    for (const image of images) {
+      const res = this.store.$services.images.uploadImage(image);
+      if (!res) continue;
+      result.push(res);
+    }
+    return Promise.all(result);
+  }
+
+  async validateImageUploads(publicIds: string[]): Promise<void> {
+    const { status, ...res } = await this.store.$http.post<{ failed: ICloudinaryImageUploadResponse[] }>(
+      '/image-upload-confirmed',
+      { publicIds },
+    );
+    if (status === 'failure') {
+      const error = (res as IHttpErrorResponse<{ failed: ICloudinaryImageUploadResponse[] }>).error;
+      const failed = (error && error.response?.data.failed) || [];
+      // eslint-disable-next-line no-console
+      console.log('Failed images: ', failed);
+      this.store.$toast('Wir konnten leider nicht alle Bilder speichern.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
   }
 }

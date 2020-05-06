@@ -6,6 +6,7 @@ import { VueComponent } from '@/ui/vue-ts-component';
 interface IProps {
   class?: string;
   primary?: boolean;
+  cancel?: boolean;
   width?: string;
   icon?: string;
   to?: RawLocation;
@@ -16,6 +17,10 @@ interface IProps {
   name: 'wvh-button',
   props: {
     primary: {
+      type: Boolean,
+      default: false,
+    },
+    cancel: {
       type: Boolean,
       default: false,
     },
@@ -43,6 +48,7 @@ interface IProps {
 })
 export class WVHButton extends VueComponent<IProps> {
   public primary: boolean | undefined;
+  public cancel: boolean | undefined;
   public large: boolean | undefined;
   public disabled: boolean | undefined;
   public width: string | undefined;
@@ -72,6 +78,7 @@ export class WVHButton extends VueComponent<IProps> {
         class={`
           ${Styles['wvh-button__container']}
           ${this.primary ? Styles['wvh-button__container--primary'] : ''}
+          ${this.cancel ? Styles['wvh-button__container--cancel'] : ''}
           ${this.large ? Styles['wvh-button__container--large'] : ''}
           ${this.disabled ? Styles['wvh-button__container--disabled'] : ''}`}
       >
@@ -87,6 +94,7 @@ export class WVHButton extends VueComponent<IProps> {
         class={`
           ${Styles['wvh-button__container']}
           ${this.primary ? Styles['wvh-button__container--primary'] : ''}
+          ${this.cancel ? Styles['wvh-button__container--cancel'] : ''}
           ${this.large ? Styles['wvh-button__container--large'] : ''}
           ${this.disabled ? Styles['wvh-button__container--disabled'] : ''}`}
       >

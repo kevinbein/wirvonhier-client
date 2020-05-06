@@ -6,9 +6,9 @@ import { AppearanceModule } from '@/store';
 import { WVHButton } from '@/ui/components';
 
 @Component({
-  name: 'RequestNewPasswordSuccess',
+  name: 'ResetPasswordSuccess',
 })
-export class RequestNewPasswordSuccessPage extends Vue {
+export class ResetPasswordSuccessPage extends Vue {
   public appearanceModule = AppearanceModule.context(this.$store);
 
   public created(): void {
@@ -28,4 +28,4 @@ export class RequestNewPasswordSuccessPage extends Vue {
   }
 }
 
-export default RequestNewPasswordSuccessPage;
+export default ResetPasswordSuccessPage;

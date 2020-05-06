@@ -33,8 +33,8 @@ export class BusinessStoriesPage extends Vue {
     this.media.push(...videos);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.media.sort((story1: any, story2: any) => {
-      const time1 = new Date(story1.modified).getTime();
-      const time2 = new Date(story2.modified).getTime();
+      const time1 = new Date(story1.modifiedAt).getTime();
+      const time2 = new Date(story2.modifiedAt).getTime();
       return time1 - time2;
     });
   }
@@ -96,7 +96,7 @@ export class BusinessStoriesPage extends Vue {
                     this.media.map((item: any) => {
                       return [
                         <tr class={Styles['date']}>
-                          <td colspan="3">{new Date(item.modified).toLocaleString()}</td>
+                          <td colspan="3">{new Date(item.modifiedAt).toLocaleString()}</td>
                         </tr>,
                         <tr class={Styles['info']}>
                           <td>{item.title}</td>

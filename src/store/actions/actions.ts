@@ -4,17 +4,19 @@ import { RootState, RootGetters, RootMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { ITokenPayload, IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import JwtDecode from 'jwt-decode';
-import { UserModule } from '@/store/modules/user';
+import { UserModule, BusinessModule } from '@/store/modules';
 import { Route } from 'vue-router';
 import { IDataProtStatement } from '../state/state.types';
 
 export class RootActions extends Actions<RootState, RootGetters, RootMutations, RootActions> {
   private store!: Store<RootState>;
   private user!: Context<typeof UserModule>;
+  private business!: Context<typeof BusinessModule>;
 
   $init(store: Store<RootState>): void {
     this.store = store;
     this.user = UserModule.context(store);
+    this.business = BusinessModule.context(store);
   }
 
   async loadDataProtStatements(): Promise<IHttpActionResponse> {
@@ -73,6 +75,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
       const decoded = JwtDecode<ITokenPayload>(data.token);
       this.user.actions.setUserData({ id: decoded.id, email: decoded.email });
       this.commit('SET_TOKEN', data.token);
+      this.business.actions.create();
       return { status: 'success' };
     }
   }

@@ -102,10 +102,10 @@ export class BusinessStoryPage extends Vue {
                 <v-text-field label="ID" value={this.story.publicId} outlined disabled></v-text-field>
               </div>
               <div>
-                <v-text-field label="Erstellt" value={this.story.created} outlined disabled></v-text-field>
+                <v-text-field label="Erstellt" value={this.story.createdAt} outlined disabled></v-text-field>
               </div>
               <div>
-                <v-text-field label="Geändert" value={this.story.modified} outlined disabled></v-text-field>
+                <v-text-field label="Geändert" value={this.story.modifiedAt} outlined disabled></v-text-field>
               </div>
             </div>
           </div>,

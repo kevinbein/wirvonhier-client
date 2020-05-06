@@ -2,7 +2,7 @@ import Component from 'vue-class-component';
 import Styles from './login.scss';
 import SharedStyles from '@/ui/styles/main.scss';
 import Vue from 'vue';
-import LoginForm from './LoginForm/LoginForm';
+import { LoginForm } from './LoginForm';
 import { WVHButton } from '@/ui';
 import { AppearanceModule } from '@/store';
 

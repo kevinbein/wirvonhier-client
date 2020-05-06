@@ -16,7 +16,9 @@ import {
   IValidationSuccess,
   IUpdateSuccess,
   IUpdateError,
+  MEDIATYPE,
 } from './business.types';
+import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
 
 const paymentMethods = ['paypal', 'cash', 'creditcard', 'invoice', 'sofort', 'amazon', 'ondelivery', 'sepa', 'other'];
 const deliveryOptions = ['collect', 'delivery'];
@@ -49,8 +51,8 @@ export class Business implements IBusinessData {
 
   constructor(data: IBusinessData) {
     this._id = data._id;
-    this.createdAt = data.created;
-    this.modifiedAt = data.modified;
+    this.createdAt = data.createdAt;
+    this.modifiedAt = data.modifiedAt;
     this.dataProtStatement = data.dataProtStatement;
     this.id = data.id;
     this.name = data.name || '';
@@ -105,16 +107,16 @@ export class Business implements IBusinessData {
     // sort media by modified date
     const imagesAndVideos: (IImage | IVideo)[] = [];
     this.media.stories.images.map((image: IImage) => {
-      image.type = 'image';
+      image.type = MEDIATYPE.IMAGE;
       imagesAndVideos.push(image);
     });
     this.media.stories.videos.map((video: IVideo) => {
-      video.type = 'video';
+      video.type = MEDIATYPE.VIDEO;
       imagesAndVideos.push(video);
     });
     imagesAndVideos.sort((story1: IImage | IVideo, story2: IImage | IVideo) => {
-      const time1 = new Date(story1.modified).getTime();
-      const time2 = new Date(story2.modified).getTime();
+      const time1 = new Date(story1.modifiedAt).getTime();
+      const time2 = new Date(story2.modifiedAt).getTime();
       return time1 - time2;
     });
     return imagesAndVideos;
@@ -144,6 +146,15 @@ export class Business implements IBusinessData {
       }
     }, {} as IBusinessData);
     return businessData;
+  }
+
+  public generateImagePublicId(imageData: IImageData): string {
+    const randomString = Date.now()
+      .toString()
+      .substr(Date.now().toString().length - 3);
+    return `${this._id}_${imageData.isCover ? 'cover' : 'story'}_${this.normalizeString(
+      imageData.title,
+    )}_${randomString}`;
   }
 
   private validate(rawPath: string, value: unknown): IValidationSuccess | IValidationError {
@@ -179,8 +190,8 @@ export class Story implements IStory {
   public _id: string;
   public business: Business;
   public publicId: string;
-  public created: string;
-  public modified: string;
+  public createdAt: string;
+  public modifiedAt: string;
   public title: string;
   public description?: string;
   public src: string;
@@ -189,8 +200,8 @@ export class Story implements IStory {
     this._id = data._id;
     this.business = business;
     this.publicId = data.publicId;
-    this.created = data.created;
-    this.modified = data.modified;
+    this.createdAt = data.createdAt;
+    this.modifiedAt = data.modifiedAt;
     this.title = data.title;
     this.description = data.description;
     this.src = data.src;

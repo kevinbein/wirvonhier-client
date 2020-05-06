@@ -124,7 +124,7 @@ export class LandingPage extends Vue {
 
         <div class={Styles['links']}>
           <div class={Styles['business']}>
-            <router-link class={Styles['business__link']} to={{ name: 'BusinessLanding' }}>
+            <router-link class={Styles['business__link']} to={{ name: 'BusinessLogin' }}>
               Händlerlogin / Registrierung
             </router-link>
           </div>

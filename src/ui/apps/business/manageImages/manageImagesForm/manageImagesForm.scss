@@ -1,0 +1,52 @@
+.manage-images {
+  &__form {
+    align-items: center;
+    background-color: $col-primary-very-light;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: #{$unit-base / 3}px auto #{$unit-base}px;
+    padding: 15px;
+    width: 100%;
+
+    &-preview {
+      border-radius: 15px;
+      box-shadow: $elevation-2;
+      display: block;
+      margin: auto;
+      object-fit: cover;
+    }
+  }
+
+  &__upload-image-button {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.form-hints {
+  &__wrapper {
+    color: $col-primary;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: smaller;
+    justify-content: space-around;
+    margin: 15px auto;
+    width: 100%;
+  }
+  &__title {
+    flex: 1 0 100%;
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
+  &__left {
+    display: flex;
+    flex-direction: column;
+    margin: auto 15px;
+  }
+  &__right {
+    display: flex;
+    flex-direction: column;
+    margin: auto 15px;
+  }
+}

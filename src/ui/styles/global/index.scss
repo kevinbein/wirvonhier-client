@@ -1,4 +1,6 @@
 // classes here are available as-is
+@import 'transitions';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,6 +16,12 @@ body {
   font-weight: normal;
   height: 100%;
   width: 100%;
+}
+
+.cld-image {
+  img {
+    display: block;
+  }
 }
 @font-face {
   font-family: 'FuturaBT-Medium';
@@ -44,25 +52,6 @@ body {
 
 .swiper-slide {
   background: #000;
-}
-
-.fade-enter {
-  opacity: 0;
-}
-.fade-enter-active {
-  transition: opacity 120ms;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-.fade-leave {
-  opacity: 1;
-}
-.fade-leave-active {
-  transition: opacity 120ms;
-}
-.fade-leave-to {
-  opacity: 0;
 }
 
 .pseudo-link {
