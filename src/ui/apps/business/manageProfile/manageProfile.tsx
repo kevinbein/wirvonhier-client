@@ -35,13 +35,16 @@ export class BusinessManageProfile extends Vue {
         {/*<router-link to={{ name: 'BusinessDashboard' }} title="zurück" class={Styles['manage-profile__back']}>
           Zurück
         </router-link>*/}
-        <div class={Styles['manage-profile__page__title']}>PROFIL VERWALTEN</div>
+        <div class={Styles['manage-profile__business-name']}>{this.business?.name}</div>
         <div class={Styles['manage-profile__form-wrapper']}>
+          <div class={Styles['manage-profile__title']}>PROFIL VERWALTEN</div>
           {this.business ? (
             <div style="display: contents">
-              <WVHButton to={{ name: 'BusinessManageImages', query: this.$route.query }} primary>
-                Bilder verwalten
-              </WVHButton>
+              <div class={Styles['manage-profile__button-images']}>
+                <WVHButton to={{ name: 'BusinessManageImages', query: this.$route.query }} primary>
+                  Bilder verwalten
+                </WVHButton>
+              </div>
               <ManageProfileForm />
             </div>
           ) : (
