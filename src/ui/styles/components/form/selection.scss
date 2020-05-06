@@ -1,0 +1,97 @@
+.selection {
+
+  &__wrapper {
+    width: 100%;
+    position: relative;
+    margin: 0 auto (1.0 * $unit-font-input) auto;
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 100%;
+  }
+  
+  &__label {
+    background-color: inherit;
+    color: $col-input-label;
+    position: relative;
+    display: flex;
+    justify-self: flex-start;
+    font-size: $unit-font-input;
+    line-height: 1.5 * $unit-font-input;
+    padding: 0 $dist-input-padding;
+    
+    &--active {
+      color: $col-input-label-focus;
+    }
+  }
+  
+  &__checkbox { 
+    position: relative;
+    flex-shrink: 0;
+    width: $unit-checkbox;
+    height: $unit-checkbox;
+    margin: 0 0.25*$unit-checkbox;
+    background-color: inherit;
+    border: 2px solid $col-input-label;       
+    border-radius: 0.125 * $unit-nav-icon;
+           
+    &:focus {
+      outline: none;
+    }
+
+    &::after {
+      position: absolute;
+      background-color: $col-input-underline-focus;
+      border-radius: 0.125 * $unit-checkbox;
+      content: '';
+      height: 0.5 * $unit-checkbox;
+      width: 0.5 * $unit-checkbox;
+      margin: ($unit-checkbox - (0.5 * $unit-checkbox) - (2 * 2px)) / 2;
+      opacity: 0;
+    }
+
+    &--selected {
+      border-color: $col-input-underline-focus;
+
+      &::after {
+        opacity: 1;
+      } 
+    }
+
+  }
+  
+  &__markup {
+    display: none;
+    color: $col-input-label;
+  }
+    
+  &__errors {
+    display: flex;
+    flex-direction: column;
+    padding: ($unit-base / 6) 0;
+    color: $col-error;
+  }
+
+  &__error {
+    color: inherit;
+    font-size: 12px;
+    line-height: 12px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+
+  &__error-messages {
+    display: flex;
+    flex-direction: column;
+    padding: ($unit-base / 6) 0;
+  }
+
+  &__error-message {
+    color: $col-error;
+    font-size: 12px;
+    line-height: 12px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+}

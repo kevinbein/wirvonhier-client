@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    padding: #{$base-unit / 2}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+    padding: $unit-base-half $unit-base-quarter ($unit-base * 1.5);
 
     .landing {
       &__text {
@@ -20,13 +20,13 @@
   }
 
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.6em;
     font-weight: bold;
     margin: 0 auto 0 0;
   }
   &__subtitle {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.2em;
     font-weight: bold;
     margin: 0 auto 0 0;
@@ -42,13 +42,13 @@
   }
 
   &__button {
-    margin: #{$base-unit / 6}px 0;
+    margin: ($unit-base / 6) 0;
     max-width: 80%;
     width: 260px;
   }
 
   &__to-user-frontend {
-    bottom: #{$base-unit / 4}px;
+    bottom: $unit-base-quarter;
     color: $col-primary !important;
     cursor: pointer;
     font-size: smaller;

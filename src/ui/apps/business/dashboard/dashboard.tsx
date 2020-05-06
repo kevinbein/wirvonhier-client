@@ -39,7 +39,7 @@ export class BusinessDashboard extends Vue {
           Mein aktuelles Video
         </WVHButton>
         <WVHButton class={Styles['dashboard__button']} to={{ name: 'Explore' }}>
-          Andere Händerlvideos
+          Andere Händlervideos
         </WVHButton>
         <WVHButton class={Styles['dashboard__button']} primary to={{ name: 'BusinessUploadVideo' }}>
           Video Hochladen

@@ -1,5 +1,5 @@
 .stories-page-container {
-  /* background: $background; */
+  /* background: $col-background; */
   font-family: 'FuturaBT-Medium', sans-serif;
   position: relative;
   width: 100%;
@@ -10,7 +10,7 @@
     text-align: center;
 
     .upload-button {
-      background: $primary;
+      background: $col-primary;
       border-radius: 15px;
       box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
       color: #fff;
@@ -53,7 +53,7 @@
         width: 90px;
         .action-button {
           .icon {
-            color: $primary;
+            color: $col-primary;
             font-size: 1rem;
           }
         }

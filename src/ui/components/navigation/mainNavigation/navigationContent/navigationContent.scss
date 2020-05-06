@@ -1,6 +1,6 @@
 .navigation-content {
   list-style-type: none;
-  padding: #{$base-unit / 4}px #{$base-unit / 4}px #{$base-unit / 2}px;
+  padding: $unit-base-quarter $unit-base-quarter $unit-base-half;
 
   &__item {
     border: 1px solid rgba(112, 112, 112, 0.3);

@@ -1,6 +1,6 @@
 .nav-bar {
   background: #fff;
-  color: $primary !important;
+  color: $col-primary !important;
   position: relative;
   text-align: center;
   top: 0;
@@ -9,9 +9,9 @@
     color: rgb(253, 172, 22) !important;
   }
   .back-icon {
-    color: $primary !important;
+    color: $col-primary !important;
   }
   .check-icon {
-    color: $success !important;
+    color: $col-success !important;
   }
 }

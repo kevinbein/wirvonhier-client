@@ -1,4 +1,4 @@
 export * from './privacyAndAGBAgreement';
-export * from './WVHTextareaField';
-export * from './WVHTextField';
-export * from './WVHCheckboxField';
+export * from './FormTextArea';
+export * from './FormInputField';
+export * from './FormCheckbox';

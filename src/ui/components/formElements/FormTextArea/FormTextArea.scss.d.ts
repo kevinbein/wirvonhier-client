@@ -2,11 +2,11 @@
 // Please do not change this file!
 interface CssExports {
   'textarea': string;
-  'textarea__error': string;
-  'textarea__errors': string;
-  'textarea__label': string;
-  'textarea__max-length': string;
+  'textarea__field': string;
+  'textarea__field--active': string;
+  'textarea__inner': string;
   'textarea__wrapper': string;
+  'textarea__wrapper--active': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

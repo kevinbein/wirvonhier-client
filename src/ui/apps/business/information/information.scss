@@ -1,5 +1,5 @@
 .information-page-container {
-  /* background: $background; */
+  /* background: $col-background; */
   font-family: 'FuturaBT-Medium', sans-serif;
   position: relative;
   width: 100%;
@@ -9,7 +9,7 @@
     margin-top: 65px;
 
     .headline {
-      color: $primary;
+      color: $col-primary;
       font-size: 1.4rem;
       margin: 10px;
       width: 100%;
@@ -17,7 +17,7 @@
     .editor {
       .section {
         .title {
-          color: $primary;
+          color: $col-primary;
           font-size: 1.2rem;
           margin: 10px;
           width: 100%;

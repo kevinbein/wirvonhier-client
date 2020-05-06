@@ -4,7 +4,7 @@ interface CssExports {
   'manage-profile__back': string;
   'manage-profile__form-wrapper': string;
   'manage-profile__page': string;
-  'manage-profile__title': string;
+  'manage-profile__page__title': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
