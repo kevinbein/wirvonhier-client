@@ -19,8 +19,7 @@ export class RegisterComplete extends Vue {
       <div class={`${SharedStyles.page} ${Styles['register-complete__page']}`}>
         <div class={Styles['register-complete__title']}>Willkommen bei WirVonHier!</div>
         <p class={Styles['text--primary']}>
-          Wir freuen uns Sie bei uns zu haben! Wenn Sie möchten, können Sie direkt loslegen und Ihr Händler-Profil
-          erstellen.
+          Vielen herzlichen Dank für Ihre Registrierung . Wir freuen uns Sie bei uns zu haben!
         </p>
         <p class={Styles['text--primary']}>
           Wir haben Ihnen ebenfalls soeben eine E-Mail gesendet um Ihren Account zu verifizieren.
