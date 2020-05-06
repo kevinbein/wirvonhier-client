@@ -1,26 +1,27 @@
 .logout {
   &__page {
+    @extend %unit-page-padding;
+
     align-items: center;
     background: $col-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: #{$base-unit}px #{$base-unit / 4}px;
   }
 
   &__logo {
-    margin-bottom: #{$base-unit / 2}px;
+    margin-bottom: $unit-base-half;
     width: 40%;
   }
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.4em;
     font-weight: bold;
-    margin-bottom: #{$base-unit / 2}px;
+    margin-bottom: $unit-base-half;
   }
 
   &__button {
-    margin-bottom: #{$base-unit/4}px;
+    margin-bottom: $unit-base-quarter;
     width: 260px;
   }
 }

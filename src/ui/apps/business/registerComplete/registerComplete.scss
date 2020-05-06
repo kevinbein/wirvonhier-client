@@ -1,25 +1,24 @@
 .register-complete {
   &__page {
+    @extend %unit-page-padding;
+
     align-items: center;
     background: $col-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100%;
-    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
 
-    p {
-      &.text--primary {
-        margin-bottom: #{$base-unit / 2}px;
-      }
+    p .text--primary {
+      margin-bottom: $unit-base-half;
     }
   }
 
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.4em;
     font-weight: bold;
-    margin: 0 auto #{$base-unit / 2}px;
+    margin: 0 auto $unit-base-half;
   }
 
   &__button {

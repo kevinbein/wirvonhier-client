@@ -1,33 +1,63 @@
 // All variables here are available in every SASS file expect in styles/global/
-$primary: rgb(95, 109, 175);
-$primary-light: rgb(108, 122, 190);
-$secondary: rgb(175, 95, 148);
-$background: rgb(234, 235, 243);
-$success: rgb(76, 175, 80);
-
 $max-desktop-width: 500px;
 
 // COLORS
-$col-background: rgb(232, 232, 232);
-$col-white: rgb(255, 255, 255);
-$col-text: rgb(39, 39, 39);
-$col-primary: rgb(95, 109, 175);
-$col-primary-very-light: rgb(192, 198, 231);
-$col-primary-light: rgb(153, 164, 226);
-$col-primary-dark: rgb(67, 79, 143);
-$col-error: rgb(255, 82, 82);
-$col-disabled: rgb(136, 136, 136);
-$col-red: rgb(151, 10, 10);
-$col-red-dark: rgb(126, 7, 7);
-$col-grey: rgb(134, 134, 134);
-$col-grey-light: rgb(232, 232, 232);
+$col-background: hsl(0, 0%, 91%); // former hsl(233, 27%, 94%)
+$col-white: hsl(0, 0%, 100%);
+$col-text: hsl(0, 0%, 15%);
+$col-primary: hsl(230, 33%, 53%);
+$col-primary-very-light: hsl(231, 45%, 83%);
+$col-primary-light: hsl(233, 27%, 94%); // former hsl(231, 56%, 74%)
+$col-primary-dark: hsl(231, 36%, 41%);
+$col-secondary: hsl(320, 33%, 53%);
+$col-success: hsl(122, 39%, 49%);
+$col-error: hsl(0, 100%, 66%);
+$col-disabled: hsl(0, 0%, 53%);
+$col-red: hsl(0, 88%, 32%);
+$col-grey: hsl(0, 0%, 53%);
+$col-grey-light: hsl(0, 0%, 91%);
+
+$col-input-label: $col-disabled;
+$col-input-label-focus: $col-primary;
+$col-input-underline: $col-disabled;
+$col-input-underline-focus: $col-primary-dark;
 
 // SHADOWS
-$elevation-1: 0 1px 3px rgba(0, 0, 0, 0.15); // Background-elements (e.g. Image)
-$elevation-2: 0 3px 6px rgba(0, 0, 0, 0.15); // Elements (Nav-bar über background)
-$elevation-3: 0 3px 6px rgba(0, 0, 0, 0.1), 0 3px 12px 0 rgba(0, 0, 0, 0.2); // action-elements (buttons)
-$elevation-4: 0 3px 18px 6px rgba(0, 0, 0, 0.55); // Modals
-$elevation-5: 0 3px 6px rgba(0, 0, 0, 0.15); // NOTICE ME SENPAI
+$elevation-1: 0 1px 3px hsla(0, 0%, 0%, 0.15); // Background-elements (e.g. Image)
+$elevation-2: 0 3px 6px hsla(0, 0%, 0%, 0.15); // Elements (Nav-bar über background)
+$elevation-3: 0 3px 6px hsla(0, 0%, 0%, 0.1), 0 3px 12px 0 rgba(0, 0, 0, 0.2); // action-elements (buttons)
+$elevation-4: 0 3px 18px 6px hsla(0, 0%, 0%, 0.55); // Modals
+$elevation-5: 0 3px 6px hsla(0, 0%, 0%, 0.15); // NOTICE ME SENPAI
 
 // SIZES
-$base-unit: 64;
+$unit-nav-icon: 48px;
+$unit-checkbox: 24px;
+
+$unit-base: 64px; // better would be grid system with % values
+$unit-base-half: $unit-base / 2; //               = 32 px
+$unit-base-quarter: $unit-base / 4; //            = 16 px
+
+%unit-page-padding {
+  padding: $unit-base $unit-base-quarter ($unit-base * 1.5);
+}
+
+$unit-font-default: 1rem; //                      = 1.0 rem
+$unit-font-title: 1.4 * $unit-font-default; //    = 1.4 rem
+$unit-font-subtitle: 1.1 * $unit-font-default; // = 1.125 rem
+$unit-font-input: $unit-font-default; //          = 1.0 rem
+
+// FONT
+%font-title {
+  color: $col-primary;
+  font-size: $unit-font-title;
+  font-weight: bold;
+  letter-spacing: -0.05rem;
+  line-height: $unit-font-title;
+}
+
+// DISTANCES
+$dist-nav-top: $unit-base / 3; //                    = 21 px
+$dist-title-top: $unit-base * (7 / 16); //           = 28 px
+$dist-padding-bottom: $unit-base * 1.5; //           = 96 px
+
+$dist-input-padding: $unit-font-input * 0.25; //     = 0.25 rem

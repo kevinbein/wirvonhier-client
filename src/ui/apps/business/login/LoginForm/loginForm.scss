@@ -3,7 +3,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    margin: #{$base-unit / 3}px auto #{$base-unit}px;
+    margin: ($unit-base / 3) auto $unit-base;
     max-width: 300px;
     width: 300px;
   }

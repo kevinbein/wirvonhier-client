@@ -1,39 +1,96 @@
 .input {
   &__wrapper {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto (1.125 * $unit-font-input) auto;
     position: relative;
+    transition: margin-bottom 0.2s ease-in-out;
     width: 100%;
 
-    .input {
-      &--text.amplifier {
-        background-color: #fff;
-        border-radius: 24px;
-        color: $primary !important;
-        margin: auto;
-        padding-bottom: 0;
-        padding-left: 0;
-        padding-right: 0;
-        padding-top: #{$base-unit / 4}px !important;
-        position: relative;
-        text-align: center;
-        width: 100%;
-
-        label {
-          color: inherit !important;
-        }
-      }
+    &--active {
+      margin-bottom: (1.125 * $unit-font-input);
     }
   }
-  &__inner {
-    color: inherit;
-  }
+
   &__label {
-    color: inherit;
+    background-color: inherit;
+    color: $col-input-label;
+    font-size: $unit-font-input;
+    padding: 0 $dist-input-padding;
+    position: absolute;
+    transition: font-size 0.2s ease-in-out;
+
+    &--active {
+      color: $col-input-label-focus;
+      font-size: 0.8 * $unit-font-input;
+      padding-left: 0;
+    }
   }
+
+  &__field {
+    background-color: inherit;
+    border-bottom: 1px solid $col-input-underline;
+    color: $col-text;
+    display: flex;
+    font-family: inherit;
+    font-size: $unit-font-input;
+    line-height: 1.5 * $unit-font-input;
+    margin: 0;
+    padding: 0 $dist-input-padding;
+    resize: none;
+    transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    width: 100%;
+
+    &--active {
+      border-bottom: 1px solid $col-input-underline-focus;
+      margin-bottom: -1.5 * $unit-font-input;
+      margin-top: $unit-font-input + $dist-input-padding;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__inner {
+    color: $col-input-label;
+    display: flex;
+    transition: margin-top 0.2s ease-in-out;
+
+    &--active {
+      color: $col-input-label-focus;
+      margin-top: 6 * $dist-input-padding;
+    }
+  }
+
+  &__max-length {
+    color: inherit;
+    display: flex;
+    font-size: smaller;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  &__errors {
+    color: $col-error;
+    display: flex;
+    flex-direction: column;
+    padding: ($unit-base / 6) 0;
+  }
+
+  &__error {
+    color: inherit;
+    font-size: 12px;
+    line-height: 12px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+
   &__error-messages {
     display: flex;
     flex-direction: column;
-    padding: #{$base-unit / 6}px 0;
+    padding: ($unit-base / 6) 0;
   }
 
   &__error-message {
@@ -44,18 +101,20 @@
     word-break: break-word;
     word-wrap: break-word;
   }
-  &__errors {
-    display: flex;
-    flex-direction: column;
-    padding: #{$base-unit / 6}px 0;
-  }
 
-  &__error {
-    color: $col-error;
-    font-size: 12px;
-    line-height: 12px;
-    overflow-wrap: break-word;
-    word-break: break-word;
-    word-wrap: break-word;
+  &__login {
+    &--text_amplifier {
+      background-color: $col-white;
+      border-radius: 24px;
+      color: $col-primary !important;
+      margin: auto;
+      padding-bottom: 0;
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: $unit-base-quarter !important;
+      position: relative;
+      text-align: center;
+      width: 100%;
+    }
   }
 }

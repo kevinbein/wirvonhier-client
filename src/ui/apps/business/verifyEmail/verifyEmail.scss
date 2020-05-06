@@ -1,19 +1,20 @@
 .verify-email {
   &__page {
+    @extend %unit-page-padding;
+
     align-items: center;
     background: $col-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100%;
-    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
   }
 
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.4em;
     font-weight: bold;
-    margin: #{$base-unit}px auto;
+    margin: $unit-base auto;
     text-align: center;
   }
 }

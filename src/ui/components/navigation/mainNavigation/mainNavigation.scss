@@ -1,18 +1,24 @@
+$icon-size: $unit-nav-icon;
+
 .navigation {
   display: contents;
 
   &__trigger {
     align-items: center;
+    background-color: $col-white;
+    border-radius: 0.125 * $icon-size; // 0.5 = circle, 0.125 = square-round edges
+    box-shadow: $elevation-2;
+    box-sizing: border-box;
     color: $col-primary;
     cursor: pointer;
     display: flex;
-    font-size: 1.6em;
-    height: 36px;
+    font-size: 1.6 * $unit-font-default;
+    height: $icon-size;
     justify-content: center;
     position: fixed;
-    right: #{$base-unit / 3}px;
-    top: #{$base-unit / 3}px;
-    width: 36px;
+    right: ($unit-base / 3);
+    top: ($unit-base / 3);
+    width: $icon-size;
     z-index: 1;
 
     &:focus {

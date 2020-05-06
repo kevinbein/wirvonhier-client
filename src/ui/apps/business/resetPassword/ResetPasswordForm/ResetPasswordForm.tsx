@@ -86,7 +86,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
         <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="password"
-            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
+            class={`${SharedStyles['input__login--text_amplifier']}`}
             label="NEUES PASSWORT"
             autocomplete="new-password"
             error-messages={this.errors.password}
@@ -97,7 +97,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
         <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="passwordRepeat"
-            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
+            class={`${SharedStyles['input__login--text_amplifier']}`}
             label="PASSWORT WIEDERHOLEN"
             autocomplete="new-password"
             error-messages={this.errors.passwordRepeat}

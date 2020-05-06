@@ -1,5 +1,5 @@
 .story-page-container {
-  /* background: $background; */
+  /* background: $col-background; */
   font-family: 'FuturaBT-Medium', sans-serif;
   position: relative;
   width: 100%;
@@ -14,16 +14,16 @@
     .preview {
       padding: 30px 15px;
       .button {
-        color: $primary;
+        color: $col-primary;
         .icon {
-          color: $primary;
+          color: $col-primary;
           margin-left: 5px;
         }
       }
     }
 
     .headline {
-      color: $primary;
+      color: $col-primary;
       font-size: 1.2rem;
       margin: 10px;
       text-align: left;

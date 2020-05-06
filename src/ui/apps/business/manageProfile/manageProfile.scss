@@ -6,28 +6,30 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 100%;
-    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+    overflow-y: scroll;
+    padding: $unit-base 0 0 0;
 
-    .manage-profile {
-      &__back {
-        color: $col-primary;
-        left: 15px;
-        position: absolute;
-        top: 15px;
-      }
+    &__title {
+      @extend %font-title;
+
+      margin: 0 auto;
+      position: relative;
+      top: -$dist-title-top;
     }
   }
 
-  &__title {
-    color: $primary;
-    font-size: 1.4em;
-    font-weight: bold;
-    margin: 0 auto;
+  &__back {
+    color: $col-primary;
+    left: 15px;
+    position: absolute;
+    top: 15px;
   }
 
   &__form-wrapper {
     background-color: $col-primary-light;
+    border-radius: $unit-base-quarter $unit-base-quarter 0 0;
     flex: 1 1 100%;
+    padding: $unit-base-quarter $unit-base-quarter $unit-base-half;
     position: relative;
     width: 100%;
   }

@@ -29,7 +29,7 @@
       z-index: 10000;
     }
     .icon {
-      color: $primary !important;
+      color: $col-primary !important;
     }
   }
   .loading-error {
@@ -74,7 +74,7 @@
       z-index: 10000;
     }
     .icon {/* stylelint-disable-line */
-      color: $primary !important;
+      color: $col-primary !important;
     }
   }
 
@@ -86,7 +86,7 @@
   }
 
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.4rem;
     margin-bottom: 0.5em;
   }
@@ -168,7 +168,7 @@
       .feature {
         border-radius: 15px;
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
-        color: $primary;
+        color: $col-primary;
         display: inline-block;
         font-size: 0.8rem;
         font-weight: bold;
@@ -180,7 +180,7 @@
       display: inline-block;
       margin: 1rem 1rem 0;
       .contact {
-        background: $primary;
+        background: $col-primary;
         border-radius: 50%;
         display: inline-block;
         margin: 0.3rem;
@@ -296,11 +296,11 @@
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
         padding: 0.8rem;
         .icon {
-          color: $primary;
+          color: $col-primary;
         }
       }
       .button.normal {
-        background: $primary;
+        background: $col-primary;
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
         padding: 0.8rem;
         text-align: center;

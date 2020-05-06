@@ -4,22 +4,22 @@
     background-color: $col-white;
     display: flex;
     flex-direction: column;
-    padding-top: #{$base-unit}px;
+    padding-top: $unit-base;
   }
 
   &__logo {
     display: inline-block;
-    margin: 0 0 #{$base-unit / 2}px 0;
+    margin: 0 0 $unit-base-half 0;
     width: 40%;
   }
 
   &__button {
-    margin: #{$base-unit / 4}px 0;
+    margin: $unit-base-quarter 0;
     max-width: 80%;
     width: 260px;
 
     &:nth-of-type(3) {
-      margin: #{$base-unit / 1.5}px 0;
+      margin: ($unit-base / 1.5) 0;
     }
   }
 }

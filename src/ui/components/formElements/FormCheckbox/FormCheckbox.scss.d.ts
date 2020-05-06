@@ -2,12 +2,6 @@
 // Please do not change this file!
 interface CssExports {
   'checkbox': string;
-  'checkbox--active': string;
-  'checkbox__error': string;
-  'checkbox__errors': string;
-  'checkbox__inner': string;
-  'checkbox__label': string;
-  'checkbox__wrapper': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
