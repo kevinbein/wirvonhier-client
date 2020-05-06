@@ -20,6 +20,19 @@ export class ImagesService {
     this.store = store;
   }
 
+  public get folder(): string {
+    switch (CLOUDINARY_IMAGE_PRESET) {
+      case 'wirvonhier_image':
+        return '';
+      case 'wirvonhier_dev':
+        return 'development/';
+      case 'wirvonhier_test':
+        return 'test/';
+      default:
+        return '';
+    }
+  }
+
   uploadImage(
     image: IImageData,
   ): null | Promise<

@@ -13,6 +13,7 @@
       border-radius: 15px;
       box-shadow: $elevation-2;
       display: block;
+      flex-shrink: 0;
       margin: auto;
       object-fit: cover;
     }

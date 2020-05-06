@@ -47,6 +47,10 @@
     margin: 20px 30px;
     outline: none;
     width: 80px;
+
+    &--delete {
+      color: $col-red;
+    }
   }
 
   &__icon {

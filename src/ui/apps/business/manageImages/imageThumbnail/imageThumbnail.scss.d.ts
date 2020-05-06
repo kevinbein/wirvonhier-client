@@ -6,6 +6,7 @@ interface CssExports {
   'overlay--new': string;
   'thumbnail': string;
   'thumbnail__button': string;
+  'thumbnail__button--delete': string;
   'thumbnail__buttons': string;
   'thumbnail__buttons--cover': string;
   'thumbnail__icon': string;
