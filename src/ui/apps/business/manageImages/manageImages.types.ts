@@ -1,4 +1,4 @@
-import { IImage } from '@/entities';
+import { IImage, IVideo } from '@/entities';
 
 export interface IImageData extends IImage {
   saved: boolean;
