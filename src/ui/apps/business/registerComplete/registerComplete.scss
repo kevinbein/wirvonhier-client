@@ -1,12 +1,13 @@
 .register-complete {
   &__page {
+    @extend %unit-page-padding;
+
     align-items: center;
     background: $col-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-height: 100%;
-    @extend %unit-page-padding;
 
     p .text--primary {
       margin-bottom: $unit-base-half;

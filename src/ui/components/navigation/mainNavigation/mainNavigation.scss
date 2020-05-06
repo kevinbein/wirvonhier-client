@@ -4,22 +4,22 @@ $icon-size: $unit-nav-icon;
   display: contents;
 
   &__trigger {
-    box-sizing: border-box;
+    align-items: center;
+    background-color: $col-white;
     border-radius: 0.125 * $icon-size; // 0.5 = circle, 0.125 = square-round edges
     box-shadow: $elevation-2;
-    background-color: $col-white;
-    align-items: center;
-    justify-content: center;
+    box-sizing: border-box;
+    color: $col-primary;
+    cursor: pointer;
     display: flex;
     font-size: 1.6 * $unit-font-default;
     height: $icon-size;
-    width: $icon-size;
+    justify-content: center;
     position: fixed;
     right: ($unit-base / 3);
     top: ($unit-base / 3);
-    color: $col-primary;
+    width: $icon-size;
     z-index: 1;
-    cursor: pointer;
 
     &:focus {
       outline: none;

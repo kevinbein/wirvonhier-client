@@ -1,11 +1,12 @@
 .logout {
   &__page {
+    @extend %unit-page-padding;
+
     align-items: center;
     background: $col-white;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    @extend %unit-page-padding;
   }
 
   &__logo {
