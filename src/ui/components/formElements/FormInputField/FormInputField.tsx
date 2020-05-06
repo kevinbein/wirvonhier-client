@@ -14,6 +14,7 @@ interface IProps {
   placeholder?: string;
   autocomplete?: string;
   required?: boolean;
+  autofocus?: boolean;
   type?: InputType;
 }
 
@@ -60,6 +61,10 @@ interface IProps {
       type: Boolean,
       default: false,
     },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    },
   },
 })
 export class FormInputField extends VueComponent<IProps> {
@@ -72,6 +77,7 @@ export class FormInputField extends VueComponent<IProps> {
   public errorMessages!: string[];
   public required!: boolean;
   public type!: InputType;
+  public autofocus!: boolean;
   public hasFocus = false;
 
   public update(e: Event): void {
@@ -117,6 +123,7 @@ export class FormInputField extends VueComponent<IProps> {
           type={this.type}
           autocomplete={this.autocomplete}
           placeholder={this.placeholder}
+          autofocus={this.autofocus}
           class={
             this.hasFocus
               ? `${Styles['text-input']} ${SharedStyles['input__field']} ${SharedStyles['input__field--active']}`

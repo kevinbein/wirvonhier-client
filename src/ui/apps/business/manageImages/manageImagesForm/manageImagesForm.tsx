@@ -4,7 +4,7 @@ import { rootModule, BusinessModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './manageImagesForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { WVHButton, WVHTextField, WVHTextareaField, WVHImageInputField, WVHCheckboxField } from '@/ui';
+import { WVHButton, FormInputField, FormTextArea, WVHImageInputField, FormCheckbox } from '@/ui';
 import { IImageData } from '../manageImages.types';
 import { MEDIATYPE, Business } from '@/entities';
 
@@ -186,7 +186,7 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
       <form class={Styles['manage-images__form']}>
         {this.isImageSelected ? (
           <div style="display: contents">
-            <WVHTextField
+            <FormInputField
               label="Titel"
               id="title"
               required={true}
@@ -198,7 +198,7 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
               value={this.formData.title}
               on-change={this.update.bind(this)}
             />
-            <WVHTextareaField
+            <FormTextArea
               label="Beschreibung"
               id="description"
               required={false}
@@ -208,7 +208,7 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
               value={this.formData.description || ''}
               on-change={this.update.bind(this)}
             />
-            <WVHCheckboxField
+            <FormCheckbox
               id="isCover"
               label="Als Cover-Bild auswählen"
               value={this.formData.isCover}

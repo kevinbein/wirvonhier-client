@@ -3,7 +3,6 @@
 interface CssExports {
   'amplifier': string;
   'cancel': string;
-  'input--text': string;
   'input__error': string;
   'input__error-message': string;
   'input__error-messages': string;

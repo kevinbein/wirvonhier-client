@@ -3,7 +3,7 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    padding: #{$base-unit}px #{$base-unit / 4}px #{$base-unit * 1.5}px;
+    padding: #{$unit-base}px #{$unit-base / 4}px #{$unit-base * 1.5}px;
 
     .manage-images {
       &__back {
@@ -16,13 +16,13 @@
   }
 
   &__title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.4em;
     font-weight: bold;
     margin: 0 auto;
   }
   &__section-title {
-    color: $primary;
+    color: $col-primary;
     font-size: 1.2em;
     font-weight: bold;
     margin: 0.4em 0;
@@ -33,10 +33,10 @@
   }
 
   &__stories-wrapper {
-    column-gap: #{$base-unit / 4}px;
+    column-gap: #{$unit-base / 4}px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    row-gap: #{$base-unit / 4}px;
+    row-gap: #{$unit-base / 4}px;
   }
 }
 
