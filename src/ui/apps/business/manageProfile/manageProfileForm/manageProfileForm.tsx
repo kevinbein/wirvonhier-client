@@ -58,7 +58,7 @@ export class ManageProfileForm extends Vue {
     return (
       <form class={Styles['manage-profile__form']}>
         <FormInputField
-          label="Name"
+          label="Geschäftname"
           autocomplete="off"
           id="name"
           required={true}
@@ -227,9 +227,11 @@ export class ManageProfileForm extends Vue {
           value={this.business.delivery.includes('collect')}
           on-change={this.update.bind(this)}
         />
-        <WVHButton primary class={Styles['manage-profile__submit']} on-click={this.submit.bind(this)}>
-          SPEICHERN
-        </WVHButton>
+        <div class={Styles['manage-profile__submit']}>
+          <WVHButton primary on-click={this.submit.bind(this)}>
+            SPEICHERN
+          </WVHButton>
+        </div>
       </form>
     );
   }

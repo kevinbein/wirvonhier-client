@@ -36,11 +36,11 @@ export class NavigationContent extends VueComponent<{}> {
     return [
       {
         to: { name: 'BusinessDashboard' },
-        name: 'Startseite',
+        name: 'Händler - Startseite',
       },
       {
         to: { name: 'Landing' },
-        name: 'Zur Nutzer-Ansicht',
+        name: 'Nutzer - Startseite',
       },
       {
         to: { name: 'Privacy' },

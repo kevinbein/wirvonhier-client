@@ -1,9 +1,9 @@
 .manage-profile {
   &__form {
     color: $col-primary;
-    height: 100%;
     width: 100%;
   }
+
   &__section-title {
     font-size: $unit-font-subtitle;
     font-weight: bold;
@@ -11,6 +11,8 @@
     margin: (1.5 * $unit-font-subtitle) 0 (0.15 * $unit-font-subtitle);
   }
   &__submit {
+    display: block;
     margin-top: 1.5 * $unit-base-half;
+    text-align: center;
   }
 }

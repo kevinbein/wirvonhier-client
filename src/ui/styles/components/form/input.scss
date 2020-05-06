@@ -21,16 +21,16 @@
     transition: font-size 0.2s ease-in-out;
 
     &--active {
-      color: $col-input-label-focus;
+      color: $col-input-label;
       font-size: 0.8 * $unit-font-input;
       padding-left: 0;
     }
   }
 
   &__field {
-    background-color: inherit;
+    background-color: $col-input-background;
     border-bottom: 1px solid $col-input-underline;
-    color: $col-text;
+    color: $col-primary-dark;
     display: flex;
     font-family: inherit;
     font-size: $unit-font-input;
@@ -42,6 +42,7 @@
     width: 100%;
 
     &--active {
+      background-color: inherit;
       border-bottom: 1px solid $col-input-underline-focus;
       margin-bottom: -1.5 * $unit-font-input;
       margin-top: $unit-font-input + $dist-input-padding;

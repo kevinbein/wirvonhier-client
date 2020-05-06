@@ -3,7 +3,6 @@
 interface CssExports {
   'textarea': string;
   'textarea__field': string;
-  'textarea__field--active': string;
   'textarea__inner': string;
   'textarea__wrapper': string;
   'textarea__wrapper--active': string;

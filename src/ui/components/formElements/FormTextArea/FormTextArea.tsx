@@ -108,11 +108,11 @@ export class FormTextArea extends VueComponent<IProps> {
           placeholder={this.placeholder}
           class={
             this.hasFocus
-              ? `${Styles['textarea__field']} ${Styles['textarea__field--active']} ${SharedStyles['input__field']} ${SharedStyles['input__field--active']}`
+              ? `${Styles['textarea__field']} ${SharedStyles['input__field']} ${SharedStyles['input__field--active']}`
               : `${Styles['textarea__field']} ${SharedStyles['input__field']}`
           }
           value={this.value}
-          on-change={this.update.bind(this)}
+          on-input={this.update.bind(this)}
           on-focus={this.changeFocus.bind(this)}
           on-blur={this.changeFocus.bind(this)}
         />
@@ -131,7 +131,7 @@ export class FormTextArea extends VueComponent<IProps> {
             </div>
           )}
           <span class={`${Styles['textarea']} ${SharedStyles['input__max-length']}`}>
-            {this.maxLength ? `${this.currentLength} / ${this.maxLength}` : this.currentLength}
+            {this.maxLength ? `${this.currentLength} / ${this.maxLength} Zeichen` : this.currentLength}
           </span>
         </div>
       </div>

@@ -8,14 +8,22 @@
     min-height: 100%;
     overflow-y: scroll;
     padding: $unit-base 0 0 0;
+  }
 
-    &__title {
-      @extend %font-title;
+  &__business-name {
+    font-family: inherit;
+    font-size: $unit-font-default;
+    font-weight: bold;
+    margin: (-1.8 * $unit-font-default) auto (1.8 * $unit-font-default) (1.8 * $unit-font-default);
+    position: relative;
+  }
 
-      margin: 0 auto;
-      position: relative;
-      top: -$dist-title-top;
-    }
+  &__title {
+    @extend %font-title;
+
+    margin: (0.25 * $unit-font-title) auto;
+    position: relative;
+    text-align: center;
   }
 
   &__back {
@@ -25,8 +33,14 @@
     top: 15px;
   }
 
+  &__button-images {
+    display: block;
+    margin-bottom: $unit-base-quarter;
+    text-align: center;
+  }
+
   &__form-wrapper {
-    background-color: $col-primary-light;
+    background-color: $col-background;
     border-radius: $unit-base-quarter $unit-base-quarter 0 0;
     flex: 1 1 100%;
     padding: $unit-base-quarter $unit-base-quarter $unit-base-half;
