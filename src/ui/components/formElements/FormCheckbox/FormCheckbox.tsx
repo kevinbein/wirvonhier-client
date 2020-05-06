@@ -47,9 +47,7 @@ export class FormCheckbox extends VueComponent<IProps> {
   }
 
   public update(): void {
-    this.value = !this.value;
-    const value = this.value;
-    this.$emit('change', { key: this.id, value });
+    this.$emit('change', { key: this.id, value: !this.value });
   }
 
   // @ts-ignore
