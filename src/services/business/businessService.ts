@@ -3,7 +3,7 @@ import { DB } from '../db';
 import { HTTP } from '..';
 import { IFindNearBusinessesOptions, IHttpBusinessResponse } from './businessService.types';
 import { IStore } from '@/store';
-import { IQuery, IHttpSuccessResponse } from '../http';
+import { IQuery, IHttpSuccessResponse, IHttpErrorResponse } from '../http';
 
 export class BusinessService {
   // @ts-ignore
@@ -75,9 +75,15 @@ export class BusinessService {
   }
 
   async save(businessData: IBusinessData): Promise<boolean> {
-    const { id } = businessData;
-    const { status } = await this.http.patch(`/businesses/${id}`, businessData);
-    if (status === 'failure') return false;
+    const { _id } = businessData;
+    const { status, ...res } = await this.http.patch(`/businesses/${_id}`, { business: businessData }, true);
+    if (status === 'failure') {
+      const error = (res as IHttpErrorResponse<IBusinessData>).error;
+      // eslint-disable-next-line no-console
+      console.error(error);
+      return false;
+    }
+    this.db.businesses.list.delete(_id as string);
     return true;
   }
 }
