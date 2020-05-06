@@ -32,6 +32,7 @@ export class ManageProfileForm extends Vue {
       this.formErrors[field.key] = [];
       this.formValidation[field.key] = true;
     }
+    this.$forceUpdate();
   }
 
   public async submit(e: Event): Promise<void> {
@@ -80,7 +81,7 @@ export class ManageProfileForm extends Vue {
         <FormInputField
           label="Straße"
           autocomplete="address-line1"
-          id="adress.street"
+          id="address.street"
           required={true}
           is-valid={this.formValidation.streetNumber}
           error-messages={this.formErrors.street}
@@ -89,7 +90,7 @@ export class ManageProfileForm extends Vue {
         />
         <FormInputField
           label="Hausnummer"
-          id="adress.streetNumber"
+          id="address.streetNumber"
           required={true}
           autocomplete="address-line2"
           is-valid={this.formValidation.streetNumber}
@@ -99,7 +100,7 @@ export class ManageProfileForm extends Vue {
         />
         <FormInputField
           label="Postleitzahl"
-          id="adress.zip"
+          id="address.zip"
           required={true}
           autocomplete="postal-code"
           is-valid={this.formValidation.zip}
@@ -109,7 +110,7 @@ export class ManageProfileForm extends Vue {
         />
         <FormInputField
           label="Ort"
-          id="adress.city"
+          id="address.city"
           required={true}
           autocomplete="address-level2"
           is-valid={this.formValidation.city}
@@ -221,7 +222,7 @@ export class ManageProfileForm extends Vue {
         />
         <FormCheckbox
           label="Abholung"
-          id="delivery"
+          id="collect"
           error-messages={this.formErrors.delivery}
           value={this.business.delivery.includes('collect')}
           on-change={this.update.bind(this)}

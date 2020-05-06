@@ -1,5 +1,6 @@
 import set from 'lodash/set';
 import get from 'lodash/get';
+import remove from 'lodash/remove';
 
 import {
   IBusinessData,
@@ -16,6 +17,9 @@ import {
   IUpdateSuccess,
   IUpdateError,
 } from './business.types';
+
+const paymentMethods = ['paypal', 'cash', 'creditcard', 'invoice', 'sofort', 'amazon', 'ondelivery', 'sepa', 'other'];
+const deliveryOptions = ['collect', 'delivery'];
 
 export class Business implements IBusinessData {
   readonly _id?: string;
@@ -118,18 +122,45 @@ export class Business implements IBusinessData {
 
   public update(path: string, value: unknown): IUpdateSuccess | IUpdateError {
     const { status, field } = this.validate(path, value);
-    if (status === 'success') set(this, path, value);
+    if (status === 'success') {
+      if (field.isArray) {
+        value ? get(this, field.path).push(path as IPaymentMethod) : remove(get(this, field.path), (p) => p == path);
+      } else {
+        set(this, path, value);
+      }
+    }
     return { business: this, status, field };
   }
 
   public getData(): IBusinessData {
-    return this as IBusinessData;
+    const businessData = Object.getOwnPropertyNames(this).reduce<IBusinessData>((businessData, prop) => {
+      switch (prop) {
+        case '__ob__':
+          return businessData;
+        case '_name':
+          return { ...businessData, name: this.name };
+        default:
+          return { ...businessData, [prop]: get(this, prop) };
+      }
+    }, {} as IBusinessData);
+    return businessData;
   }
 
-  private validate(path: string, value: unknown): IValidationSuccess | IValidationError {
-    const validValue = typeof get(this, path) === typeof value;
-    const status = validValue ? 'success' : 'failure';
-    return { status, field: {} };
+  private validate(rawPath: string, value: unknown): IValidationSuccess | IValidationError {
+    const isPaymentMethod = paymentMethods.includes(rawPath);
+    const isDeliveryOption = deliveryOptions.includes(rawPath);
+    const validValue = typeof get(this, rawPath) === typeof value;
+    const status = isPaymentMethod || isDeliveryOption || validValue ? 'success' : 'failure';
+    let path = rawPath;
+    path = isDeliveryOption ? 'delivery' : path;
+    path = isPaymentMethod ? 'paymentMethods' : path;
+    const field = {
+      isArray: isPaymentMethod || isDeliveryOption,
+      isPaymentMethod,
+      isDeliveryOption,
+      path,
+    };
+    return { status, field };
   }
 
   private normalizeString(string: string): string {
