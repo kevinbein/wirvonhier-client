@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
 import { VueComponent } from '@/ui/vue-ts-component';
-import Styles from './WVHTextareaField.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+//import Styles from './FormContainer.scss';
+//import SharedStyles from '@/ui/styles/main.scss';
 
 interface IProps {
   label: string;
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 @Component({
-  name: 'WVHTextArea',
+  name: 'FormContainer',
   props: {
     label: {
       type: String,
@@ -51,7 +51,7 @@ interface IProps {
     },
   },
 })
-export class WVHTextareaField extends VueComponent<IProps> {
+export class FormContainer extends VueComponent<IProps> {
   public id!: string;
   public maxLength?: number;
   public value!: string;
@@ -71,17 +71,17 @@ export class WVHTextareaField extends VueComponent<IProps> {
   // @ts-ignore
   public render(h): Vue.VNode {
     return (
-      <div class={`${Styles['textarea__wrapper']} ${SharedStyles['input__wrapper']}`}>
-        <label class={`${Styles['textarea__label']} ${SharedStyles['input__label']}`}>
+      <div class={``}>
+        <label class={``}>
           {this.errorMessages.length > 0 && (
-            <div class={`${Styles['textarea__errors']} ${SharedStyles['input__errors']}`}>
+            <div class={``}>
               {this.errorMessages.map((error) => (
-                <div class={`${SharedStyles['input__error']} ${Styles['textarea__error']}`}>{error}</div>
+                <div class={``}>{error}</div>
               ))}
             </div>
           )}
-          <textarea class={Styles.textarea} value={this.value} on-change={this.update.bind(this)} />
-          <span class={Styles['textarea__max-length']}>
+          <textarea class={``} value={this.value} on-change={this.update.bind(this)} />
+          <span class={``}>
             {this.currentLength} {this.maxLength ? `${this.currentLength} / ${this.maxLength} ` : ''}
           </span>
         </label>

@@ -6,8 +6,8 @@
     color: $col-primary !important; // important here because of vuetify
     cursor: pointer;
     font-family: 'FuturaBT-Medium', sans-serif;
-    margin: #{$base-unit / 8}px;
-    padding: #{$base-unit / 4}px #{$base-unit / 3}px;
+    margin: ($unit-base / 8);
+    padding: $unit-base-quarter ($unit-base / 3);
     text-align: center;
     user-select: none;
 
@@ -35,7 +35,7 @@
 
     &--large {
       font-size: larger;
-      padding: #{$base-unit / 3.25}px #{$base-unit / 2}px;
+      padding: ($unit-base / 3.25) $unit-base-half;
     }
 
     &--disabled {

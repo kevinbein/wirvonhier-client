@@ -1,10 +1,10 @@
 .register {
   &__form {
     align-items: center;
-    color: $primary;
+    color: $col-primary;
     display: flex;
     flex-direction: column;
-    margin: #{$base-unit / 3}px auto #{$base-unit / 3}px;
+    margin: ($unit-base / 3) auto ($unit-base / 3);
     max-width: 300px;
     width: 300px;
   }

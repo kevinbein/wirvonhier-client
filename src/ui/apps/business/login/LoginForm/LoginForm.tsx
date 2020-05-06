@@ -77,7 +77,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
         <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="email"
-            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
+            class={`${SharedStyles['input__login--text_amplifier']}`}
             label="EMAIL"
             autocomplete="email"
             error-messages={this.errors.email}
@@ -88,7 +88,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
         <div class={SharedStyles['input__wrapper']}>
           <v-text-field
             ref="password"
-            class={`${SharedStyles['input--text']} ${SharedStyles['amplifier']}`}
+            class={`${SharedStyles['input__login--text_amplifier']}`}
             type="password"
             label="PASSWORT"
             autocomplete="current-password"

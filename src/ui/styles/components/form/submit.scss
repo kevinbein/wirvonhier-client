@@ -1,4 +1,4 @@
 .submit {
-  margin: #{$base-unit / 3}px auto #{$base-unit / 6}px;
+  margin: ($unit-base / 3) auto ($unit-base / 6);
   width: 100%;
 }

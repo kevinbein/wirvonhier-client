@@ -3,7 +3,7 @@ import Vue from 'vue';
 import { BusinessModule } from '@/store';
 import { Business } from '@/entities';
 import Styles from './manageProfileForm.scss';
-import { WVHButton, WVHTextareaField, WVHTextField, WVHCheckboxField } from '@/ui/components';
+import { WVHButton, FormTextArea, FormInputField, FormCheckbox } from '@/ui/components';
 import { POSITION, TYPE } from 'vue-toastification';
 
 @Component({
@@ -56,7 +56,7 @@ export class ManageProfileForm extends Vue {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['manage-profile__form']}>
-        <WVHTextField
+        <FormInputField
           label="Name"
           autocomplete="off"
           id="name"
@@ -66,7 +66,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.name}
           on-change={this.update.bind(this)}
         />
-        <WVHTextareaField
+        <FormTextArea
           label="Beschreiben Sie Ihr Angebot"
           id="description"
           max-length={300}
@@ -76,8 +76,8 @@ export class ManageProfileForm extends Vue {
           value={this.business.description}
           on-change={this.update.bind(this)}
         />
-        <h3 class={Styles['manage-profile__section-title']}>Adresse</h3>
-        <WVHTextField
+        <h1 class={Styles['manage-profile__section-title']}>Adresse</h1>
+        <FormInputField
           label="Straße"
           autocomplete="address-line1"
           id="adress.street"
@@ -87,7 +87,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.address.street}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="Hausnummer"
           id="adress.streetNumber"
           required={true}
@@ -97,7 +97,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.address.streetNumber}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="Postleitzahl"
           id="adress.zip"
           required={true}
@@ -107,7 +107,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.address.zip}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="Ort"
           id="adress.city"
           required={true}
@@ -117,8 +117,8 @@ export class ManageProfileForm extends Vue {
           value={this.business.address.city}
           on-change={this.update.bind(this)}
         />
-        <h3 class={Styles['manage-profile__section-title']}>Kontaktdaten</h3>
-        <WVHTextField
+        <h1 class={Styles['manage-profile__section-title']}>Kontaktdaten</h1>
+        <FormInputField
           label="Telefon"
           id="phone"
           required={true}
@@ -128,7 +128,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.phone}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="E-Mail"
           id="email"
           required={true}
@@ -139,7 +139,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.email}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="Website"
           id="website"
           required={true}
@@ -150,7 +150,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.website}
           on-change={this.update.bind(this)}
         />
-        <WVHTextField
+        <FormInputField
           label="Online-Shop"
           id="onlineShop"
           required={true}
@@ -161,72 +161,72 @@ export class ManageProfileForm extends Vue {
           value={this.business.onlineShop}
           on-change={this.update.bind(this)}
         />
-        <h3 class={Styles['manage-profile__section-title']}>Zahlungsmethoden</h3>
-        <WVHCheckboxField
+        <h1 class={Styles['manage-profile__section-title']}>Zahlungsmethoden</h1>
+        <FormCheckbox
           label="Barzahlung"
           id="cash"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('cash')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Paypal"
           id="paypal"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('paypal')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Rechnung"
           id="invoice"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('invoice')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Nachname"
           id="ondelivery"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('ondelivery')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Sofortüberweisung"
           id="sofort"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('sofort')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Lastschrift (SEPA)"
           id="sepa"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('sepa')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Amazon Payment"
           id="amazon"
           error-messages={this.formErrors.paymentMethods}
           value={this.business.paymentMethods.includes('amazon')}
           on-change={this.update.bind(this)}
         />
-        <h3 class={Styles['manage-profile__section-title']}>Lieferung</h3>
-        <WVHCheckboxField
+        <h1 class={Styles['manage-profile__section-title']}>Lieferung</h1>
+        <FormCheckbox
           label="Lieferung"
           id="delivery"
           error-messages={this.formErrors.delivery}
           value={this.business.delivery.includes('delivery')}
           on-change={this.update.bind(this)}
         />
-        <WVHCheckboxField
+        <FormCheckbox
           label="Abholung"
           id="delivery"
           error-messages={this.formErrors.delivery}
           value={this.business.delivery.includes('collect')}
           on-change={this.update.bind(this)}
         />
-        <WVHButton primary on-click={this.submit.bind(this)}>
+        <WVHButton primary class={Styles['manage-profile__submit']} on-click={this.submit.bind(this)}>
           SPEICHERN
         </WVHButton>
       </form>
