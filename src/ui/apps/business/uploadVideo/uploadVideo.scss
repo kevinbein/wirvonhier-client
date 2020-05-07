@@ -1,4 +1,87 @@
-// TODO Write Content
-p {
-  text-decoration: none;
+.upload-video {
+  &__page {
+    align-items: center;
+    background: $col-white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    overflow-y: scroll;
+    padding: $unit-base 0 0 0;
+  }
+
+  &__back {
+    display: block;
+    margin: (-0.61 * $unit-nav-icon) 0 0 (-1.75 * $unit-nav-icon);
+    position: relative;
+
+    &:first-child {
+      height: 0.5 * $unit-nav-icon;
+      width: 0.5 * $unit-nav-icon;
+    }
+  }
+  &__title {
+    @extend %font-title;
+
+    margin: (0.25 * $unit-font-title) auto (1 * $unit-font-title);
+    position: relative;
+    text-align: center;
+  }
+  &__form {
+    align-items: center;
+    background-color: $col-primary-very-light;
+    border-radius: $unit-base-quarter;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto $unit-base-half;
+    padding: $unit-base-quarter;
+    width: 100%;
+
+    &-preview {
+      border-radius: $unit-base-quarter;
+      box-shadow: $elevation-2;
+      display: block;
+      flex-shrink: 0;
+      margin: auto;
+      object-fit: cover;
+    }
+    &-buttons {
+      margin: (0.75 * $unit-font-default) 0 (0.25 * $unit-font-default) (-0.25 * $unit-font-default);
+    }
+  }
+  &__upload-video-button {
+    margin: 0;
+    width: 100%;
+  }
+  &__preview {
+    border-radius: 15px;
+    height: #{100 / 9 * 16}vw;
+    margin: #{-$unit-base-quarter} #{-$unit-base-quarter} #{$unit-base-quarter};
+    max-height: #{500 / 9 * 16}px;
+    max-width: 500px;
+    object-fit: cover;
+    width: 100vw;
+  }
+
+  &__progress {
+    color: $col-grey;
+    font-size: 1.4em;
+    width: 280px;
+  }
+}
+
+.form-hints {
+  &__wrapper {
+    color: $col-primary;
+    display: flex;
+    flex-direction: column;
+    font-size: smaller;
+    justify-content: center;
+    margin: $unit-base-quarter auto;
+    max-width: 280px;
+    width: 100%;
+  }
+  &__title {
+    flex: 1 0 100%;
+    margin-bottom: 0.5 * $unit-font-default;
+  }
 }
