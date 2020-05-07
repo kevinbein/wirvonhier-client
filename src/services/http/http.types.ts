@@ -1,8 +1,12 @@
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export interface IHttpSuccessResponse<T> {
   status: 'success';
   data: T;
+}
+export interface IHttpSuccessResponse2<T> {
+  status: 'success';
+  res: AxiosResponse<T>;
 }
 export interface IHttpErrorResponse<T> {
   status: 'failure';

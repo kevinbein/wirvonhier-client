@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import jwtDecode from 'jwt-decode';
-import { IQuery, ITokenPayload, IHttpSuccessResponse, IHttpErrorResponse } from './http.types';
+import { IQuery, ITokenPayload, IHttpSuccessResponse, IHttpErrorResponse, IHttpSuccessResponse2 } from './http.types';
 import { IStore } from '@/store';
 
 const withAuthInstance = axios.create({
@@ -78,6 +78,26 @@ export class HTTP {
     try {
       const { data } = await this.withAuth.patch<T>(url, body, options);
       return { status: 'success', data };
+    } catch (e) {
+      return { status: 'failure', error: e };
+    }
+  }
+  async head<T>(
+    url: string,
+    withAuth?: boolean,
+    requestOptions?: AxiosRequestConfig,
+  ): Promise<IHttpSuccessResponse2<T> | IHttpErrorResponse<T>> {
+    if (withAuth) {
+      const authenticated = await this.checkAndRefreshToken();
+      if (!authenticated) return { status: 'failure' };
+    }
+    const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
+    if (this.store.state.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    }
+    try {
+      const res = await this.withAuth.head<T>(url, options);
+      return { status: 'success', res };
     } catch (e) {
       return { status: 'failure', error: e };
     }
