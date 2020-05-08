@@ -1,7 +1,7 @@
 import { IStore } from '@/store';
 import { HTTP, DB } from '..';
 import { IHttpErrorResponse, IHttpSuccessResponse } from '../http';
-import { AxiosResponse } from 'axios';
+import { IRequestVideoUploadResponse } from './videosService.types';
 
 interface INewVideoData {
   title: string;
@@ -11,10 +11,6 @@ interface INewVideoData {
 }
 
 export class VideosService {
-  private uploadURL = 'https://api.vimeo.com/me/videos';
-  private accessToken = '51768e09be6b37672319e6f8d4188f17';
-  private patchURL = 'https://api.vimeo.com/videos/{videoId}';
-
   // @ts-ignore
   private worker: unknown;
   // @ts-ignore
@@ -30,43 +26,21 @@ export class VideosService {
     this.store = store;
   }
 
-  public get folder(): string {
-    switch (CLOUDINARY_IMAGE_PRESET) {
-      case 'wirvonhier_image':
-        return '';
-      case 'wirvonhier_dev':
-        return 'development/';
-      case 'wirvonhier_test':
-        return 'test/';
-      default:
-        return '';
-    }
-  }
   /* eslint-disable */
-  async upload(video: INewVideoData): Promise<null | { value: number }> {
-    if (!video.file) return null;
-    const options = {
-      name: video.title,
-      description: video.description,
-      upload: {
-        approach: 'tus',
+  async upload(businessId: string, video: INewVideoData): Promise<null | { value: number }> {
+    if (!video.file) {
+      return null;
+    }
+
+    const res = await this.http.post<IHttpErrorResponse<unknown> | IHttpSuccessResponse<IRequestVideoUploadResponse>>(
+      `/business/${businessId}/video`, 
+      {
+        title: video.title,
+        description: video.description,
         size: video.file.size,
-      },
-      privacy: {
-        embed: 'private',
-        view: 'nobody'
-      },
-    };
-
-    const res = await this.http.post<IHttpErrorResponse<unknown> | IHttpSuccessResponse<unknown>>(this.uploadURL, options, false, {
-      withCredentials: false,
-      headers: {
-        Authorization: `bearer ${this.accessToken}`,
-        'Content-Type': 'application/json',
-        Accept: 'application/vnd.vimeo.*+json;version=3.4',
-      },
-    });
-
+      }
+    );
+    console.log("Received response", res);
     if (res.status !== 'success') {
       console.error('failed to upload video: ', res.error);
       return null;
@@ -74,7 +48,7 @@ export class VideosService {
 
     // Inform Our Server here with Data from res.data - save in Database
 
-    const uploadLink = (res.data as any).upload.upload_link;
+    const uploadLink = (res.data as any).uploadLink;
     const progress = {
       value: 0,
     };

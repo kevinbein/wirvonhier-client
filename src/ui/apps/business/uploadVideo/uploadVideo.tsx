@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { rootModule } from '@/store';
+import { rootModule, BusinessModule } from '@/store';
 import SharedStyles from '@/ui/styles/main.scss';
 import Styles from './uploadVideo.scss';
 import { WVHImageInputField, FormInputField, FormTextArea, WVHButton } from '@/ui';
@@ -24,6 +24,7 @@ interface IFile {
 })
 export class BusinessUploadVideo extends Vue {
   public rootStore = rootModule.context(this.$store);
+  public businessModule = BusinessModule.context(this.$store);
   public formValidation = {
     video: true,
     title: true,
@@ -76,7 +77,11 @@ export class BusinessUploadVideo extends Vue {
   }
 
   public async submit(): Promise<void> {
-    const res = await this.$services.videos.upload(this.formData);
+    const business = this.businessModule.state.selectedBusiness;
+    if (!business || !business._id) {
+      return;
+    }
+    const res = await this.$services.videos.upload(business._id, this.formData);
     this.$set(this, 'progress', res);
   }
 
@@ -127,9 +132,13 @@ export class BusinessUploadVideo extends Vue {
                     Abbrechen
                   </WVHButton>
                 </div>
-              ) : (
+              ) : !this.isFinished ? (
                 <div class={Styles['upload-video__form-buttons']}>
                   <div class={Styles['upload-video__progress']}>Bitte warten... {this.progressString}</div>
+                </div>
+              ) : (
+                <div class={Styles['upload-video__form-buttons']}>
+                  <div class={Styles['upload-video__progress']}>Upload komplett!</div>
                 </div>
               )}
             </div>
