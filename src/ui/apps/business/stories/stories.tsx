@@ -1,51 +1,16 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './stories.scss';
-import NavigationBarStyles from './../styles/navigationBar.scss';
-import { ProfileLoader } from '../components';
+import { Business, IVideo } from '@/entities';
+import { BusinessModule, AppearanceModule } from '@/store';
 //import { WVHButton } from '@/ui/components';
 
 @Component({
   name: 'BusinessStories',
 })
 export class BusinessStoriesPage extends Vue {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public profile: any | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public media: any = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private loadedProfile(profile: any): void {
-    this.profile = profile;
-
-    // sort media by modified date
-    this.media = this.profile.media.stories.images;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.media.map((image: any) => {
-      image.type = 'image';
-      return image;
-    });
-    const videos = this.profile.media.stories.videos;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    videos.map((video: any) => {
-      video.type = 'video';
-      return video;
-    });
-    this.media.push(...videos);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.media.sort((story1: any, story2: any) => {
-      const time1 = new Date(story1.modifiedAt).getTime();
-      const time2 = new Date(story2.modifiedAt).getTime();
-      return time1 - time2;
-    });
-  }
-
-  public gotoProfile(): void {
-    this.$router.push('/business/profile');
-  }
-
-  public gotoEditStory(storyId: string): void {
-    this.$router.push('/business/profile/stories/' + storyId);
-  }
+  public businessModule = BusinessModule.context(this.$store);
+  public appearanceModule = AppearanceModule.context(this.$store);
 
   public getMediaType(type: string): string {
     if (type == 'video') {
@@ -55,71 +20,124 @@ export class BusinessStoriesPage extends Vue {
     }
   }
 
+  get business(): Business | null {
+    return this.businessModule.state.selectedBusiness;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  get stories(): any[] {
+    if (this.business === null) {
+      return [];
+    }
+
+    const videos = this.business.media.stories.videos;
+    videos.sort((video1: IVideo, video2: IVideo) => {
+      const time1 = new Date(video1.modifiedAt).getTime();
+      const time2 = new Date(video2.modifiedAt).getTime();
+      return time2 - time1;
+    });
+    return videos;
+
+    /*
+    // sort media by modified date
+    const media = this.business.media.stories.images;
+    media.map((image: any) => {
+      image.type = 'image';
+      return image;
+    });
+    const videos = this.business.media.stories.videos;
+    videos.map((video: any) => {
+      video.type = 'video';
+      return video;
+    });
+    media.push(...videos);
+    media.sort((story1: any, story2: any) => {
+      const time1 = new Date(story1.modifiedAt).getTime();
+      const time2 = new Date(story2.modifiedAt).getTime();
+      return time1 - time2;
+    });
+    return media;
+    */
+  }
+
+  public async deleteVideo(video: IVideo): Promise<void> {
+    if (this.business === null) {
+      return;
+    }
+
+    await this.$services.videos.delete(this.business, video);
+
+    const videoIndex = this.business.media.stories.videos.findIndex((video2: IVideo) => {
+      return video2._id === video._id;
+    });
+    this.business.media.stories.videos.splice(videoIndex, 1);
+  }
+
+  public showVideo(video: IVideo): void {
+    // eslint-disable-next-line no-console
+    console.log('show video', video);
+  }
+
+  public created(): void {
+    this.appearanceModule.actions.setNavigationVisibility(true);
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      <ProfileLoader on-loadedProfile={(profile: any) => this.loadedProfile(profile)}>
-        {this.profile !== null && (
-          <div class={Styles['stories-page-container']}>
-            <v-app-bar dense class={NavigationBarStyles['nav-bar']}>
-              <v-btn icon on-click={() => this.gotoProfile()}>
-                <v-icon class={NavigationBarStyles['back-icon']}>fa-chevron-left</v-icon>
-              </v-btn>
-              <v-spacer />
-              <v-toolbar-title>Stories</v-toolbar-title>
-              <v-spacer />
-              {/* needed for the title to be centered .-.*/}
-              <v-btn icon disabled></v-btn>
-              {/*<v-btn icon disabled>
-                <v-icon on-click={() => null} class={Styles['check-icon']}>
-                  fa-check
-                </v-icon>
-              </v-btn>*/}
-            </v-app-bar>
-            <div class={Styles['stories-page']}>
-              <div class={Styles['upload-button']}>
-                <img class={Styles['icon']} src="/assets/imgs/profile_story_upload_372x306.png" alt="Upload logo" />
-                <div>Video hochladen</div>
-              </div>
-              <div class={Styles['stories']}>
-                <table class={Styles['table']}>
-                  <thead>
-                    <tr>
-                      <th>Titel</th>
-                      <th class={Styles['center']}>Typ</th>
-                      <th class={Styles['center']}>Aktion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    this.media.map((item: any) => {
-                      return [
-                        <tr class={Styles['date']}>
-                          <td colspan="3">{new Date(item.modifiedAt).toLocaleString()}</td>
-                        </tr>,
-                        <tr class={Styles['info']}>
-                          <td>{item.title}</td>
-                          <td class={Styles['center']}>{this.getMediaType(item.type)}</td>
-                          <td class={Styles['action-buttons'] + ' ' + Styles['center']}>
-                            <v-btn
-                              icon
-                              on-click={() => this.gotoEditStory(item.publicId)}
-                              class={Styles['action-button']}
-                            >
-                              <v-icon class={Styles['icon']}>fa-edit</v-icon>
-                            </v-btn>
-                          </td>
-                        </tr>,
-                      ];
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-      </ProfileLoader>
+      <div class={Styles['stories-page-container']}>
+        <router-link
+          class={Styles['back-button']}
+          to={{ name: 'BusinessDashboard', query: this.$route.query }}
+          title="zurück"
+        >
+          <i class="fa fa-chevron-left"></i>
+          <div class={Styles['back-button__title']}>Zurück</div>
+        </router-link>
+        <div class={Styles['stories-page']}>
+          <table class={Styles['stories']}>
+            <thead>
+              <tr>
+                <th>Titel</th>
+                <th class={Styles['stories--center']}>Status</th>
+                <th class={Styles['stories--center']}>Aktion</th>
+              </tr>
+            </thead>
+            <tbody>
+              {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+              this.stories.map((video: IVideo) => {
+                return [
+                  <tr class={Styles['stories__date']}>
+                    <td colspan="3">{new Date(video.modifiedAt).toLocaleString()}</td>
+                  </tr>,
+                  <tr class={Styles['stories__info']}>
+                    <td>
+                      <div on-click={() => this.showVideo(video)} class={Styles['info__title']}>
+                        {video.title}
+                      </div>
+                    </td>
+                    {/*<td class={Styles['center']}>{this.getMediaType(video.type)}</td>*/}
+                    <td class={Styles['stories--center']}>
+                      {(video.status === 'transcoding' && (
+                        <i class={`fa fa-spinner fa-spin ${Styles['info__status--transcoding']}`}></i>
+                      )) || <i class={`fa fa-check ${Styles['info__status--complete']}`}></i>}
+                    </td>
+                    <td class={Styles['action-buttons'] + ' ' + Styles['stories--center']}>
+                      <i
+                        class={`fa fa-edit ${Styles['action-buttons__icon-button']} ${Styles['action-buttons__icon-button--disabled']}`}
+                      ></i>
+                      <i
+                        on-click={() => this.deleteVideo(video)}
+                        class={`fa fa-trash ${Styles['action-buttons__icon-button']} ${Styles['action-buttons__icon-button--critical']}`}
+                      ></i>
+                    </td>
+                  </tr>,
+                ];
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     );
   }
 }

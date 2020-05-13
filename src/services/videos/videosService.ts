@@ -2,6 +2,7 @@ import { IStore } from '@/store';
 import { HTTP, DB } from '..';
 import { IHttpErrorResponse, IHttpSuccessResponse } from '../http';
 import { IRequestVideoUploadResponse } from './videosService.types';
+import { Business, IVideo } from '@/entities';
 
 interface INewVideoData {
   title: string;
@@ -26,21 +27,27 @@ export class VideosService {
     this.store = store;
   }
 
+  async delete(business: Business, video: IVideo): Promise<boolean> {
+    const res = await this.http.delete<IHttpErrorResponse<unknown> | IHttpSuccessResponse<IRequestVideoUploadResponse>>(
+      `/business/${business._id}/video/${video._id}`,
+    );
+    return res.status !== 'success';
+  }
+
   /* eslint-disable */
-  async upload(businessId: string, video: INewVideoData): Promise<null | { value: number }> {
+  async upload(business: Business, video: INewVideoData): Promise<null | { value: number }> {
     if (!video.file) {
       return null;
     }
 
     const res = await this.http.post<IHttpErrorResponse<unknown> | IHttpSuccessResponse<IRequestVideoUploadResponse>>(
-      `/business/${businessId}/video`, 
+      `/business/${business._id}/video`, 
       {
         title: video.title,
         description: video.description,
         size: video.file.size,
       }
     );
-    console.log("Received response", res);
     if (res.status !== 'success') {
       console.error('failed to upload video: ', res.error);
       return null;

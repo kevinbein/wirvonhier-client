@@ -1,12 +1,14 @@
+$nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
+
 .upload-video {
   &__page {
     align-items: center;
     background: $col-white;
-    display: flex;
-    flex-direction: column;
+    //display: flex;
+    //flex-direction: column;
     min-height: 100%;
     overflow-y: scroll;
-    padding: $unit-base 0 0 0;
+    padding: $unit-base-quarter;
   }
 
   &__back {
@@ -66,6 +68,18 @@
     color: $col-grey;
     font-size: 1.4em;
     width: 280px;
+  }
+}
+
+.back-button {
+  color: $col-primary;
+  display: inline-block;
+  height: $nav-icon-size;
+  width: calc(100% - #{$nav-icon-size});
+  &__title {
+    display: inline;
+    padding-left: 5px;
+    word-wrap: break-word;
   }
 }
 

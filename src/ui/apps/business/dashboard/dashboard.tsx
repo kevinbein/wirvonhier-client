@@ -35,12 +35,12 @@ export class BusinessDashboard extends Vue {
     return (
       <div class={`${SharedStyles.page} ${Styles['dashboard__page']}`}>
         <img class={Styles['dashboard__logo']} src="/assets/imgs/logo/logo-schrift_512x203.png" alt="WirVonHier Logo" />
-        <WVHButton class={Styles['dashboard__button']} disabled={!this.hasVideo} to={{ name: 'BusinessEditVideo' }}>
-          Mein aktuelles Video
+        <WVHButton class={Styles['dashboard__button']} disabled={!this.hasVideo} to={{ name: 'BusinessStories' }}>
+          Meine Videos
         </WVHButton>
-        <WVHButton class={Styles['dashboard__button']} to={{ name: 'Explore' }}>
+        {/*<WVHButton class={Styles['dashboard__button']} to={{ name: 'Explore' }}>
           Andere Händlervideos
-        </WVHButton>
+        </WVHButton>*/}
         <WVHButton class={Styles['dashboard__button']} primary to={{ name: 'BusinessUploadVideo' }}>
           Video Hochladen
         </WVHButton>

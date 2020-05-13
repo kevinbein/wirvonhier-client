@@ -171,7 +171,7 @@ const routes = [
           import(/* webpackChunkName: "BusinessManageImages" */ '@/ui/apps/business/manageImages/manageImages'),
       },
       {
-        path: 'profile/stories',
+        path: 'stories',
         name: 'BusinessStories',
         component: () => import(/* webpackChunkName: "BusinessStories" */ '@/ui/apps/business/stories/stories'),
       },

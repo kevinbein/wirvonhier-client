@@ -72,6 +72,8 @@ export interface IVideo {
   title: string;
   description?: string;
   src: string;
+  videoId: string;
+  status: string;
   type: MEDIATYPE;
 }
 export interface IStory {

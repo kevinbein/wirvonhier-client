@@ -81,7 +81,7 @@ export class BusinessUploadVideo extends Vue {
     if (!business || !business._id) {
       return;
     }
-    const res = await this.$services.videos.upload(business._id, this.formData);
+    const res = await this.$services.videos.upload(business, this.formData);
     this.$set(this, 'progress', res);
   }
 
@@ -96,6 +96,14 @@ export class BusinessUploadVideo extends Vue {
   render(h): Vue.VNode {
     return (
       <main role="main" class={`${SharedStyles.page} ${Styles['upload-video__page']}`}>
+        <router-link
+          class={Styles['back-button']}
+          to={{ name: 'BusinessDashboard', query: this.$route.query }}
+          title="zurück"
+        >
+          <i class="fa fa-chevron-left"></i>
+          <div class={Styles['back-button__title']}>Zurück</div>
+        </router-link>
         <h1 class={Styles['upload-video__title']}>BILDER VERWALTEN</h1>
         <form class={Styles['upload-video__form']}>
           {this.isVideoSelected ? (
@@ -158,11 +166,11 @@ export class BusinessUploadVideo extends Vue {
                   Achte bitte auf folgendes:
                 </h3>
                 <span>
-                  <b>Format:</b> 16:9
+                  <b>Format:</b> 16:9 (hochkant)
                 </span>
-                <span>
+                {/*<span>
                   <b>Auflösung:</b> 1000x900 Pixel
-                </span>
+                </span>*/}
                 <span>
                   <b>Länge:</b> max. 20 Sekunden
                 </span>

@@ -82,6 +82,28 @@ export class HTTP {
       return { status: 'failure', error: e };
     }
   }
+
+  async delete<T>(
+    url: string,
+    withAuth?: boolean,
+    requestOptions?: AxiosRequestConfig,
+  ): Promise<IHttpSuccessResponse<T> | IHttpErrorResponse<T>> {
+    if (withAuth) {
+      const authenticated = await this.checkAndRefreshToken();
+      if (!authenticated) return { status: 'failure' };
+    }
+    const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
+    if (this.store.state.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    }
+    try {
+      const { data } = await this.withAuth.delete<T>(url, options);
+      return { status: 'success', data };
+    } catch (e) {
+      return { status: 'failure', error: e };
+    }
+  }
+
   async head<T>(
     url: string,
     withAuth?: boolean,
