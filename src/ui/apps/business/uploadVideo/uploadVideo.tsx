@@ -82,6 +82,9 @@ export class BusinessUploadVideo extends Vue {
       return;
     }
     const res = await this.$services.videos.upload(business, this.formData);
+    await this.$services.business.loadAndPersistBusiness(business._id);
+    this.businessModule.actions.selectBusiness(business._id);
+    if (!res) return;
     this.$set(this, 'progress', res);
   }
 

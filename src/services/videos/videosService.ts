@@ -1,7 +1,6 @@
 import { IStore } from '@/store';
 import { HTTP, DB } from '..';
 import { IHttpErrorResponse, IHttpSuccessResponse } from '../http';
-import { IRequestVideoUploadResponse } from './videosService.types';
 import { Business, IVideo } from '@/entities';
 
 interface INewVideoData {
@@ -28,9 +27,7 @@ export class VideosService {
   }
 
   async delete(business: Business, video: IVideo): Promise<boolean> {
-    const res = await this.http.delete<IHttpErrorResponse<unknown> | IHttpSuccessResponse<IRequestVideoUploadResponse>>(
-      `/business/${business._id}/video/${video._id}`,
-    );
+    const res = await this.http.delete<void>(`/business/${business._id}/video/${video._id}`);
     return res.status !== 'success';
   }
 
@@ -40,7 +37,7 @@ export class VideosService {
       return null;
     }
 
-    const res = await this.http.post<IHttpErrorResponse<unknown> | IHttpSuccessResponse<IRequestVideoUploadResponse>>(
+    const res = await this.http.post<string>(
       `/business/${business._id}/video`, 
       {
         title: video.title,
@@ -55,7 +52,7 @@ export class VideosService {
 
     // Inform Our Server here with Data from res.data - save in Database
 
-    const uploadLink = (res.data as any).uploadLink;
+    const uploadLink = (res as IHttpSuccessResponse<string>).data;
     const progress = {
       value: 0,
     };
@@ -78,6 +75,6 @@ export class VideosService {
   }
 
   private finalizeUpload() {
-    // inform our server that upload was complete and successful (no need to delete video);
+    
   }
 }

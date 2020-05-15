@@ -58,6 +58,11 @@ export class BusinessService {
   async getBusinessById(businessId: string): Promise<IBusinessData | null> {
     const fromDB = await this.db.businesses.list.get(businessId);
     if (fromDB) return fromDB;
+    const fromAPI = this.loadAndPersistBusiness(businessId);
+    return fromAPI;
+  }
+
+  async loadAndPersistBusiness(businessId: string): Promise<IBusinessData | null> {
     const { status, ...res } = await this.http.get(`businesses/${businessId}`);
     if (status === 'failure') return null;
     const data = (res as IHttpSuccessResponse<IBusinessData>).data;
