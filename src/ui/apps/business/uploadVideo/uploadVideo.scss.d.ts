@@ -6,6 +6,7 @@ interface CssExports {
   'form-hints__title': string;
   'form-hints__wrapper': string;
   'upload-video__back': string;
+  'upload-video__back-icon': string;
   'upload-video__form': string;
   'upload-video__form-buttons': string;
   'upload-video__form-preview': string;
