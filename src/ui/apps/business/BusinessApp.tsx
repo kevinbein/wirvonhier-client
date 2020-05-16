@@ -8,20 +8,6 @@ import { POSITION, TYPE } from 'vue-toastification';
 @Component({
   name: 'Business',
   watch: {
-    userId: {
-      immediate: true,
-      async handler(this: BusinessApp, newId: string) {
-        if (!newId) {
-          const authenticated = await this.userModule.actions.authenticateMe();
-          if (!authenticated) {
-            return;
-          }
-        }
-        await this.userModule.actions.loadUserAndSaveUserData();
-        await this.userModule.actions.loadUserBusinesses();
-        this.businessModule.actions.selectBusiness(this.userModule.state.businesses[0]);
-      },
-    },
     userIsVerified: {
       immediate: true,
       handler(this: BusinessApp, isVerified) {
@@ -29,6 +15,25 @@ import { POSITION, TYPE } from 'vue-toastification';
         this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.ERROR, timeout: false });
       },
     },
+  },
+
+  beforeRouteEnter(_to, _from, next): void {
+    next(async (vm) => {
+      const userModule = UserModule.context(vm.$store);
+      const userId = userModule.state.id;
+      if (!userId) {
+        const success = await userModule.actions.authenticateMe();
+        if (!success) return;
+      }
+      const businessModule = BusinessModule.context(vm.$store);
+      const business = businessModule.state.selectedBusiness;
+      if (!business) {
+        await userModule.actions.loadUserAndSaveUserData();
+        await businessModule.actions.loadAndPersistBusinessDataById(userModule.state.businesses);
+        businessModule.actions.selectBusiness(userModule.state.businesses[0]);
+      }
+      next();
+    });
   },
 })
 export class BusinessApp extends Vue {
