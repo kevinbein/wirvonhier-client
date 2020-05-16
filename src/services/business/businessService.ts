@@ -19,6 +19,31 @@ export class BusinessService {
     this.store = store;
   }
 
+  async load(businessIds: string[]): Promise<IBusinessData[]> {
+    const promises = businessIds.map((id) => this.http.get<IBusinessData>(`/businesses/${id}`));
+    const result = await Promise.all(promises);
+    const businesses: IBusinessData[] = [];
+    const failed: unknown[] = [];
+    for (const item of result) {
+      if (this.http.isSuccessful(item)) businesses.push(item.data);
+      else failed.push(item.error);
+    }
+    // TODO: handle failed loads!
+    return businesses;
+  }
+
+  async fromDB(businessIds: string[]): Promise<Business[]> {
+    const promises = businessIds.map((id) => this.db.businesses.list.get(id));
+    const result = await Promise.all(promises);
+    const businesses: Business[] = [];
+    for (const item of result) {
+      if (item) businesses.push(new Business(item));
+    }
+    // const failed: string[] = businessIds.filter((id) => !businesses.some((business) => business._id === id));
+    // TODOD: Handle failed
+    return businesses;
+  }
+
   async findNear(options: IFindNearBusinessesOptions): Promise<Business[]> {
     const { zip, lng, lat, maxDistance, limit } = options;
     const value = {
@@ -88,7 +113,6 @@ export class BusinessService {
       console.error(error);
       return false;
     }
-    this.db.businesses.list.delete(_id as string);
     return true;
   }
 }
