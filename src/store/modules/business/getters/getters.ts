@@ -1,7 +1,7 @@
 import { Getters } from 'vuex-smart-module';
 import { BusinessState } from '../state';
 import { IStore } from '@/store';
-import { IBusinessFilter, Story } from '@/entities';
+import { IBusinessFilter, Story, IBusinessData, Business } from '@/entities';
 
 export class BusinessGetters extends Getters<BusinessState> {
   store!: IStore;
@@ -11,8 +11,9 @@ export class BusinessGetters extends Getters<BusinessState> {
   }
 
   get find() {
-    return (filter: IBusinessFilter) => {
-      return this.store.$db.businesses.find(filter);
+    return async (filter: IBusinessFilter) => {
+      const businesses = await this.store.$db.businesses.find(filter);
+      return businesses.map((data: IBusinessData) => new Business(data));
     };
   }
 

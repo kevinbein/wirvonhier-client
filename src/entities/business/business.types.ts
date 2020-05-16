@@ -62,30 +62,24 @@ export interface IImage {
   title: string;
   description?: string;
   src: string;
-  type: MEDIATYPE;
 }
 export interface IVideo {
   _id: string;
-  publicId: string;
-  createdAt: string;
-  modifiedAt: string;
+  videoId: string;
   title: string;
   description?: string;
-  src: string;
-  videoId: string;
   status: string;
-  type: MEDIATYPE;
+  createdAt: string;
+  modifiedAt: string;
 }
 export interface IStory {
   _id: string;
   business: Business;
-  publicId: string;
   createdAt: string;
   modifiedAt: string;
   title: string;
   description?: string;
   src: string;
-  type: string;
 }
 
 export interface IAddress {
