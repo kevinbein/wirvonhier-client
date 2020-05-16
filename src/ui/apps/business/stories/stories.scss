@@ -98,3 +98,28 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
     }
   }
 }
+
+.story-preview {
+  &__container {
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+  &__close-button {
+    color: #fff;
+    display: inline-block;
+    font-size: 2rem;
+    height: $unit-nav-icon;
+    margin: $unit-base-quarter;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: $unit-nav-icon;
+    z-index: 2;
+  }
+}

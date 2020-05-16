@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './stories.scss';
-import { Business, IVideo } from '@/entities';
+import { Business, Story, Video } from '@/entities';
 import { BusinessModule, AppearanceModule } from '@/store';
+import { StoryView } from '@/ui/components';
 //import { WVHButton } from '@/ui/components';
 
 @Component({
@@ -11,14 +12,6 @@ import { BusinessModule, AppearanceModule } from '@/store';
 export class BusinessStoriesPage extends Vue {
   public businessModule = BusinessModule.context(this.$store);
   public appearanceModule = AppearanceModule.context(this.$store);
-
-  public getMediaType(type: string): string {
-    if (type == 'video') {
-      return 'Video';
-    } else {
-      return 'Bild';
-    }
-  }
 
   get business(): Business | null {
     return this.businessModule.state.selectedBusiness;
@@ -31,7 +24,7 @@ export class BusinessStoriesPage extends Vue {
     }
 
     const videos = this.business.media.stories.videos;
-    videos.sort((video1: IVideo, video2: IVideo) => {
+    videos.sort((video1: Video, video2: Video) => {
       const time1 = new Date(video1.modifiedAt).getTime();
       const time2 = new Date(video2.modifiedAt).getTime();
       return time2 - time1;
@@ -60,22 +53,28 @@ export class BusinessStoriesPage extends Vue {
     */
   }
 
-  public async deleteVideo(video: IVideo): Promise<void> {
+  public async deleteVideo(video: Video): Promise<void> {
     if (this.business === null) {
       return;
     }
 
     await this.$services.videos.delete(this.business, video);
 
-    const videoIndex = this.business.media.stories.videos.findIndex((video2: IVideo) => {
+    const videoIndex = this.business.media.stories.videos.findIndex((video2: Video) => {
       return video2._id === video._id;
     });
     this.business.media.stories.videos.splice(videoIndex, 1);
   }
 
-  public showVideo(video: IVideo): void {
-    // eslint-disable-next-line no-console
-    console.log('show video', video);
+  public previewStory: Story | null = null;
+  public loadVideoPreview(video: Video): void {
+    if (this.business) {
+      this.previewStory = new Story(video, this.business);
+    }
+  }
+
+  public closeVideoPreview(): void {
+    this.previewStory = null;
   }
 
   public created(): void {
@@ -105,18 +104,17 @@ export class BusinessStoriesPage extends Vue {
             </thead>
             <tbody>
               {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-              this.stories.map((video: IVideo) => {
+              this.stories.map((video: Video) => {
                 return [
                   <tr class={Styles['stories__date']}>
                     <td colspan="3">{new Date(video.modifiedAt).toLocaleString()}</td>
                   </tr>,
                   <tr class={Styles['stories__info']}>
                     <td>
-                      <div on-click={() => this.showVideo(video)} class={Styles['info__title']}>
+                      <div on-click={() => this.loadVideoPreview(video)} class={Styles['info__title']}>
                         {video.title}
                       </div>
                     </td>
-                    {/*<td class={Styles['center']}>{this.getMediaType(video.type)}</td>*/}
                     <td class={Styles['stories--center']}>
                       {(video.status === 'transcoding' && (
                         <i class={`fa fa-spinner fa-spin ${Styles['info__status--transcoding']}`}></i>
@@ -137,6 +135,15 @@ export class BusinessStoriesPage extends Vue {
             </tbody>
           </table>
         </div>
+        {this.previewStory !== null && (
+          <div class={Styles['story-preview__container']}>
+            <StoryView story={this.previewStory}></StoryView>
+            <i
+              on-click={() => this.closeVideoPreview()}
+              class={`fa fa-times ${Styles['story-preview__close-button']}`}
+            ></i>
+          </div>
+        )}
       </div>
     );
   }

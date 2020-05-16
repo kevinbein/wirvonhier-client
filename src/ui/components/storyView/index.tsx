@@ -1,7 +1,7 @@
 import { VueComponent } from '@/ui/vue-ts-component';
 import Component from 'vue-class-component';
 import Styles from './styles.scss';
-import { Story, Video, MEDIATYPE } from '@/entities';
+import { Story, MEDIATYPE } from '@/entities';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
