@@ -60,6 +60,10 @@
 
 .story-video-controls {
   z-index: 1;
+  &__message {
+    color: #fff;
+    padding: 15px;
+  }
 }
 
 .video-play-button-container {

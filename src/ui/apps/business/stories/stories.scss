@@ -69,6 +69,9 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
   &__title {
     color: $col-primary;
     cursor: pointer;
+    &--transcoding {
+      color: #999;
+    }
   }
   &__status {
     &--transcoding {

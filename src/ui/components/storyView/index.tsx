@@ -85,9 +85,27 @@ export class StoryView extends VueComponent<IProps, IRefs> {
     }
   }
 
+  public videoUrl: string | null = null;
+  public videoError: string | null = null;
+  private async loadVideo(videoId: string): Promise<void> {
+    try {
+      this.videoUrl = await this.$services.videos.loadVideoUrl(videoId);
+      if (this.videoUrl === null) {
+        this.videoError = "Error: The requested video couldn't be found";
+      }
+    } catch (e) {
+      this.videoError = 'Error: Unknown!';
+    }
+  }
+
   public mounted(): void {
     this.$on('showStory', () => this.showStory());
     this.$on('hideStory', () => this.hideStory());
+
+    if (this.story.type === MEDIATYPE.VIDEO) {
+      this.loadVideo(this.story.src);
+      //this.loadVideo('/videos/413907965');
+    }
   }
 
   // @ts-ignore: Declared variable is not read
@@ -126,10 +144,14 @@ export class StoryView extends VueComponent<IProps, IRefs> {
                         ></vimeo-player>*/}
           {(this.story.type === MEDIATYPE.VIDEO && (
             <div class={Styles['story-video-controls']} ref="story-video-controls">
-              <video ref="story-video" onCanplay={() => this.playVideo()} onLoadeddata={() => this.initVideo()}>
-                <source src={`https://vimeo.com${this.story.src}`} type="video/mp4" />
-                {this.story.src}
-              </video>
+              {(this.videoUrl && (
+                <video ref="story-video" onCanplay={() => this.playVideo()} onLoadeddata={() => this.initVideo()}>
+                  <source src={this.videoUrl} type="video/mp4" />
+                </video>
+              )) ||
+                (this.videoError && <div class={Styles['story-video-controls__message']}>{this.videoError}</div>) || (
+                  <div class={Styles['story-video-controls__message']}>Loading video ...</div>
+                )}
               {this.showVideoPlayButton && (
                 <div class={Styles['video-play-button-container']}>
                   <div class={Styles['video-play-button-container__button']}>

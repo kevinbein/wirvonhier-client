@@ -26,6 +26,14 @@ export class VideosService {
     this.store = store;
   }
 
+  async loadVideoUrl(videoId: string): Promise<string | null> {
+    const res = await this.http.get<{ url: string }>(`/get-video-url?videoId=${encodeURIComponent(videoId)}`);
+    if (res.status === 'success') {
+      return res.data.url;
+    }
+    return null;
+  }
+
   async delete(business: Business, video: Video): Promise<boolean> {
     const res = await this.http.delete<void>(`/business/${business._id}/video/${video._id}`);
     return res.status !== 'success';

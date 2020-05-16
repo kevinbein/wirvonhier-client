@@ -111,9 +111,13 @@ export class BusinessStoriesPage extends Vue {
                   </tr>,
                   <tr class={Styles['stories__info']}>
                     <td>
-                      <div on-click={() => this.loadVideoPreview(video)} class={Styles['info__title']}>
-                        {video.title}
-                      </div>
+                      {(video.status === 'transcoding' && (
+                        <div class={Styles['info__title--transcoding']}>{video.title}</div>
+                      )) || (
+                        <div on-click={() => this.loadVideoPreview(video)} class={Styles['info__title']}>
+                          {video.title}
+                        </div>
+                      )}
                     </td>
                     <td class={Styles['stories--center']}>
                       {(video.status === 'transcoding' && (

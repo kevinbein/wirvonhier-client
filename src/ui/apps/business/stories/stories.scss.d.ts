@@ -11,6 +11,7 @@ interface CssExports {
   'info__status--complete': string;
   'info__status--transcoding': string;
   'info__title': string;
+  'info__title--transcoding': string;
   'stories': string;
   'stories--center': string;
   'stories-page': string;
