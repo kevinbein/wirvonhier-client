@@ -8,7 +8,7 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { ProfilePage } from './../profile';
-import { Business, Story, IVideo, MEDIATYPE } from '@/entities';
+import { Business, Story, Video } from '@/entities';
 import { SlideInPage, StoryView, WVHButton, LadyPage } from '@/ui/components';
 import { VueComponent } from '@/ui/vue-ts-component';
 

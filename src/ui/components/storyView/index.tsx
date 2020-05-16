@@ -1,7 +1,7 @@
 import { VueComponent } from '@/ui/vue-ts-component';
 import Component from 'vue-class-component';
 import Styles from './styles.scss';
-import { Story } from '@/entities';
+import { Story, Video, MEDIATYPE } from '@/entities';
 
 const dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
@@ -73,7 +73,7 @@ export class StoryView extends VueComponent<IProps, IRefs> {
   }
 
   public initVideo(): void {
-    if (this.story.type === 'video') {
+    if (this.story.type === MEDIATYPE.VIDEO) {
       this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
       this.videoControlsEl = this.$refs['story-video-controls'] as HTMLDivElement;
 
@@ -124,10 +124,11 @@ export class StoryView extends VueComponent<IProps, IRefs> {
                             player-width={`${this.storyWidth}`}
                             player-height={`${this.storyHeight}`}
                         ></vimeo-player>*/}
-          {(this.story.type === 'video' && (
+          {(this.story.type === MEDIATYPE.VIDEO && (
             <div class={Styles['story-video-controls']} ref="story-video-controls">
               <video ref="story-video" onCanplay={() => this.playVideo()} onLoadeddata={() => this.initVideo()}>
-                <source src={this.story.src} type="video/mp4" />
+                <source src={`https://vimeo.com${this.story.src}`} type="video/mp4" />
+                {this.story.src}
               </video>
               {this.showVideoPlayButton && (
                 <div class={Styles['video-play-button-container']}>
@@ -138,10 +139,10 @@ export class StoryView extends VueComponent<IProps, IRefs> {
               )}
             </div>
           )) ||
-            (this.story.type === 'image' && (
+            (this.story.type === MEDIATYPE.IMAGE && (
               <cld-image
                 class={Styles['story']}
-                publicId={this.story.publicId}
+                publicId={this.story.src}
                 width={`${this.storyWidth}`}
                 height={`${this.storyHeight}`}
               >

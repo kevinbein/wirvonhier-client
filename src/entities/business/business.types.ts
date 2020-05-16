@@ -80,6 +80,7 @@ export interface IStory {
   title: string;
   description?: string;
   src: string;
+  type: MEDIATYPE;
 }
 
 export interface IAddress {

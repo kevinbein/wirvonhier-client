@@ -16,6 +16,7 @@ import {
   IValidationSuccess,
   IUpdateSuccess,
   IUpdateError,
+  MEDIATYPE,
 } from './business.types';
 import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
 
@@ -68,6 +69,7 @@ export class Story implements IStory {
   public title: string;
   public description?: string;
   public src: string;
+  public type: MEDIATYPE;
   constructor(data: Video | Image, business: Business) {
     this._id = data._id;
     this.business = business;
@@ -77,8 +79,10 @@ export class Story implements IStory {
     this.description = data.description;
     if (data instanceof Video) {
       this.src = data.videoId;
+      this.type = MEDIATYPE.VIDEO;
     } else {
       this.src = data.publicId;
+      this.type = MEDIATYPE.IMAGE;
     }
   }
 }
