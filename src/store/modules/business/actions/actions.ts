@@ -1,7 +1,8 @@
-import { Actions } from 'vuex-smart-module';
+import { Actions, Context } from 'vuex-smart-module';
 import { Store } from 'vuex';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { RootState } from '@/store';
+import { UserModule } from '@/store/modules';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
 import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
@@ -12,20 +13,41 @@ import { IHttpErrorResponse } from '@/services';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: Store<RootState>;
+  private user!: Context<typeof UserModule>;
 
   $init(store: Store<RootState>): void {
     this.store = store;
+    this.user = UserModule.context(store);
   }
 
-  async loadNearBusinesses(options: IFindNearBusinessesOptions): Promise<void> {
+  /**
+   * Loads Businesses from Server, saves them in the DB and returns those businesses
+   * @param businessIds
+   */
+  async loadAndPersistBusinessDataById(businessIds: string[]): Promise<IBusinessData[]> {
+    const businesses = await this.store.$services.business.load(businessIds);
+    this.store.$db.businesses.addMany(businesses);
+    if (businesses.length === 0) {
+      const fromDB = await this.store.$services.business.fromDB(businessIds);
+      businesses.push(...fromDB);
+    }
+    return businesses;
+  }
+
+  async getBusinessesByZIP(options: IFindNearBusinessesOptions): Promise<void> {
     const businesses = await this.store.$services.business.findNear(options);
     this.commit('SET_BUSINESSES', businesses);
   }
 
-  async selectBusiness(businessId: string | undefined): Promise<void> {
-    if (!businessId) return;
-    const selectedBusiness = await this.store.$services.business.getBusinessById(businessId);
-    if (selectedBusiness) this.commit('SET_SELECTED_BUSINESS', new Business(selectedBusiness));
+  /**
+   * Grabs Business from IndexedDB, sets it as selectedBusiness and returns it
+   * @param businessId;
+   */
+  async selectBusiness(businessId: string): Promise<Business | null> {
+    const selectedBusiness = await this.store.$services.business.fromDB([businessId]);
+    this.commit('SET_SELECTED_BUSINESS', selectedBusiness[0]);
+    if (!selectedBusiness[0]) return null;
+    return selectedBusiness[0];
   }
 
   async create(businessData?: Partial<IBusinessData>): Promise<void> {
@@ -37,7 +59,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       );
       return;
     }
-    this.actions.selectBusiness(businesses[0]._id);
+    this.actions.selectBusiness(businesses[0]._id as string);
   }
 
   update(options: IBusinessUpdateOptions): IUpdateSuccess | IUpdateError {
@@ -53,6 +75,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       // TODO|PWA: If we are offline, update Business later.
       return false;
     }
+    this.actions.loadAndPersistBusinessDataById([business._id as string]);
     return true;
   }
 

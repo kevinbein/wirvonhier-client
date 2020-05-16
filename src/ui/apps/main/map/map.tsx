@@ -43,7 +43,7 @@ export class MapPage extends Vue {
     return this.businessStore.state.businesses;
   }
   public loadBusinesses(zip: string, radius: number): void {
-    this.businessStore.actions.loadNearBusinesses({ zip, maxDistance: radius, limit: 1000 });
+    this.businessStore.actions.getBusinessesByZIP({ zip, maxDistance: radius, limit: 1000 });
   }
 
   mounted(): void {

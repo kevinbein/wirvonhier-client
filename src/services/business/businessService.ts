@@ -19,6 +19,10 @@ export class BusinessService {
     this.store = store;
   }
 
+  /**
+   * Loads BusinessData by ID from Server and returns array of BusinessData
+   * @param businessIds
+   */
   async load(businessIds: string[]): Promise<IBusinessData[]> {
     const promises = businessIds.map((id) => this.http.get<IBusinessData>(`/businesses/${id}`));
     const result = await Promise.all(promises);
@@ -52,7 +56,7 @@ export class BusinessService {
       lat: lat || (this.store.state.currentLocation && this.store.state.currentLocation[1]),
       maxDistance: maxDistance || 5000,
     };
-    if (!value) return [];
+
     const newBusinessDataPromise = this.loadBusinessesAndUpdateDB({
       limit,
       filters: [
