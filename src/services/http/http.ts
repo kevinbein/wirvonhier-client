@@ -18,6 +18,12 @@ export class HTTP {
     this.store = store;
   }
 
+  public isSuccessful<T>(
+    response: IHttpSuccessResponse<T> | IHttpErrorResponse<T>,
+  ): response is IHttpSuccessResponse<T> {
+    return response.status === 'success';
+  }
+
   async get<T>(
     url: string,
     withAuth?: boolean,
