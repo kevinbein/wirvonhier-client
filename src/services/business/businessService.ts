@@ -86,7 +86,7 @@ export class BusinessService {
 
   async getBusinessById(businessId: string): Promise<IBusinessData | null> {
     const fromDB = await this.db.businesses.list.get(businessId);
-    if (fromDB) return fromDB;
+    if (fromDB) return new Business(fromDB);
     const fromAPI = this.loadAndPersistBusiness(businessId);
     return fromAPI;
   }
@@ -96,7 +96,7 @@ export class BusinessService {
     if (status === 'failure') return null;
     const data = (res as IHttpSuccessResponse<IBusinessData>).data;
     this.db.businesses.list.put(data);
-    return data;
+    return new Business(data);
   }
 
   async create(businessData?: Partial<IBusinessData>): Promise<Business[] | null> {

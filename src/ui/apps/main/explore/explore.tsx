@@ -19,20 +19,6 @@ interface IRefs {
   horizontalSwiper: any; // eslint-disable-line
 }
 
-// const dummyVideo: IVideo = {
-//   _id: 'dummy',
-//   publicId: 'dummy',
-//   createdAt: '21-04-2020T01:15:27',
-//   modifiedAt: '21-04-2020T01:15:27',
-//   title: 'Dummy video',
-//   description: 'This is a test video story',
-//   //src: '/assets/stories/dummy_story_video.mov',
-//   //src: 'https://player.vimeo.com/external/413906286.sd.mp4?s=e90fc4fc2d1d05dc9a0f9efbd2e6d0e9c9a83a82&profile_id=165',
-//   src: 'https://player.vimeo.com/external/413907965.sd.mp4?s=9f998fec8306c61a2ec8dc025d60b5852e88dfe2&profile_id=165',
-//   //src: 'https://player.vimeo.com/external/413907857.sd.mp4?s=48ddc9edb04faa61c44c7fb8140b7f726819c6fd&profile_id=165',
-//   type: MEDIATYPE.VIDEO,
-// };
-
 @Component({
   name: 'Explore',
 })

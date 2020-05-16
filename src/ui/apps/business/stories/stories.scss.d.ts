@@ -11,12 +11,15 @@ interface CssExports {
   'info__status--complete': string;
   'info__status--transcoding': string;
   'info__title': string;
+  'info__title--transcoding': string;
   'stories': string;
   'stories--center': string;
   'stories-page': string;
   'stories-page-container': string;
   'stories__date': string;
   'stories__info': string;
+  'story-preview__close-button': string;
+  'story-preview__container': string;
   'upload-button': string;
 }
 export const cssExports: CssExports;
