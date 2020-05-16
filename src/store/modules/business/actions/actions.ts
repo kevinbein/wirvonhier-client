@@ -1,8 +1,7 @@
-import { Actions, Context } from 'vuex-smart-module';
+import { Actions } from 'vuex-smart-module';
 import { Store } from 'vuex';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { RootState } from '@/store';
-import { UserModule } from '@/store/modules';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
 import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
@@ -13,11 +12,9 @@ import { IHttpErrorResponse } from '@/services';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: Store<RootState>;
-  private user!: Context<typeof UserModule>;
 
   $init(store: Store<RootState>): void {
     this.store = store;
-    this.user = UserModule.context(store);
   }
 
   /**

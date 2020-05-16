@@ -5,7 +5,7 @@ import SharedStyles from '@/ui/styles/main.scss';
 import Styles from './manageImages.scss';
 import { ImageThumbnail } from './imageThumbnail';
 import { WVHButton } from '@/ui';
-import { Business, MEDIATYPE } from '@/entities';
+import { Business } from '@/entities';
 import { BusinessModule, AppearanceModule, UserModule, UserDataState } from '@/store';
 import { IImageData, IEditableBusinessMediaData } from './manageImages.types';
 import { ManageImagesForm } from './manageImagesForm';
@@ -58,7 +58,6 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     publicId: '',
     createdAt: '0',
     modifiedAt: '0',
-    type: MEDIATYPE.IMAGE,
     isCover: true,
   };
   public dummyLogo: IImageData = {
@@ -70,7 +69,6 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     createdAt: '0',
     modifiedAt: '0',
     isLogo: true,
-    type: MEDIATYPE.IMAGE,
   };
   public showImages = false;
   public showButtons = false;

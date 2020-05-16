@@ -6,7 +6,7 @@ import Styles from './manageImagesForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
 import { WVHButton, FormInputField, FormTextArea, WVHImageInputField, FormCheckbox } from '@/ui';
 import { IImageData } from '../manageImages.types';
-import { MEDIATYPE, Business } from '@/entities';
+import { Business } from '@/entities';
 
 interface IRefs {
   [key: string]: Vue | Element | HTMLElement | Vue[] | Element[] | HTMLElement[];
@@ -64,7 +64,6 @@ const initialFormData: IImageData = {
   isProfile: false,
   isLogo: false,
   saved: false,
-  type: MEDIATYPE.IMAGE,
 };
 
 @Component({
@@ -177,7 +176,6 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
       publicId:
         this.formData.publicId ||
         `${this.$services.images.folder}${this.business.generateImagePublicId(this.formData)}`,
-      type: MEDIATYPE.IMAGE,
     };
     this.$emit('new-image', data);
 
