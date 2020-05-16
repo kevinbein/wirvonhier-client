@@ -4,6 +4,7 @@ interface CssExports {
   'buttons__button': string;
   'buttons__wrapper': string;
   'manage-images__back': string;
+  'manage-images__back-icon': string;
   'manage-images__business-name': string;
   'manage-images__images-wrapper': string;
   'manage-images__page': string;

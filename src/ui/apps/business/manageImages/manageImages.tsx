@@ -114,9 +114,8 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     });
   }
 
-  public async created(): Promise<void> {
+  public created(): void {
     this.appearanceModule.actions.setNavigationVisibility(true);
-    await this.loadCorrectBusiness();
   }
 
   public mounted(): void {
@@ -263,6 +262,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
         return item.data.public_id;
       });
     if (successfulUploads.length > 0) this.businessModule.actions.validateImageUploads(successfulUploads);
+    this.businessModule.actions.selectBusiness(updateRes.business._id as string);
     this.setInitialMediaData();
   }
 
@@ -270,11 +270,16 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public render(h): Vue.VNode {
     return (
       <div ref="page" class={`${SharedStyles.page} ${Styles['manage-images__page']}`}>
-        <router-link to={{ name: 'BusinessManageProfile', query: this.$route.query }} title="zurück">
-          <div class={Styles['manage-images__back']}>
-            <img src="/assets/icons/icon_arrow-left-492.svg" alt="arrow-back" />
-          </div>
-          <div class={Styles['manage-images__business-name']}>{this.business?.name}</div>
+        <router-link
+          to={{ name: 'BusinessManageProfile', query: this.$route.query }}
+          title="zurück"
+          class={Styles['manage-images__back']}
+        >
+          <img
+            src="/assets/icons/icon_arrow-left-492.svg"
+            alt="arrow-back"
+            class={Styles['manage-images__back-icon']}
+          />
         </router-link>
         <div class={Styles['manage-images__page-wrapper']}>
           <h1 class={Styles['manage-images__title']}>BILDER VERWALTEN</h1>
@@ -340,15 +345,6 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
         </div>
       </div>
     );
-  }
-
-  private async loadCorrectBusiness(): Promise<void> {
-    const businessId = this.$route.query.selected;
-    if (!businessId && this.business) return;
-    if (this.business && this.business.id === businessId) return;
-    if (typeof businessId === 'string' && this.user.businesses.includes(businessId)) {
-      await this.businessModule.actions.selectBusiness(businessId);
-    }
   }
 
   private _checkScrollTop(): void {

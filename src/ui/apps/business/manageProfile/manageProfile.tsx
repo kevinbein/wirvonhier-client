@@ -19,29 +19,33 @@ export class BusinessManageProfile extends Vue {
     return this.userModule.state;
   }
 
-  public get business(): Business | null {
-    return this.businessModule.state.selectedBusiness;
+  public get business(): Business {
+    return this.businessModule.state.selectedBusiness as Business;
   }
 
   public created(): void {
     this.appearanceModule.actions.setNavigationVisibility(true);
-    this.loadCorrectBusiness();
   }
 
   // @ts-ignore: Declared variable is not read
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['manage-profile__page']}`}>
-        <router-link to={{ name: 'BusinessDashboard', query: this.$route.query }} title="zurück">
-          <div class={Styles['manage-profile__back']}>
-            <img src="/assets/icons/icon_arrow-left-492.svg" alt="arrow-back" />
-          </div>
-          <div class={Styles['manage-profile__business-name']}>{this.business?.name}</div>
+        <router-link
+          to={{ name: 'BusinessDashboard', query: this.$route.query }}
+          title="zurück"
+          class={Styles['manage-profile__back']}
+        >
+          <img
+            src="/assets/icons/icon_arrow-left-492.svg"
+            alt="arrow-back"
+            class={Styles['manage-profile__back-icon']}
+          />
         </router-link>
         <div class={Styles['manage-profile__form-wrapper']}>
-          <div class={Styles['manage-profile__title']}>PROFIL VERWALTEN</div>
           {this.business ? (
             <div style="display: contents">
+              <div class={Styles['manage-profile__title']}>{this.business.name}</div>
               <div class={Styles['manage-profile__button-images']}>
                 <WVHButton to={{ name: 'BusinessManageImages', query: this.$route.query }} primary>
                   Bilder verwalten
@@ -55,18 +59,6 @@ export class BusinessManageProfile extends Vue {
         </div>
       </div>
     );
-  }
-
-  private loadCorrectBusiness(): void {
-    const businessId = this.$route.query.selected;
-
-    // CASE_1: Edit active business
-    if (this.business && this.business.id === businessId) return;
-
-    // CASE_2: Business exists + User owns business, load it
-    if (typeof businessId === 'string' && this.user.businesses.includes(businessId)) {
-      this.businessModule.actions.selectBusiness(businessId);
-    }
   }
 }
 

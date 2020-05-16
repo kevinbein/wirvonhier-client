@@ -2,6 +2,7 @@
 // Please do not change this file!
 interface CssExports {
   'manage-profile__back': string;
+  'manage-profile__back-icon': string;
   'manage-profile__business-name': string;
   'manage-profile__button-images': string;
   'manage-profile__form-wrapper': string;

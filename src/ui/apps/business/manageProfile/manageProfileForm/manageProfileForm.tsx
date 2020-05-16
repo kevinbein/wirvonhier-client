@@ -39,16 +39,17 @@ export class ManageProfileForm extends Vue {
     e.preventDefault();
     const success = await this.businessModule.actions.save(this.business);
     if (success) {
+      this.businessModule.actions.selectBusiness(this.business._id as string);
       this.$toast(`Profil wurde erfolgreich aktualisiert.`, {
         position: POSITION.TOP_CENTER,
         type: TYPE.SUCCESS,
-        timeout: 5000,
+        timeout: 2000,
       });
     } else {
       this.$toast(`Profil konnte nicht aktualisiert werden.`, {
         position: POSITION.TOP_CENTER,
         type: TYPE.ERROR,
-        timeout: 5000,
+        timeout: 3000,
       });
     }
   }
