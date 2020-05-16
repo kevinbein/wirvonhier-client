@@ -7,16 +7,22 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
     //display: flex;
     //flex-direction: column;
     min-height: 100%;
-    overflow-y: scroll;
-    padding: $unit-base-quarter;
+    overflow-y: auto;
+    padding: $unit-base 0 0 0;
   }
 
   &__back {
+    align-items: center;
     display: block;
-    margin: (-0.61 * $unit-nav-icon) 0 0 (-1.75 * $unit-nav-icon);
-    position: relative;
+    display: flex;
+    height: $unit-nav-icon;
+    justify-content: center;
+    left: ($unit-base / 3);
+    position: absolute;
+    top: ($unit-base / 3);
+    width: 0.5 * $unit-nav-icon;
 
-    &:first-child {
+    &-icon {
       height: 0.5 * $unit-nav-icon;
       width: 0.5 * $unit-nav-icon;
     }
@@ -57,11 +63,11 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
   &__preview {
     border-radius: 15px;
     height: #{100 / 9 * 16}vw;
-    margin: #{-$unit-base-quarter} #{-$unit-base-quarter} #{$unit-base-quarter};
+    margin: 0 0 #{$unit-base-quarter};
     max-height: #{500 / 9 * 16}px;
     max-width: 500px;
     object-fit: cover;
-    width: 100vw;
+    width: 100%;
   }
 
   &__progress {

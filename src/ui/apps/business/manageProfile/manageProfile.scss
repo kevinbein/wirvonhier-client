@@ -6,7 +6,7 @@
     flex-direction: column;
     justify-content: space-between;
     min-height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: $unit-base 0 0 0;
   }
 
@@ -17,7 +17,7 @@
     height: $unit-nav-icon;
     justify-content: center;
     left: ($unit-base / 3);
-    position: fixed;
+    position: absolute;
     top: ($unit-base / 3);
     width: 0.5 * $unit-nav-icon;
 
