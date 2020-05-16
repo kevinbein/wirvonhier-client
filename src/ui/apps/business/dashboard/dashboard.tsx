@@ -19,7 +19,7 @@ export class BusinessDashboard extends Vue {
   }
 
   public get business(): Business | null {
-    return this.userModule.state.userBusinesses[0];
+    return this.businessModule.state.selectedBusiness;
   }
 
   public get hasVideo(): boolean {
