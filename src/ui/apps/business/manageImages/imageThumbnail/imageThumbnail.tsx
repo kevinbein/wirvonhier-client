@@ -77,7 +77,7 @@ export class ImageThumbnail extends VueComponent<IProps> {
             publicId={this.image.publicId}
             width={this.width}
             height={this.height}
-            crop="scale"
+            crop="fill"
             dpr={window.devicePixelRatio}
           >
             <cld-transformation quality="auto" fetchFormat="auto" />

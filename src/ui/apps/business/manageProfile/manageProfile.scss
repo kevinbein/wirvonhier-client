@@ -11,11 +11,17 @@
   }
 
   &__back {
+    align-items: center;
     display: block;
-    margin: (-0.61 * $unit-nav-icon) 0 0 (-1.75 * $unit-nav-icon);
-    position: relative;
+    display: flex;
+    height: $unit-nav-icon;
+    justify-content: center;
+    left: ($unit-base / 3);
+    position: fixed;
+    top: ($unit-base / 3);
+    width: 0.5 * $unit-nav-icon;
 
-    &:first-child {
+    &-icon {
       height: 0.5 * $unit-nav-icon;
       width: 0.5 * $unit-nav-icon;
     }
