@@ -13,7 +13,6 @@ export * from './requestNewPasswordSuccess';
 export * from './resetPassword';
 export * from './resetPasswordSuccess';
 export * from './stories';
-export * from './story';
 export * from './uploadVideo';
 export * from './verifyEmail';
 export * from './BusinessApp';

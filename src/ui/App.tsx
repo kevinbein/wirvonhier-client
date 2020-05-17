@@ -8,10 +8,6 @@ import '@/ui/styles/global/index.scss';
 export class App extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
-    return (
-      <v-app>
-        <router-view></router-view>
-      </v-app>
-    );
+    return <router-view></router-view>;
   }
 }
