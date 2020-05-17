@@ -82,7 +82,6 @@ export class BusinessUploadVideo extends Vue {
       return;
     }
     const res = await this.$services.videos.upload(business, this.formData);
-    console.log(res);
     // NOTE: uploading video also updates Video-ID in Business!
     // TODO: Decide how to handle the updateBusiness + upload Video logic!
     await this.$services.business.loadAndPersistBusiness(business._id);
