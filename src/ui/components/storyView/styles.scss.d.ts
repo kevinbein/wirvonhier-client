@@ -8,11 +8,7 @@ interface CssExports {
   'story': string;
   'story-container': string;
   'story-container__video-play-button': string;
-  'story-video-controls': string;
-  'story-video-controls__message': string;
   'story__background': string;
-  'video-play-button-container': string;
-  'video-play-button-container__button': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

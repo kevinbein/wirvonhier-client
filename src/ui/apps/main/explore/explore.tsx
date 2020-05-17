@@ -51,6 +51,10 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       shadowScale: 0.94,
     },
   };
+  public deviceWidth = window.innerWidth;
+  public deviceHeight = window.innerHeight;
+  public storyWidth = Math.min(500, this.deviceWidth);
+  public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
 
   private businessStore = BusinessModule.context(this.$store);
 
@@ -200,7 +204,12 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                 this.slides.map((story: Story, index: number) => {
                   return (
                     <swiper-slide>
-                      <StoryView ref={`story-${index}`} story={story}></StoryView>
+                      <StoryView
+                        ref={`story-${index}`}
+                        story={story}
+                        storyHeight={this.storyHeight}
+                        storyWidth={this.storyWidth}
+                      ></StoryView>
                     </swiper-slide>
                   );
                 })}
