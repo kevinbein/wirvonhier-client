@@ -376,7 +376,7 @@ module.exports = async function (env, argv) {
         API_URL: JSON.stringify(isProd ? process.env.API_URL : process.env.API_URL_LOCAL),
         CLOUD_NAME: JSON.stringify(process.env.CLOUDINARY_CLOUD_NAME),
         IMAGE_UPLOAD_URL: JSON.stringify(process.env.IMAGE_UPLOAD_URL),
-        CLOUDINARY_IMAGE_PRESET: JSON.stringify(process.env.CLOUDINARY_IMAGE_PRESET),
+        CLOUDINARY_IMAGE_PRESET: JSON.stringify(isProd ? process.env.CLOUDINARY_IMAGE_PRESET : process.env.CLOUDINARY_IMAGE_PRESET_DEV),
       }),
 
       // Copy static assets
