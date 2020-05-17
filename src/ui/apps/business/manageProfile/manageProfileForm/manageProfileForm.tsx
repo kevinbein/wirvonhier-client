@@ -5,6 +5,7 @@ import { Business } from '@/entities';
 import Styles from './manageProfileForm.scss';
 import { WVHButton, FormTextArea, FormInputField, FormCheckbox, Loader } from '@/ui/components';
 import { POSITION, TYPE } from 'vue-toastification';
+import { AddressForm } from './addressForm';
 
 @Component({
   name: 'ManageProfileForm',
@@ -83,47 +84,7 @@ export class ManageProfileForm extends Vue {
           value={this.business.description}
           on-change={this.update.bind(this)}
         />
-        <h1 class={Styles['manage-profile__section-title']}>Adresse</h1>
-        <FormInputField
-          label="Straße"
-          autocomplete="address-line1"
-          id="address.street"
-          required={true}
-          is-valid={this.formValidation.streetNumber}
-          error-messages={this.formErrors.street}
-          value={this.business.address.street}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Hausnummer"
-          id="address.streetNumber"
-          required={true}
-          autocomplete="address-line2"
-          is-valid={this.formValidation.streetNumber}
-          error-messages={this.formErrors.streetNumber}
-          value={this.business.address.streetNumber}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Postleitzahl"
-          id="address.zip"
-          required={true}
-          autocomplete="postal-code"
-          is-valid={this.formValidation.zip}
-          error-messages={this.formErrors.zip}
-          value={this.business.address.zip}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Ort"
-          id="address.city"
-          required={true}
-          autocomplete="address-level2"
-          is-valid={this.formValidation.city}
-          error-messages={this.formErrors.city}
-          value={this.business.address.city}
-          on-change={this.update.bind(this)}
-        />
+        <AddressForm formValidation={this.formValidation.address} formErrors={this.formErrors.address} />
         <h1 class={Styles['manage-profile__section-title']}>Kontaktdaten</h1>
         <FormInputField
           label="Telefon"

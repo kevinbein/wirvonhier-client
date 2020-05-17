@@ -5,6 +5,7 @@ import SharedStyles from '@/ui/styles/main.scss';
 
 type InputType = 'email' | 'hidden' | 'number' | 'password' | 'reset' | 'search' | 'tel' | 'text' | 'url';
 interface IProps {
+  ref?: string;
   label: string;
   'max-length'?: string;
   id: string;
@@ -16,6 +17,11 @@ interface IProps {
   required?: boolean;
   autofocus?: boolean;
   type?: InputType;
+}
+
+interface IRefs {
+  [key: string]: HTMLInputElement;
+  input: HTMLInputElement;
 }
 
 @Component({
@@ -67,7 +73,7 @@ interface IProps {
     },
   },
 })
-export class FormInputField extends VueComponent<IProps> {
+export class FormInputField extends VueComponent<IProps, IRefs> {
   public id!: string;
   public maxLength?: number;
   public label!: string;
@@ -79,6 +85,7 @@ export class FormInputField extends VueComponent<IProps> {
   public type!: InputType;
   public autofocus!: boolean;
   public hasFocus = false;
+  public input!: HTMLInputElement;
 
   public update(e: Event): void {
     const value = (e.target as HTMLInputElement).value;
@@ -96,6 +103,10 @@ export class FormInputField extends VueComponent<IProps> {
     if (this.value !== '') {
       this.hasFocus = true;
     }
+  }
+
+  public mounted(): void {
+    this.input = this.$refs.input;
   }
 
   // @ts-ignore
@@ -119,6 +130,7 @@ export class FormInputField extends VueComponent<IProps> {
           {this.label}
         </label>
         <input
+          ref="input"
           id={this.id}
           type={this.type}
           autocomplete={this.autocomplete}
