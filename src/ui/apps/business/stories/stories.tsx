@@ -12,6 +12,10 @@ import { StoryView } from '@/ui/components';
 export class BusinessStoriesPage extends Vue {
   public businessModule = BusinessModule.context(this.$store);
   public appearanceModule = AppearanceModule.context(this.$store);
+  public deviceWidth = window.innerWidth;
+  public deviceHeight = window.innerHeight;
+  public storyWidth = Math.min(500, this.deviceWidth);
+  public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
 
   get business(): Business | null {
     return this.businessModule.state.selectedBusiness;
@@ -141,11 +145,11 @@ export class BusinessStoriesPage extends Vue {
         </div>
         {this.previewStory !== null && (
           <div class={Styles['story-preview__container']}>
-            <StoryView story={this.previewStory}></StoryView>
+            <StoryView story={this.previewStory} storyWidth={this.storyWidth} storyHeight={this.storyHeight} />
             <i
               on-click={() => this.closeVideoPreview()}
               class={`fa fa-times ${Styles['story-preview__close-button']}`}
-            ></i>
+            />
           </div>
         )}
       </div>
