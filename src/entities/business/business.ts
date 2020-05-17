@@ -160,12 +160,14 @@ export class Business implements IBusinessData {
     this.media = {
       logo: data.media.logo !== null ? new Image(data.media.logo) : null,
       cover: {
-        image: data.media.cover.image !== null ? new Image(data.media.cover.image) : null,
-        video: data.media.cover.video !== null ? new Video(data.media.cover.video) : null,
+        image: data.media.cover.image && data.media.cover.image !== null ? new Image(data.media.cover.image) : null,
+        video: data.media.cover.video && data.media.cover.video !== null ? new Video(data.media.cover.video) : null,
       },
       profile: {
-        image: data.media.profile.image !== null ? new Image(data.media.profile.image) : null,
-        video: data.media.profile.video !== null ? new Video(data.media.profile.video) : null,
+        image:
+          data.media.profile.image && data.media.profile.image !== null ? new Image(data.media.profile.image) : null,
+        video:
+          data.media.profile.video && data.media.profile.video !== null ? new Video(data.media.profile.video) : null,
       },
       stories: {
         images: storyImages,
