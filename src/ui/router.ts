@@ -175,11 +175,6 @@ const routes = [
         name: 'BusinessStories',
         component: () => import(/* webpackChunkName: "BusinessStories" */ '@/ui/apps/business/stories/stories'),
       },
-      {
-        path: 'profile/stories/:storyId',
-        name: 'BusinessStory',
-        component: () => import(/* webpackChunkName: "BusinessStory" */ '@/ui/apps/business/story/story'),
-      },
     ],
   },
   {
