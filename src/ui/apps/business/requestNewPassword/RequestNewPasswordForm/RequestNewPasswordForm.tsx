@@ -4,7 +4,7 @@ import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './requestNewPasswordForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { WVHButton } from '@/ui/components';
+import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
 interface IRefs {
@@ -26,6 +26,7 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
 
   public handleKeydown: (e: KeyboardEvent) => void;
   public rootStore = rootModule.context(this.$store);
+  public isLoading = false;
   public errors: IErrors = {
     email: [],
   };
@@ -44,7 +45,8 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
 
   public async requestNewPassword(e: Event): Promise<void> {
     e.preventDefault();
-
+    if (this.isLoading) return;
+    this.isLoading = true;
     // TODO: Verify Email with RegEX
     this.errors.email = this.formData.email.length === 0 ? ['Bitte gib deine E-Mail Adresse ein.'] : [];
     if (this.errors.email.length > 0) return;
@@ -54,8 +56,10 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
     });
     if (res.status === 'failure') {
       this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });
+      this.isLoading = false;
     }
     if (res.status === 'success') {
+      this.isLoading = false;
       this.$router.push({ name: 'BusinessRequestNewPasswordSuccess', query: { email: this.formData.email } });
     }
   }
@@ -80,7 +84,7 @@ export class RequestNewPasswordForm extends VueComponent<{}, IRefs> {
           />
         </div>
         <WVHButton primary class={SharedStyles['submit']} on-click={this.requestNewPassword.bind(this)}>
-          PASSWORT ZURÜCKSETZEN
+          {this.isLoading ? <Loader color="#fff" size={24} /> : 'PASSWORT ZURÜCKSETZEN'}
         </WVHButton>
       </form>
     );

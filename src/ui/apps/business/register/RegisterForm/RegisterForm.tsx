@@ -4,7 +4,7 @@ import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './registerForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { WVHButton } from '@/ui/components';
+import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 import { PrivacyAndAGBAgreement } from '@/ui/components/formElements';
 
@@ -29,7 +29,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
     super();
     this.handleKeydown = this._handleKeydown.bind(this);
   }
-
+  public isLoading = false;
   public handleKeydown: (e: KeyboardEvent) => void;
   public rootStore = rootModule.context(this.$store);
   public errors: IErrors = {
@@ -60,13 +60,17 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
 
   public async register(e: Event): Promise<void> {
     e.preventDefault();
+    if (this.isLoading) return;
+    this.isLoading = true;
     this.errors.email = this.formData.email.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     this.errors.password = this.formData.password.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     this.errors.passwordRepeat =
       this.formData.password !== this.formData.passwordRepeat ? ['Die Passwörter stimmen nicht überein.'] : [];
 
-    if (this.errors.email.length > 0 || this.errors.password.length > 0 || this.errors.passwordRepeat.length > 0)
+    if (this.errors.email.length > 0 || this.errors.password.length > 0 || this.errors.passwordRepeat.length > 0) {
+      this.isLoading = false;
       return;
+    }
 
     const dataProtStatement = this.rootStore.state.dataProtStatements && this.rootStore.state.dataProtStatements[0];
 
@@ -76,6 +80,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
         timeout: 10000,
         position: POSITION.TOP_CENTER,
       });
+      this.isLoading = false;
       return;
     }
 
@@ -94,6 +99,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
     if (res.status === 'success') {
       this.$router.push({ name: 'BusinessRegisterComplete' });
     }
+    this.isLoading = false;
   }
 
   public update(key: 'email' | 'password' | 'passwordRepeat', value: string): void {
@@ -143,7 +149,7 @@ export class RegisterForm extends VueComponent<{}, IRefs> {
           <PrivacyAndAGBAgreement />
         </div>
         <WVHButton primary class={SharedStyles['submit']} on-click={this.register.bind(this)}>
-          Registrieren
+          {this.isLoading ? <Loader color="#fff" size={24} /> : 'Registrieren'}
         </WVHButton>
       </form>
     );

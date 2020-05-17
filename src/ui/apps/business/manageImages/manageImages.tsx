@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import SharedStyles from '@/ui/styles/main.scss';
 import Styles from './manageImages.scss';
 import { ImageThumbnail } from './imageThumbnail';
-import { WVHButton } from '@/ui';
+import { WVHButton, Loader } from '@/ui';
 import { Business } from '@/entities';
 import { BusinessModule, AppearanceModule, UserModule, UserDataState } from '@/store';
 import { IImageData, IEditableBusinessMediaData } from './manageImages.types';
@@ -45,6 +45,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
   public coverHeight!: number;
   public logoWidth!: number;
   public logoHeight!: number;
+  public isLoading = false;
 
   public imageSelectedForEdit: IImageData | null = null;
   public imagesMarkedForDelete: Map<string, IImageData> = new Map();
@@ -203,8 +204,8 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
    * TODO: Update Image Upload logic to work directly with Image Collection
    */
   public async saveChanges(): Promise<void> {
-    if (!this.business) return;
-
+    if (!this.business || this.isLoading) return;
+    this.isLoading = true;
     if (this.mediaData.cover.image && this.imagesMarkedForDelete.has(this.mediaData.cover.image.publicId)) {
       this.mediaData.cover.image = null;
     }
@@ -232,6 +233,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     if (!success) {
       // eslint-disable-next-line no-console
       console.log('Some SaveError');
+      this.isLoading = false;
       return;
     }
 
@@ -262,6 +264,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
     if (successfulUploads.length > 0) this.businessModule.actions.validateImageUploads(successfulUploads);
     this.businessModule.actions.selectBusiness(updateRes.business._id as string);
     this.setInitialMediaData();
+    this.isLoading = false;
   }
 
   // @ts-ignore
@@ -335,7 +338,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
                   VERWERFEN
                 </WVHButton>
                 <WVHButton primary on-click={this.saveChanges.bind(this)} class={Styles['buttons__button']}>
-                  SPEICHERN
+                  {this.isLoading ? <Loader color="#fff" size={24} /> : 'SPEICHERN'}
                 </WVHButton>
               </div>
             )}

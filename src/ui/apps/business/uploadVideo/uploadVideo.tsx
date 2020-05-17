@@ -3,7 +3,7 @@ import Component from 'vue-class-component';
 import { rootModule, BusinessModule } from '@/store';
 import SharedStyles from '@/ui/styles/main.scss';
 import Styles from './uploadVideo.scss';
-import { WVHImageInputField, FormInputField, FormTextArea, WVHButton } from '@/ui';
+import { WVHImageInputField, FormInputField, FormTextArea, WVHButton, Loader } from '@/ui';
 
 type IFormInputs = ITitle | IDesc | IFile;
 interface ITitle {
@@ -25,6 +25,7 @@ interface IFile {
 export class BusinessUploadVideo extends Vue {
   public rootStore = rootModule.context(this.$store);
   public businessModule = BusinessModule.context(this.$store);
+  public isLoading = false;
   public formValidation = {
     video: true,
     title: true,
@@ -77,6 +78,7 @@ export class BusinessUploadVideo extends Vue {
   }
 
   public async submit(): Promise<void> {
+    this.isLoading = true;
     const business = this.businessModule.state.selectedBusiness;
     if (!business || !business._id) {
       return;
@@ -86,6 +88,7 @@ export class BusinessUploadVideo extends Vue {
     // TODO: Decide how to handle the updateBusiness + upload Video logic!
     await this.$services.business.loadAndPersistBusiness(business._id);
     this.businessModule.actions.selectBusiness(business._id);
+    this.isLoading = false;
     if (!res) return;
     this.$set(this, 'progress', res);
   }
@@ -138,7 +141,7 @@ export class BusinessUploadVideo extends Vue {
               {!this.isUploading && !this.isFinished ? (
                 <div class={Styles['upload-video__form-buttons']}>
                   <WVHButton primary class={SharedStyles['submit']} on-click={this.submit.bind(this)}>
-                    Speichern
+                    {this.isLoading ? <Loader color="#fff" size={24} /> : 'Speichern'}
                   </WVHButton>
                   <WVHButton cancel class={SharedStyles['cancel']} on-click={this.cancel.bind(this)}>
                     Abbrechen

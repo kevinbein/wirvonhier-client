@@ -4,7 +4,7 @@ import { rootModule, UserModule, BusinessModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './loginForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { WVHButton } from '@/ui/components';
+import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
 interface IRefs {
@@ -30,6 +30,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
 
   public handleKeydown: (e: KeyboardEvent) => void;
   public rootStore = rootModule.context(this.$store);
+  public isLoading = false;
   public errors: IErrors = {
     email: [],
     password: [],
@@ -52,6 +53,8 @@ export class LoginForm extends VueComponent<{}, IRefs> {
 
   public async login(e: Event): Promise<void> {
     e.preventDefault();
+    if (this.isLoading) return;
+    this.isLoading = true;
     this.errors.email = this.formData.email.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     this.errors.password = this.formData.password.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     if (this.errors.email.length > 0 || this.errors.password.length > 0) return;
@@ -61,11 +64,13 @@ export class LoginForm extends VueComponent<{}, IRefs> {
       password: this.formData.password,
     });
     if (res.status === 'failure') {
+      this.isLoading = false;
       this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });
     }
     if (res.status === 'success') {
       await this.userModule.actions.loadUserAndSaveUserData();
       await this.businessModule.actions.loadAndPersistBusinessDataById(this.userModule.state.businesses);
+      this.isLoading = false;
       this.businessModule.actions.selectBusiness(this.userModule.state.businesses[0]);
       this.$router.push({ name: 'BusinessDashboard' });
     }
@@ -103,7 +108,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
           />
         </div>
         <WVHButton primary class={SharedStyles['submit']} on-click={this.login.bind(this)}>
-          Einloggen
+          {this.isLoading ? <Loader color="#fff" size={24} /> : 'Einloggen'}
         </WVHButton>
         <router-link to={{ name: 'BusinessRequestNewPassword' }} class={SharedStyles['link--small']}>
           Sie haben ihr Passwort vergessen?

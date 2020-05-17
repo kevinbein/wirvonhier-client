@@ -4,7 +4,7 @@ import { rootModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './resetPasswordForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { WVHButton } from '@/ui/components';
+import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
 interface IRefs {
@@ -28,6 +28,8 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
 
   public handleKeydown: (e: KeyboardEvent) => void;
   public rootStore = rootModule.context(this.$store);
+  public isLoading = false;
+
   public token = '';
   public errors: IErrors = {
     password: [],
@@ -58,10 +60,16 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
 
   public async resetPassword(e: Event): Promise<void> {
     e.preventDefault();
+    if (this.isLoading) return;
+    this.isLoading = true;
+
     this.errors.password = this.formData.password.length === 0 ? ['Bitte gib deine E-Mail Adresse ein.'] : [];
     this.errors.passwordRepeat =
       this.formData.password !== this.formData.passwordRepeat ? ['Die Passwörter stimmen nicht überein.'] : [];
-    if (this.errors.password.length > 0 || this.errors.passwordRepeat.length > 0) return;
+    if (this.errors.password.length > 0 || this.errors.passwordRepeat.length > 0) {
+      this.isLoading = false;
+      return;
+    }
 
     const res = await this.rootStore.actions.resetPassword({
       password: this.formData.password,
@@ -73,6 +81,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
     if (res.status === 'success') {
       this.$router.push({ name: 'BusinessResetPasswordSuccess' });
     }
+    this.isLoading = false;
   }
 
   public update(key: 'password' | 'passwordRepeat', value: string): void {
@@ -106,7 +115,7 @@ export class ResetPasswordForm extends VueComponent<{}, IRefs> {
           />
         </div>
         <WVHButton primary class={SharedStyles['submit']} on-click={this.resetPassword.bind(this)}>
-          PASSWORT ZURÜCKSETZEN
+          {this.isLoading ? <Loader color="#fff" size={24} /> : 'PASSWORT ZURÜCKSETZEN'}
         </WVHButton>
       </form>
     );

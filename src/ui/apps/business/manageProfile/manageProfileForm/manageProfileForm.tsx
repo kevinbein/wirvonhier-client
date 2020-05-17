@@ -3,7 +3,7 @@ import Vue from 'vue';
 import { BusinessModule } from '@/store';
 import { Business } from '@/entities';
 import Styles from './manageProfileForm.scss';
-import { WVHButton, FormTextArea, FormInputField, FormCheckbox } from '@/ui/components';
+import { WVHButton, FormTextArea, FormInputField, FormCheckbox, Loader } from '@/ui/components';
 import { POSITION, TYPE } from 'vue-toastification';
 
 @Component({
@@ -13,6 +13,7 @@ export class ManageProfileForm extends Vue {
   public businessModule = BusinessModule.context(this.$store);
   public formErrors: { [key: string]: string[] } = {};
   public formValidation: { [key: string]: boolean } = {};
+  public isLoading = false;
 
   public get business(): Business {
     return this.businessModule.state.selectedBusiness as Business;
@@ -37,6 +38,8 @@ export class ManageProfileForm extends Vue {
 
   public async submit(e: Event): Promise<void> {
     e.preventDefault();
+    if (this.isLoading) return;
+    this.isLoading = true;
     const success = await this.businessModule.actions.save(this.business);
     if (success) {
       this.businessModule.actions.selectBusiness(this.business._id as string);
@@ -45,12 +48,14 @@ export class ManageProfileForm extends Vue {
         type: TYPE.SUCCESS,
         timeout: 2000,
       });
+      this.isLoading = false;
     } else {
       this.$toast(`Profil konnte nicht aktualisiert werden.`, {
         position: POSITION.TOP_CENTER,
         type: TYPE.ERROR,
         timeout: 3000,
       });
+      this.isLoading = false;
     }
   }
 
@@ -230,7 +235,7 @@ export class ManageProfileForm extends Vue {
         />
         <div class={Styles['manage-profile__submit']}>
           <WVHButton primary on-click={this.submit.bind(this)}>
-            SPEICHERN
+            {this.isLoading ? <Loader color="#fff" size={24} /> : 'SPEICHERN'}
           </WVHButton>
         </div>
       </form>
