@@ -210,7 +210,10 @@ export class Business implements IBusinessData {
   public getSortedImagesAndVideos(): (Image | Video)[] {
     // sort media by modified date
     const s = this.media.stories;
-    const imagesAndVideos: (Image | Video)[] = [...s.images, ...s.videos];
+    const imagesAndVideos: (Image | Video)[] = [
+      ...s.images,
+      ...s.videos.filter((video) => video.status === 'complete'),
+    ];
     imagesAndVideos.sort((story1: Image | Video, story2: Image | Video) => {
       const time1 = new Date(story1.modifiedAt).getTime();
       const time2 = new Date(story2.modifiedAt).getTime();
