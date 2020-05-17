@@ -1,6 +1,6 @@
 import Component from 'vue-class-component';
 import Vue from 'vue/types/umd';
-import { rootModule } from '@/store';
+import { rootModule, UserModule, BusinessModule } from '@/store';
 import { VueComponent } from '@/ui/vue-ts-component';
 import Styles from './loginForm.scss';
 import SharedStyles from '@/ui/styles/main.scss';
@@ -21,6 +21,8 @@ interface IErrors {
   name: 'LoginForm',
 })
 export class LoginForm extends VueComponent<{}, IRefs> {
+  public userModule = UserModule.context(this.$store);
+  public businessModule = BusinessModule.context(this.$store);
   constructor() {
     super();
     this.handleKeydown = this._handleKeydown.bind(this);
@@ -62,6 +64,9 @@ export class LoginForm extends VueComponent<{}, IRefs> {
       this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });
     }
     if (res.status === 'success') {
+      await this.userModule.actions.loadUserAndSaveUserData();
+      await this.businessModule.actions.loadAndPersistBusinessDataById(this.userModule.state.businesses);
+      this.businessModule.actions.selectBusiness(this.userModule.state.businesses[0]);
       this.$router.push({ name: 'BusinessDashboard' });
     }
   }
