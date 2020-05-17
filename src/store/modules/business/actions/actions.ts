@@ -72,7 +72,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       // TODO|PWA: If we are offline, update Business later.
       return false;
     }
-    this.actions.loadAndPersistBusinessDataById([business._id as string]);
+    await this.actions.loadAndPersistBusinessDataById([business._id as string]);
     return true;
   }
 
