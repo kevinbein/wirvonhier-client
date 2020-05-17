@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { NavigationGuard, Route, RawLocation } from 'vue-router';
 import { MainApp } from './apps';
-import { ExplorePage, MapPage, LandingPage } from './apps/main';
+import { ExplorePage, LandingPage } from './apps/main';
 import { CompanyDetailsPage, PrivacyPolicyPage, TermsOfUsePage } from './apps/main/legal';
 import { store } from '@/store';
 
@@ -47,7 +47,7 @@ const routes = [
       {
         path: '/map',
         name: 'Map',
-        component: MapPage,
+        component: () => import(/* webpackChunkName: "MapPage" */ '@/ui/apps/main/map/map'),
       },
       {
         path: '/explore/:businessId?',
