@@ -16,6 +16,7 @@ export class BusinessStoriesPage extends Vue {
   public deviceHeight = window.innerHeight;
   public storyWidth = Math.min(500, this.deviceWidth);
   public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
+  private refreshId?: NodeJS.Timeout;
 
   get business(): Business | null {
     return this.businessModule.state.selectedBusiness;
@@ -34,27 +35,15 @@ export class BusinessStoriesPage extends Vue {
       return time2 - time1;
     });
     return videos;
+  }
 
-    /*
-    // sort media by modified date
-    const media = this.business.media.stories.images;
-    media.map((image: any) => {
-      image.type = 'image';
-      return image;
-    });
-    const videos = this.business.media.stories.videos;
-    videos.map((video: any) => {
-      video.type = 'video';
-      return video;
-    });
-    media.push(...videos);
-    media.sort((story1: any, story2: any) => {
-      const time1 = new Date(story1.modifiedAt).getTime();
-      const time2 = new Date(story2.modifiedAt).getTime();
-      return time1 - time2;
-    });
-    return media;
-    */
+  public created(): void {
+    this.appearanceModule.actions.setNavigationVisibility(true);
+    this.refreshData();
+  }
+
+  public beforeUnmount(): void {
+    if (this.refreshId) clearTimeout(this.refreshId);
   }
 
   public async deleteVideo(video: Video): Promise<void> {
@@ -79,10 +68,6 @@ export class BusinessStoriesPage extends Vue {
 
   public closeVideoPreview(): void {
     this.previewStory = null;
-  }
-
-  public created(): void {
-    this.appearanceModule.actions.setNavigationVisibility(true);
   }
 
   // @ts-ignore: Declared variable is not read
@@ -154,6 +139,13 @@ export class BusinessStoriesPage extends Vue {
         )}
       </div>
     );
+  }
+
+  private refreshData(): void {
+    if (!this.business) return;
+    this.businessModule.actions.loadAndPersistBusinessDataById([this.business._id as string]);
+    this.businessModule.actions.selectBusiness(this.business._id as string);
+    this.refreshId = setTimeout(this.refreshData.bind(this), 60000);
   }
 }
 
