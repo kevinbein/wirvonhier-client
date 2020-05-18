@@ -197,7 +197,7 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
     if (key === 'file' && value instanceof FileList) {
       const { isCover, isLogo, isProfile, isStory } = this.formData;
       if (!isCover && !isLogo && !isProfile && !isStory) {
-        this.formData.isStory = true;
+        this.formData.isCover = true;
       }
       this.$set(this.formData, 'title', value[0].name);
       const reader = new FileReader();
