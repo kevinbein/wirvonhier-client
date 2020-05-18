@@ -251,7 +251,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
       .map((image) => {
         const img = { ...image };
         img.src = this.files[img.publicId];
-        img.publicId = img.publicId.split('/')[1];
+        img.publicId = img.publicId.includes('/') ? img.publicId.split('/')[1] : img.publicId;
         return img;
       });
 
