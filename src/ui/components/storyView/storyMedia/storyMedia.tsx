@@ -82,8 +82,9 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       videoControlsEl.addEventListener('click', this.playVideo.bind(this)); //this.pauseVideo());
       videoControlsEl.addEventListener('mousedown', this.pauseVideo.bind(this));
       videoControlsEl.addEventListener('touchdown', this.pauseVideo.bind(this));
+      videoControlsEl.addEventListener('touchstart', this.pauseVideo.bind(this));
       videoControlsEl.addEventListener('mouseup', this.playVideo.bind(this));
-      videoControlsEl.addEventListener('touchup', this.playVideo.bind(this));
+      videoControlsEl.addEventListener('touchend', this.playVideo.bind(this));
     }
   }
 
@@ -111,17 +112,20 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       }
       case MEDIATYPE.VIDEO: {
         return (
-          <div class={Styles['story__container--video']} ref="storyVideoControls">
-            {(this.videoUrl && (
+          <div class={Styles['story__video-container']}>
+            {(this.videoUrl && [
               <video
                 ref="story-video"
                 class={Styles['story__video']}
-                muted={false}
+                playsinline={true}
+                autoplay={true}
+                preload={true}
                 onLoadeddata={this.initVideo.bind(this)}
               >
                 <source src={this.videoUrl} type="video/mp4" />
-              </video>
-            )) ||
+              </video>,
+              <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
+            ]) ||
               (this.videoError && <div class={Styles['story__message']}>{this.videoError}</div>) || (
                 <div class={Styles['story__message']}>Loading video ...</div>
               )}

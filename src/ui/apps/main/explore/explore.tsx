@@ -197,7 +197,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
               ref="horizontalSwiper"
               on-slideChange={this.exploreSlideChange.bind(this)}
               options={this.horizontalSwiperOptions}
-              class={Styles['vertical-swiper']}
+              class={Styles['horizontal-swiper']}
             >
               {this.slides !== null &&
                 this.slides.length > 0 &&

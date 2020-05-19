@@ -21,6 +21,9 @@
   .horizontal-swiper {
     height: 100%;
     top: 0;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;
+    user-select: none;
     width: 100%;
   }
   .explorer {
