@@ -9,10 +9,12 @@ interface CssExports {
   'input__errors': string;
   'input__field': string;
   'input__field--active': string;
+  'input__field--disabled': string;
   'input__inner': string;
   'input__inner--active': string;
   'input__label': string;
   'input__label--active': string;
+  'input__label--disabled': string;
   'input__login--text_amplifier': string;
   'input__max-length': string;
   'input__wrapper': string;

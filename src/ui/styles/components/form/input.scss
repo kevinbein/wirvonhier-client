@@ -28,7 +28,7 @@
     }
 
     &--disabled {
-      color: $col-grey;
+      color: $col-input-inactive-text;
     }
   }
 
@@ -54,8 +54,8 @@
     }
 
     &--disabled {
-      border-bottom: 1px solid $col-grey;
-      color: $col-grey;
+      border-bottom: 1px solid $col-input-inactive-border;
+      color: $col-input-inactive-text;
     }
 
     &:focus {

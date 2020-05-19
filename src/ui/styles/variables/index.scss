@@ -24,6 +24,8 @@ $col-input-label: $col-primary;
 $col-input-label-focus: $col-primary-dark;
 $col-input-underline: hsl(0, 0%, 78%);
 $col-input-underline-focus: $col-primary-dark;
+$col-input-inactive-text: $col-grey;
+$col-input-inactive-border: hsl(0, 0%, 78%);
 
 // SHADOWS
 $elevation-1: 0 1px 3px hsla(0, 0%, 0%, 0.15); // Background-elements (e.g. Image)

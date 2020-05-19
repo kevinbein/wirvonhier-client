@@ -19,6 +19,7 @@ interface IProps {
   icon?: string;
   centered?: boolean;
   disabled?: boolean;
+  class?: string;
 }
 
 @Component({
@@ -103,6 +104,11 @@ export class FormInputField extends VueComponent<IProps> {
     this.$emit('change', { key: this.id, value });
   }
 
+  public submit(e: Event): void {
+    const value = (e.target as HTMLInputElement).value;
+    this.$emit('submit', { key: this.id, value });
+  }
+
   public changeFocus(e: Event): void {
     const target = e.target as HTMLInputElement;
     if (!target.value) {
@@ -155,14 +161,15 @@ export class FormInputField extends VueComponent<IProps> {
               disabled={this.disabled}
               class={`
                 ${Styles['text-input']}
+                ${Styles['input-container__input-field']}
                 ${
                   this.hasFocus
-                    ? `${Styles['input-container__input-field']} ${SharedStyles['input__field--active']}`
+                    ? `${Styles['input-container__input-field--active']} ${SharedStyles['input__field--active']}`
                     : ''
                 }
                 ${this.icon ? Styles['text-input--with-button'] : ''}  
                 ${this.centered ? Styles['input-container__input-field--centered'] : ''}
-                ${this.disabled ? Styles['input-container__input-field--disabled'] : ''}
+                ${this.disabled && this.hasFocus ? Styles['input-container__input-field--disabled'] : ''}
               `}
               value={this.value}
               on-input={this.update.bind(this)}
@@ -176,13 +183,15 @@ export class FormInputField extends VueComponent<IProps> {
                 ${this.disabled ? Styles['input-container__button--disabled'] : ''}
               `}
               disabled={this.disabled}
-              onClick={() => this.onClick()}
+              on-click={this.submit.bind(this)}
             >
               <i
                 class={`
                   ${Styles['input-container__button-icon']} 
                   ${this.icon}
+                  ${this.hasFocus ? Styles['input-container__button-icon--active'] : ''} 
                   ${this.disabled ? Styles['input-container__button-icon--disabled'] : ''}
+                  ${!this.hasFocus && this.disabled ? Styles['input-container__button-icon--inactive--disabled'] : ''} 
                   ${this.icon ? Styles['text-input--with-button'] : ''}
                 `}
               ></i>
