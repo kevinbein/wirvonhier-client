@@ -21,7 +21,7 @@ $input-button-font-size: 24px;
   }
 } */
 
-.input {
+.input-container {
   &__input-field {
     font-family: inherit;
     font-size: $unit-font-input;
@@ -29,6 +29,10 @@ $input-button-font-size: 24px;
     transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
     &:focus {
       outline: none;
+    }
+    &--disabled {
+      border-bottom: 1px solid $col-grey;
+      color: $col-grey;
     }
   }
   &__button {
@@ -49,13 +53,16 @@ $input-button-font-size: 24px;
       margin-top: $unit-font-input + $dist-input-padding;
       opacity: 1;
     }
+    &--disabled {
+      border-bottom: 1px solid $col-grey;
+    }
   }
   &__button-icon {
     color: $col-primary;
     font-size: $input-button-font-size;
     line-height: 1.5rem;
     &--disabled {
-      opacity: 0;
+      color: $col-grey;
     }
   }
 }

@@ -133,6 +133,7 @@ export class FormInputField extends VueComponent<IProps> {
             ${Styles['text-input']} 
             ${SharedStyles['input__label']} 
             ${this.hasFocus ? SharedStyles['input__label--active'] : ''}
+            ${this.disabled ? SharedStyles['input__label--disabled'] : ''}
           `}
         >
           {this.label}
@@ -151,12 +152,17 @@ export class FormInputField extends VueComponent<IProps> {
               autocomplete={this.autocomplete}
               placeholder={this.placeholder}
               autofocus={this.autofocus}
+              disabled={this.disabled}
               class={`
                 ${Styles['text-input']}
-                ${this.hasFocus ? `${Styles['input__input-field']} ${SharedStyles['input__field--active']}` : ''}
+                ${
+                  this.hasFocus
+                    ? `${Styles['input-container__input-field']} ${SharedStyles['input__field--active']}`
+                    : ''
+                }
                 ${this.icon ? Styles['text-input--with-button'] : ''}  
-                ${this.centered ? Styles['input__field--centered'] : ''}
-                ${this.disabled ? Styles['input__field--disabled'] : ''}
+                ${this.centered ? Styles['input-container__input-field--centered'] : ''}
+                ${this.disabled ? Styles['input-container__input-field--disabled'] : ''}
               `}
               value={this.value}
               on-input={this.update.bind(this)}
@@ -165,17 +171,18 @@ export class FormInputField extends VueComponent<IProps> {
             />
             <button
               class={`
-                ${Styles['input__button']}
-                ${this.hasFocus ? Styles['input__button--active'] : ''}
+                ${Styles['input-container__button']}
+                ${this.hasFocus ? Styles['input-container__button--active'] : ''}
+                ${this.disabled ? Styles['input-container__button--disabled'] : ''}
               `}
               disabled={this.disabled}
               onClick={() => this.onClick()}
             >
               <i
                 class={`
-                  ${Styles['input__button-icon']} 
+                  ${Styles['input-container__button-icon']} 
                   ${this.icon}
-                  ${this.disabled ? Styles['input__button-icon--disabled'] : ''}
+                  ${this.disabled ? Styles['input-container__button-icon--disabled'] : ''}
                   ${this.icon ? Styles['text-input--with-button'] : ''}
                 `}
               ></i>
@@ -188,12 +195,13 @@ export class FormInputField extends VueComponent<IProps> {
             autocomplete={this.autocomplete}
             placeholder={this.placeholder}
             autofocus={this.autofocus}
+            disabled={this.disabled}
             class={`
               ${Styles['text-input']}
               ${SharedStyles['input__field']}
               ${this.hasFocus ? SharedStyles['input__field--active'] : ''}
               ${this.centered ? Styles['input__field--centered'] : ''}
-              ${this.disabled ? Styles['input__field--disabled'] : ''}
+              ${this.disabled ? SharedStyles['input__field--disabled'] : ''}
             `}
             value={this.value}
             on-input={this.update.bind(this)}
