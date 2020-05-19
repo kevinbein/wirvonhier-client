@@ -43,6 +43,36 @@
   }
 }
 
+.zip-container {
+  display: block;
+  margin-top: 0;
+  padding: ($unit-base / 4);
+  text-align: center;
+  width: 100%;
+  @media (max-height: 800px) {
+    bottom: 15vh;
+    position: absolute;
+  }
+  @media (min-height: 801px) {
+    bottom: 20vh;
+    position: absolute;
+  }
+}
+.zip-field {
+  background-color: #fff;
+  border-radius: 15px;
+  //height: 83px;
+  margin: auto;
+  padding: ($unit-base / 4);
+  position: relative;
+  text-align: left;
+  width: 18rem;
+  label {
+    background: transparent;
+    margin-left: 15px;
+  }
+}
+
 .button-container {
   display: block;
   margin-top: 0;
@@ -135,6 +165,7 @@
 
 .links {
   bottom: 15px;
+  line-height: 1.5rem;
   position: absolute;
   text-align: center;
   width: 100%;

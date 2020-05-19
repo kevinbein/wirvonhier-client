@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
+import { FormInputField } from '@/ui/components';
 
 @Component
 export class LandingPage extends Vue {
@@ -88,6 +89,15 @@ export class LandingPage extends Vue {
     }
   }
 
+  public updateZip(data: { key: string; value: string }): void {
+    this.zip = data.value;
+    this.$forceUpdate();
+  }
+
+  public submitZip(): void {
+    this.gotoExplorer();
+  }
+
   mounted(): void {
     document.body.style.background = 'rgb(232, 232, 232)';
 
@@ -107,19 +117,19 @@ export class LandingPage extends Vue {
             </div>
           </div>
         </div>
-        <div class={Styles['button-container']}>
-          <v-text-field
-            id="text-input"
-            class={Styles['text-input']}
-            type="number"
+        <div class={Styles['zip-container']}>
+          <FormInputField
             label="POSTLEITZAHL EINGEBEN"
+            id="title"
+            type="text"
+            autofocus={true}
+            autocomplete="off"
             value={this.zip}
-            onChange={(value: string) => (this.zip = value)}
-            onKeyup={(event: KeyboardEvent) => this.updateZipKeyboard(event)}
-          ></v-text-field>
-          <v-icon onClick={() => this.gotoExplorer()} class={Styles['search-icon']}>
-            fa-search
-          </v-icon>
+            on-change={this.updateZip.bind(this)}
+            on-submit={this.submitZip.bind(this)}
+            icon="fa fa-search"
+            class={Styles['zip-field']}
+          />
         </div>
 
         <div class={Styles['links']}>

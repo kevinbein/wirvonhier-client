@@ -27,6 +27,8 @@ interface CssExports {
   'text3': string;
   'title': string;
   'welcome': string;
+  'zip-container': string;
+  'zip-field': string;
 }
 export const cssExports: CssExports;
 export default cssExports;
