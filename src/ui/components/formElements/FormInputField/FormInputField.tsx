@@ -17,7 +17,6 @@ interface IProps {
   autofocus?: boolean;
   type?: InputType;
   icon?: string;
-  centered?: boolean;
   disabled?: boolean;
   class?: string;
 }
@@ -73,10 +72,6 @@ interface IProps {
       type: String,
       default: '',
     },
-    centered: {
-      type: Boolean,
-      default: false,
-    },
     disabled: {
       type: Boolean,
       default: false,
@@ -96,7 +91,6 @@ export class FormInputField extends VueComponent<IProps> {
   public autofocus!: boolean;
   public hasFocus = false;
   public icon!: string;
-  public centered!: boolean;
   public disabled!: boolean;
 
   public update(e: Event): void {
@@ -168,7 +162,6 @@ export class FormInputField extends VueComponent<IProps> {
                     : ''
                 }
                 ${this.icon ? Styles['text-input--with-button'] : ''}  
-                ${this.centered ? Styles['input-container__input-field--centered'] : ''}
                 ${this.disabled && this.hasFocus ? Styles['input-container__input-field--disabled'] : ''}
               `}
               value={this.value}
@@ -209,7 +202,6 @@ export class FormInputField extends VueComponent<IProps> {
               ${Styles['text-input']}
               ${SharedStyles['input__field']}
               ${this.hasFocus ? SharedStyles['input__field--active'] : ''}
-              ${this.centered ? Styles['input__field--centered'] : ''}
               ${this.disabled ? SharedStyles['input__field--disabled'] : ''}
             `}
             value={this.value}
