@@ -1,3 +1,61 @@
+$input-button-size: 30px;
+$input-button-font-size: 24px;
+
 .text-input {
+  background-color: $col-white;
   width: 100%;
+  &--with-button[type='text'],
+  &--with-button[type='number'] {
+    width: calc(100% - #{$input-button-size});
+  }
+  &__label {
+    background-color: $col-white;
+    width: 100%;
+  }
+}
+
+/* .input-container {
+  margin-top: $unit-font-input + $dist-input-padding;
+  &--active {
+    margin-top: 0;
+  }
+} */
+
+.input {
+  &__input-field {
+    font-family: inherit;
+    font-size: $unit-font-input;
+    line-height: 1.5 * $unit-font-input;
+    transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    &:focus {
+      outline: none;
+    }
+  }
+  &__button {
+    display: flex;
+    height: $input-button-size;
+    opacity: 0;
+    padding: 0 $dist-input-padding;
+    transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out, opacity 0.2s ease-in-out;
+    width: $input-button-size;
+    &:focus {
+      outline: 0;
+    }
+    &--active {
+      background-color: inherit;
+      border-bottom: 1px solid $col-input-underline-focus;
+      display: flex;
+      margin-bottom: -1.5 * $unit-font-input;
+      margin-top: $unit-font-input + $dist-input-padding;
+      opacity: 1;
+    }
+  }
+  &__button-icon {
+    color: $col-primary;
+    font-size: $input-button-font-size;
+    line-height: 1.5rem;
+    &--disabled {
+      opacity: 0;
+    }
+  }
 }
