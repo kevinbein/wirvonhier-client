@@ -11,6 +11,7 @@ import { ProfilePage } from './../profile';
 import { Business, Story } from '@/entities';
 import { SlideInPage, StoryView, WVHButton, LadyPage } from '@/ui/components';
 import { VueComponent } from '@/ui/vue-ts-component';
+import { VerticalSwiper, VerticalSlide } from '@/ui/components/swiper';
 
 interface IRefs {
   [key: string]: Vue | Element | Vue[] | Element[];
@@ -44,6 +45,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     direction: 'horizontal',
     preloadImages: false,
     effect: 'cube',
+    //allowTouchMove: false,
     cubeEffect: {
       shadow: true,
       slideShadows: true,
@@ -69,7 +71,8 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   public lastExploreIndex = -1;
 
   public slideChange(): void {
-    const swiper = this.$refs.verticalSwiper.$swiper;
+    //const swiper = this.$refs.verticalSwiper.$swiper;
+    const swiper = this.$refs.verticalSwiper;
     // Opened profile page
     if (swiper.activeIndex == 1) {
       this.$root.$emit('iosChangeAppBarStyle', 'default');
@@ -161,7 +164,8 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     this.currentBusiness = this.slides[0].business;
 
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
-    const vSwiper = this.$refs.verticalSwiper.$swiper;
+    //const vSwiper = this.$refs.verticalSwiper.$swiper;
+    const vSwiper = this.$refs.verticalSwiper;
     if (this.$route.params.businessId !== undefined) {
       const paramBusinessId = this.$route.params.businessId;
       const exploreIndex = this.slides.findIndex((story: Story) => story.business.id == paramBusinessId);
@@ -194,13 +198,16 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   render(h): Vue.VNode {
     return (
       <div class={Styles['explore-page']}>
-        <swiper
+        {/*ref="verticalSwiper"
+          {/*on-slideChange={() => this.slideChange()}
+          {/*options={this.verticalSwiperOptions}
+        */}
+        <VerticalSwiper
           ref="verticalSwiper"
           on-slideChange={() => this.slideChange()}
-          options={this.verticalSwiperOptions}
           class={Styles['vertical-swiper']}
         >
-          <swiper-slide class={Styles['explorer']}>
+          <VerticalSlide class={Styles['explorer']}>
             <swiper
               ref="horizontalSwiper"
               on-slideChange={this.exploreSlideChange.bind(this)}
@@ -267,20 +274,16 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                 <i class="fa fa-angle-right"></i>
               </div>
             </div>
-          </swiper-slide>
-          <swiper-slide class={Styles['profile']}>
-            <div class={Styles['profile__placeholder']}>
-              <transition name="fade">
-                {this.currentBusiness && this.profileVisible && (
-                  <ProfilePage
-                    profile={this.currentBusiness}
-                    on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
-                  ></ProfilePage>
-                )}
-              </transition>
-            </div>
-          </swiper-slide>
-        </swiper>
+          </VerticalSlide>
+          <VerticalSlide class={Styles['profile']}>
+            {this.currentBusiness && this.profileVisible && (
+              <ProfilePage
+                profile={this.currentBusiness}
+                on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
+              ></ProfilePage>
+            )}
+          </VerticalSlide>
+        </VerticalSwiper>
 
         <SlideInPage
           value={this.slideIn}
