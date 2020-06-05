@@ -127,7 +127,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
               <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
             ]) ||
               (this.videoError && <div class={Styles['story__message']}>{this.videoError}</div>) || (
-                <div class={Styles['story__message']}>Loading video ...</div>
+                <div class={Styles['story__message']}></div>
               )}
             {this.showVideoPlayButton && (
               <div class={Styles['video-play-button-container']}>
