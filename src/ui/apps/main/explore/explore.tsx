@@ -139,6 +139,14 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     videoEl?.$emit('showStory');
   }
 
+  public exploreControlsHidden = false;
+  public hideExploreControls(): void {
+    this.exploreControlsHidden = true;
+  }
+  public showExploreControls(): void {
+    this.exploreControlsHidden = false;
+  }
+
   public get businesses(): Business[] {
     return this.businessStore.state.businesses;
   }
@@ -196,6 +204,8 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
             <swiper
               ref="horizontalSwiper"
               on-slideChange={this.exploreSlideChange.bind(this)}
+              on-touchStart={this.hideExploreControls.bind(this)}
+              on-touchEnd={this.showExploreControls.bind(this)}
               options={this.horizontalSwiperOptions}
               class={Styles['horizontal-swiper']}
             >
@@ -239,7 +249,13 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                 </div>
               )}
             </div>
-            <div class={Styles['explore-controls']}>
+            <div
+              ref="explore-controls"
+              class={`
+                ${Styles['explore-controls']} 
+                ${this.exploreControlsHidden ? Styles['explore-controls--hidden'] : Styles['explore-controls--visible']}
+              `}
+            >
               <div class={Styles['explore-controls__left-arrow']} onClick={() => this.previousSlide()}>
                 <i class="fa fa-angle-left"></i>
               </div>

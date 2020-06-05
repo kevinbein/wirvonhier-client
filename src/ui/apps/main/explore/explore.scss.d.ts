@@ -3,6 +3,8 @@
 interface CssExports {
   'button': string;
   'explore-controls': string;
+  'explore-controls--hidden': string;
+  'explore-controls--visible': string;
   'explore-controls__left-arrow': string;
   'explore-controls__middle-arrow': string;
   'explore-controls__right-arrow': string;

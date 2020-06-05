@@ -100,10 +100,6 @@
 }
 
 .explore-controls {
-  animation: fadeInExploreControls;
-  animation-delay: 3s;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
   bottom: 30px;
   color: #fff;
   font-size: 1.2rem;
@@ -111,6 +107,16 @@
   position: absolute;
   width: 100%;
   z-index: 3;
+
+  &--visible {
+    animation: fadeInExploreControls;
+    animation-delay: 3s;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+  &--hidden {
+    animation: none;
+  }
 
   @keyframes fadeInExploreControls {
     to {
