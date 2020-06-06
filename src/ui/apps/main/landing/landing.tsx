@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
 import SharedStyles from '@/ui/styles/main.scss';
-import { FormInputField } from '@/ui/components';
+import { FormInputField, OverlayView } from '@/ui/components';
 
 @Component
 export class LandingPage extends Vue {
@@ -99,6 +99,10 @@ export class LandingPage extends Vue {
     this.gotoExplorer();
   }
 
+  public closeOverlay(): void {
+    this.overlay = false;
+  }
+
   mounted(): void {
     document.body.style.background = 'rgb(232, 232, 232)';
 
@@ -153,12 +157,12 @@ export class LandingPage extends Vue {
           </div>
         </div>
 
-        <v-overlay class={Styles['overlay']} value={this.overlay} opacity={0.9}>
-          <div class={Styles['close-button']}>
-            <v-icon class={Styles['icon']} onClick={() => (this.overlay = false)}>
-              fa-times
-            </v-icon>
-          </div>
+        <OverlayView
+          class={Styles['overlay']}
+          value={this.overlay}
+          close-button={true}
+          on-close={this.closeOverlay.bind(true)}
+        >
           <div class={Styles['overlay-content']}>
             <div class={Styles['text1']}>Leider haben sich noch keine Läden in deiner Region eingetragen.</div>
             <div class={Styles['text2']}>
@@ -179,7 +183,7 @@ export class LandingPage extends Vue {
               &nbsp; unverbindlich deinen Kontakt da :)
             </div>
           </div>
-        </v-overlay>
+        </OverlayView>
       </div>
     );
   }
