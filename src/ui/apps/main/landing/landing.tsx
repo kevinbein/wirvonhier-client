@@ -10,30 +10,6 @@ export class LandingPage extends Vue {
 
   public location: Position | undefined;
 
-  get zip(): string {
-    return window.localStorage.zip;
-  }
-
-  set zip(newZip: string) {
-    window.localStorage.zip = newZip;
-  }
-
-  public updateZipKeyboard(event: KeyboardEvent): void {
-    const curZip = window.localStorage.zip;
-    // backspace
-    if (event.keyCode == 8 && curZip.length > 0) {
-      window.localStorage.zip = curZip.substr(0, curZip.length - 1);
-    }
-    // number
-    else if (event.keyCode >= 48 && event.keyCode <= 57) {
-      window.localStorage.zip = curZip + '' + (event.keyCode - 48);
-    }
-    // enter
-    else if (event.keyCode == 13) {
-      this.gotoExplorer();
-    }
-  }
-
   public gotoExplorer(forceZip?: string): void {
     const zip = window.localStorage.zip ? window.localStorage.zip : '';
     if (forceZip !== undefined) {
@@ -45,11 +21,6 @@ export class LandingPage extends Vue {
       this.overlay = true;
     }
   }
-
-  /*public clearLocalStorage(): void {
-    window.localStorage.userLocation = '';
-    window.localStorage.postCode = '';
-  }*/
 
   public async getLocation(): Promise<Position> {
     return new Promise((resolve, reject) => {
@@ -90,7 +61,9 @@ export class LandingPage extends Vue {
     }
   }
 
+  public zip = '';
   public updateZip(data: { key: string; value: string }): void {
+    window.localStorage.zip = data.value;
     this.zip = data.value;
     this.$forceUpdate();
   }
@@ -103,9 +76,12 @@ export class LandingPage extends Vue {
     this.overlay = false;
   }
 
+  created(): void {
+    this.zip = window.localStorage.zip;
+  }
+
   mounted(): void {
     document.body.style.background = 'rgb(232, 232, 232)';
-
     this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
   }
 
