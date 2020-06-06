@@ -58,10 +58,10 @@ export class StoryView extends VueComponent<IProps, IRefs> {
           return `Vor ${minutes} Minute${minutes > 1 ? 'n' : ''}`;
         }
         const hours = Math.max(1, Math.round(diff / HOUR));
-        return `Vor ${hours} Stunden${hours > 1 ? 'n' : ''}`;
+        return `Vor ${hours} Stunde${hours > 1 ? 'n' : ''}`;
       }
       const days = Math.max(1, Math.round(diff / DAY));
-      return `Vor ${days} Tagen${days > 1 ? 'n' : ''}`;
+      return `Vor ${days} Tage${days > 1 ? 'n' : ''}`;
     }
     return date.toLocaleDateString();
   }
