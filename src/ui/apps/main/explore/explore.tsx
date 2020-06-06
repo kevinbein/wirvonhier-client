@@ -61,7 +61,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   private businessStore = BusinessModule.context(this.$store);
 
   gotoExplorerSlide(): void {
-    const swiper = this.$refs.verticalSwiper.$swiper;
+    const swiper = this.$refs.verticalSwiper;
     swiper.slidePrev();
   }
 
@@ -112,7 +112,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   }
 
   public gotoProfile(): void {
-    const vSwiper = this.$refs.verticalSwiper.$swiper;
+    const vSwiper = this.$refs.verticalSwiper;
     vSwiper.slideTo(1);
   }
 
@@ -189,7 +189,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     const zip = '71665';
     const radius = 100420; // in meters
     this.loadBusinesses(zip, radius);
-    document.body.style.background = '#000000';
+    //document.body.style.background = '#000000';
 
     this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
   }
