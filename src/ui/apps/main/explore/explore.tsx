@@ -249,21 +249,56 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                 </div>
               )}
             </div>
-            <div
-              ref="explore-controls"
-              class={`
-                ${Styles['explore-controls']} 
-                ${this.exploreControlsHidden ? Styles['explore-controls--hidden'] : Styles['explore-controls--visible']}
-              `}
-            >
-              <div class={Styles['explore-controls__left-arrow']} onClick={() => this.previousSlide()}>
+            <div ref="explore-controls" class={Styles['explore-controls']}>
+              <div
+                class={`
+                  ${Styles['explore-controls__left-arrow']}
+                  ${
+                    this.exploreControlsHidden
+                      ? Styles['explore-controls__left-arrow--hidden']
+                      : Styles['explore-controls__left-arrow--visible']
+                  }
+                `}
+                onClick={() => this.previousSlide()}
+              >
                 <i class="fa fa-angle-left"></i>
               </div>
-              <div class={Styles['explore-controls__middle-arrow']} onClick={() => this.gotoProfile()}>
+              <div
+                class={`
+                  ${Styles['explore-controls__middle-arrow']}
+                  ${
+                    this.exploreControlsHidden
+                      ? Styles['explore-controls__middle-arrow--hidden']
+                      : Styles['explore-controls__middle-arrow--visible']
+                  }
+                `}
+                onClick={() => this.gotoProfile()}
+              >
                 <i class="fa fa-angle-double-up"></i>
               </div>
-              <div class={Styles['explore-controls__text']}>Zum Händlerprofil</div>
-              <div class={Styles['explore-controls__right-arrow']} onClick={() => this.nextSlide()}>
+              <div
+                class={`
+                  ${Styles['explore-controls__text']}
+                  ${
+                    this.exploreControlsHidden
+                      ? Styles['explore-controls__text--hidden']
+                      : Styles['explore-controls__text--visible']
+                  }
+                `}
+              >
+                Zum Laden
+              </div>
+              <div
+                class={`
+                  ${Styles['explore-controls__right-arrow']}
+                  ${
+                    this.exploreControlsHidden
+                      ? Styles['explore-controls__right-arrow--hidden']
+                      : Styles['explore-controls__right-arrow--visible']
+                  }
+                `}
+                onClick={() => this.nextSlide()}
+              >
                 <i class="fa fa-angle-right"></i>
               </div>
             </div>
