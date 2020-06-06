@@ -100,6 +100,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public slidePrev(): void {
     this.activeIndex = Math.max(0, this.activeIndex - 1);
+    this.$emit('slideChange', true);
   }
 
   public slideTo(index: number | undefined, _duration = 0): void {
