@@ -5,6 +5,8 @@ interface CssExports {
   'header-left-side': string;
   'header-left-side__logo': string;
   'header-right-side': string;
+  'header-right-side__date': string;
+  'header-right-side__name': string;
   'story': string;
   'story-container': string;
   'story-container__video-play-button': string;

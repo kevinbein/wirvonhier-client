@@ -47,11 +47,12 @@ $unit-base-quarter: $unit-base / 4; //            = 16 px
   padding: $unit-base $unit-base-quarter ($unit-base * 1.5);
 }
 
-$unit-font-default: 1rem; //                      = 1.0 rem
-$unit-font-title: 1.4 * $unit-font-default; //    = 1.4 rem
+$unit-font-default: 1rem; // = 1.0 rem
+$unit-font-title: 1.4 * $unit-font-default; // = 1.4 rem
 $unit-font-subtitle: 1.15 * $unit-font-default; // = 1.15 rem
-$unit-font-input: $unit-font-default; //          = 1.0 rem
-$unit-font-icon: 2 * $unit-font-default;
+$unit-font-small: 0.8 * $unit-font-default; // = 0.8 rem
+$unit-font-input: $unit-font-default; // = 1.0 rem
+$unit-font-icon: 2 * $unit-font-default; // = 2.0 rem
 
 // FONT
 %font-title {
