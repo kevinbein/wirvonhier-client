@@ -6,8 +6,6 @@ import { FormInputField, OverlayView } from '@/ui/components';
 
 @Component
 export class LandingPage extends Vue {
-  // @ts-ignore: Declared variable is not read
-
   public location: Position | undefined;
 
   public gotoExplorer(forceZip?: string): void {
