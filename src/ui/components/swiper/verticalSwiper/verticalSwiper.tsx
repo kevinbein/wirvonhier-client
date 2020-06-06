@@ -93,17 +93,33 @@ export class VerticalSwiper extends VueComponent<IProps> {
     };
   }
 
+  public slidePrev(): void {
+    this.activeIndex = Math.max(0, this.activeIndex - 1);
+  }
+
   public slideTo(index: number | undefined, _duration = 0): void {
     this.activeIndex =
       index === undefined || index < 0 || !this.$slots.default || index >= this.$slots.default.length ? 0 : index;
     this.$emit('slideChange', true);
   }
 
+  public mounted(): void {
+    window.addEventListener('resize', this.$forceUpdate.bind(this));
+    //console.log('force update');
+    //setTimeout(this.$forceUpdate.bind(this), 5000);
+  }
+
+  public getFinalYTranslation(): number {
+    const parentHeight = this.$parent.$el ? this.$parent.$el.clientHeight : 0;
+    //console.log(parentHeight, this.$parent);
+    return this.translateY - parentHeight * this.activeIndex;
+  }
+
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
-    const translateY = this.translateY - window.innerHeight * this.activeIndex;
     return (
       <div
+        ref="vertical-swiper"
         onTouchstart={this.startSwiping.bind(this)}
         onTouchmove={this.moveSwiping.bind(this)}
         onTouchend={this.endSwiping.bind(this)}
@@ -114,7 +130,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
           ${Styles['vertical-swiper']}
           ${this.finishTransition ? Styles['vertical-swiper--transition'] : ''}
         `}
-        style={{ transform: `translateY(${translateY}px)` }}
+        style={{ transform: `translateY(${this.getFinalYTranslation()}px)` }}
       >
         {this.$slots.default}
       </div>
