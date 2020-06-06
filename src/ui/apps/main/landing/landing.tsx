@@ -92,8 +92,8 @@ export class LandingPage extends Vue {
         <div class={Styles['logo-container']}>
           <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login_1500px.png" alt="Pre login logo" />
           <div class={Styles['welcome']}>
-            <div class={Styles['title']}>Hi,</div>
-            <div class={Styles['desc']}>
+            <div class={Styles['welcome__title']}>Hi,</div>
+            <div class={Styles['welcome__desc']}>
               schön dich zu sehen! Bevor wir loslegen, brauchen wir zunächst deinen Standort.
             </div>
           </div>
@@ -109,54 +109,54 @@ export class LandingPage extends Vue {
             on-change={this.updateZip.bind(this)}
             on-submit={this.submitZip.bind(this)}
             icon="fa fa-search"
-            class={Styles['zip-field']}
+            class={Styles['zip-container__field']}
           />
         </div>
 
-        <div class={Styles['links']}>
-          <div class={Styles['business']}>
-            <router-link class={Styles['business__link']} to={{ name: 'BusinessLogin' }}>
+        <div class={Styles['navigation']}>
+          <div class={Styles['navigation__business']}>
+            <router-link class={Styles['navigation__business-link']} to={{ name: 'BusinessLogin' }}>
               Händlerlogin / Registrierung
             </router-link>
           </div>
 
-          <div class={Styles['other']}>
-            <router-link to="/datenschutz" class={Styles['other__link']}>
+          <div class={Styles['navigation__other']}>
+            <router-link to="/datenschutz" class={Styles['navigation__other-link']}>
               Datenschutz
             </router-link>
-            <router-link to="/nutzungsbedingungen" class={Styles['other__link']}>
+            <router-link to="/nutzungsbedingungen" class={Styles['navigation__other-link']}>
               Nutzungsbedingungen
             </router-link>
-            <router-link to="/impressum" class={Styles['other__link']}>
+            <router-link to="/impressum" class={Styles['navigation__other-link']}>
               Impressum
             </router-link>
           </div>
         </div>
 
-        <OverlayView
-          class={Styles['overlay']}
-          value={this.overlay}
-          close-button={true}
-          on-close={this.closeOverlay.bind(true)}
-        >
+        <OverlayView value={this.overlay} close-button={true} on-close={this.closeOverlay.bind(true)}>
           <div class={Styles['overlay-content']}>
-            <div class={Styles['text1']}>Leider haben sich noch keine Läden in deiner Region eingetragen.</div>
-            <div class={Styles['text2']}>
+            <div class={Styles['overlay-content__text1']}>
+              Leider haben sich noch keine Läden in deiner Region eingetragen.
+            </div>
+            <div class={Styles['overlay-content__text2']}>
               Sieh dich stattdessen doch in einer bereits aktiven Region um:
               <br />
-              <div on-click={() => this.gotoExplorer('71665')} class={`${Styles['link']} ${SharedStyles['link']}`}>
+              <div
+                on-click={() => this.gotoExplorer('71665')}
+                class={`${Styles['overlay-content__link']} ${SharedStyles['link']}`}
+              >
                 71665 - Vaihingen/Enz
               </div>
             </div>
-            <div class={Styles['text3']}>
-              Du hast einen eigenen Laden? Toll! Lass uns doch&nbsp;
+            <div class={Styles['overlay-content__text3']}>
+              Du hast einen eigenen Laden? Toll! Lass uns doch{' '}
               <a
-                class={`${Styles['link']} ${SharedStyles['link']}`}
+                class={`${Styles['overlay-content__link']} ${SharedStyles['link']}`}
                 href="https://wirvonhier.net/anmeldung-fuer-einzelhaendler/"
               >
                 hier
-              </a>
-              &nbsp; unverbindlich deinen Kontakt da :)
+              </a>{' '}
+              unverbindlich deinen Kontakt da :)
             </div>
           </div>
         </OverlayView>
