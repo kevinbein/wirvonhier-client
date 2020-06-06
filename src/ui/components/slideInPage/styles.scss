@@ -1,11 +1,12 @@
-$overlay-height: 54px;
+$overlay-height: 96px;
 $indicator-height: 30px;
 $header-height: $overlay-height + $indicator-height;
 
 .page {
   bottom: 0;
+  //max-height: 90vh;
+  height: 100%;
   left: 0;
-  max-height: 90vh;
   overflow: hidden;
   position: fixed;
   transform: translateY(100%);
@@ -14,21 +15,27 @@ $header-height: $overlay-height + $indicator-height;
   will-change: transform;
   z-index: 1;
 
+  &__overlay {
+    bottom: 0;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+
   &--active {
     transform: translateY(0);
   }
 }
 
+.slider-container {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
 .slider {
   height: $header-height;
   position: relative;
   top: 0;
-  &__overlay {
-    height: $overlay-height;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
   &__close-button {
     color: #707070;
     cursor: pointer;
