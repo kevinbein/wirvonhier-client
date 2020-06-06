@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
+import SharedStyles from '@/ui/styles/main.scss';
 import { FormInputField } from '@/ui/components';
 
 @Component
@@ -163,16 +164,19 @@ export class LandingPage extends Vue {
             <div class={Styles['text2']}>
               Sieh dich stattdessen doch in einer bereits aktiven Region um:
               <br />
-              <div on-click={() => this.gotoExplorer('71665')} class={Styles['link']}>
+              <div on-click={() => this.gotoExplorer('71665')} class={`${Styles['link']} ${SharedStyles['link']}`}>
                 71665 - Vaihingen/Enz
               </div>
             </div>
             <div class={Styles['text3']}>
-              Du hast einen eigenen Laden? Toll! Lass uns doch
-              <a class={Styles['link']} href="https://wirvonhier.net/anmeldung-fuer-einzelhaendler/">
-                &nbsp;hier&nbsp;
+              Du hast einen eigenen Laden? Toll! Lass uns doch&nbsp;
+              <a
+                class={`${Styles['link']} ${SharedStyles['link']}`}
+                href="https://wirvonhier.net/anmeldung-fuer-einzelhaendler/"
+              >
+                hier
               </a>
-              unverbindlich deinen Kontakt da :)
+              &nbsp; unverbindlich deinen Kontakt da :)
             </div>
           </div>
         </v-overlay>
