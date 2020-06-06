@@ -232,6 +232,9 @@
       }
       .description {
         font-size: 0.8rem;
+        a {
+          overflow-wrap: break-word;
+        }
       }
     }
   }
@@ -288,9 +291,10 @@
       .button {
         border-radius: 50%;
         display: inline-block;
-        height: 26px;
+        height: 50px;
         margin: 0.5rem;
-        width: 26px;
+        width: 50px;
+        font-size: 20px;
       }
       .button.brand {
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);
