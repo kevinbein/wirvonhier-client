@@ -24,9 +24,20 @@
 }
 
 .header-right-side {
-  align-self: center;
-  color: #fff;
-  font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  &__name {
+    color: $col-white;
+    font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+    font-size: $unit-font-default;
+  }
+  &__date {
+    color: $col-grey-light;
+    font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
+    font-size: $unit-font-small;
+  }
 }
 
 .story-container {
