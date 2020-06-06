@@ -1,6 +1,7 @@
 import Component from 'vue-class-component';
 import Styles from './verticalSwiper.scss';
 import { VueComponent } from '@/ui/vue-ts-component';
+import { VNode } from 'vue';
 
 type Swipe = {
   startX: number;
@@ -21,10 +22,20 @@ export class VerticalSwiper extends VueComponent<IProps> {
   private swiping: Swipe | null = null;
   public finishTransition = false;
 
+  public getSlides(): VNode[] {
+    return this.$slots.default ? this.$slots.default : [];
+  }
+
   public startSwiping(e: TouchEvent | MouseEvent): void {
     // only start swiping if the position at the top or bottom of the scrolled page
-    const activeEl = this.$slots.default[this.activeIndex].elm;
-    if (this.activeIndex === this.$slots.default.length - 1 && activeEl.scrollTop !== 0) {
+    // @ts-ignore
+    const slides = this.getSlides();
+    if (slides.length === 0 || !slides[this.activeIndex]) {
+      return;
+    }
+    const activeEl = slides[this.activeIndex].elm;
+    // @ts-ignore
+    if (this.activeIndex === slides.lengt - 1 && activeEl.scrollTop !== 0) {
       return;
     }
     const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
@@ -39,7 +50,8 @@ export class VerticalSwiper extends VueComponent<IProps> {
   }
 
   public moveSwiping(e: TouchEvent | MouseEvent): void {
-    if (this.swiping === null) {
+    const slides = this.getSlides();
+    if (this.swiping === null || slides.length === 0) {
       return;
     }
     const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
@@ -47,10 +59,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
     this.swiping.lastY = eventData.pageY;
     const diff = this.getSwipeDiff(eventData);
     // Cannot scroll up on the first page or down on the last page
-    if (
-      (diff.Y > 0 && this.activeIndex === 0) ||
-      (diff.Y < 0 && this.activeIndex + 1 === this.$slots.default?.length)
-    ) {
+    if ((diff.Y > 0 && this.activeIndex === 0) || (diff.Y < 0 && this.activeIndex + 1 === slides.length)) {
       this.translateY = 0;
       this.swiping = null;
       return;
@@ -61,21 +70,17 @@ export class VerticalSwiper extends VueComponent<IProps> {
     }
   }
 
-  public endSwiping(e: TouchEvent | MouseEvent): boolean {
-    if (this.swiping === null) {
+  public endSwiping(e: TouchEvent | MouseEvent): void {
+    const slides = this.getSlides();
+    if (this.swiping === null || slides.length === 0) {
       this.translateY = 0;
-      return true;
+      return;
     }
     const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
     const diff = this.getSwipeDiff(eventData);
     if (Math.abs(diff.Y) > 100) {
-      this.activeIndex = Math.min(
-        Math.max(0, diff.Y > 0 ? this.activeIndex - 1 : this.activeIndex + 1),
-        this.$slots.default ? this.$slots.default.length : 0,
-      );
-      if (this.$slots.default) {
-        this.$slots.default[this.activeIndex].context?.$emit('slideChange', true);
-      }
+      this.activeIndex = Math.min(Math.max(0, diff.Y > 0 ? this.activeIndex - 1 : this.activeIndex + 1), slides.length);
+      slides[this.activeIndex].context?.$emit('slideChange', true);
       this.$emit('slideChange', true);
     }
     this.swiping = null;
