@@ -113,8 +113,7 @@
       background: #fff;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      bottom: -1px;
-      box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+      bottom: -5px;
       height: 5px;
       left: 0;
       position: absolute;
@@ -123,12 +122,14 @@
       .arrow-container {
         bottom: 5px;
         box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+        height: 100%;
         left: 50%;
-        position: absolute;
+        position: sticky;
+        width: 100%;
         z-index: 1000;
         .arrow {
           background: #fff;
-          position: relative;
+          position: sticky;
         }
         .arrow::after,
         .arrow::before {
