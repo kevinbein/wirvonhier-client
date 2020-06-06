@@ -18,6 +18,7 @@ $col-red: hsl(0, 88%, 32%);
 $col-red-dark: hsl(0, 80%, 25%);
 $col-grey: hsl(0, 0%, 53%);
 $col-grey-light: hsl(0, 0%, 91%);
+$col-overlay: hsla(0, 0%, 0%, 0.9);
 
 $col-input-background: inherit;
 $col-input-label: $col-primary;
@@ -50,6 +51,7 @@ $unit-font-default: 1rem; //                      = 1.0 rem
 $unit-font-title: 1.4 * $unit-font-default; //    = 1.4 rem
 $unit-font-subtitle: 1.15 * $unit-font-default; // = 1.15 rem
 $unit-font-input: $unit-font-default; //          = 1.0 rem
+$unit-font-icon: 2 * $unit-font-default;
 
 // FONT
 %font-title {
