@@ -35,7 +35,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
     }
     const activeEl = slides[this.activeIndex].elm;
     // @ts-ignore
-    if (this.activeIndex === slides.lengt - 1 && activeEl.scrollTop !== 0) {
+    if (this.activeIndex === slides.length - 1 && activeEl.scrollTop !== 0) {
       return;
     }
     const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
