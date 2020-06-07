@@ -311,8 +311,8 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
             </div>
           </VerticalSlide>
           <VerticalSlide class={Styles['profile']}>
-            {this.currentBusiness && this.profileVisible && (
-              <ProfilePage
+            {this.currentBusiness && (
+              /*this.profileVisible &&*/ <ProfilePage
                 profile={this.currentBusiness}
                 on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
               ></ProfilePage>
