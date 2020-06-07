@@ -101,12 +101,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
     const diff = this.getSwipeDiff(eventData);
     if (Math.abs(diff.Y) > 100) {
       this.activeIndex = Math.min(Math.max(0, diff.Y > 0 ? this.activeIndex - 1 : this.activeIndex + 1), slides.length);
-      slides[this.activeIndex].context?.$emit('slideChange', true);
-      this.$emit('slideChange', true);
-      setTimeout(() => {
-        slides[this.activeIndex].context?.$emit('slideChangeTransitionEnd', true);
-        this.$emit('slideChangeTransitionEnd', true);
-      }, this.transitionDuration);
+      this.emitSlideChangeEvents();
     }
     this.swiping = null;
     this.translateY = 0;
@@ -125,13 +120,20 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public slidePrev(): void {
     this.activeIndex = Math.max(0, this.activeIndex - 1);
-    this.$emit('slideChange', true);
+    this.emitSlideChangeEvents();
   }
 
   public slideTo(index: number | undefined, _duration = 0): void {
     this.activeIndex =
       index === undefined || index < 0 || !this.$slots.default || index >= this.$slots.default.length ? 0 : index;
+    this.emitSlideChangeEvents();
+  }
+
+  private emitSlideChangeEvents(): void {
     this.$emit('slideChange', true);
+    setTimeout(() => {
+      this.$emit('slideChangeTransitionEnd', true);
+    }, this.transitionDuration);
   }
 
   public mounted(): void {

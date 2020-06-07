@@ -83,7 +83,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
 
       // stop previous story video
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const currentStory: any = this.$refs['story-' + swiper.activeIndex];
+      const currentStory: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
       currentStory?.$emit('hideStory');
 
       // console.log('Update background to #ffffff by going to profile');
@@ -97,6 +97,9 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const currentStory: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
+      currentStory?.$emit('showStory');
       // console.log('Update background to #000000 by going to explorer');
       document.body.style.background = '#000000';
     }
