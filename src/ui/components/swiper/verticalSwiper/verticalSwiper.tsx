@@ -11,12 +11,28 @@ type Swipe = {
   startTime: number;
 };
 
+type Spacer = {
+  height: number;
+  color: string;
+};
+
 interface IProps {
   class?: string;
   ref?: string;
+  spacer?: Spacer | null;
 }
-@Component({})
+@Component({
+  name: 'VerticalSwiper',
+  props: {
+    spacer: {
+      type: Object,
+      default: null,
+    },
+  },
+})
 export class VerticalSwiper extends VueComponent<IProps> {
+  public spacer?: Spacer | null;
+
   public translateY = 0;
   public activeIndex = 0;
   private swiping: Swipe | null = null;
@@ -26,11 +42,15 @@ export class VerticalSwiper extends VueComponent<IProps> {
     return this.$slots.default ? this.$slots.default : [];
   }
 
+  get spacerCount(): number {
+    return this.getSlides().length - 1;
+  }
+
   public startSwiping(e: TouchEvent | MouseEvent): void {
     // only start swiping if the position at the top or bottom of the scrolled page
     // @ts-ignore
     const slides = this.getSlides();
-    if (slides.length === 0 || !slides[this.activeIndex]) {
+    if (!slides[this.activeIndex]) {
       return;
     }
     const activeEl = slides[this.activeIndex].elm;
@@ -51,10 +71,10 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public moveSwiping(e: TouchEvent | MouseEvent): void {
     const slides = this.getSlides();
-    if (this.swiping === null || slides.length === 0) {
+    const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
+    if (this.swiping === null) {
       return;
     }
-    const eventData = e instanceof MouseEvent ? e : e.changedTouches[0];
     this.swiping.lastX = eventData.pageX;
     this.swiping.lastY = eventData.pageY;
     const diff = this.getSwipeDiff(eventData);
@@ -72,7 +92,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public endSwiping(e: TouchEvent | MouseEvent): void {
     const slides = this.getSlides();
-    if (this.swiping === null || slides.length === 0) {
+    if (this.swiping === null) {
       this.translateY = 0;
       return;
     }
@@ -117,8 +137,8 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public getFinalYTranslation(): number {
     const parentHeight = this.$parent.$el ? this.$parent.$el.clientHeight : 0;
-    //console.log(parentHeight, this.$parent);
-    return this.translateY - parentHeight * this.activeIndex;
+    const spacerHeight = this.spacer ? this.spacer.height * this.activeIndex : 0;
+    return this.translateY - parentHeight * this.activeIndex - spacerHeight;
   }
 
   // @ts-ignore: Declared variable is not read
@@ -138,7 +158,20 @@ export class VerticalSwiper extends VueComponent<IProps> {
         `}
         style={{ transform: `translateY(${this.getFinalYTranslation()}px)` }}
       >
-        {this.$slots.default}
+        {(this.spacer !== null &&
+          this.getSlides()
+            .map((slide) => {
+              return [
+                <div
+                  class={Styles['spacer']}
+                  style={{ height: `${this.spacer?.height}px`, background: `${this.spacer?.color}` }}
+                ></div>,
+                slide,
+              ];
+            })
+            .flat()
+            .splice(1)) ||
+          this.getSlides()}
       </div>
     );
   }

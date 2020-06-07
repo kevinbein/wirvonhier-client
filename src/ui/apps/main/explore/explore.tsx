@@ -206,6 +206,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
           ref="verticalSwiper"
           on-slideChange={() => this.slideChange()}
           class={Styles['vertical-swiper']}
+          spacer={{ height: 10, color: '#000' }}
         >
           <VerticalSlide class={Styles['explorer']}>
             <swiper
