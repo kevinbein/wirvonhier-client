@@ -66,7 +66,6 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   }
 
   public businessId: string | undefined | null = null;
-  public profileVisible = false;
   public currentBusiness: Business | null = null;
   public lastExploreIndex = -1;
 
@@ -80,16 +79,18 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       if (this.$route.path != newPath) {
         this.$router.replace(newPath);
       }
-      setTimeout(() => {
-        this.profileVisible = true;
-      }, 50);
       swiper.allowTouchMove = false;
+
+      // stop previous story video
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const currentStory: any = this.$refs['story-' + swiper.activeIndex];
+      currentStory?.$emit('hideStory');
+
       // console.log('Update background to #ffffff by going to profile');
       document.body.style.background = '#ffffff';
     }
     // Opened explore page
     else {
-      this.profileVisible = false;
       this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
       swiper.allowTouchMove = true;
       const newPath = '/explore/';
@@ -125,7 +126,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     // stop previous story video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const lastVideoEl: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
-    lastVideoEl?.$emit('hideStory');
+    lastVideoEl?.$emit('hideStory', window.localStorage.lastExploreIndex);
 
     const newIndex = this.$refs.horizontalSwiper.$swiper.activeIndex;
     window.localStorage.lastExploreIndex = newIndex;
@@ -139,7 +140,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
     // start playing current video
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const videoEl: any = this.$refs['story-' + newIndex];
-    videoEl?.$emit('showStory');
+    videoEl?.$emit('showStory', newIndex);
   }
 
   public exploreControlsHidden = false;
@@ -204,14 +205,14 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
         */}
         <VerticalSwiper
           ref="verticalSwiper"
-          on-slideChange={() => this.slideChange()}
+          on-slideChangeTransitionEnd={() => this.slideChange()}
           class={Styles['vertical-swiper']}
           spacer={{ height: 10, color: '#000' }}
         >
           <VerticalSlide class={Styles['explorer']}>
             <swiper
               ref="horizontalSwiper"
-              on-slideChange={this.exploreSlideChange.bind(this)}
+              on-slideChangeTransitionEnd={this.exploreSlideChange.bind(this)}
               on-touchStart={this.hideExploreControls.bind(this)}
               on-touchEnd={this.showExploreControls.bind(this)}
               options={this.horizontalSwiperOptions}
@@ -313,7 +314,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
           </VerticalSlide>
           <VerticalSlide class={Styles['profile']}>
             {this.currentBusiness && (
-              /*this.profileVisible &&*/ <ProfilePage
+              <ProfilePage
                 profile={this.currentBusiness}
                 on-go-to-explorer={this.gotoExplorerSlide.bind(this)}
               ></ProfilePage>

@@ -37,6 +37,7 @@ export class VerticalSwiper extends VueComponent<IProps> {
   public activeIndex = 0;
   private swiping: Swipe | null = null;
   public finishTransition = false;
+  public transitionDuration = 370;
 
   public getSlides(): VNode[] {
     return this.$slots.default ? this.$slots.default : [];
@@ -102,6 +103,10 @@ export class VerticalSwiper extends VueComponent<IProps> {
       this.activeIndex = Math.min(Math.max(0, diff.Y > 0 ? this.activeIndex - 1 : this.activeIndex + 1), slides.length);
       slides[this.activeIndex].context?.$emit('slideChange', true);
       this.$emit('slideChange', true);
+      setTimeout(() => {
+        slides[this.activeIndex].context?.$emit('slideChangeTransitionEnd', true);
+        this.$emit('slideChangeTransitionEnd', true);
+      }, this.transitionDuration);
     }
     this.swiping = null;
     this.translateY = 0;
