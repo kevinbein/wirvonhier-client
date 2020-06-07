@@ -159,18 +159,18 @@ export class VerticalSwiper extends VueComponent<IProps> {
         style={{ transform: `translateY(${this.getFinalYTranslation()}px)` }}
       >
         {(this.spacer !== null &&
-          this.getSlides()
-            .map((slide) => {
-              return [
-                <div
-                  class={Styles['spacer']}
-                  style={{ height: `${this.spacer?.height}px`, background: `${this.spacer?.color}` }}
-                ></div>,
-                slide,
-              ];
-            })
-            .flat()
-            .splice(1)) ||
+          this.getSlides().map((slide, index) => {
+            if (index === 0) {
+              return slide;
+            }
+            return [
+              <div
+                class={Styles['spacer']}
+                style={{ height: `${this.spacer?.height}px`, background: `${this.spacer?.color}` }}
+              ></div>,
+              slide,
+            ];
+          })) ||
           this.getSlides()}
       </div>
     );
