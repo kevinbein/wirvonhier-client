@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "org.wirvonhier.app",
+      "sha256_cert_fingerprints": [
+        "5C:47:B3:F9:51:02:82:08:9F:7D:00:EB:68:A2:3B:48:D2:A1:59:FF:E8:1D:F2:8A:DB:D8:62:C2:15:59:56:56"
+      ]
+    }
+  }
+]

@@ -111,8 +111,10 @@ export class FormInputField extends VueComponent<IProps> {
   }
 
   public created(): void {
-    if (this.value !== '') {
+    if (this.value !== '' || this.autofocus == true) {
       this.hasFocus = true;
+    } else {
+      this.hasFocus = false;
     }
   }
 
