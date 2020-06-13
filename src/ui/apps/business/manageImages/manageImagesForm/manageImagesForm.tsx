@@ -194,12 +194,14 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
 
   public update(options: IFormInputs): void {
     const { key, value } = options;
+    const dateTimeStr = new Date().toLocaleString();
     if (key === 'file' && value instanceof FileList) {
       const { isCover, isLogo, isProfile, isStory } = this.formData;
       if (!isCover && !isLogo && !isProfile && !isStory) {
         this.formData.isCover = true;
       }
-      this.$set(this.formData, 'title', value[0].name);
+      //this.$set(this.formData, 'title', value[0].name);
+      this.$set(this.formData, 'title', `Cover - ${dateTimeStr}`);
       const reader = new FileReader();
       reader.onload = () => {
         this.$set(this.formData, 'src', reader.result);
@@ -209,14 +211,17 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
       this.$set(this.formData, 'isCover', true);
       this.$set(this.formData, 'isLogo', false);
       this.$set(this.formData, 'isStory', false);
+      this.$set(this.formData, 'title', `Cover - ${dateTimeStr}`);
     } else if (options.key === 'isLogo') {
       this.$set(this.formData, 'isLogo', true);
       this.$set(this.formData, 'isCover', false);
       this.$set(this.formData, 'isStory', false);
+      this.$set(this.formData, 'title', `Logo - ${dateTimeStr}`);
     } else if (options.key === 'isStory') {
       this.$set(this.formData, 'isStory', true);
       this.$set(this.formData, 'isLogo', false);
       this.$set(this.formData, 'isCover', false);
+      this.$set(this.formData, 'title', `Story - ${dateTimeStr}`);
     } else {
       this.$set(this.formData, key, value);
     }
@@ -321,12 +326,12 @@ export class ManageImagesForm extends VueComponent<IProps, IRefs> {
               <h3 class={`${SharedStyles['text--primary']} ${Styles['form-hints__title']}`}>
                 Achte bitte auf folgendes:
               </h3>
-              <div class={Styles['form-hints__left']}>
+              <div class={Styles['form-hints__top']}>
                 <b>Cover-Bilder</b>
                 <span>Format: 16:9</span>
                 <span>Auflösung: 1000x900 Pixel</span>
               </div>
-              <div class={Styles['form-hints__right']}>
+              <div class={Styles['form-hints__bottom']}>
                 <b>Story-Bilder</b>
                 <span>Format: 9:16</span>
                 <span>Auflösung: 1000x1600 Pixel</span>

@@ -65,7 +65,9 @@ export class BusinessUploadVideo extends Vue {
   public update(options: IFormInputs): void {
     const { key, value } = options;
     if (key === 'file' && value instanceof FileList) {
-      this.$set(this.formData, 'title', value[0].name);
+      //this.$set(this.formData, 'title', value[0].name);
+      const dateTimeStr = new Date().toLocaleString();
+      this.$set(this.formData, 'title', `Story - ${dateTimeStr}`);
       this.$set(this.formData, 'file', value[0]);
       const reader = new FileReader();
       reader.onload = () => {

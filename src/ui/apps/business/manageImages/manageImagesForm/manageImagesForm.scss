@@ -42,17 +42,15 @@
     margin-bottom: 0.5 * $unit-font-default;
     text-align: center;
   }
-  &__left {
-    border-right: 1px solid $col-primary;
+  &__top {
     display: flex;
     flex-direction: column;
     margin: auto 0;
-    padding-right: 0.5 * $unit-font-default;
   }
-  &__right {
+  &__bottom {
     display: flex;
     flex-direction: column;
     margin: auto 0;
-    padding-left: 0.5 * $unit-font-default;
+    padding-top: 0.5 * $unit-font-default;
   }
 }
