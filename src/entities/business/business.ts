@@ -229,7 +229,7 @@ export class Business implements IBusinessData {
     imagesAndVideos.sort((story1: Image | Video, story2: Image | Video) => {
       const time1 = new Date(story1.modifiedAt).getTime();
       const time2 = new Date(story2.modifiedAt).getTime();
-      return time1 - time2;
+      return time2 - time1;
     });
     return imagesAndVideos;
   }
