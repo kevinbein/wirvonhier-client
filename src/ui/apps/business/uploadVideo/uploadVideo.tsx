@@ -178,6 +178,13 @@ export class BusinessUploadVideo extends Vue {
                 <span>
                   <b>Länge:</b> max. 20 Sekunden
                 </span>
+                <br />
+                <span>
+                  <b>
+                    Das Video wird nach dem Upload zuerst von unseren Servern verarbeitet. Es kann daher bis zu 1 Stunde
+                    dauern, bis das Video als Story den Nutzern angezeigt wird!
+                  </b>
+                </span>
               </div>
             </div>
           )}
