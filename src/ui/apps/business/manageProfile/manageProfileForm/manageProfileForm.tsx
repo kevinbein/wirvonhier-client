@@ -168,6 +168,28 @@ export class ManageProfileForm extends Vue {
           value={this.business.onlineShop}
           on-change={this.update.bind(this)}
         />
+        <FormInputField
+          label="Facebook"
+          id="facebook"
+          required={true}
+          type="text"
+          autocomplete="off"
+          is-valid={this.formValidation.facebook}
+          error-messages={this.formErrors.facebook}
+          value={this.business.facebook}
+          on-change={this.update.bind(this)}
+        />
+        <FormInputField
+          label="Instagram"
+          id="instagram"
+          required={true}
+          type="text"
+          autocomplete="off"
+          is-valid={this.formValidation.instagram}
+          error-messages={this.formErrors.instagram}
+          value={this.business.instagram}
+          on-change={this.update.bind(this)}
+        />
         <h1 class={Styles['manage-profile__section-title']}>Zahlungsmethoden</h1>
         <FormCheckbox
           label="Barzahlung"
