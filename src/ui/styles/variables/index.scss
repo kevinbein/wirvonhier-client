@@ -42,6 +42,7 @@ $unit-checkbox: 24px;
 $unit-base: 64px; // better would be grid system with % values
 $unit-base-half: $unit-base / 2; //               = 32 px
 $unit-base-quarter: $unit-base / 4; //            = 16 px
+$unit-base-eigth: $unit-base / 8; //            = 8 px
 
 %unit-page-padding {
   padding: $unit-base $unit-base-quarter ($unit-base * 1.5);
