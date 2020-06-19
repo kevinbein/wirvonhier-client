@@ -16,6 +16,7 @@
     background-color: inherit;
     color: $col-input-label;
     font-size: $unit-font-input;
+    left: 0;
     padding: 0 $dist-input-padding;
     position: absolute;
     transition: font-size 0.2s ease-in-out;
@@ -24,6 +25,10 @@
       color: $col-input-label;
       font-size: 0.8 * $unit-font-input;
       padding-left: 0;
+    }
+
+    &--disabled {
+      color: $col-input-inactive-text;
     }
   }
 
@@ -46,6 +51,11 @@
       border-bottom: 1px solid $col-input-underline-focus;
       margin-bottom: -1.5 * $unit-font-input;
       margin-top: $unit-font-input + $dist-input-padding;
+    }
+
+    &--disabled {
+      border-bottom: 1px solid $col-input-inactive-border;
+      color: $col-input-inactive-text;
     }
 
     &:focus {

@@ -4,9 +4,17 @@ interface CssExports {
   'button': string;
   'explore-controls': string;
   'explore-controls__left-arrow': string;
+  'explore-controls__left-arrow--hidden': string;
+  'explore-controls__left-arrow--visible': string;
   'explore-controls__middle-arrow': string;
+  'explore-controls__middle-arrow--hidden': string;
+  'explore-controls__middle-arrow--visible': string;
   'explore-controls__right-arrow': string;
+  'explore-controls__right-arrow--hidden': string;
+  'explore-controls__right-arrow--visible': string;
   'explore-controls__text': string;
+  'explore-controls__text--hidden': string;
+  'explore-controls__text--visible': string;
   'explore-page': string;
   'explore-page__background': string;
   'explorer': string;
@@ -18,6 +26,7 @@ interface CssExports {
   'last-page__text': string;
   'profile': string;
   'profile__placeholder': string;
+  'pulseExploreControls': string;
   'settings': string;
   'settings-navigation': string;
   'settings-navigation__item': string;

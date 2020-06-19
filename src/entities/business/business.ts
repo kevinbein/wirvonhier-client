@@ -158,14 +158,26 @@ export class Business implements IBusinessData {
     const storyImages: Image[] = data.media.stories.images.map((image) => new Image(image));
     const storyVideos: Video[] = data.media.stories.videos.map((video) => new Video(video));
     this.media = {
-      logo: data.media.logo !== null ? new Image(data.media.logo) : null,
+      logo: data.media.logo && data.media.logo !== null ? new Image(data.media.logo) : null,
       cover: {
-        image: data.media.cover.image !== null ? new Image(data.media.cover.image) : null,
-        video: data.media.cover.video !== null ? new Video(data.media.cover.video) : null,
+        image:
+          data.media.cover && data.media.cover.image && data.media.cover.image !== null
+            ? new Image(data.media.cover.image)
+            : null,
+        video:
+          data.media.cover && data.media.cover.video && data.media.cover.video !== null
+            ? new Video(data.media.cover.video)
+            : null,
       },
       profile: {
-        image: data.media.profile.image !== null ? new Image(data.media.profile.image) : null,
-        video: data.media.profile.video !== null ? new Video(data.media.profile.video) : null,
+        image:
+          data.media.profile && data.media.profile.image && data.media.profile.image !== null
+            ? new Image(data.media.profile.image)
+            : null,
+        video:
+          data.media.profile && data.media.profile.video && data.media.profile.video !== null
+            ? new Video(data.media.profile.video)
+            : null,
       },
       stories: {
         images: storyImages,
@@ -217,7 +229,7 @@ export class Business implements IBusinessData {
     imagesAndVideos.sort((story1: Image | Video, story2: Image | Video) => {
       const time1 = new Date(story1.modifiedAt).getTime();
       const time2 = new Date(story2.modifiedAt).getTime();
-      return time1 - time2;
+      return time2 - time1;
     });
     return imagesAndVideos;
   }

@@ -16,193 +16,116 @@
   height: 100%;
   position: relative;
   width: 100%;
-
-  .logo {
-    bottom: 0%;
-    display: block;
-    margin: 0;
-    max-height: 100%;
-    max-width: 100%;
-    padding: 2rem 0;
-    position: absolute;
-    right: 0;
+}
+.logo {
+  bottom: 0%;
+  display: block;
+  margin: 0;
+  max-height: 100%;
+  max-width: 100%;
+  padding: 2rem 0;
+  position: absolute;
+  right: 0;
+}
+.welcome {
+  color: #5f6daf;
+  left: 15px;
+  position: absolute;
+  top: 15px;
+  &__title {
+    font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
+    font-weight: bold;
   }
-
-  .welcome {
-    color: #5f6daf;
-    left: 15px;
-    position: absolute;
-    top: 15px;
-    .title {
-      font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-      font-weight: bold;
-    }
-    .desc {
-      font-size: calc(1.2rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-    }
+  &__desc {
+    font-size: calc(1.2rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
   }
 }
 
-.button-container {
+.zip-container {
   display: block;
   margin-top: 0;
+  padding: ($unit-base / 4);
   text-align: center;
   width: 100%;
-
-  .caption {
-    display: block;
-    font-size: 2rem;
-    margin-top: -10rem;
-    position: relative;
-    text-align: center;
-    width: 100%;
-  }
-
-  .text-input {
-    background-color: #fff;
-    border-radius: 15px;
-    height: 4rem;
-    margin: auto;
-    padding: 1.1rem;
-    position: relative;
-    text-align: center;
-    width: 100%;
-    width: 18rem;
-  }
-
-  .text-input input[type='number'] {/* stylelint-disable-line */
-    appearance: textfield;
-  }
-  .text-input input::-webkit-outer-spin-button,
-  .text-input input::-webkit-inner-spin-button {
-    appearance: none;
-  }
-
-  .search-icon {
-    border-radius: 15px;
-    bottom: 4rem;
-    color: $col-primary !important;
-    font-size: 1.1rem;
-    left: 7rem;
-    padding: 17px;
-  }
-
-  .location-button {
-    background-color: #fff;
-    border-radius: 15px;
-    //color: $col-primary !important;
-    color: #999 !important;
-    font-weight: bold;
-    height: 4rem;
-    margin: auto;
-    padding: 1.1rem;
-    position: relative;
-    text-align: center;
-    text-decoration: line-through;
-    width: 100%;
-    width: 18rem;
-    .text,
-    .icon {
-      vertical-align: middle;
-    }
-    .icon,
-    a {
-      //color: #5f6daf;
-      color: #999 !important;
-      font-size: 1.1rem;
-      text-decoration: none;
-    }
-  }
-  .other-text {
-    color: #5f6daf;
-    font-size: 1rem;
-    margin: 1rem 0;
-    mix-blend-mode: color-dodge;
-    position: relative;
-    text-align: center;
-    width: 100%;
-  }
-
   @media (max-height: 800px) {
-    bottom: 10vh;
+    bottom: 15vh;
     position: absolute;
   }
   @media (min-height: 801px) {
     bottom: 20vh;
     position: absolute;
   }
+  &__field {
+    background-color: #fff;
+    border-radius: 15px;
+    //height: 83px;
+    margin: auto;
+    padding: ($unit-base / 4);
+    position: relative;
+    text-align: left;
+    width: 18rem;
+    label {
+      background: transparent;
+      margin-left: 15px;
+    }
+  }
 }
 
-.links {
+.navigation {
   bottom: 15px;
+  line-height: 1.5rem;
   position: absolute;
   text-align: center;
   width: 100%;
-  .business {
+  &__business {
     visibility: visible;
-    &__link {
-      background-color: #fff;
-      border-radius: 5px;
-      color: $col-primary;
-      font-size: 0.9rem;
-      padding: 5px;
-    }
   }
-  .other {
+  &__business-link {
+    background-color: #fff;
+    border-radius: 5px;
+    color: $col-primary;
+    font-size: 0.9rem;
+    padding: 5px;
+  }
+  &__other {
     width: 100%;
-    &__link {
-      color: $col-primary;
-      cursor: pointer;
-      display: inline-block;
-      font-size: 0.7rem;
-      width: 33%;
-    }
-    &__link:hover {
-      text-decoration: underline;
-    }
+  }
+  &__other-link {
+    color: $col-primary;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.7rem;
+    width: 33%;
+  }
+  &__other-link:hover {
+    text-decoration: underline;
   }
 }
 
-.overlay {
-  .close-button {
-    height: 20px;
-    padding-right: 15px;
+.overlay-content {
+  height: 100%;
+  margin: 15px;
+  text-align: center;
+  &__text1,
+  &__text2,
+  &__text3 {
+    display: inline-block;
+    margin: 1rem 0;
     position: relative;
-    text-align: right;
     width: 100%;
-    .icon {
-      font-size: 2rem;
-    }
   }
-  .overlay-content {
-    height: 100%;
-    margin: 15px;
-    text-align: center;
-    .text1,
-    .text2,
-    .text3 {
-      display: inline-block;
-      margin: 1rem 0;
-      position: relative;
-      width: 100%;
-    }
-    .text1 {
-      font-size: 1.2rem;
-      visibility: visible;
-    }
-    .text2 {
-      font-size: 1.5rem;
-      .link {
-        color: $col-secondary;
-        display: block;
-      }
-    }
-    .text3 {
-      font-size: 1rem;
-      .link {
-        color: $col-secondary;
-        visibility: visible;
-      }
-    }
+  &__text1 {
+    font-size: 1.2rem;
+    visibility: visible;
+  }
+  &__text2 {
+    display: block;
+    font-size: 1.5rem;
+  }
+  &__text3 {
+    font-size: 1rem;
+  }
+  &__link {
+    color: $col-secondary;
   }
 }

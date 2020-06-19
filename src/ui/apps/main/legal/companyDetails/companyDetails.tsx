@@ -18,9 +18,11 @@ export class CompanyDetailsPage extends Vue {
             <v-icon class={Styles['icon']}>fa-times</v-icon>
           </div>
         </div>
-        <p>Diese Webseite (www.wirvonhier.net) ist erst vor kurzem, am 24.03.2020, veröffentlicht worden.</p>
+        <p class={Styles['legal__paragraph']}>
+          Diese Webseite (www.wirvonhier.net) ist erst vor kurzem, am 24.03.2020, veröffentlicht worden.
+        </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Diese Seite wurde von einem Team veröffentlicht, welches sich bei dem #wirvsvirus „Hackathon“ der
           Bundesregierung gebildet hat. Wikipedia erklärt einen Hackathon wie folgt: „Ein Hackathon (Wortschöpfung aus
           „Hack“ und „Marathon“) ist eine kollaborative Soft- und Hardwareentwicklungs­veranstaltung. Alternative
@@ -29,12 +31,12 @@ export class CompanyDetailsPage extends Vue {
           allgemeiner, Lösungen für gegebene Probleme zu finden.“ (https://de.wikipedia.org/wiki/Hackathon)
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Weitere Informationen hinsichtlich des Hackathon der Bundesregierung #wirvsvirus, erhalten Sie unter
           https://wirvsvirushackathon.org/.
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Hinweis: Zu einem Hackathon gehört, dass man sich als Team sehr kurzfristig zusammenfindet und dann, mit hohem
           Energieeinsatz und unter Zeitdruck Lösungen schafft, für die Softwareenwicklungs- und Projektteams sonst ein
           vielfaches der Zeit benötigen würden. In einer solchen Situation ist Perfektionismus weder gewünscht noch
@@ -46,16 +48,16 @@ export class CompanyDetailsPage extends Vue {
           dieses noch experimentellen Angebots die
         </p>
 
-        <p>wirvonhier GbR (in Gründung)</p>
+        <p class={Styles['legal__paragraph']}>wirvonhier GbR (in Gründung)</p>
 
         <div class={Styles['legal__section']}>Kontakt</div>
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Telefon: in Bearbeitung
           <br />
           E-Mail: office@wirvonhier.net
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
           <br />
           Vorname, Name
@@ -66,27 +68,27 @@ export class CompanyDetailsPage extends Vue {
         </p>
 
         <div class={Styles['legal__section']}>EU-Streitschlichtung</div>
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
           https://ec.europa.eu/consumers/odr.
         </p>
-        <p>Unsere E-Mail-Adresse finden Sie oben im legal.</p>
+        <p class={Styles['legal__paragraph']}>Unsere E-Mail-Adresse finden Sie oben im legal.</p>
 
-        <div class={Styles['legal__section']}>Verbraucherstreitbeilegung/Universalschlichtungsstelle</div>
-        <p>
+        <div class={Styles['legal__section']}>Verbraucherstreitbeilegung / Universalschlichtungsstelle</div>
+        <p class={Styles['legal__paragraph']}>
           Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
           teilzunehmen.
         </p>
 
         <div class={Styles['legal__section']}>Haftung für Inhalte</div>
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen
           Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet,
           übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf
           eine rechtswidrige Tätigkeit hinweisen.
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen
           bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer
           konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese
@@ -94,7 +96,7 @@ export class CompanyDetailsPage extends Vue {
         </p>
 
         <div class={Styles['legal__section']}>Haftung für Links</div>
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb
           können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist
           stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum
@@ -102,28 +104,28 @@ export class CompanyDetailsPage extends Vue {
           Verlinkung nicht erkennbar.
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer
           Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend
           entfernen.
         </p>
 
         <div class={Styles['legal__section']}>Urheberrecht</div>
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen
           Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen
           des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und
           Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
         </p>
 
-        <p>
+        <p class={Styles['legal__paragraph']}>
           Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter
           beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine
           Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von
           Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
         </p>
 
-        <p>Quelle (größtenteils): e-recht24.de</p>
+        <p class={Styles['legal__paragraph']}>Quelle (größtenteils): e-recht24.de</p>
       </div>
     );
   }

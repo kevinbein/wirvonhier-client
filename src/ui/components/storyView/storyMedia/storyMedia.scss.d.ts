@@ -2,9 +2,10 @@
 // Please do not change this file!
 interface CssExports {
   'story': string;
-  'story__container--video': string;
   'story__message': string;
   'story__video': string;
+  'story__video-container': string;
+  'story__video-controls': string;
   'video-play-button-container': string;
   'video-play-button-container__button': string;
 }

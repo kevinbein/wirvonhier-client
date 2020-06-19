@@ -1,15 +1,19 @@
 .story {
   display: inline-block;
-  height: 100%;
+  height: calc(calc(var(--vh, 1vh) * 100));
   position: relative;
   width: 100%;
 
-  &__container {
-    &--video {
-      height: 100%;
-      width: 100%;
-      z-index: 1;
-    }
+  &__video-container {
+    height: 100%;
+    width: 100%;
+  }
+  &__video-controls {
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
   }
   &__video {
     height: 100%;

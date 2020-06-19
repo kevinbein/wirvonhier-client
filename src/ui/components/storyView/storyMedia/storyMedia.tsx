@@ -27,6 +27,7 @@ interface IRefs {
     startVideo: {
       immediate: true,
       handler(this: StoryMedia, value: boolean) {
+        //console.log('watch startVideo', value);
         if (value) this.playVideo();
         if (!value) this.stopVideo();
       },
@@ -74,16 +75,45 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
     this.videoEl.currentTime = 0;
   }
 
+  public clickVideo(): void {
+    //console.log('clickVideo', this.startVideo);
+    this.playVideo();
+  }
+
+  public mouseTouchDown(): void {
+    //console.log('mouseTouchDown', this.startVideo);
+    this.pauseVideo();
+    if (!this.startVideo) {
+      this.stopVideo();
+    }
+  }
+
+  public mouseTouchUp(): void {
+    //console.log('mouseTouchUp', this.startVideo);
+    if (this.startVideo) {
+      this.playVideo();
+    }
+  }
+
+  public documentBlur(): void {
+    this.pauseVideo();
+  }
+
   public initVideo(): void {
     if (this.story.type === MEDIATYPE.VIDEO) {
       this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
       const videoControlsEl = this.$refs.storyVideoControls;
 
-      videoControlsEl.addEventListener('click', this.playVideo.bind(this)); //this.pauseVideo());
-      videoControlsEl.addEventListener('mousedown', this.pauseVideo.bind(this));
-      videoControlsEl.addEventListener('touchdown', this.pauseVideo.bind(this));
-      videoControlsEl.addEventListener('mouseup', this.playVideo.bind(this));
-      videoControlsEl.addEventListener('touchup', this.playVideo.bind(this));
+      //videoControlsEl.addEventListener('click', this.clickVideo.bind(this)); //this.pauseVideo());
+      videoControlsEl.addEventListener('mousedown', this.mouseTouchDown.bind(this));
+      videoControlsEl.addEventListener('touchdown', this.mouseTouchDown.bind(this));
+      videoControlsEl.addEventListener('touchstart', this.mouseTouchUp.bind(this));
+      videoControlsEl.addEventListener('mouseup', this.mouseTouchUp.bind(this));
+      videoControlsEl.addEventListener('touchend', this.mouseTouchUp.bind(this));
+      //videoControlsEl.addEventListener('mouseove', this.pauseVideo.bind(this));
+      //videoControlsEl.addEventListener('touchmove', this.pauseVideo.bind(this));
+      //document.addEventListener('visibilitychange', this.pageLosesFocus.bind(this));
+      window.addEventListener('blur', this.documentBlur.bind(this));
     }
   }
 
@@ -111,22 +141,25 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       }
       case MEDIATYPE.VIDEO: {
         return (
-          <div class={Styles['story__container--video']} ref="storyVideoControls">
-            {(this.videoUrl && (
+          <div class={Styles['story__video-container']}>
+            {(this.videoUrl && [
               <video
                 ref="story-video"
                 class={Styles['story__video']}
-                muted={false}
+                playsinline={true}
+                autoplay={true}
+                preload={true}
                 onLoadeddata={this.initVideo.bind(this)}
               >
                 <source src={this.videoUrl} type="video/mp4" />
-              </video>
-            )) ||
+              </video>,
+              <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
+            ]) ||
               (this.videoError && <div class={Styles['story__message']}>{this.videoError}</div>) || (
-                <div class={Styles['story__message']}>Loading video ...</div>
+                <div class={Styles['story__message']}></div>
               )}
             {this.showVideoPlayButton && (
-              <div class={Styles['video-play-button-container']}>
+              <div class={Styles['video-play-button-container']} onClick={this.clickVideo.bind(this)}>
                 <div class={Styles['video-play-button-container__button']}>
                   <i class="fa fa-play"></i>
                 </div>

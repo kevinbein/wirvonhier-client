@@ -113,8 +113,7 @@
       background: #fff;
       border-top-left-radius: 5px;
       border-top-right-radius: 5px;
-      bottom: -1px;
-      box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+      bottom: -5px;
       height: 5px;
       left: 0;
       position: absolute;
@@ -123,12 +122,14 @@
       .arrow-container {
         bottom: 5px;
         box-shadow: 0 -5px 5px rgba(0, 0, 0, 0.1);
+        height: 100%;
         left: 50%;
-        position: absolute;
+        position: sticky;
+        width: 100%;
         z-index: 1000;
         .arrow {
           background: #fff;
-          position: relative;
+          position: sticky;
         }
         .arrow::after,
         .arrow::before {
@@ -197,6 +198,7 @@
 
     .profile-image {
       border-radius: 15px;
+      pointer-events: none;
       width: 100%;
       img {
         border-radius: inherit;
@@ -232,6 +234,9 @@
       }
       .description {
         font-size: 0.8rem;
+        a {
+          overflow-wrap: break-word;
+        }
       }
     }
   }
@@ -254,6 +259,7 @@
           margin-bottom: 10px;
           .image {
             height: 40px;
+            pointer-events: none;
             width: 40px;
           }
         }
@@ -288,9 +294,10 @@
       .button {
         border-radius: 50%;
         display: inline-block;
-        height: 26px;
+        font-size: 20px;
+        height: 50px;
         margin: 0.5rem;
-        width: 26px;
+        width: 50px;
       }
       .button.brand {
         box-shadow: 1px 0 5px rgba(0, 0, 0, 0.2);

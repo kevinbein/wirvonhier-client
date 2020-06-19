@@ -1,7 +1,9 @@
 .legal {
   color: #707070;
-  font-size: 0.8rem;
-  padding: 15px;
+  font-size: $unit-font-small;
+  height: 100%;
+  overflow: auto;
+  padding: $unit-base-quarter;
   &__title {
     font-size: 1.2rem;
   }
@@ -11,8 +13,12 @@
   &__subsection {
     font-size: 1rem;
   }
+  &__paragraph {
+    margin: $unit-base-eigth 0;
+    word-break: break-word;
+  }
   .close-button {
-    margin: 15px;
+    margin: $unit-base-quarter;
     position: absolute;
     right: 0;
     top: 0;

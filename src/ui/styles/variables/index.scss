@@ -18,12 +18,15 @@ $col-red: hsl(0, 88%, 32%);
 $col-red-dark: hsl(0, 80%, 25%);
 $col-grey: hsl(0, 0%, 53%);
 $col-grey-light: hsl(0, 0%, 91%);
+$col-overlay: hsla(0, 0%, 0%, 0.9);
 
 $col-input-background: inherit;
 $col-input-label: $col-primary;
 $col-input-label-focus: $col-primary-dark;
 $col-input-underline: hsl(0, 0%, 78%);
 $col-input-underline-focus: $col-primary-dark;
+$col-input-inactive-text: $col-grey;
+$col-input-inactive-border: hsl(0, 0%, 78%);
 
 // SHADOWS
 $elevation-1: 0 1px 3px hsla(0, 0%, 0%, 0.15); // Background-elements (e.g. Image)
@@ -39,15 +42,18 @@ $unit-checkbox: 24px;
 $unit-base: 64px; // better would be grid system with % values
 $unit-base-half: $unit-base / 2; //               = 32 px
 $unit-base-quarter: $unit-base / 4; //            = 16 px
+$unit-base-eigth: $unit-base / 8; //            = 8 px
 
 %unit-page-padding {
   padding: $unit-base $unit-base-quarter ($unit-base * 1.5);
 }
 
-$unit-font-default: 1rem; //                      = 1.0 rem
-$unit-font-title: 1.4 * $unit-font-default; //    = 1.4 rem
+$unit-font-default: 1rem; // = 1.0 rem
+$unit-font-title: 1.4 * $unit-font-default; // = 1.4 rem
 $unit-font-subtitle: 1.15 * $unit-font-default; // = 1.15 rem
-$unit-font-input: $unit-font-default; //          = 1.0 rem
+$unit-font-small: 0.8 * $unit-font-default; // = 0.8 rem
+$unit-font-input: $unit-font-default; // = 1.0 rem
+$unit-font-icon: 2 * $unit-font-default; // = 2.0 rem
 
 // FONT
 %font-title {

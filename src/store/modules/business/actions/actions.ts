@@ -32,8 +32,14 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
   }
 
   async getBusinessesByZIP(options: IFindNearBusinessesOptions): Promise<void> {
-    const businesses = await this.store.$services.business.findNear(options);
-    this.commit('SET_BUSINESSES', businesses);
+    if (!options.zip) return;
+    const businesses = await this.store.$services.business.loadBusinessesAndUpdateDB({
+      filters: [{ name: 'address.zip', value: options.zip }],
+    });
+    this.commit(
+      'SET_BUSINESSES',
+      businesses.map((business) => new Business(business)),
+    );
   }
 
   /**

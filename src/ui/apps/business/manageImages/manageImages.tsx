@@ -251,7 +251,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
       .map((image) => {
         const img = { ...image };
         img.src = this.files[img.publicId];
-        img.publicId = img.publicId.split('/')[1];
+        img.publicId = img.publicId.includes('/') ? img.publicId.split('/')[1] : img.publicId;
         return img;
       });
 
@@ -307,7 +307,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
                 on-toggle-remove={this.toggleImageMarkedForDelete.bind(this)}
                 on-edit={this.editImage.bind(this)}
               />
-              <h3 class={Styles['manage-images__section-title']}>Cover-Bild</h3>
+              <h3 class={Styles['manage-images__section-title']}>Titelbild</h3>
               <ImageThumbnail
                 image={this.newCoverThumbnail}
                 width={this.coverWidth}

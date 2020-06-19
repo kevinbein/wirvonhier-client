@@ -257,7 +257,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
               <div class={Styles['button-row']}>
                 {this.profile.phone && (
                   <a class={Styles['button'] + ' ' + Styles['brand']} href={'tel:' + this.profile.phone}>
-                    <v-icon class={Styles['icon']}>fa-phone</v-icon>
+                    <i class={`${Styles['icon']} fa fa-phone`}></i>
                   </a>
                 )}
                 {this.profile.facebook && (
@@ -265,7 +265,7 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                     class={Styles['button'] + ' ' + Styles['brand']}
                     href={'https://www.facebook.com/' + this.profile.facebook.trim()}
                   >
-                    <v-icon class={Styles['icon']}>fab fa-facebook-f</v-icon>
+                    <i class={`${Styles['icon']} fab fa-facebook-f`}></i>
                   </a>
                 )}
                 {this.profile.instagram && (
@@ -273,12 +273,12 @@ export class ProfilePage extends VueComponent<{ profile: Business }> {
                     class={Styles['button'] + ' ' + Styles['brand']}
                     href={'https://www.instagram.com/' + this.profile.instagram.trim()}
                   >
-                    <v-icon class={Styles['icon']}>fab fa-instagram</v-icon>
+                    <i class={`${Styles['icon']} fab fa-instagram`}></i>
                   </a>
                 )}
                 {this.profile.whatsApp && (
                   <a class={Styles['button'] + ' ' + Styles['brand']} href={'https://wa.me/' + this.whatsAppApiNumber}>
-                    <v-icon class={Styles['icon']}>fab fa-whatsapp</v-icon>
+                    <i class={`${Styles['icon']} fab fa-whatsapp`}></i>
                   </a>
                 )}
               </div>

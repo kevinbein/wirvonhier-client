@@ -1,3 +1,77 @@
+$input-button-size: 30px;
+$input-button-font-size: 24px;
+
 .text-input {
   width: 100%;
+  &--with-button[type='text'],
+  &--with-button[type='number'] {
+    width: calc(100% - #{$input-button-size});
+  }
+}
+
+/* .input-container {
+  margin-top: $unit-font-input + $dist-input-padding;
+  &--active {
+    margin-top: 0;
+  }
+} */
+
+.input-container {
+  border: 0;
+  &--active {
+    transition: border 0.2s ease-in;
+  }
+  &__input-field {
+    border-bottom: 1px solid $col-input-inactive-border;
+    font-family: inherit;
+    font-size: $unit-font-input;
+    line-height: 1.5 * $unit-font-input;
+    transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    &:focus {
+      outline: none;
+    }
+    &--active {
+      border-bottom: 1px solid $col-input-underline-focus;
+    }
+    &--disabled {
+      border-bottom: 1px solid $col-input-inactive-border;
+      color: $col-input-inactive-text;
+    }
+  }
+  &__button {
+    border-bottom: 1px solid $col-input-inactive-border;
+    display: flex;
+    height: $input-button-size;
+    padding: 0 $dist-input-padding;
+    transition: margin-top 0.2s ease-in-out, margin-bottom 0.2s ease-in-out;
+    width: $input-button-size;
+    &:focus {
+      outline: 0;
+    }
+    &--active {
+      background-color: inherit;
+      border-bottom: 1px solid $col-input-underline-focus;
+      display: flex;
+      margin-bottom: -1.5 * $unit-font-input;
+      margin-top: $unit-font-input + $dist-input-padding;
+    }
+    &--disabled {
+      border-bottom: 1px solid $col-input-inactive-border;
+    }
+  }
+  &__button-icon {
+    color: transparent;
+    font-size: $input-button-font-size;
+    line-height: 1.5 * $unit-font-input;
+    transition: color 0.2s ease-in-out;
+    &--active {
+      color: $col-primary;
+    }
+    &--disabled {
+      color: $col-input-inactive-text;
+    }
+    &--inactive--disabled {
+      color: transparent;
+    }
+  }
 }
