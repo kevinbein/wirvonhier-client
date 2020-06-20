@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { IStore } from '@/store';
 import { DB, HTTP } from '..';
+import { Bounds, IAutocompleteOptions, IAddressComponent } from './googleMapsService.types';
 
 export class GoogleMapsService {
   // @ts-ignore
@@ -12,7 +14,7 @@ export class GoogleMapsService {
   private db: DB;
   // Your personal API key.
   // Get it here: https://console.cloud.google.com/google/maps-apis
-  private API_KEY = 'AIzaSyCWAaBJsI1234TI18PITVy7p0Qb6ht123';
+  private API_KEY = 'AIzaSyAXjnxppLHFrUJ12rsVOdJWihTavWHWyMA';
   private CALLBACK_NAME: 'gmapsCallback' = 'gmapsCallback';
   private initialized!: boolean;
   private resolveInitPromise!: (value?: unknown) => void;
@@ -21,6 +23,7 @@ export class GoogleMapsService {
     this.resolveInitPromise = resolve;
     this.rejectInitPromise = reject;
   });
+  private autoComplete: google.maps.places.Autocomplete | null = null;
 
   constructor(store: IStore, worker: unknown, db: DB, http: HTTP) {
     this.worker = worker;
@@ -49,5 +52,64 @@ export class GoogleMapsService {
     script.onerror = this.rejectInitPromise;
     document.querySelector('head')?.appendChild(script);
     return this.initPromise;
+  }
+
+  public async initAutocomplete(options: IAutocompleteOptions): Promise<void> {
+    if (!google) return; // TODO: Handle error case -> GoogleMaps API not initialized
+    const { fields, bounds, callback, input } = options;
+    this.autoComplete = new google.maps.places.Autocomplete(input, { types: ['geocode'] });
+    this.autoComplete.setFields(fields);
+    await this.setBounds(bounds);
+    this.autoComplete.addListener('place_changed', () => {
+      const addressComponents: IAddressComponent[] | undefined = this.autoComplete?.getPlace().address_components;
+      if (callback) callback(addressComponents);
+    });
+  }
+
+  public destroyAutocomplete(): void {
+    this.autoComplete?.unbindAll();
+    this.autoComplete = null;
+  }
+
+  public geocode(address: string): void | Promise<[number, number]> {
+    if (!google) return;
+    const geoCoder = new google.maps.Geocoder();
+    return new Promise((resolve) => {
+      geoCoder.geocode({ address }, (results, status: string) => {
+        if (status === 'OK') {
+          const { location } = results[0].geometry;
+          resolve([location.lng(), location.lat()]);
+        } else {
+          console.log('Geocoding failed: ', status);
+        }
+      });
+    });
+  }
+
+  private async setBounds(bounds?: Bounds): Promise<void> {
+    if (!bounds) return;
+    if (bounds === 'currentPosition') {
+      return new Promise((resolve) => {
+        if (!navigator.geolocation) {
+          console.log('No geolocation in navigator');
+          resolve();
+        }
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const geolocation = {
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+            };
+            const circle = new google.maps.Circle({ center: geolocation, radius: pos.coords.accuracy });
+            this.autoComplete?.setBounds(circle.getBounds());
+            resolve();
+          },
+          (e) => {
+            console.log(e);
+            resolve();
+          },
+        );
+      });
+    }
   }
 }
