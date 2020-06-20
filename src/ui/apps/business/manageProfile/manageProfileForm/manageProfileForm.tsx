@@ -1,39 +1,61 @@
 import Component from 'vue-class-component';
 import Vue from 'vue';
-import { BusinessModule } from '@/store';
-import { Business } from '@/entities';
+import {
+  BusinessModule,
+  LocationModule,
+  LocationGetters,
+  LocationState,
+  LocationMutations,
+  LocationActions,
+} from '@/store';
+import { Business, IBusinessData, IPaymentMethod, IAddress } from '@/entities';
+import set from 'lodash/set';
 import Styles from './manageProfileForm.scss';
 import { WVHButton, FormTextArea, FormInputField, FormCheckbox, Loader } from '@/ui/components';
 import { POSITION, TYPE } from 'vue-toastification';
 import { AddressForm } from './addressForm';
+import { FormModule } from '@/store/modules/form';
+import { formComponents } from './formComponents';
+import { registerModule, Context, Module } from 'vuex-smart-module';
 
 @Component({
   name: 'ManageProfileForm',
+  components: {
+    FormInputField,
+    FormTextArea,
+    FormCheckbox,
+  },
 })
 export class ManageProfileForm extends Vue {
+  public formId = 'manage-profile-form';
   public businessModule = BusinessModule.context(this.$store);
+  public locationModule!: Context<Module<LocationState, LocationGetters, LocationMutations, LocationActions>>;
+  public formModule = FormModule.context(this.$store);
   public formErrors: { [key: string]: string[] } = {};
   public formValidation: { [key: string]: boolean } = {};
   public isLoading = false;
-
+  public formComponents = formComponents;
   public get business(): Business {
     return this.businessModule.state.selectedBusiness as Business;
   }
 
-  public async update({ key, value }: { key: string; value: string }): Promise<void> {
-    const { field, status } = await this.businessModule.actions.update({
-      business: this.business,
-      key,
-      value,
-    });
-    if (status === 'failure') {
-      this.formErrors[field.key] = field.errors;
-      this.formValidation[field.key] = false;
+  public get formData(): IBusinessData {
+    return this.formModule.getters.getFormById(this.formId) || {};
+  }
+
+  public created(): void {
+    this.formModule.actions.update({ formId: this.formId, data: this.business.getData() });
+    if (!this.$store.state.Location) {
+      registerModule(this.$store, ['Location'], 'Location/', LocationModule);
     }
-    if (status === 'success') {
-      this.formErrors[field.key] = [];
-      this.formValidation[field.key] = true;
-    }
+    this.locationModule = LocationModule.context(this.$store);
+  }
+
+  public update({ key, value }: { key: string; value: string }): void {
+    // save in form
+    const data = { ...this.formData };
+    set(data, key, value);
+    this.formModule.actions.update({ formId: this.formId, data });
     this.$forceUpdate();
   }
 
@@ -41,7 +63,16 @@ export class ManageProfileForm extends Vue {
     e.preventDefault();
     if (this.isLoading) return;
     this.isLoading = true;
-    const success = await this.businessModule.actions.save(this.business);
+
+    if (this.isAddressChanged()) {
+      const data = { ...this.formData };
+      const coordinates = await this.locationModule.actions.geocode(data.address);
+      set(data, 'location', coordinates);
+      this.formModule.actions.update({ formId: this.formId, data });
+    }
+
+    const success = await this.businessModule.actions.save(this.formData);
+
     if (success) {
       this.businessModule.actions.selectBusiness(this.business._id as string);
       this.$toast(`Profil wurde erfolgreich aktualisiert.`, {
@@ -64,158 +95,64 @@ export class ManageProfileForm extends Vue {
   public render(h): Vue.VNode {
     return (
       <form class={Styles['manage-profile__form']}>
-        <FormInputField
-          label="Geschäftname"
-          autocomplete="off"
-          id="name"
-          required={true}
-          is-valid={this.formValidation.name}
-          error-messages={this.formErrors.name}
-          value={this.business.name}
-          on-change={this.update.bind(this)}
+        {this.formComponents.sectionOne.map(({ component, ...comp }) => (
+          <component
+            key={comp.id}
+            id={comp.id}
+            label={comp.label}
+            attributes={comp.attributes}
+            is-valid={this.formValidation[comp.id]}
+            error-messages={this.formErrors[comp.id]}
+            value={this.formData[comp.id as keyof IBusinessData] || ''}
+            on-change={this.update.bind(this)}
+          />
+        ))}
+
+        <AddressForm
+          formValidation={this.formValidation}
+          formErrors={this.formErrors}
+          on-update={this.update.bind(this)}
         />
-        <FormTextArea
-          label="Beschreiben Sie Ihr Angebot"
-          id="description"
-          max-length={300}
-          required={true}
-          is-valid={this.formValidation.description}
-          error-messages={this.formErrors.description}
-          value={this.business.description}
-          on-change={this.update.bind(this)}
-        />
-        <AddressForm formValidation={this.formValidation.address} formErrors={this.formErrors.address} />
+
         <h1 class={Styles['manage-profile__section-title']}>Kontaktdaten</h1>
-        <FormInputField
-          label="Telefon"
-          id="phone"
-          required={true}
-          autocomplete="tel"
-          is-valid={this.formValidation.phone}
-          error-messages={this.formErrors.phone}
-          value={this.business.phone}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="E-Mail"
-          id="email"
-          required={true}
-          type="email"
-          autocomplete="tel"
-          is-valid={this.formValidation.email}
-          error-messages={this.formErrors.email}
-          value={this.business.email}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Website"
-          id="website"
-          required={true}
-          type="text"
-          autocomplete="url"
-          is-valid={this.formValidation.email}
-          error-messages={this.formErrors.email}
-          value={this.business.website}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Online-Shop"
-          id="onlineShop"
-          required={true}
-          type="text"
-          autocomplete="url"
-          is-valid={this.formValidation.onlineShop}
-          error-messages={this.formErrors.onlineShop}
-          value={this.business.onlineShop}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Facebook"
-          id="facebook"
-          required={true}
-          type="text"
-          autocomplete="off"
-          is-valid={this.formValidation.facebook}
-          error-messages={this.formErrors.facebook}
-          value={this.business.facebook}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Instagram"
-          id="instagram"
-          required={true}
-          type="text"
-          autocomplete="off"
-          is-valid={this.formValidation.instagram}
-          error-messages={this.formErrors.instagram}
-          value={this.business.instagram}
-          on-change={this.update.bind(this)}
-        />
+        {this.formComponents.sectionContact.map(({ component, ...comp }) => (
+          <component
+            key={comp.id}
+            id={comp.id}
+            label={comp.label}
+            attributes={comp.attributes}
+            is-valid={this.formValidation[comp.id]}
+            error-messages={this.formErrors[comp.id]}
+            value={this.formData[comp.id as keyof IBusinessData] || ''}
+            on-change={this.update.bind(this)}
+          />
+        ))}
+
         <h1 class={Styles['manage-profile__section-title']}>Zahlungsmethoden</h1>
-        <FormCheckbox
-          label="Barzahlung"
-          id="cash"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('cash')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Paypal"
-          id="paypal"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('paypal')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Rechnung"
-          id="invoice"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('invoice')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Nachname"
-          id="ondelivery"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('ondelivery')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Sofortüberweisung"
-          id="sofort"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('sofort')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Lastschrift (SEPA)"
-          id="sepa"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('sepa')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Amazon Payment"
-          id="amazon"
-          error-messages={this.formErrors.paymentMethods}
-          value={this.business.paymentMethods.includes('amazon')}
-          on-change={this.update.bind(this)}
-        />
+        {this.formComponents.sectionPaymentMethods.map(({ component, ...comp }) => (
+          <component
+            key={comp.id}
+            id={comp.id}
+            label={comp.label}
+            is-valid={this.formValidation[comp.id]}
+            error-messages={this.formErrors[comp.id]}
+            value={!!this.formData.paymentMethods?.includes(comp.id as IPaymentMethod)}
+            on-change={this.update.bind(this)}
+          />
+        ))}
+
         <h1 class={Styles['manage-profile__section-title']}>Lieferung</h1>
-        <FormCheckbox
-          label="Lieferung"
-          id="delivery"
-          error-messages={this.formErrors.delivery}
-          value={this.business.delivery.includes('delivery')}
-          on-change={this.update.bind(this)}
-        />
-        <FormCheckbox
-          label="Abholung"
-          id="collect"
-          error-messages={this.formErrors.delivery}
-          value={this.business.delivery.includes('collect')}
-          on-change={this.update.bind(this)}
-        />
+        {this.formComponents.sectionDelivery.map(({ component, ...comp }) => (
+          <component
+            key={comp.id}
+            id={comp.id}
+            label={comp.label}
+            is-valid={this.formValidation[comp.id]}
+            error-messages={this.formErrors[comp.id]}
+            value={!!this.formData.delivery?.includes(comp.id)}
+            on-change={this.update.bind(this)}
+          />
+        ))}
         <div class={Styles['manage-profile__submit']}>
           <WVHButton primary on-click={this.submit.bind(this)}>
             {this.isLoading ? <Loader color="#fff" size={24} /> : 'SPEICHERN'}
@@ -223,5 +160,12 @@ export class ManageProfileForm extends Vue {
         </div>
       </form>
     );
+  }
+
+  private isAddressChanged(): boolean {
+    const newAddress = this.formData.address;
+    if (!newAddress) return false;
+    const oldAddress = this.business.address;
+    return (Object.keys(newAddress) as Array<keyof IAddress>).every((key) => newAddress[key] === oldAddress[key]);
   }
 }

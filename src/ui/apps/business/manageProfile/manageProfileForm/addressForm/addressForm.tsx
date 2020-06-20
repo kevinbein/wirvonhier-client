@@ -1,90 +1,121 @@
 import Component from 'vue-class-component';
-import { registerModule, Context, Module } from 'vuex-smart-module';
-import { LocationModule, LocationState, LocationGetters, LocationMutations, LocationActions } from '@/store/modules';
+import { LocationModule, BusinessModule } from '@/store/modules';
 import { VueComponent } from '@/ui/vue-ts-component';
 import { FormInputField } from '@/ui';
 import Styles from '../manageProfileForm.scss';
-import { noop } from 'vuex-smart-module/lib/utils';
+import { Business } from '@/entities';
+import { IAddressComponent } from '@/services/googleMaps';
 
-interface IComponentForm {
-  streetNumber: 'short_name';
-  route: 'long_name';
-  locality: 'long_name';
-  administrativeAreaLevel1: 'short_name';
-  country: 'long_name';
-  postalCode: 'short_name';
+interface IAddressElement {
+  label: string;
+  id: keyof Business['address'];
+  compType: string;
+  attributes: { [key: string]: unknown };
 }
+
 interface IProps {
   formValidation: { [key: string]: boolean };
   formErrors: { [key: string]: string[] };
 }
 interface IRefs {
-  [key: string]: FormInputField;
-  autocomplete: FormInputField;
+  [key: string]: HTMLDivElement | FormInputField;
+  addressForm: HTMLDivElement;
+  street: FormInputField;
 }
 
 @Component({
   name: 'AddressForm',
+  props: {
+    formValidation: {
+      type: Object,
+      required: true,
+    },
+    formErrors: {
+      type: Object,
+      required: true,
+    },
+  },
 })
 export class AddressForm extends VueComponent<IProps, IRefs> {
+  public businessModule = BusinessModule.context(this.$store);
   public formValidation!: { [key: string]: boolean };
   public formErrors!: { [key: string]: string[] };
-  public locationModule!: Context<Module<LocationState, LocationGetters, LocationMutations, LocationActions>>;
-  public addressString = '';
-  public autoComplete!: google.maps.places.Autocomplete;
-  public componentForm: IComponentForm = {
-    streetNumber: 'short_name',
-    route: 'long_name',
-    locality: 'long_name',
-    administrativeAreaLevel1: 'short_name',
-    country: 'long_name',
-    postalCode: 'short_name',
-  };
+  public locationModule = LocationModule.context(this.$store);
+  public addressFormElements: IAddressElement[] = [
+    {
+      label: 'Straße',
+      id: 'street',
+      compType: 'route',
+      attributes: {
+        autocomplete: 'address-line1',
+        required: true,
+      },
+    },
+    {
+      label: 'Hausnummer',
+      id: 'streetNumber',
+      compType: 'street_number',
+      attributes: {
+        autocomplete: 'address-line2',
+        required: true,
+        disabled: true,
+      },
+    },
+    {
+      label: 'Postleitzahl',
+      id: 'zip',
+      compType: 'postal_code',
+      attributes: {
+        autocomplete: 'postal-code',
+        required: true,
+        disabled: true,
+      },
+    },
+    {
+      label: 'Ort',
+      id: 'city',
+      compType: 'locality',
+      attributes: {
+        autocomplete: 'address-level2',
+        required: true,
+        disabled: true,
+      },
+    },
+  ];
 
-  public async created(): Promise<void> {
-    registerModule(this.$store, ['Location'], 'Location/', LocationModule);
-    this.locationModule = LocationModule.context(this.$store);
+  public get business(): Business {
+    return this.businessModule.state.selectedBusiness as Business;
+  }
+
+  public async mounted(): Promise<void> {
     await this.locationModule.actions.initGoogleMaps();
-    this.initAutocomplete();
+    await this.locationModule.actions.initAutocomplete({
+      bounds: 'currentPosition',
+      fields: ['address_component'],
+      input: this.$refs.street.input,
+      callback: this.onPlaceChange.bind(this),
+    });
   }
 
-  public geolocate(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        const circle = new google.maps.Circle({ center: geolocation, radius: position.coords.accuracy });
-        this.autoComplete.setBounds(circle.getBounds());
-      });
-    }
-  }
-  private fillInAddress(): void {
-    // Get the place details from the autocomplete object.
-    const place = this.autoComplete.getPlace();
-
-    for (const component in this.componentForm) {
-      this.$refs[component].input.value = '';
-      this.$refs[component].input.disabled = false;
-    }
-
-    // Get each component of the address from the place details,
-    // and then fill-in the corresponding field on the form.
-    if (!place.address_components) return;
-    for (let i = 0; i < place.address_components.length; i++) {
-      const addressType = place.address_components[i].types[0] as keyof IComponentForm;
-      if (this.componentForm[addressType]) {
-        const val = place.address_components[i][this.componentForm[addressType]];
-        this.$refs[addressType].input.value = val;
-      }
-    }
+  public beforeDestroy(): void {
+    this.locationModule.actions.destroyAutocomplete();
   }
 
-  private initAutocomplete(): void {
-    this.autoComplete = new google.maps.places.Autocomplete(this.$refs.autocomplete.input, { types: ['geocode'] });
-    this.autoComplete.setFields(['address_component']);
-    this.autoComplete.addListener('place_changed', this.fillInAddress.bind(this));
+  public onPlaceChange(addComponents?: IAddressComponent[]): void {
+    this.addressFormElements.forEach((el) => {
+      el.attributes.disabled = false;
+      this.update({ key: el.id, value: '' });
+    });
+    if (!addComponents) return;
+    addComponents.forEach((comp) => {
+      const input = this.addressFormElements.find((el) => el.compType === comp.types[0]);
+      if (!input) return;
+      this.update({ key: input.id, value: comp.long_name });
+    });
+  }
+
+  public update({ key, value }: { key: string; value: string }): void {
+    this.$emit('update', { key: `address.${key}`, value });
   }
 
   // @ts-ignore
@@ -92,56 +123,18 @@ export class AddressForm extends VueComponent<IProps, IRefs> {
     return (
       <div style="display: contents">
         <h1 class={Styles['manage-profile__section-title']}>Adresse</h1>
-        <FormInputField
-          ref="autocomplete"
-          label="Straße"
-          autocomplete="address-line1"
-          id="address.street"
-          is-valid={true}
-          error-messages={[]}
-          value={this.addressString}
-          on-change={noop}
-        />
-        <FormInputField
-          label="Straße"
-          autocomplete="address-line1"
-          id="address.street"
-          required={true}
-          is-valid={this.formValidation.streetNumber}
-          error-messages={this.formErrors.street}
-          value={this.business.address.street}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Hausnummer"
-          id="address.streetNumber"
-          required={true}
-          autocomplete="address-line2"
-          is-valid={this.formValidation.streetNumber}
-          error-messages={this.formErrors.streetNumber}
-          value={this.business.address.streetNumber}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Postleitzahl"
-          id="address.zip"
-          required={true}
-          autocomplete="postal-code"
-          is-valid={this.formValidation.zip}
-          error-messages={this.formErrors.zip}
-          value={this.business.address.zip}
-          on-change={this.update.bind(this)}
-        />
-        <FormInputField
-          label="Ort"
-          id="address.city"
-          required={true}
-          autocomplete="address-level2"
-          is-valid={this.formValidation.city}
-          error-messages={this.formErrors.city}
-          value={this.business.address.city}
-          on-change={this.update.bind(this)}
-        />
+        {this.addressFormElements.map((item) => (
+          <FormInputField
+            ref={item.id}
+            label={item.label}
+            id={item.id}
+            attributes={item.attributes}
+            is-valid={this.formValidation[item.id]}
+            error-messages={this.formErrors[item.id]}
+            value={this.business.address[item.id]}
+            on-change={this.update.bind(this)}
+          />
+        ))}
       </div>
     );
   }
