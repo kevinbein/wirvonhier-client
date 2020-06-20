@@ -229,7 +229,7 @@ export class BusinessManageImages extends VueComponent<{}, IRefs> {
       console.log('Some UpdateError: ', updateRes);
     }
 
-    const success = await this.businessModule.actions.save(updateRes.business);
+    const success = await this.businessModule.actions.save(updateRes.business.getData());
     if (!success) {
       // eslint-disable-next-line no-console
       console.log('Some SaveError');
