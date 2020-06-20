@@ -189,12 +189,11 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
 
   public slideIn = false;
 
-  mounted(): void {
-    const zip = '71665';
+  public created(): void {
+    const zip = this.$route.query.zip as string;
+    if (!zip) this.$router.push({ name: 'Landing' });
     const radius = 100420; // in meters
     this.loadBusinesses(zip, radius);
-    //document.body.style.background = '#000000';
-
     this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
   }
 
@@ -355,7 +354,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
               </router-link>
             </li>
             <li class={Styles['settings-navigation__item']}>
-              <router-link to="/business" class={Styles['settings-navigation__link']}>
+              <router-link to={{ name: 'BusinessDashboard' }} class={Styles['settings-navigation__link']}>
                 Händlerlogin
               </router-link>
             </li>

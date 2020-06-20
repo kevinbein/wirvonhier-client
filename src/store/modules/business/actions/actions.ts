@@ -72,13 +72,13 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     return { business: updatedBusiness, field, status };
   }
 
-  async save(business: Business): Promise<boolean> {
-    const success = await this.store.$services.business.save(business.getData());
+  async save(businessData: IBusinessData): Promise<boolean> {
+    const success = await this.store.$services.business.save(businessData);
     if (!success) {
       // TODO|PWA: If we are offline, update Business later.
       return false;
     }
-    await this.actions.loadAndPersistBusinessDataById([business._id as string]);
+    await this.actions.loadAndPersistBusinessDataById([businessData._id as string]);
     return true;
   }
 

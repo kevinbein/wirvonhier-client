@@ -19,4 +19,8 @@ declare global {
       $props: {};
     }
   }
+
+  interface Window {
+    gmapsCallback: () => void;
+  }
 }
