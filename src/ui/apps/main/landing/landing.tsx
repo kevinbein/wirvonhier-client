@@ -12,9 +12,9 @@ export class LandingPage extends Vue {
     const zip = window.localStorage.zip ? window.localStorage.zip : '';
     if (forceZip !== undefined) {
       window.localStorage.zip = forceZip;
-      this.$router.push('explore');
-    } else if (zip.length == 5 && zip == '71665') {
-      this.$router.push('explore');
+      this.$router.push({ name: 'Explore', query: { zip } });
+    } else if (zip.length == 5) {
+      this.$router.push({ name: 'Explore', query: { zip } });
     } else {
       this.overlay = true;
     }
@@ -101,8 +101,10 @@ export class LandingPage extends Vue {
             label="POSTLEITZAHL EINGEBEN"
             id="title"
             type="text"
-            autofocus={true}
-            autocomplete="off"
+            attributes={{
+              autofocus: true,
+              autocomplete: 'postal-code',
+            }}
             value={this.zip}
             on-change={this.updateZip.bind(this)}
             on-submit={this.submitZip.bind(this)}
@@ -113,7 +115,7 @@ export class LandingPage extends Vue {
 
         <div class={Styles['navigation']}>
           <div class={Styles['navigation__business']}>
-            <router-link class={Styles['navigation__business-link']} to={{ name: 'BusinessLogin' }}>
+            <router-link class={Styles['navigation__business-link']} to={{ name: 'BusinessDashboard' }}>
               Händlerlogin / Registrierung
             </router-link>
           </div>
