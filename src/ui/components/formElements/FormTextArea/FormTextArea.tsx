@@ -61,6 +61,10 @@ export class FormTextArea extends VueComponent<IProps> {
   public required!: boolean;
   public hasFocus = false;
 
+  public get hasValue(): boolean {
+    return typeof this.value !== 'undefined' && this.value !== '';
+  }
+
   public get currentLength(): number {
     return this.value.length;
   }
@@ -70,11 +74,11 @@ export class FormTextArea extends VueComponent<IProps> {
     this.$emit('change', { key: this.id, value });
   }
 
-  public changeFocus(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    if (!target.value) {
-      this.hasFocus = !this.hasFocus;
-    }
+  public onFocus(): void {
+    this.hasFocus = true;
+  }
+  public onBlur(): void {
+    this.hasFocus = false;
   }
 
   public created(): void {
@@ -88,7 +92,7 @@ export class FormTextArea extends VueComponent<IProps> {
     return (
       <div
         class={
-          this.hasFocus
+          this.hasFocus || this.hasValue
             ? `${Styles['textarea__wrapper']} ${Styles['textarea__wrapper--active']} ${SharedStyles['input__wrapper']} ${SharedStyles['input__wrapper--active']}`
             : `${Styles['textarea__wrapper']} ${SharedStyles['input__wrapper']}`
         }
@@ -96,7 +100,7 @@ export class FormTextArea extends VueComponent<IProps> {
         <label
           for={this.id}
           class={
-            this.hasFocus
+            this.hasFocus || this.hasValue
               ? `${Styles['textarea']} ${SharedStyles['input__label']} ${SharedStyles['input__label--active']}`
               : `${Styles['textarea']} ${SharedStyles['input__label']}`
           }
@@ -107,18 +111,18 @@ export class FormTextArea extends VueComponent<IProps> {
           id={this.id}
           placeholder={this.placeholder}
           class={
-            this.hasFocus
+            this.hasFocus || this.hasValue
               ? `${Styles['textarea__field']} ${SharedStyles['input__field']} ${SharedStyles['input__field--active']}`
               : `${Styles['textarea__field']} ${SharedStyles['input__field']}`
           }
           value={this.value}
           on-input={this.update.bind(this)}
-          on-focus={this.changeFocus.bind(this)}
-          on-blur={this.changeFocus.bind(this)}
+          on-focus={this.onFocus.bind(this)}
+          on-blur={this.onBlur.bind(this)}
         />
         <div
           class={
-            this.hasFocus
+            this.hasFocus || this.hasValue
               ? `${Styles['textarea__inner']} ${SharedStyles['input__inner']} ${SharedStyles['input__inner--active']}`
               : `${Styles['textarea__inner']} ${SharedStyles['input__inner']}`
           }

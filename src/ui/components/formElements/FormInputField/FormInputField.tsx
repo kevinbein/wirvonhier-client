@@ -20,6 +20,14 @@ interface IProps {
   icon?: string;
   disabled?: boolean;
   class?: string;
+  attributes?: {
+    placeholder?: string;
+    autocomplete?: string;
+    required?: boolean;
+    autofocus?: boolean;
+    type?: InputType;
+    disabled?: boolean;
+  };
 }
 
 interface IRefs {
@@ -82,6 +90,10 @@ interface IRefs {
       type: Boolean,
       default: false,
     },
+    attributes: {
+      type: Object,
+      default: () => ({}),
+    },
   },
 })
 export class FormInputField extends VueComponent<IProps, IRefs> {
@@ -96,8 +108,17 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
   public type!: InputType;
   public autofocus!: boolean;
   public hasFocus = false;
+  public input!: HTMLInputElement;
   public icon!: string;
   public disabled!: boolean;
+  public attributes!: IProps['attributes'];
+
+  public get hasValue(): boolean {
+    return typeof this.value !== 'undefined' && this.value !== '';
+  }
+  public mounted(): void {
+    this.input = this.$refs.input;
+  }
 
   public update(e: Event): void {
     const value = (e.target as HTMLInputElement).value;
@@ -109,11 +130,11 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
     this.$emit('submit', { key: this.id, value });
   }
 
-  public changeFocus(e: Event): void {
-    const target = e.target as HTMLInputElement;
-    if (!target.value) {
-      this.hasFocus = !this.hasFocus;
-    }
+  public onFocus(): void {
+    this.hasFocus = true;
+  }
+  public onBlur(): void {
+    this.hasFocus = false;
   }
 
   public created(): void {
@@ -131,7 +152,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
         class={`
           ${Styles['text-input']} 
           ${SharedStyles['input__wrapper']} 
-          ${this.hasFocus ? SharedStyles['input__wrapper--active'] : ''}
+          ${this.hasFocus || this.hasValue ? SharedStyles['input__wrapper--active'] : ''}
           ${this.icon ? Styles['text-input--with-button'] : ''}
         `}
       >
@@ -140,8 +161,8 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
           class={`
             ${Styles['text-input']} 
             ${SharedStyles['input__label']} 
-            ${this.hasFocus ? SharedStyles['input__label--active'] : ''}
-            ${this.disabled ? SharedStyles['input__label--disabled'] : ''}
+            ${this.hasFocus || this.hasValue ? SharedStyles['input__label--active'] : ''}
+            ${this.attributes?.disabled ? SharedStyles['input__label--disabled'] : ''}
           `}
         >
           {this.label}
@@ -151,48 +172,54 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
             class={`
               ${SharedStyles['input__field']} 
               ${Styles['input-container']} 
-              ${this.hasFocus ? Styles['input-container--active'] : ''}
+              ${this.hasFocus || this.hasValue ? Styles['input-container--active'] : ''}
             `}
           >
             <input
+              ref="input"
               id={this.id}
               type={this.type}
-              autocomplete={this.autocomplete}
-              placeholder={this.placeholder}
-              autofocus={this.autofocus}
-              disabled={this.disabled}
+              attrs={this.attributes}
               class={`
                 ${Styles['text-input']}
                 ${Styles['input-container__input-field']}
                 ${
-                  this.hasFocus
+                  this.hasFocus || this.hasValue
                     ? `${Styles['input-container__input-field--active']} ${SharedStyles['input__field--active']}`
                     : ''
                 }
                 ${this.icon ? Styles['text-input--with-button'] : ''}  
-                ${this.disabled && this.hasFocus ? Styles['input-container__input-field--disabled'] : ''}
+                ${
+                  this.attributes?.disabled && (this.hasFocus || this.hasValue)
+                    ? Styles['input-container__input-field--disabled']
+                    : ''
+                }
               `}
               value={this.value}
               on-input={this.update.bind(this)}
-              on-focus={this.changeFocus.bind(this)}
-              on-blur={this.changeFocus.bind(this)}
+              on-focus={this.onFocus.bind(this)}
+              on-blur={this.onBlur.bind(this)}
             />
             <button
               class={`
                 ${Styles['input-container__button']}
-                ${this.hasFocus ? Styles['input-container__button--active'] : ''}
-                ${this.disabled ? Styles['input-container__button--disabled'] : ''}
+                ${this.hasFocus || this.hasValue ? Styles['input-container__button--active'] : ''}
+                ${this.attributes?.disabled ? Styles['input-container__button--disabled'] : ''}
               `}
-              disabled={this.disabled}
+              disabled={this.attributes?.disabled}
               on-click={this.submit.bind(this)}
             >
               <i
                 class={`
                   ${Styles['input-container__button-icon']} 
                   ${this.icon}
-                  ${this.hasFocus ? Styles['input-container__button-icon--active'] : ''} 
-                  ${this.disabled ? Styles['input-container__button-icon--disabled'] : ''}
-                  ${!this.hasFocus && this.disabled ? Styles['input-container__button-icon--inactive--disabled'] : ''} 
+                  ${this.hasFocus || this.hasValue ? Styles['input-container__button-icon--active'] : ''} 
+                  ${this.attributes?.disabled ? Styles['input-container__button-icon--disabled'] : ''}
+                  ${
+                    (!this.hasFocus || !this.hasValue) && this.attributes?.disabled
+                      ? Styles['input-container__button-icon--inactive--disabled']
+                      : ''
+                  } 
                   ${this.icon ? Styles['text-input--with-button'] : ''}
                 `}
               ></i>
@@ -200,29 +227,30 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
           </div>
         )) || (
           <input
+            ref="input"
             id={this.id}
             type={this.type}
-            autocomplete={this.autocomplete}
-            placeholder={this.placeholder}
-            autofocus={this.autofocus}
-            disabled={this.disabled}
+            attrs={this.attributes}
+            disabled={this.attributes?.disabled}
+            required={this.attributes?.required}
+            placeholder={this.attributes?.placeholder || ''}
             class={`
               ${Styles['text-input']}
               ${SharedStyles['input__field']}
-              ${this.hasFocus ? SharedStyles['input__field--active'] : ''}
-              ${this.disabled ? SharedStyles['input__field--disabled'] : ''}
+              ${this.hasFocus || this.hasValue ? SharedStyles['input__field--active'] : ''}
+              ${this.attributes?.disabled ? SharedStyles['input__field--disabled'] : ''}
             `}
             value={this.value}
             on-input={this.update.bind(this)}
-            on-focus={this.changeFocus.bind(this)}
-            on-blur={this.changeFocus.bind(this)}
+            on-focus={this.onFocus.bind(this)}
+            on-blur={this.onBlur.bind(this)}
           />
         )}
         <div
           class={`
             ${Styles['text-input']}
             ${SharedStyles['input__inner']}
-            ${this.hasFocus ? SharedStyles['input__inner--active'] : ''}
+            ${this.hasFocus || this.hasValue ? SharedStyles['input__inner--active'] : ''}
           `}
         >
           {this.errorMessages.length > 0 && (
