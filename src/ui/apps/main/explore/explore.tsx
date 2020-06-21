@@ -24,18 +24,6 @@ interface IRefs {
   name: 'Explore',
 })
 export class ExplorePage extends VueComponent<{}, IRefs> {
-  verticalSwiperOptions = {
-    speed: 300,
-    shortSwipes: false,
-    longSwipes: true,
-    longSwipesRatio: 0.2,
-    longSwipesMs: 100,
-    resistance: true,
-    resistanceRatio: 1,
-    direction: 'vertical',
-    spaceBetween: 0,
-    //allowTouchMove: false,
-  };
   horizontalSwiperOptions = {
     speed: 300,
     shortSwipes: true,
@@ -85,9 +73,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const currentStory: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
       currentStory?.$emit('hideStory');
-
-      // console.log('Update background to #ffffff by going to profile');
-      document.body.style.background = '#ffffff';
+      document.body.style.background = '#fff';
     }
     // Opened explore page
     else {
@@ -100,8 +86,7 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const currentStory: any = this.$refs['story-' + window.localStorage.lastExploreIndex];
       currentStory?.$emit('showStory');
-      // console.log('Update background to #000000 by going to explorer');
-      document.body.style.background = '#000000';
+      document.body.style.background = '#000';
     }
   }
 
@@ -201,10 +186,6 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
   render(h): Vue.VNode {
     return (
       <div class={Styles['explore-page']}>
-        {/*ref="verticalSwiper"
-          {/*on-slideChange={() => this.slideChange()}
-          {/*options={this.verticalSwiperOptions}
-        */}
         <VerticalSwiper
           ref="verticalSwiper"
           on-slideChangeTransitionEnd={() => this.slideChange()}
@@ -337,17 +318,6 @@ export class ExplorePage extends VueComponent<{}, IRefs> {
                 Startseite
               </router-link>
             </li>
-            {/*this.currentBusiness?.website && (
-              <li class={Styles['settings-navigation__item']}>
-                <a
-                  class={Styles['settings-navigation__link']}
-                  href={this.currentBusiness?.website}
-                  alt={`Link zur Händlerseite`}
-                >
-                  Händlerseite {this.currentBusiness?.name}
-                </a>
-              </li>
-            )*/}
             <li class={Styles['settings-navigation__item']}>
               <router-link to="/map" class={Styles['settings-navigation__link']}>
                 Zur Karte
