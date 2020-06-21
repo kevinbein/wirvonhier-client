@@ -104,7 +104,7 @@ export const formComponents: IBusinessForm = {
     {
       component: 'FormCheckbox',
       id: 'ondelivery',
-      label: 'Nachname',
+      label: 'Nachnahme',
     },
     {
       component: 'FormCheckbox',
