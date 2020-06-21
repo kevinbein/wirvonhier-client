@@ -104,15 +104,10 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
       const videoControlsEl = this.$refs.storyVideoControls;
 
-      //videoControlsEl.addEventListener('click', this.clickVideo.bind(this)); //this.pauseVideo());
       videoControlsEl.addEventListener('mousedown', this.mouseTouchDown.bind(this));
-      videoControlsEl.addEventListener('touchdown', this.mouseTouchDown.bind(this));
-      videoControlsEl.addEventListener('touchstart', this.mouseTouchUp.bind(this));
+      videoControlsEl.addEventListener('touchstart', this.mouseTouchDown.bind(this));
       videoControlsEl.addEventListener('mouseup', this.mouseTouchUp.bind(this));
       videoControlsEl.addEventListener('touchend', this.mouseTouchUp.bind(this));
-      //videoControlsEl.addEventListener('mouseove', this.pauseVideo.bind(this));
-      //videoControlsEl.addEventListener('touchmove', this.pauseVideo.bind(this));
-      //document.addEventListener('visibilitychange', this.pageLosesFocus.bind(this));
       window.addEventListener('blur', this.documentBlur.bind(this));
     }
   }
@@ -147,7 +142,6 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
                 ref="story-video"
                 class={Styles['story__video']}
                 playsinline={true}
-                autoplay={true}
                 preload={true}
                 onLoadeddata={this.initVideo.bind(this)}
               >
