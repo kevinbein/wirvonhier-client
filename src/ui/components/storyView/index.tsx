@@ -12,6 +12,7 @@ interface IProps {
   ref?: string;
   storyWidth: number;
   storyHeight: number;
+  controls?: boolean;
 }
 
 interface IRefs {
@@ -29,6 +30,7 @@ interface IRefs {
     },
     storyWidth: Number,
     storyHeight: Number,
+    controls: Boolean,
   },
 })
 export class StoryView extends VueComponent<IProps, IRefs> {
@@ -37,6 +39,7 @@ export class StoryView extends VueComponent<IProps, IRefs> {
   public storyHeight!: number;
   public logoWidth = 60;
   public startVideo = false;
+  public controls!: boolean;
 
   public getUploadDateInfo(dateStr: string | undefined): string {
     if (dateStr === undefined) {
@@ -102,6 +105,7 @@ export class StoryView extends VueComponent<IProps, IRefs> {
             storyWidth={this.storyWidth}
             storyHeight={this.storyHeight}
             startVideo={this.startVideo}
+            controls={this.controls}
           />
         </div>
       </div>

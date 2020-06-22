@@ -130,7 +130,12 @@ export class BusinessStoriesPage extends Vue {
         </div>
         {this.previewStory !== null && (
           <div class={Styles['story-preview__container']}>
-            <StoryView story={this.previewStory} storyWidth={this.storyWidth} storyHeight={this.storyHeight} />
+            <StoryView
+              story={this.previewStory}
+              storyWidth={this.storyWidth}
+              storyHeight={this.storyHeight}
+              controls={true}
+            />
             <i
               on-click={() => this.closeVideoPreview()}
               class={`fa fa-times ${Styles['story-preview__close-button']}`}
@@ -145,7 +150,7 @@ export class BusinessStoriesPage extends Vue {
     if (!this.business) return;
     this.businessModule.actions.loadAndPersistBusinessDataById([this.business._id as string]);
     this.businessModule.actions.selectBusiness(this.business._id as string);
-    this.refreshId = setTimeout(this.refreshData.bind(this), 60000);
+    this.refreshId = setTimeout(this.refreshData.bind(this), 15000);
   }
 }
 

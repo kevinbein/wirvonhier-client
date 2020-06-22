@@ -8,6 +8,7 @@ interface IProps {
   storyWidth: number;
   storyHeight: number;
   startVideo: boolean;
+  controls?: boolean;
 }
 
 interface IRefs {
@@ -22,6 +23,7 @@ interface IRefs {
     storyHeight: Number,
     storyWidth: Number,
     startVideo: Boolean,
+    controls: Boolean,
   },
   watch: {
     startVideo: {
@@ -43,6 +45,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
   public showVideoPlayButton = false;
   public videoUrl: string | null = null;
   public videoError: string | null = null;
+  public controls!: boolean;
 
   private videoEl: HTMLMediaElement | null = null;
 
@@ -101,13 +104,13 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
 
   public initVideo(): void {
     if (this.story.type === MEDIATYPE.VIDEO) {
-      this.videoEl = this.$refs['story-video'] as HTMLMediaElement;
       const videoControlsEl = this.$refs.storyVideoControls;
-
-      videoControlsEl.addEventListener('mousedown', this.mouseTouchDown.bind(this));
-      videoControlsEl.addEventListener('touchstart', this.mouseTouchDown.bind(this));
-      videoControlsEl.addEventListener('mouseup', this.mouseTouchUp.bind(this));
-      videoControlsEl.addEventListener('touchend', this.mouseTouchUp.bind(this));
+      if (videoControlsEl) {
+        videoControlsEl.addEventListener('mousedown', this.mouseTouchDown.bind(this));
+        videoControlsEl.addEventListener('touchstart', this.mouseTouchDown.bind(this));
+        videoControlsEl.addEventListener('mouseup', this.mouseTouchUp.bind(this));
+        videoControlsEl.addEventListener('touchend', this.mouseTouchUp.bind(this));
+      }
       window.addEventListener('blur', this.documentBlur.bind(this));
     }
   }
@@ -137,18 +140,20 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       case MEDIATYPE.VIDEO: {
         return (
           <div class={Styles['story__video-container']}>
-            {(this.videoUrl && [
-              <video
-                ref="story-video"
-                class={Styles['story__video']}
-                playsinline={true}
-                preload={true}
-                onLoadeddata={this.initVideo.bind(this)}
-              >
-                <source src={this.videoUrl} type="video/mp4" />
-              </video>,
-              <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
-            ]) ||
+            {(this.videoUrl &&
+              [
+                <video
+                  ref="story-video"
+                  class={Styles['story__video']}
+                  playsinline={true}
+                  preload={true}
+                  controls={this.controls}
+                  onLoadeddata={this.initVideo.bind(this)}
+                >
+                  <source src={this.videoUrl} type="video/mp4" />
+                </video>,
+                !this.controls && <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
+              ].filter(Boolean)) ||
               (this.videoError && <div class={Styles['story__message']}>{this.videoError}</div>) || (
                 <div class={Styles['story__message']}></div>
               )}

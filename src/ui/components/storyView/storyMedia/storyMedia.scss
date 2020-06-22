@@ -1,6 +1,6 @@
 .story {
   display: inline-block;
-  height: calc(calc(var(--vh, 1vh) * 100));
+  height: 100%;
   position: relative;
   width: 100%;
 
@@ -10,7 +10,7 @@
   }
   &__video-controls {
     height: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
     z-index: 1;
