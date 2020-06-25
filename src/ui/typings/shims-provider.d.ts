@@ -3,6 +3,7 @@
 import { IProvider, HTTP } from '@/services';
 import VueI18n from 'vue-i18n';
 import { DB } from '@/services/db';
+import { Store } from 'vuex/types/index';
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
@@ -18,6 +19,7 @@ declare module 'vue/types/vue' {
     $http: HTTP;
     $db: DB;
     $worker: any;
+    $store: Store<any>;
   }
 }
 
