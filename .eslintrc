@@ -15,7 +15,7 @@
 		"parser": "@typescript-eslint/parser", // allows parsing of TypeScript
 		"project": "./tsconfig.json", // set your TypeScript root config
 		"tsconfigRootDir": ".", // required to resolve relative paths given in 'project' above
-		"extraFileExtensions": [".vue", ".scss", ".tsx"],
+		"extraFileExtensions": [".vue", ".scss"],
 		"allowImportExportEverywhere": true,
 		"ecmaFeatures": {
 			"jsx": true
