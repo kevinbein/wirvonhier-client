@@ -1,13 +1,13 @@
 import { Actions } from 'vuex-smart-module';
-import { Store } from 'vuex';
 import { WVHState, WVHMutations } from '..';
 import { IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import { IDataProtStatement } from '../state/state.types';
+import { IStore } from '@/store';
 
 export class WVHActions extends Actions<WVHState, never, WVHMutations, WVHActions> {
-  private store!: Store<WVHState>;
+  private store!: IStore;
 
-  $init(store: Store<WVHState>): void {
+  $init(store: IStore): void {
     this.store = store;
   }
 

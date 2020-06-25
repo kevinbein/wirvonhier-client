@@ -1,13 +1,13 @@
 import { Actions } from 'vuex-smart-module';
-import { Store } from 'vuex';
 import { FormState, FormGetters, FormMutations } from '..';
 import { ISetFormDataPayload } from './actions.types';
+import { IStore } from '@/store';
 
 export class FormActions extends Actions<FormState, FormGetters, FormMutations, FormActions> {
   // @ts-ignore
-  private store!: Store<FormState>;
+  private store!: IStore;
 
-  $init(store: Store<FormState>): void {
+  $init(store: IStore): void {
     this.store = store;
   }
 

@@ -1,7 +1,7 @@
 import { IDataProtStatement } from './state.types';
 
 export class WVHState {
-  dataProtStatements: IDataProtStatement[] | null = null;
+  dataProtStatements: IDataProtStatement[] = [];
   emails = {
     support: 'office@wirvonhier.net',
   };

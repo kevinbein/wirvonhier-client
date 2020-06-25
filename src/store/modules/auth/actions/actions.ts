@@ -1,19 +1,19 @@
 import { Actions, Context } from 'vuex-smart-module';
-import { Store } from 'vuex';
 import { AuthState, AuthMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { ITokenPayload, IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import JwtDecode from 'jwt-decode';
 import { UserModule, BusinessModule, WVHModule } from '@/store/modules';
 import { Route } from 'vue-router';
+import { IStore } from '@/store/store.types';
 
 export class AuthActions extends Actions<AuthState, never, AuthMutations, AuthActions> {
-  private store!: Store<AuthState>;
+  private store!: IStore;
   private wvh!: Context<typeof WVHModule>;
   private user!: Context<typeof UserModule>;
   private business!: Context<typeof BusinessModule>;
 
-  $init(store: Store<AuthState>): void {
+  $init(store: IStore): void {
     this.store = store;
     this.wvh = WVHModule.context(store);
     this.user = UserModule.context(store);

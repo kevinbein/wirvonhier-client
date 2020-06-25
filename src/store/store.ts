@@ -19,5 +19,4 @@ export const rootModule = new Module({
 });
 
 export const store = createStore(rootModule, { plugins: [dbPlugin] });
-
 export const root = rootModule.context(store);
