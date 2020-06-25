@@ -1,41 +1,23 @@
 import { Actions, Context } from 'vuex-smart-module';
 import { Store } from 'vuex';
-import { RootState, RootGetters, RootMutations } from '..';
+import { AuthState, AuthMutations } from '..';
 import { ICredentials, IRegisterOptions } from './actions.types';
 import { ITokenPayload, IHttpActionResponse, IHttpErrorResponse, IHttpSuccessResponse } from '@/services';
 import JwtDecode from 'jwt-decode';
-import { UserModule, BusinessModule } from '@/store/modules';
+import { UserModule, BusinessModule, WVHModule } from '@/store/modules';
 import { Route } from 'vue-router';
-import { IDataProtStatement } from '../state/state.types';
 
-export class RootActions extends Actions<RootState, RootGetters, RootMutations, RootActions> {
-  private store!: Store<RootState>;
+export class AuthActions extends Actions<AuthState, never, AuthMutations, AuthActions> {
+  private store!: Store<AuthState>;
+  private wvh!: Context<typeof WVHModule>;
   private user!: Context<typeof UserModule>;
   private business!: Context<typeof BusinessModule>;
 
-  $init(store: Store<RootState>): void {
+  $init(store: Store<AuthState>): void {
     this.store = store;
+    this.wvh = WVHModule.context(store);
     this.user = UserModule.context(store);
     this.business = BusinessModule.context(store);
-  }
-
-  async loadDataProtStatements(): Promise<IHttpActionResponse> {
-    const { status, ...res } = await this.store.$http.get<{ statements: IDataProtStatement[] }>(
-      '/data-prot-statements',
-    );
-    if (status === 'failure') {
-      const error = (res as IHttpErrorResponse<{ statements: IDataProtStatement[] }>).error;
-      const statusCode = error?.response?.status || 500;
-      const message =
-        statusCode >= 400 && statusCode < 500
-          ? 'E-Mail oder Passwort falsch.'
-          : 'Unbekannter Fehler. Bitte überprüfe deine Internetverbindung und versuche es später erneut.';
-      return { status: 'failure', message };
-    } else {
-      const data = (res as IHttpSuccessResponse<{ statements: IDataProtStatement[] }>).data;
-      this.commit('SET_DATA_PROT_STATEMENTS', data);
-      return { status: 'success' };
-    }
   }
 
   async login(credentials: ICredentials): Promise<IHttpActionResponse> {
@@ -67,7 +49,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
       const statusCode = error?.response?.status || 500;
       const message =
         statusCode >= 400 && statusCode < 500
-          ? `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.state.emails.support}.`
+          ? `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.wvh.state.emails.support}.`
           : 'Unbekannter Fehler. Bitte versuche es später erneut.';
       return { status: 'failure', message };
     } else {
@@ -85,7 +67,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     if ('error' in res)
       return {
         status: 'failure',
-        message: `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.state.emails.support}.`,
+        message: `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.wvh.state.emails.support}.`,
       };
     return { status: 'success' };
   }
@@ -95,7 +77,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     if ('error' in res)
       return {
         status: 'failure',
-        message: `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.state.emails.support}.`,
+        message: `Oops! Da ging etwas schief. Bitte kontaktiere uns unter: ${this.wvh.state.emails.support}.`,
       };
     return { status: 'success' };
   }
@@ -105,7 +87,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     if (status === 'failure') {
       return {
         status: 'failure',
-        message: `Oops! Wir konnten keine E-Mail an Sie versenden. Bitte kontaktieren Sie uns unter: ${this.state.emails.support}.`,
+        message: `Oops! Wir konnten keine E-Mail an Sie versenden. Bitte kontaktieren Sie uns unter: ${this.wvh.state.emails.support}.`,
       };
     } else {
       const data = (res as IHttpSuccessResponse<{ email: string }>).data;
@@ -120,7 +102,7 @@ export class RootActions extends Actions<RootState, RootGetters, RootMutations, 
     if (status === 'failure') {
       return {
         status: 'failure',
-        message: `Oops! Wir konnten Ihre E-Mail nicht verifizieren. Bitte kontaktiere Sie uns unter: ${this.state.emails.support}.`,
+        message: `Oops! Wir konnten Ihre E-Mail nicht verifizieren. Bitte kontaktiere Sie uns unter: ${this.wvh.state.emails.support}.`,
       };
     } else {
       const data = (res as IHttpSuccessResponse<{ verified: string }>).data;

@@ -1,16 +1,15 @@
 import { Actions } from 'vuex-smart-module';
 import { Store } from 'vuex';
-import { UserDataState, UserDataGetters, UserDataMutations } from '..';
-import { RootState } from '@/store';
+import { UserDataState, UserDataMutations } from '..';
 import { IUserData } from '../state/state.types';
 import { Business, IBusinessData } from '@/entities';
 import { IHttpSuccessResponse } from '@/services';
 
-export class UserDataActions extends Actions<UserDataState, UserDataGetters, UserDataMutations, UserDataActions> {
+export class UserDataActions extends Actions<UserDataState, never, UserDataMutations, UserDataActions> {
   // @ts-ignore
-  private store!: Store<RootState>;
+  private store!: Store<UserDataState>;
 
-  $init(store: Store<RootState>): void {
+  $init(store: Store<UserDataState>): void {
     this.store = store;
   }
 

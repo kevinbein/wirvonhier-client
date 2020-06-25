@@ -1,19 +1,18 @@
 import { Actions } from 'vuex-smart-module';
 import { Store } from 'vuex';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
-import { RootState } from '@/store';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
 import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
 import { IBusinessUpdateOptions, IUploadImagesResult } from './actions.types';
-import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
+import { IImageData } from '@/ui/views/business/manageImages/manageImages.types';
 import { ICloudinaryImageUploadResponse } from '@/services/images/imageService.types';
 import { IHttpErrorResponse } from '@/services';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
-  public store!: Store<RootState>;
+  public store!: Store<BusinessState>;
 
-  $init(store: Store<RootState>): void {
+  $init(store: Store<BusinessState>): void {
     this.store = store;
   }
 

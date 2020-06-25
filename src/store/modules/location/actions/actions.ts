@@ -1,14 +1,13 @@
 import { Actions } from 'vuex-smart-module';
 import { Store } from 'vuex';
-import { LocationState, LocationGetters, LocationMutations } from '..';
-import { RootState } from '@/store';
+import { LocationState, LocationMutations } from '..';
 import { IAutocompleteOptions } from '@/services/googleMaps';
 import { IAddress } from '@/entities/business';
 
-export class LocationActions extends Actions<LocationState, LocationGetters, LocationMutations, LocationActions> {
-  public store!: Store<RootState>;
+export class LocationActions extends Actions<LocationState, never, LocationMutations, LocationActions> {
+  public store!: Store<LocationState>;
 
-  $init(store: Store<RootState>): void {
+  $init(store: Store<LocationState>): void {
     this.store = store;
   }
 

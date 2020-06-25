@@ -1,18 +1,12 @@
 import { Actions } from 'vuex-smart-module';
 import { Store } from 'vuex';
-import { AppearanceState, AppearanceGetters, AppearanceMutations } from '..';
-import { RootState } from '@/store';
+import { AppearanceState, AppearanceMutations } from '..';
 
-export class AppearanceActions extends Actions<
-  AppearanceState,
-  AppearanceGetters,
-  AppearanceMutations,
-  AppearanceActions
-> {
+export class AppearanceActions extends Actions<AppearanceState, never, AppearanceMutations, AppearanceActions> {
   // @ts-ignore
-  private store!: Store<RootState>;
+  private store!: Store<AppearanceState>;
 
-  $init(store: Store<RootState>): void {
+  $init(store: Store<AppearanceState>): void {
     this.store = store;
   }
 
