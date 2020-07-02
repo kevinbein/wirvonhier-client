@@ -2,13 +2,17 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { VirtualMobile } from '@/ui/components';
 import '@/ui/styles/global/index.scss';
+import { WVHModule } from '@/store/modules';
 
 @Component({
   name: 'App',
 })
 export class App extends Vue {
+  public wvhModule = WVHModule.context(this.$store);
+
   created(): void {
     this.setVH();
+    this.wvhModule.actions.loadDataProtStatements();
   }
 
   setVH(): void {
