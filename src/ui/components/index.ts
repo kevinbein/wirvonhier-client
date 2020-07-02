@@ -8,3 +8,4 @@ export * from './storyView';
 export * from './ladyPage';
 export * from './formElements';
 export * from './overlayView';
+export * from './backButton';
