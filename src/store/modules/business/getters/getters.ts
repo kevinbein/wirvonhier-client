@@ -1,7 +1,7 @@
 import { Getters } from 'vuex-smart-module';
 import { BusinessState } from '../state';
 import { IStore } from '@/store';
-import { IBusinessFilter, Story, IBusinessData, Business } from '@/entities';
+import { IBusinessFilter, Media, IBusinessData, Business } from '@/entities';
 
 export class BusinessGetters extends Getters<BusinessState> {
   store!: IStore;
@@ -17,16 +17,14 @@ export class BusinessGetters extends Getters<BusinessState> {
     };
   }
 
-  public getMixedStories(): Story[] {
+  public getMixedStories(): Media[] {
     const businesses = this.state.businesses;
-    const stories = [];
-    for (let i = 0; i < businesses.length; i++) {
-      for (const imageOrVideo of businesses[i].getSortedImagesAndVideos()) {
-        const story = new Story(imageOrVideo, businesses[i]);
-        stories.push(story);
-      }
+    const stories: Media[] = [];
+    for (const business of businesses) {
+      const businessStories = business.getSortedImagesAndVideos();
+      stories.push(...businessStories);
     }
-    stories.sort((story1: Story, story2: Story) => {
+    stories.sort((story1: Media, story2: Media) => {
       const time1 = new Date(story1.modifiedAt).getTime();
       const time2 = new Date(story2.modifiedAt).getTime();
       return time2 - time1;

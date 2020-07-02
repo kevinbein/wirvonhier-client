@@ -1,33 +1,29 @@
-import { Actions } from 'vuex-smart-module';
+import { Actions, Context } from 'vuex-smart-module';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
-import { Business, IBusinessData, IUpdateSuccess, IUpdateError } from '@/entities';
+import { Business, IBusinessData, IUpdateSuccess, IUpdateError, Image, INewImageData, IImageUpdates } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
-import { IBusinessUpdateOptions, IUploadImagesResult } from './actions.types';
-import { IImageData } from '@/ui/views/business/manageImages/manageImages.types';
+import { IBusinessUpdateOptions } from './actions.types';
 import { ICloudinaryImageUploadResponse } from '@/services/images/imageService.types';
 import { IHttpErrorResponse } from '@/services';
 import { IStore } from '@/store';
+import { UserModule } from '../../user';
 
 export class BusinessActions extends Actions<BusinessState, BusinessGetters, BusinessMutations, BusinessActions> {
   public store!: IStore;
-
+  public userModule!: Context<typeof UserModule>;
   $init(store: IStore): void {
     this.store = store;
+    this.userModule = UserModule.context(store);
   }
 
   /**
    * Loads Businesses from Server, saves them in the DB and returns those businesses
    * @param businessIds
    */
-  async loadAndPersistBusinessDataById(businessIds: string[]): Promise<IBusinessData[]> {
+  async loadAndPersistBusinessDataById(businessIds: string[]): Promise<void> {
     const businesses = await this.store.$services.business.load(businessIds);
     this.store.$db.businesses.addMany(businesses);
-    if (businesses.length === 0) {
-      const fromDB = await this.store.$services.business.fromDB(businessIds);
-      businesses.push(...fromDB);
-    }
-    return businesses;
   }
 
   async getBusinessesByZIP(options: IFindNearBusinessesOptions): Promise<void> {
@@ -61,7 +57,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       );
       return;
     }
-    this.actions.selectBusiness(businesses[0]._id as string);
+    this.actions.selectBusiness(businesses[0]._id);
   }
 
   update(options: IBusinessUpdateOptions): IUpdateSuccess | IUpdateError {
@@ -71,24 +67,14 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     return { business: updatedBusiness, field, status };
   }
 
-  async save(businessData: IBusinessData): Promise<boolean> {
-    const success = await this.store.$services.business.save(businessData);
+  async save({ businessId, updates }: { businessId: string; updates: Partial<IBusinessData> }): Promise<boolean> {
+    const success = await this.store.$services.business.save(businessId, updates);
     if (!success) {
       // TODO|PWA: If we are offline, update Business later.
       return false;
     }
-    await this.actions.loadAndPersistBusinessDataById([businessData._id as string]);
+    await this.actions.loadAndPersistBusinessDataById([businessId]);
     return true;
-  }
-
-  async uploadImages(images: IImageData[]): Promise<IUploadImagesResult[]> {
-    const result = [];
-    for (const image of images) {
-      const res = this.store.$services.images.uploadImage(image);
-      if (!res) continue;
-      result.push(res);
-    }
-    return Promise.all(result);
   }
 
   async validateImageUploads(publicIds: string[]): Promise<void> {
@@ -107,5 +93,70 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
       });
       return;
     }
+  }
+
+  selectImageForEdit(image: Image | null): void {
+    this.mutations.SELECT_IMAGE_TO_EDIT(image);
+  }
+
+  async deleteImage(imageId: string): Promise<void> {
+    const business = this.userModule.state.selectedBusiness;
+    if (!business) {
+      this.store.$toast('Oops! Da ging etwas schief. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    await this.store.$services.business.deleteImage(business._id, imageId);
+    await this.actions.loadAndPersistBusinessDataById([business._id]);
+    this.userModule.actions.selectBusiness(business._id);
+  }
+
+  async updateImage({ imageId, updates }: { imageId: string; updates: IImageUpdates }): Promise<void> {
+    const businessId = this.userModule.state.selectedBusiness?._id;
+    if (!businessId) {
+      this.store.$toast('Oops! Da ging etwas schief. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    await this.store.$services.business.updateImage(businessId, imageId, updates);
+    await this.actions.loadAndPersistBusinessDataById([businessId]);
+    this.userModule.actions.selectBusiness(businessId);
+  }
+
+  async saveNewImage({
+    newImageData,
+    imageFile,
+  }: {
+    newImageData: Omit<INewImageData, 'publicId'>;
+    imageFile: string;
+  }): Promise<void> {
+    const currentSelectedBusiness = this.userModule.state.selectedBusiness;
+    if (!currentSelectedBusiness) {
+      this.store.$toast('Oops! Da ging etwas schief. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    const businessId = currentSelectedBusiness._id;
+    const publicId = currentSelectedBusiness.generateImagePublicId(newImageData);
+    const publicIdWithFolder = `${this.store.$services.images.folder}${publicId}`;
+    const savedImage = await this.store.$services.business.saveNewImage({
+      ...newImageData,
+      businessId,
+      publicId: publicIdWithFolder,
+    });
+    const uploadSuccessful = await this.store.$services.images.uploadToCloudinary(publicId, imageFile);
+    if (uploadSuccessful) {
+      await this.store.$services.business.updateImage(businessId, savedImage._id, {
+        uploadVerified: true,
+      });
+    }
+    await this.actions.loadAndPersistBusinessDataById([currentSelectedBusiness._id]);
+    this.userModule.actions.selectBusiness(currentSelectedBusiness._id);
   }
 }
