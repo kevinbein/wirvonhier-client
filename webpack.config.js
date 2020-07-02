@@ -377,6 +377,7 @@ module.exports = async function (env, argv) {
         CLOUD_NAME: JSON.stringify(process.env.CLOUDINARY_CLOUD_NAME),
         IMAGE_UPLOAD_URL: JSON.stringify(process.env.IMAGE_UPLOAD_URL),
         CLOUDINARY_IMAGE_PRESET: JSON.stringify(isProd ? process.env.CLOUDINARY_IMAGE_PRESET : process.env.CLOUDINARY_IMAGE_PRESET_DEV),
+        CLOUDINARY_FOLDER: JSON.stringify(isProd ? '' : 'development/'),
       }),
 
       // Copy static assets
