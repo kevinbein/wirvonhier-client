@@ -14,7 +14,7 @@ export class GoogleMapsService {
   private db: DB;
   // Your personal API key.
   // Get it here: https://console.cloud.google.com/google/maps-apis
-  private API_KEY = 'AIzaSyAXjnxppLHFrUJ12rsVOdJWihTavWHWyMA';
+  private API_KEY = GOOGLE_MAPS_API_KEY;
   private CALLBACK_NAME: 'gmapsCallback' = 'gmapsCallback';
   private initialized!: boolean;
   private resolveInitPromise!: (value?: unknown) => void;
