@@ -1,9 +1,10 @@
 import { Business } from './business';
+import { Image, Video, IImageData, IVideoData } from '../media';
 
 export interface IBusinessData {
-  readonly _id?: string; // MongoDB ID
-  readonly createdAt?: string;
-  readonly modifiedAt?: string;
+  readonly _id: string; // MongoDB ID
+  readonly createdAt: string;
+  readonly modifiedAt: string;
   readonly id: string; // readable ID from name
   readonly name: string; // Business Name
 
@@ -26,61 +27,28 @@ export interface IBusinessData {
   readonly owner: IUser;
   readonly location: ILocation;
   readonly address: IAddress;
-  readonly media: IBusinessMedia;
+  readonly media: IBusinessMediaData;
   readonly delivery: string[];
   readonly category: string[];
   readonly paymentMethods: IPaymentMethod[];
   readonly distance?: number;
 }
 
-export interface IBusinessMedia {
-  logo: IImage | null;
-  cover: {
-    image: IImage | null;
-    video: IVideo | null;
-  };
-  profile: {
-    image: IImage | null;
-    video: IVideo | null;
-  };
+export interface IBusinessMediaData {
+  logo: IImageData | null;
+  profile: IImageData | null;
   stories: {
-    images: IImage[];
-    videos: IVideo[];
+    images: IImageData[];
+    videos: IVideoData[];
   };
 }
-
-export enum MEDIATYPE {
-  IMAGE = 'image',
-  VIDEO = 'video',
-}
-
-export interface IImage {
-  _id: string;
-  publicId: string;
-  createdAt: string;
-  modifiedAt: string;
-  title: string;
-  description?: string;
-  src: string;
-}
-export interface IVideo {
-  _id: string;
-  videoId: string;
-  title: string;
-  description?: string;
-  status: string;
-  createdAt: string;
-  modifiedAt: string;
-}
-export interface IStory {
-  _id: string;
-  business: Business;
-  createdAt: string;
-  modifiedAt: string;
-  title: string;
-  description?: string;
-  src: string;
-  type: MEDIATYPE;
+export interface IBusinessMedia {
+  logo: Image;
+  profile: Image;
+  stories: {
+    images: Image[];
+    videos: Video[];
+  };
 }
 
 export interface IAddress {
@@ -123,6 +91,7 @@ export type IPaymentMethod =
   | 'ondelivery'
   | 'sepa'
   | 'other';
+
 export type IDeliveryOptions = 'collect' | 'delivery';
 export type IBusiness = IBusinessData;
 

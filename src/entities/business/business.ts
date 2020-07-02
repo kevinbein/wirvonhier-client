@@ -5,119 +5,37 @@ import remove from 'lodash/remove';
 import {
   IBusinessData,
   IAddress,
-  IBusinessMedia,
   IUser,
   ILocation,
   IPaymentMethod,
-  IStory,
-  IVideo,
-  IImage,
   IValidationError,
+  IBusinessMedia,
   IValidationSuccess,
   IUpdateSuccess,
   IUpdateError,
-  MEDIATYPE,
 } from './business.types';
-import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
+import { INewImageData } from '@/entities';
+import { Image, Video, IMAGETYPE } from '../media';
 
 const paymentMethods = ['paypal', 'cash', 'creditcard', 'invoice', 'sofort', 'amazon', 'ondelivery', 'sepa', 'other'];
 const deliveryOptions = ['collect', 'delivery'];
+const emptyAddress = {
+  street: '',
+  streetNumber: '',
+  zip: '',
+  city: '',
+  state: '',
+  country: '',
+};
 
-export class Image implements IImage {
-  public _id: string;
-  public publicId: string;
-  public createdAt: string;
-  public modifiedAt: string;
-  public title: string;
-  public description?: string;
-  public src: string;
-  constructor(data: IImage) {
-    this._id = data._id;
-    this.publicId = data.publicId;
-    this.createdAt = data.createdAt;
-    this.modifiedAt = data.modifiedAt;
-    this.title = data.title;
-    this.description = data.description;
-    this.src = data.src;
-  }
-}
-
-export class Video implements IVideo {
-  public _id: string;
-  public videoId: string;
-  public title: string;
-  public description?: string;
-  public status: string;
-  public createdAt: string;
-  public modifiedAt: string;
-  constructor(data: IVideo) {
-    this._id = data._id;
-    this.videoId = data.videoId;
-    this.title = data.title;
-    this.description = data.description;
-    this.status = data.status;
-    this.createdAt = data.createdAt;
-    this.modifiedAt = data.modifiedAt;
-  }
-}
-
-export class Story implements IStory {
-  public _id: string;
-  public business: Business;
-  public createdAt: string;
-  public modifiedAt: string;
-  public title: string;
-  public description?: string;
-  public src: string;
-  public type: MEDIATYPE;
-  constructor(data: Video | Image, business: Business) {
-    this._id = data._id;
-    this.business = business;
-    this.createdAt = data.createdAt;
-    this.modifiedAt = data.modifiedAt;
-    this.title = data.title;
-    this.description = data.description;
-    if (data instanceof Video) {
-      this.src = data.videoId;
-      this.type = MEDIATYPE.VIDEO;
-    } else {
-      this.src = data.publicId;
-      this.type = MEDIATYPE.IMAGE;
-    }
-  }
-}
-
-export class BusinessMedia implements IBusinessMedia {
-  public logo: Image | null;
-  public cover: {
-    image: Image | null;
-    video: Video | null;
-  };
-  public profile: {
-    image: Image | null;
-    video: Video | null;
-  };
-  public stories: {
-    images: Image[];
-    videos: Video[];
-  };
-  constructor(data: IBusinessMedia) {
-    this.logo = data.logo;
-    this.cover = data.cover;
-    this.profile = data.profile;
-    this.stories = data.stories;
-  }
-}
-
-export class Business implements IBusinessData {
-  readonly _id?: string;
-  readonly createdAt?: string;
-  readonly modifiedAt?: string;
+export class Business {
+  readonly _id: string;
+  readonly createdAt: Date;
+  readonly modifiedAt?: Date;
   public dataProtStatement: string;
   public ownerFirstName: string;
   public ownerLastName: string;
-  public address: IAddress;
-  public media: BusinessMedia;
+  public media: IBusinessMedia;
   public delivery: string[];
   public category: string[];
   public paymentMethods: IPaymentMethod[];
@@ -135,53 +53,32 @@ export class Business implements IBusinessData {
   private _distance?: number;
   private _name!: string;
 
+  private _address!: IAddress;
+  public get address(): IAddress {
+    return this._address;
+  }
+  public set address(address: IAddress) {
+    this._address = Object.assign(emptyAddress, this._address || {}, address || {});
+  }
+
   constructor(data: IBusinessData) {
     this._id = data._id;
-    this.createdAt = data.createdAt;
-    this.modifiedAt = data.modifiedAt;
+    this.createdAt = new Date(data.createdAt);
+    this.modifiedAt = new Date(data.modifiedAt);
     this.dataProtStatement = data.dataProtStatement;
     this.id = data.id;
     this.name = data.name || '';
     this.ownerFirstName = data.ownerFirstName || '';
     this.ownerLastName = data.ownerLastName || '';
-    this.address = data.address
-      ? data.address
-      : {
-          street: '',
-          streetNumber: '',
-          zip: '',
-          city: '',
-          state: '',
-          country: '',
-        };
+    this.address = data.address;
 
-    const storyImages: Image[] = data.media.stories.images.map((image) => new Image(image));
-    const storyVideos: Video[] = data.media.stories.videos.map((video) => new Video(video));
+    const { stories, logo, profile } = data.media;
     this.media = {
-      logo: data.media.logo && data.media.logo !== null ? new Image(data.media.logo) : null,
-      cover: {
-        image:
-          data.media.cover && data.media.cover.image && data.media.cover.image !== null
-            ? new Image(data.media.cover.image)
-            : null,
-        video:
-          data.media.cover && data.media.cover.video && data.media.cover.video !== null
-            ? new Video(data.media.cover.video)
-            : null,
-      },
-      profile: {
-        image:
-          data.media.profile && data.media.profile.image && data.media.profile.image !== null
-            ? new Image(data.media.profile.image)
-            : null,
-        video:
-          data.media.profile && data.media.profile.video && data.media.profile.video !== null
-            ? new Video(data.media.profile.video)
-            : null,
-      },
+      logo: new Image(IMAGETYPE.LOGO, logo, this),
+      profile: new Image(IMAGETYPE.PROFILE, profile, this),
       stories: {
-        images: storyImages,
-        videos: storyVideos,
+        images: stories.images.map((image) => new Image(IMAGETYPE.STORY, image, this)),
+        videos: stories.videos.map((video) => new Video(video, this)),
       },
     };
 
@@ -227,8 +124,8 @@ export class Business implements IBusinessData {
       ...s.videos.filter((video) => video.status === 'complete'),
     ];
     imagesAndVideos.sort((story1: Image | Video, story2: Image | Video) => {
-      const time1 = new Date(story1.modifiedAt).getTime();
-      const time2 = new Date(story2.modifiedAt).getTime();
+      const time1 = story1.modifiedAt.getTime();
+      const time2 = story2.modifiedAt.getTime();
       return time2 - time1;
     });
     return imagesAndVideos;
@@ -253,6 +150,8 @@ export class Business implements IBusinessData {
           return businessData;
         case '_name':
           return { ...businessData, name: this.name };
+        case '_address':
+          return { ...businessData, address: this.address };
         default:
           return { ...businessData, [prop]: get(this, prop) };
       }
@@ -260,13 +159,15 @@ export class Business implements IBusinessData {
     return businessData;
   }
 
-  public generateImagePublicId(imageData: IImageData): string {
+  public generateImagePublicId(newImageData: Omit<INewImageData, 'publicId'>): string {
     const randomString = Date.now()
       .toString()
       .substr(Date.now().toString().length - 3);
-    return `${this._id}_${imageData.isCover ? 'cover' : 'story'}_${this.normalizeString(
-      imageData.title,
-    )}_${randomString}`;
+    return `${this._id}_${newImageData.imageType}_${this.normalizeString(newImageData.title)}_${randomString}`;
+  }
+
+  public getImageStoryIds(): string[] {
+    return this.media.stories.images.map((image) => image._id);
   }
 
   private validate(rawPath: string, value: unknown): IValidationSuccess | IValidationError {
