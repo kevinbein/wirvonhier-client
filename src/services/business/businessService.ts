@@ -1,4 +1,4 @@
-import { Business, IBusinessData } from '@/entities';
+import { Business, IBusinessData, INewImageData, IImageData, IImageUpdates } from '@/entities';
 import { DB } from '../db';
 import { HTTP } from '..';
 import { IFindNearBusinessesOptions, IHttpBusinessResponse } from './businessService.types';
@@ -86,7 +86,7 @@ export class BusinessService {
 
   async getBusinessById(businessId: string): Promise<IBusinessData | null> {
     const fromDB = await this.db.businesses.list.get(businessId);
-    if (fromDB) return new Business(fromDB);
+    if (fromDB) return fromDB; // TODO: Add timestamp and reload if timestamp too old
     const fromAPI = this.loadAndPersistBusiness(businessId);
     return fromAPI;
   }
@@ -96,7 +96,7 @@ export class BusinessService {
     if (status === 'failure') return null;
     const data = (res as IHttpSuccessResponse<IBusinessData>).data;
     this.db.businesses.list.put(data);
-    return new Business(data);
+    return data;
   }
 
   async create(businessData?: Partial<IBusinessData>): Promise<Business[] | null> {
@@ -108,9 +108,10 @@ export class BusinessService {
     return data.createdBusinesses.map((business) => new Business(business));
   }
 
-  async save(businessData: IBusinessData): Promise<boolean> {
-    const { _id } = businessData;
-    const { status, ...res } = await this.http.patch(`/businesses/${_id}`, { business: businessData }, true);
+  async save(businessId: string, businessData: Partial<IBusinessData>): Promise<boolean> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id, media, ...adjustedBusinessData } = businessData;
+    const { status, ...res } = await this.http.patch(`/businesses/${businessId}`, adjustedBusinessData, true);
     if (status === 'failure') {
       const error = (res as IHttpErrorResponse<IBusinessData>).error;
       // eslint-disable-next-line no-console
@@ -118,5 +119,31 @@ export class BusinessService {
       return false;
     }
     return true;
+  }
+
+  async saveNewImage(imageData: INewImageData): Promise<IImageData> {
+    const res = await this.http.post<{ image: IImageData }>(
+      `/businesses/${imageData.businessId}/images`,
+      imageData,
+      true,
+    );
+    if (res.status !== 'success') {
+      throw new Error('Wir konnten das Bild nicht speichern.');
+    }
+    return res.data.image;
+  }
+
+  async updateImage(businessId: string, imageId: string, updates: IImageUpdates): Promise<void> {
+    const res = await this.http.patch<void>(`/businesses/${businessId}/images/${imageId}`, updates, true);
+    if (res.status !== 'success') {
+      throw new Error('Wir konnten das Bild nicht speichern.');
+    }
+  }
+
+  async deleteImage(businessId: string, imageId: string): Promise<void> {
+    const res = await this.http.delete<void>(`/businesses/${businessId}/images/${imageId}`, true);
+    if (res.status !== 'success') {
+      throw new Error('Wir konnten das Bild nicht löschen.');
+    }
   }
 }
