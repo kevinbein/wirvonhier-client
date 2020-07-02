@@ -1,5 +1,5 @@
 import Component from 'vue-class-component';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Styles from './navigationContent.scss';
 import { Location } from 'vue-router';
 import { rootModule, UserModule } from '@/store';

@@ -5,9 +5,13 @@ import { WVHButton } from '@/ui';
 import Styles from './register.scss';
 import SharedStyles from 'styles';
 import { AppearanceModule } from '@/store';
+import { BackButton } from '@/ui';
 
 @Component({
   name: 'Register',
+  components: {
+    BackButton,
+  },
 })
 export class Register extends Vue {
   public appearanceModule = AppearanceModule.context(this.$store);
@@ -20,9 +24,7 @@ export class Register extends Vue {
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['register__page']}`}>
-        <router-link to={{ name: 'BusinessLanding' }} title="zurück" class={Styles['register__back']}>
-          zurück
-        </router-link>
+        <BackButton />
         <div class={Styles['register__title']}>Werden Sie Mitglied!</div>
         <RegisterForm />
         <div class={Styles['register__existing-user']}>

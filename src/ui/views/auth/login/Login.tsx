@@ -5,9 +5,13 @@ import Vue from 'vue';
 import { LoginForm } from './LoginForm';
 import { WVHButton } from '@/ui';
 import { AppearanceModule } from '@/store';
+import { BackButton } from '@/ui';
 
 @Component({
   name: 'Login',
+  components: {
+    BackButton,
+  },
 })
 export class Login extends Vue {
   public appearanceModule = AppearanceModule.context(this.$store);
@@ -20,9 +24,7 @@ export class Login extends Vue {
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['login__page']}`}>
-        <router-link to={{ name: 'BusinessLanding' }} title="zurück" class={Styles['login__back']}>
-          zurück
-        </router-link>
+        <BackButton />
         <div class={Styles['login__title']}>Willkommen zurück!</div>
         <LoginForm />
         <div class={Styles['login__new-user']}>

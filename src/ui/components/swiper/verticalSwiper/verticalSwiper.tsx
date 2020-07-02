@@ -1,6 +1,6 @@
 import Component from 'vue-class-component';
 import Styles from './verticalSwiper.scss';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import { VNode } from 'vue';
 
 type Swipe = {

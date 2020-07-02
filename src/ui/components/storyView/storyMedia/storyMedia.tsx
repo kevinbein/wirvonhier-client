@@ -1,10 +1,10 @@
 import Component from 'vue-class-component';
 import Styles from './storyMedia.scss';
-import { VueComponent } from '@/ui/vue-ts-component';
-import { Story, MEDIATYPE } from '@/entities';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
+import { Media, MEDIATYPE } from '@/entities';
 
 interface IProps {
-  story: Story;
+  story: Media;
   storyWidth: number;
   storyHeight: number;
   startVideo: boolean;
@@ -19,7 +19,7 @@ interface IRefs {
 @Component({
   name: 'StoryMedia',
   props: {
-    story: Object,
+    story: Media,
     storyHeight: Number,
     storyWidth: Number,
     startVideo: Boolean,
@@ -38,7 +38,7 @@ interface IRefs {
 })
 export class StoryMedia extends VueComponent<IProps, IRefs> {
   public dummyStory = '/assets/imgs/dummy_story_500x1000.jpg';
-  public story!: Story;
+  public story!: Media;
   public storyWidth!: number;
   public storyHeight!: number;
   public startVideo!: boolean;
@@ -50,7 +50,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
   private videoEl: HTMLMediaElement | null = null;
 
   public mounted(): void {
-    if (this.story.type === MEDIATYPE.VIDEO) {
+    if (this.story.mediatype === MEDIATYPE.VIDEO) {
       this.loadVideo(this.story.src);
     }
   }
@@ -103,7 +103,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
   }
 
   public initVideo(): void {
-    if (this.story.type === MEDIATYPE.VIDEO) {
+    if (this.story.mediatype === MEDIATYPE.VIDEO) {
       const videoControlsEl = this.$refs.storyVideoControls;
       if (videoControlsEl) {
         videoControlsEl.addEventListener('mousedown', this.mouseTouchDown.bind(this));
@@ -117,7 +117,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
 
   // @ts-ignore
   public render(h): Vue.VNode {
-    switch (this.story.type) {
+    switch (this.story.mediatype) {
       case MEDIATYPE.IMAGE: {
         return (
           <cld-image

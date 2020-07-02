@@ -1,4 +1,4 @@
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Component from 'vue-class-component';
 import Styles from './styles.scss';
 

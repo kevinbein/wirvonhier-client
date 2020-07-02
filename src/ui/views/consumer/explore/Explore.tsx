@@ -8,7 +8,7 @@ import 'swiper/css/swiper.css';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 import { Details } from '../details';
-import { Business, Story } from '@/entities';
+import { Business, Media } from '@/entities';
 import { SlideInPage, StoryView, WVHButton, LadyPage } from '@/ui/components';
 import { VueComponent } from '@/ui/typings/vue-ts-component';
 import { VerticalSwiper, VerticalSlide } from '@/ui/components/swiper';
@@ -122,7 +122,7 @@ export class Explore extends VueComponent<{}, IRefs> {
       // reached last slide
       return;
     }
-    this.businessId = this.slides[newIndex].business.id;
+    this.businessId = this.slides[newIndex].business?.id;
     this.currentBusiness = this.slides[newIndex].business;
 
     // start playing current video
@@ -143,13 +143,13 @@ export class Explore extends VueComponent<{}, IRefs> {
     return this.businessStore.state.businesses;
   }
 
-  public slides: Story[] | null = null;
+  public slides: Media[] | null = null;
 
   public async loadBusinesses(zip: string, radius: number): Promise<void> {
     await this.businessStore.actions.getBusinessesByZIP({ zip, maxDistance: radius, limit: 1000 });
     if (this.businesses.length === 0) return;
     this.slides = this.businessStore.getters.getMixedStories();
-    this.businessId = this.slides[0].business.id;
+    this.businessId = this.slides[0].business?.id;
     this.currentBusiness = this.slides[0].business;
 
     const hSwiper = this.$refs.horizontalSwiper.$swiper;
@@ -157,9 +157,9 @@ export class Explore extends VueComponent<{}, IRefs> {
     const vSwiper = this.$refs.verticalSwiper;
     if (this.$route.params.businessId !== undefined) {
       const paramBusinessId = this.$route.params.businessId;
-      const exploreIndex = this.slides.findIndex((story: Story) => story.business.id == paramBusinessId);
+      const exploreIndex = this.slides.findIndex((story) => story.business?.id == paramBusinessId);
       if (exploreIndex !== -1) {
-        this.businessId = this.slides[exploreIndex].business.id;
+        this.businessId = this.slides[exploreIndex].business?.id;
         this.currentBusiness = this.slides[exploreIndex].business;
         hSwiper.slideTo(exploreIndex, 0);
         vSwiper.slideTo(1, 0);
@@ -203,7 +203,7 @@ export class Explore extends VueComponent<{}, IRefs> {
             >
               {this.slides !== null &&
                 this.slides.length > 0 &&
-                this.slides.map((story: Story, index: number) => {
+                this.slides.map((story: Media, index: number) => {
                   return (
                     <swiper-slide>
                       <StoryView

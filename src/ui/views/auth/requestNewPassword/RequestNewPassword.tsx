@@ -4,9 +4,13 @@ import SharedStyles from 'styles';
 import Vue from 'vue';
 import { RequestNewPasswordForm } from './RequestNewPasswordForm';
 import { WVHModule, AppearanceModule } from '@/store';
+import { BackButton } from '@/ui';
 
 @Component({
   name: 'RequestNewPassword',
+  components: {
+    BackButton,
+  },
 })
 export class RequestNewPassword extends Vue {
   public wvhModule = WVHModule.context(this.$store);
@@ -24,9 +28,7 @@ export class RequestNewPassword extends Vue {
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['request-new-password__page']}`}>
-        <router-link to={{ name: 'BusinessLogin' }} title="zurück" class={Styles['request-new-password__back']}>
-          zurück
-        </router-link>
+        <BackButton to={{ name: 'BusinessLogin' }} />
         <div class={Styles['request-new-password__title']}>Neues Password anfordern</div>
         <p class={`${Styles['text--primary']} ${Styles.amplifier}`}>
           Sie erhalten im nächsten Schritt eine E-Mail mit weiteren Instruktionen von uns.

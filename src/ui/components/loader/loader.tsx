@@ -1,4 +1,4 @@
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Styles from './loader.scss';
 
 export const Loader = VueComponent.extend({

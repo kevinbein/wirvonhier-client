@@ -3,7 +3,7 @@ import Component from 'vue-class-component';
 import { rootModule, BusinessModule } from '@/store';
 import SharedStyles from 'styles';
 import Styles from './uploadVideo.scss';
-import { WVHImageInputField, FormInputField, FormTextArea, WVHButton, Loader } from '@/ui';
+import { WVHImageInputField, FormInputField, FormTextArea, WVHButton, Loader, BackButton } from '@/ui';
 
 type IFormInputs = ITitle | IDesc | IFile;
 interface ITitle {
@@ -21,6 +21,9 @@ interface IFile {
 
 @Component({
   name: 'UploadVideo',
+  components: {
+    BackButton,
+  },
 })
 export class UploadVideo extends Vue {
   public rootStore = rootModule.context(this.$store);
@@ -106,13 +109,7 @@ export class UploadVideo extends Vue {
   render(h): Vue.VNode {
     return (
       <main role="main" class={`${SharedStyles.page} ${Styles['upload-video__page']}`}>
-        <router-link
-          class={Styles['upload-video__back']}
-          to={{ name: 'BusinessDashboard', query: this.$route.query }}
-          title="zurück"
-        >
-          <img src="/assets/icons/icon_arrow-left-492.svg" alt="arrow-back" class={Styles['upload-video__back-icon']} />
-        </router-link>
+        <BackButton />
         <h1 class={Styles['upload-video__title']}>VIDEO HOCHLADEN</h1>
         <form class={Styles['upload-video__form']}>
           {this.isVideoSelected ? (

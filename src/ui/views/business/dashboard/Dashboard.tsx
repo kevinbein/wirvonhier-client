@@ -19,7 +19,7 @@ export class Dashboard extends Vue {
   }
 
   public get business(): Business | null {
-    return this.businessModule.state.selectedBusiness;
+    return this.user.selectedBusiness;
   }
 
   public get hasVideo(): boolean {
@@ -33,9 +33,9 @@ export class Dashboard extends Vue {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div class={`${SharedStyles.page} ${Styles['dashboard__page']}`}>
+      <main class={`${SharedStyles.page} ${Styles['dashboard__page']}`}>
         <img class={Styles['dashboard__logo']} src="/assets/imgs/logo/logo-schrift_512x203.png" alt="WirVonHier Logo" />
-        <WVHButton class={Styles['dashboard__button']} disabled={!this.hasVideo} to={{ name: 'BusinessStories' }}>
+        <WVHButton class={Styles['dashboard__button']} disabled={!this.hasVideo} to={{ name: 'BusinessVideos' }}>
           Meine Videos
         </WVHButton>
         {/*<WVHButton class={Styles['dashboard__button']} to={{ name: 'Explore' }}>
@@ -50,7 +50,7 @@ export class Dashboard extends Vue {
         >
           Mein Profil bearbeiten
         </WVHButton>
-      </div>
+      </main>
     );
   }
 }

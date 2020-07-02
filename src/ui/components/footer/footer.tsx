@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './footer.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+import SharedStyles from 'styles';
 
 @Component({
   name: 'Footer',

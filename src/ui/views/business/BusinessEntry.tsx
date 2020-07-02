@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { MainNavigation } from '@/ui/components';
-import { WVHModule, UserModule, BusinessModule, AppearanceModule } from '@/store';
+import { UserModule, BusinessModule, AppearanceModule } from '@/store';
 import { VerificationToast } from './components';
 import { POSITION, TYPE } from 'vue-toastification';
 
@@ -29,15 +29,12 @@ import { POSITION, TYPE } from 'vue-toastification';
       const business = businessModule.state.selectedBusiness;
       if (!business) {
         await userModule.actions.loadUserAndSaveUserData();
-        await businessModule.actions.loadAndPersistBusinessDataById(userModule.state.businesses);
-        businessModule.actions.selectBusiness(userModule.state.businesses[0]);
       }
       next();
     });
   },
 })
 export class BusinessEntry extends Vue {
-  public wvhModule = WVHModule.context(this.$store);
   public userModule = UserModule.context(this.$store);
   public businessModule = BusinessModule.context(this.$store);
   public appearanceModule = AppearanceModule.context(this.$store);
@@ -55,14 +52,10 @@ export class BusinessEntry extends Vue {
     return this.appearanceModule.state.isNavigationVisible;
   }
 
-  created(): void {
-    this.wvhModule.actions.loadDataProtStatements();
-  }
-
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div>
+      <div style={{ display: 'contents' }}>
         {this.isNavVisible && <MainNavigation />}
         <router-view></router-view>
       </div>

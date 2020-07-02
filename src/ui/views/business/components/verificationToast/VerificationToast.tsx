@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { AuthModule } from '@/store';
+import { AuthModule } from '@/store/modules';
 import { store } from '@/store';
 import Styles from './verificationToast.scss';
 

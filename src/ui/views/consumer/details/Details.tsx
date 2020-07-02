@@ -51,10 +51,8 @@ export class Details extends VueComponent<{ profile: Business }> {
     super();
   }
 
-  public get coverId(): string {
-    return (
-      (this.profile.media.cover && this.profile.media.cover.image && this.profile.media.cover.image.publicId) || ''
-    );
+  public get profileId(): string {
+    return this.profile.media.profile.publicId;
   }
 
   public goToExplorer(): void {
@@ -136,10 +134,10 @@ export class Details extends VueComponent<{ profile: Business }> {
           <div class={Styles['profile-page_container']}>
             <h1 class={Styles['profile-page__title']}>{this.profile.name}</h1>
             <div class={Styles['profile-image-container']}>
-              {(this.coverId && (
+              {(this.profileId && (
                 <cld-image
                   class={Styles['profile-image']}
-                  publicId={this.coverId}
+                  publicId={this.profileId}
                   height="180"
                   width={this.profileWidth}
                   crop="fill"
