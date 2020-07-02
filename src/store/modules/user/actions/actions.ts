@@ -1,16 +1,18 @@
-import { Actions } from 'vuex-smart-module';
+import { Actions, Context } from 'vuex-smart-module';
 import { UserDataState, UserDataMutations } from '..';
 import { IUserData } from '../state/state.types';
 import { Business, IBusinessData } from '@/entities';
 import { IHttpSuccessResponse } from '@/services';
 import { IStore } from '@/store';
+import { BusinessModule } from '@/store/modules';
 
 export class UserDataActions extends Actions<UserDataState, never, UserDataMutations, UserDataActions> {
-  // @ts-ignore
+  public businessModule!: Context<typeof BusinessModule>;
   private store!: IStore;
 
   $init(store: IStore): void {
     this.store = store;
+    this.businessModule = BusinessModule.context(store);
   }
 
   async authenticateMe(): Promise<boolean> {
@@ -35,7 +37,14 @@ export class UserDataActions extends Actions<UserDataState, never, UserDataMutat
     else {
       const data = (res as IHttpSuccessResponse<Partial<IUserData>>).data;
       this.actions.setUserData(data);
+      await this.businessModule.actions.loadAndPersistBusinessDataById(this.state.businesses);
+      this.actions.selectBusiness(this.state.businesses[0]);
     }
+  }
+
+  async selectBusiness(businessId: string): Promise<void> {
+    const selectedBusiness = await this.store.$services.business.fromDB([businessId]);
+    this.commit('SELECT_BUSINESS', selectedBusiness[0]);
   }
 
   async loadUserBusinesses(): Promise<void> {

@@ -8,6 +8,7 @@ export class UserDataState implements IUserData {
   email = '';
   businesses: string[] = [];
   userBusinesses: Business[] = [];
+  selectedBusiness: Business | null = null;
   isVerified = true;
   firstName = '';
   lastName = '';

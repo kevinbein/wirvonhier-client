@@ -2,6 +2,7 @@ import { Mutations } from 'vuex-smart-module';
 import { UserDataState } from '../state';
 import { IUserData } from '../state/state.types';
 import Vue from 'vue';
+import { Business } from '@/entities';
 
 export class UserDataMutations extends Mutations<UserDataState> {
   SET_USER_DATA(userData: Partial<IUserData>): void {
@@ -13,5 +14,9 @@ export class UserDataMutations extends Mutations<UserDataState> {
       }
       Vue.set(this.state, key, userData[key]);
     });
+  }
+
+  SELECT_BUSINESS(business: Business): void {
+    Vue.set(this.state, 'selectedBusiness', business);
   }
 }
