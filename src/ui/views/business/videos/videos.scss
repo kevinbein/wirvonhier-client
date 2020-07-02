@@ -1,15 +1,11 @@
 $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
 
-.stories-page-container {
-  background: #fff;
-
-  /* background: $col-background; */
-  font-family: 'FuturaBT-Medium', sans-serif;
-  height: 100%;
-  overflow: auto;
-  position: relative;
-  width: 100%;
+.videos {
+  &__page {
+    padding-top: $unit-base;
+  }
 }
+
 .back-button {
   color: $col-primary;
   display: inline-block;
