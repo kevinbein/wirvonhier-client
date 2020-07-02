@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Styles from './WVHImageInputField.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+import SharedStyles from 'styles';
 import { WVHButton } from '../../wvhButton';
 
 interface IProps {
@@ -88,7 +88,7 @@ export class WVHImageInputField extends VueComponent<IProps, IRefs> {
   public render(h): Vue.VNode {
     return (
       <div class={`${Styles['image-input__wrapper']} ${SharedStyles['input__wrapper']}`}>
-        <label class={`${Styles['image-input__inner']} ${SharedStyles['input__wrapper']}`}>
+        <label class={`${Styles['image-input__inner']}`}>
           {this.errorMessages.length > 0 && (
             <div class={`${SharedStyles['input__errors']}`}>
               {this.errorMessages.map((error) => (

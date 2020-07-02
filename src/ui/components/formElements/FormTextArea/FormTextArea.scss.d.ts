@@ -4,8 +4,6 @@ interface CssExports {
   'textarea': string;
   'textarea__field': string;
   'textarea__inner': string;
-  'textarea__wrapper': string;
-  'textarea__wrapper--active': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

@@ -1,12 +1,13 @@
 import Component from 'vue-class-component';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 //import Styles from './FormCheckbox.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+import SharedStyles from 'styles';
 
 interface IProps {
   label: string;
   id: string;
-  value: boolean;
+  value: boolean | string | number;
+  currentValue?: boolean | string | number;
   'is-valid'?: boolean;
   'error-messages'?: string[];
 }
@@ -22,8 +23,12 @@ interface IProps {
       required: true,
     },
     value: {
-      type: Boolean,
+      type: [Boolean, String, Number],
       required: true,
+    },
+    currentValue: {
+      type: [Boolean, String, Number],
+      default: '',
     },
     isValid: {
       type: Boolean,
@@ -39,11 +44,16 @@ export class FormCheckbox extends VueComponent<IProps> {
   public id!: string;
   public maxLength?: number;
   public label!: string;
-  public value!: boolean;
+  public value!: boolean | string | number;
+  public currentValue!: boolean | string | number;
   public errorMessages!: string[];
 
+  public get isChecked(): boolean {
+    return this.currentValue === this.value;
+  }
+
   public update(): void {
-    this.$emit('change', { key: this.id, value: !this.value });
+    this.$emit('change', { key: this.id, value: !this.isChecked });
   }
 
   // @ts-ignore
@@ -52,14 +62,14 @@ export class FormCheckbox extends VueComponent<IProps> {
       <div class={`${SharedStyles['selection__wrapper']}`} on-click={this.update.bind(this)}>
         <div
           class={
-            this.value
+            this.isChecked
               ? `${SharedStyles['selection__checkbox']} ${SharedStyles['selection__checkbox--selected']}`
               : `${SharedStyles['selection__checkbox']}`
           }
         />
         <label
           class={
-            this.value
+            this.isChecked
               ? `${SharedStyles['selection__label']} ${SharedStyles['selection__label--active']}`
               : `${SharedStyles['selection__label']}`
           }

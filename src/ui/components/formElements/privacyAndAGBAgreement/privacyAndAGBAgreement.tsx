@@ -1,7 +1,8 @@
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Component from 'vue-class-component';
 import Styles from './styles.scss';
-import { IDataProtStatement } from '@/store/state/state.types';
+import { IDataProtStatement } from '@/store/modules/wvh/state/state.types';
+import { WVHModule } from '@/store';
 
 @Component({
   props: {
@@ -14,8 +15,9 @@ import { IDataProtStatement } from '@/store/state/state.types';
   },
 })
 export class PrivacyAndAGBAgreement extends VueComponent<{}> {
+  public wvhModule = WVHModule.context(this.$store);
   public get dataProtStatement(): IDataProtStatement {
-    return this.$store.state.dataProtStatements[0];
+    return this.wvhModule.state.dataProtStatements[0];
   }
 
   // @ts-ignore: Declared variable is not read

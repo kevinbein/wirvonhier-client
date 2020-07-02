@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Styles from './FormInputField.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+import SharedStyles from 'styles';
 
 type InputType = 'email' | 'hidden' | 'number' | 'password' | 'reset' | 'search' | 'tel' | 'text' | 'url';
 interface IProps {
@@ -28,6 +28,7 @@ interface IProps {
     type?: InputType;
     disabled?: boolean;
   };
+  'on-change'?: ({ key, value }: { key: never; value: never }) => void;
 }
 
 interface IRefs {
@@ -48,7 +49,7 @@ interface IRefs {
     },
     value: {
       type: String,
-      required: true,
+      default: '',
     },
     isValid: {
       type: Boolean,

@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Styles from './FormTextArea.scss';
-import SharedStyles from '@/ui/styles/main.scss';
+import SharedStyles from 'styles';
 
 interface IProps {
   label: string;
@@ -27,7 +27,7 @@ interface IProps {
     },
     value: {
       type: String,
-      required: true,
+      default: '',
     },
     isValid: {
       type: Boolean,
@@ -93,8 +93,8 @@ export class FormTextArea extends VueComponent<IProps> {
       <div
         class={
           this.hasFocus || this.hasValue
-            ? `${Styles['textarea__wrapper']} ${Styles['textarea__wrapper--active']} ${SharedStyles['input__wrapper']} ${SharedStyles['input__wrapper--active']}`
-            : `${Styles['textarea__wrapper']} ${SharedStyles['input__wrapper']}`
+            ? `${SharedStyles['input__wrapper']} ${SharedStyles['input__wrapper--active']}`
+            : `${SharedStyles['input__wrapper']}`
         }
       >
         <label
