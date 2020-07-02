@@ -81,6 +81,7 @@ export class GoogleMapsService {
           resolve([location.lng(), location.lat()]);
         } else {
           console.log('Geocoding failed: ', status);
+          resolve();
         }
       });
     });
