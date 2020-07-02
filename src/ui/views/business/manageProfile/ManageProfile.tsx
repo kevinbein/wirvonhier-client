@@ -5,10 +5,13 @@ import SharedStyles from 'styles';
 import { BusinessModule, UserDataState, UserModule, AppearanceModule } from '@/store';
 import { Business } from '@/entities';
 import { ManageProfileForm } from './manageProfileForm';
-import { Loader, WVHButton } from '@/ui/components';
+import { Loader, WVHButton, BackButton } from '@/ui/components';
 
 @Component({
   name: 'ManageProfile',
+  components: {
+    BackButton,
+  },
 })
 export class ManageProfile extends Vue {
   public appearanceModule = AppearanceModule.context(this.$store);
@@ -19,8 +22,8 @@ export class ManageProfile extends Vue {
     return this.userModule.state;
   }
 
-  public get business(): Business {
-    return this.businessModule.state.selectedBusiness as Business;
+  public get business(): Business | null {
+    return this.user.selectedBusiness;
   }
 
   public created(): void {
@@ -31,17 +34,7 @@ export class ManageProfile extends Vue {
   public render(h): Vue.VNode {
     return (
       <div class={`${SharedStyles.page} ${Styles['manage-profile__page']}`}>
-        <router-link
-          to={{ name: 'BusinessDashboard', query: this.$route.query }}
-          title="zurück"
-          class={Styles['manage-profile__back']}
-        >
-          <img
-            src="/assets/icons/icon_arrow-left-492.svg"
-            alt="arrow-back"
-            class={Styles['manage-profile__back-icon']}
-          />
-        </router-link>
+        <BackButton to={{ name: 'BusinessDashboard', query: this.$route.query }} />
         <div class={Styles['manage-profile__form-wrapper']}>
           {this.business ? (
             <div style="display: contents">
