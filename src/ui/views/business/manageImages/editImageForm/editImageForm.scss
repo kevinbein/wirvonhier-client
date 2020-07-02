@@ -1,0 +1,37 @@
+.edit-image-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+
+  &__title {
+    @extend %font-title;
+
+    margin: (0.25 * $unit-font-title) auto ($unit-font-title);
+    position: relative;
+    text-align: center;
+  }
+  &__thumbnail {
+    border-radius: $unit-base-quarter;
+    box-shadow: $elevation-3;
+    margin: auto auto $unit-base-quarter;
+    object-fit: cover;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__delete {
+    font-size: 0.75em;
+    height: 31px;
+    margin: $unit-base-half auto;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    width: 140px;
+  }
+}

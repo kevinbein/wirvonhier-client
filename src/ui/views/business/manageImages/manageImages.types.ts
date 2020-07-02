@@ -1,13 +1,23 @@
-import { IImage, IVideo } from '@/entities';
+import { Image, Video } from '@/entities';
 
-export interface IImageData extends IImage {
+export interface IImageSize {
+  width: number;
+  height: number;
+}
+export interface IImageSizes {
+  profile: IImageSize;
+  story: IImageSize;
+  logo: IImageSize;
+}
+
+export interface IImageData extends Image {
   saved: boolean;
   isCover?: boolean;
   isLogo?: boolean;
   isStory?: boolean;
   isProfile?: boolean;
 }
-export interface IVideoData extends IVideo {
+export interface IVideoData extends Video {
   saved: boolean;
   isCover?: boolean;
   isLogo?: boolean;
