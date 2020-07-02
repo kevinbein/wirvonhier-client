@@ -34,8 +34,8 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const opts: AxiosRequestConfig = { headers: {}, ...options };
-    if (this.store.state.token && opts.withCredentials !== false) {
-      opts.headers.Authentication = `Bearer ${this.store.state.token}`;
+    if (this.store.state.Auth.token && opts.withCredentials !== false) {
+      opts.headers.Authentication = `Bearer ${this.store.state.Auth.token}`;
     }
     try {
       const { data } = await this.withAuth.get<T>(url, opts);
@@ -56,8 +56,8 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
-    if (this.store.state.token && options.withCredentials !== false) {
-      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    if (this.store.state.Auth.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.Auth.token}`;
     }
     try {
       const { data } = await this.withAuth.post<T>(url, body, options);
@@ -78,8 +78,8 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
-    if (this.store.state.token && options.withCredentials !== false) {
-      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    if (this.store.state.Auth.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.Auth.token}`;
     }
     try {
       const { data } = await this.withAuth.patch<T>(url, body, options);
@@ -99,8 +99,8 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
-    if (this.store.state.token && options.withCredentials !== false) {
-      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    if (this.store.state.Auth.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.Auth.token}`;
     }
     try {
       const { data } = await this.withAuth.delete<T>(url, options);
@@ -120,8 +120,8 @@ export class HTTP {
       if (!authenticated) return { status: 'failure' };
     }
     const options: AxiosRequestConfig = { headers: {}, ...(requestOptions || {}) };
-    if (this.store.state.token && options.withCredentials !== false) {
-      options.headers.Authentication = `Bearer ${this.store.state.token}`;
+    if (this.store.state.Auth.token && options.withCredentials !== false) {
+      options.headers.Authentication = `Bearer ${this.store.state.Auth.token}`;
     }
     try {
       const res = await this.withAuth.head<T>(url, options);
@@ -135,7 +135,7 @@ export class HTTP {
   private async checkAndRefreshToken(): Promise<boolean> {
     const hasPublicToken = document.cookie.includes('public_refresh_token');
     if (!hasPublicToken) return false;
-    const token = this.store.state.token;
+    const token = this.store.state.Auth.token;
     if (token) {
       const decoded = jwtDecode<ITokenPayload>(token);
       const isExpired = Date.now() >= decoded.exp * 1000;
@@ -143,7 +143,7 @@ export class HTTP {
     }
     try {
       const res = await this.withAuth.post<{ token: string }>('/refresh-token');
-      this.store.commit('SET_TOKEN', res.data.token);
+      this.store.commit('Auth/SET_TOKEN', res.data.token);
       return true;
     } catch (_error) {
       // User not authenticated possibly redirect to login
