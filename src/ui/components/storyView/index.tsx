@@ -1,13 +1,13 @@
-import { VueComponent } from '@/ui/vue-ts-component';
+import { VueComponent } from '@/ui/typings/vue-ts-component';
 import Component from 'vue-class-component';
 import Styles from './styles.scss';
-import { Story } from '@/entities';
+import { Media } from '@/entities';
 import { StoryMedia } from './storyMedia';
 
 const dummyLogo = '/assets/imgs/logo/logo_180x180.png';
 
 interface IProps {
-  story: Story;
+  story: Media;
   class?: string;
   ref?: string;
   storyWidth: number;
@@ -26,7 +26,7 @@ interface IRefs {
   name: 'Story',
   props: {
     story: {
-      type: Story,
+      type: Media,
     },
     storyWidth: Number,
     storyHeight: Number,
@@ -34,22 +34,15 @@ interface IRefs {
   },
 })
 export class StoryView extends VueComponent<IProps, IRefs> {
-  public story!: Story;
+  public story!: Media;
   public storyWidth!: number;
   public storyHeight!: number;
   public logoWidth = 60;
   public startVideo = false;
   public controls!: boolean;
 
-  public getUploadDateInfo(dateStr: string | undefined): string {
-    if (dateStr === undefined) {
-      return '';
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const date = new Date(dateStr) as any;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const now = new Date() as any;
-    const diff = now - date;
+  public getUploadDateInfo(date: Date = new Date()): string {
+    const diff = Date.now() - date.getMilliseconds();
     const SECOND = 1000;
     const MINUTE = 60 * SECOND;
     const HOUR = 60 * MINUTE;
@@ -81,7 +74,7 @@ export class StoryView extends VueComponent<IProps, IRefs> {
         <div class={Styles['story__background']} />
         <div class={Styles['header']}>
           <div class={Styles['header-left-side']}>
-            {this.story.business.media.logo && this.story.business.media.logo.publicId ? (
+            {this.story.business?.media.logo && this.story.business.media.logo.publicId ? (
               <cld-image
                 class={Styles['header-left-side__logo']}
                 publicId={this.story.business.media.logo && this.story.business.media.logo.publicId}
@@ -95,7 +88,7 @@ export class StoryView extends VueComponent<IProps, IRefs> {
             )}
           </div>
           <div class={Styles['header-right-side']}>
-            <div class={Styles['header-right-side__name']}>{this.story.business.name}</div>
+            <div class={Styles['header-right-side__name']}>{this.story.business?.name}</div>
             <div class={Styles['header-right-side__date']}>{this.getUploadDateInfo(this.story.createdAt)}</div>
           </div>
         </div>

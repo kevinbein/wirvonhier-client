@@ -1,16 +1,19 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './videos.scss';
-import { Business, Story, Video } from '@/entities';
-import { BusinessModule, AppearanceModule } from '@/store';
-import { StoryView } from '@/ui/components';
-//import { WVHButton } from '@/ui/components';
+import { Business, Video } from '@/entities';
+import { UserModule, AppearanceModule } from '@/store';
+import { StoryView, BackButton } from '@/ui/components';
+import SharedStyles from 'styles';
 
 @Component({
   name: 'Videos',
+  components: {
+    StoryView,
+  },
 })
 export class Videos extends Vue {
-  public businessModule = BusinessModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
   public appearanceModule = AppearanceModule.context(this.$store);
   public deviceWidth = window.innerWidth;
   public deviceHeight = window.innerHeight;
@@ -19,11 +22,11 @@ export class Videos extends Vue {
   private refreshId?: NodeJS.Timeout;
 
   get business(): Business | null {
-    return this.businessModule.state.selectedBusiness;
+    return this.userModule.state.selectedBusiness;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  get stories(): any[] {
+  get stories(): Video[] {
     if (this.business === null) {
       return [];
     }
@@ -59,29 +62,22 @@ export class Videos extends Vue {
     this.business.media.stories.videos.splice(videoIndex, 1);
   }
 
-  public previewStory: Story | null = null;
+  public previewVideo: Video | null = null;
   public loadVideoPreview(video: Video): void {
     if (this.business) {
-      this.previewStory = new Story(video, this.business);
+      this.previewVideo = video;
     }
   }
 
   public closeVideoPreview(): void {
-    this.previewStory = null;
+    this.previewVideo = null;
   }
 
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div class={Styles['stories-page-container']}>
-        <router-link
-          class={Styles['back-button']}
-          to={{ name: 'BusinessDashboard', query: this.$route.query }}
-          title="zurück"
-        >
-          <i class="fa fa-chevron-left"></i>
-          <div class={Styles['back-button__title']}>Zurück</div>
-        </router-link>
+      <main class={`${SharedStyles.page} ${Styles['videos__page']}`}>
+        <BackButton />
         <div class={Styles['stories-page']}>
           <table class={Styles['stories']}>
             <thead>
@@ -128,10 +124,10 @@ export class Videos extends Vue {
             </tbody>
           </table>
         </div>
-        {this.previewStory !== null && (
+        {this.previewVideo !== null && (
           <div class={Styles['story-preview__container']}>
             <StoryView
-              story={this.previewStory}
+              story={this.previewVideo}
               storyWidth={this.storyWidth}
               storyHeight={this.storyHeight}
               controls={true}
@@ -142,14 +138,13 @@ export class Videos extends Vue {
             />
           </div>
         )}
-      </div>
+      </main>
     );
   }
 
   private refreshData(): void {
     if (!this.business) return;
-    this.businessModule.actions.loadAndPersistBusinessDataById([this.business._id as string]);
-    this.businessModule.actions.selectBusiness(this.business._id as string);
+    this.userModule.actions.loadUserAndSaveUserData();
     this.refreshId = setTimeout(this.refreshData.bind(this), 15000);
   }
 }

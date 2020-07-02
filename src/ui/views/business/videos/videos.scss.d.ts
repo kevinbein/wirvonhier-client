@@ -15,12 +15,12 @@ interface CssExports {
   'stories': string;
   'stories--center': string;
   'stories-page': string;
-  'stories-page-container': string;
   'stories__date': string;
   'stories__info': string;
   'story-preview__close-button': string;
   'story-preview__container': string;
   'upload-button': string;
+  'videos__page': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

@@ -1,6 +1,6 @@
 import Component from 'vue-class-component';
 import Vue from 'vue';
-import { BusinessModule, LocationModule, LocationState, LocationMutations, LocationActions } from '@/store';
+import { BusinessModule, LocationModule, LocationState, LocationMutations, LocationActions, UserModule } from '@/store';
 import { Business, IBusinessData, IPaymentMethod, IAddress } from '@/entities';
 import set from 'lodash/set';
 import Styles from './manageProfileForm.scss';
@@ -22,52 +22,85 @@ import { registerModule, Context, Module } from 'vuex-smart-module';
 export class ManageProfileForm extends Vue {
   public formId = 'manage-profile-form';
   public businessModule = BusinessModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
   public locationModule!: Context<Module<LocationState, never, LocationMutations, LocationActions>>;
   public formModule = FormModule.context(this.$store);
   public formErrors: { [key: string]: string[] } = {};
   public formValidation: { [key: string]: boolean } = {};
   public isLoading = false;
   public formComponents = formComponents;
-  public get business(): Business {
-    return this.businessModule.state.selectedBusiness as Business;
+
+  public get business(): Business | null {
+    return this.userModule.state.selectedBusiness;
   }
 
-  public get formData(): IBusinessData {
+  public get formData(): Partial<IBusinessData> {
     return this.formModule.getters.getFormById(this.formId) || {};
   }
 
+  public get formValues(): Partial<IBusinessData> {
+    return { ...(this.business ? this.business.getData() : {}), ...this.formData };
+  }
+
+  public get delivery(): { [key: string]: string } {
+    return (
+      this.formValues.delivery?.reduce((acc, item) => {
+        return { ...acc, [item]: item };
+      }, {}) || {}
+    );
+  }
+  public get paymentMethods(): { [key: string]: string } {
+    return (
+      this.formValues.paymentMethods?.reduce((acc, item) => {
+        return { ...acc, [item]: item };
+      }, {}) || {}
+    );
+  }
+
   public created(): void {
-    this.formModule.actions.update({ formId: this.formId, data: this.business.getData() });
     if (!this.$store.state.Location) {
       registerModule(this.$store, ['Location'], 'Location/', LocationModule);
     }
     this.locationModule = LocationModule.context(this.$store);
   }
 
-  public update({ key, value }: { key: string; value: string }): void {
+  public update({ key, value }: { key: string; value: unknown }): void {
     // save in form
     const data = { ...this.formData };
     set(data, key, value);
     this.formModule.actions.update({ formId: this.formId, data });
-    this.$forceUpdate();
+  }
+
+  public updatePaymentMethods({ key, value }: { key: IPaymentMethod; value: string }): void {
+    const data = this.formData.paymentMethods || [];
+    if (value) data.push(key);
+    else data.filter((item) => item !== key);
+    this.update({ key: 'paymentMethods', value: data });
+  }
+
+  public updateDelivery({ key, value }: { key: string; value: string }): void {
+    const data = this.formData.delivery || [];
+    if (value) data.push(key);
+    else data.filter((item) => item !== key);
+    this.update({ key: 'delivery', value: data });
   }
 
   public async submit(e: Event): Promise<void> {
     e.preventDefault();
-    if (this.isLoading) return;
+    if (this.isLoading || !this.business) return;
     this.isLoading = true;
 
-    if (this.isAddressChanged()) {
-      const data = { ...this.formData };
-      const coordinates = await this.locationModule.actions.geocode(data.address);
-      set(data, 'location', coordinates);
-      this.formModule.actions.update({ formId: this.formId, data });
+    const newAddress = this.formData.address;
+
+    if (this.isAddressChanged(newAddress)) {
+      const coordinates = await this.locationModule.actions.geocode(newAddress);
+      this.update({ key: 'location', value: coordinates });
     }
 
-    const success = await this.businessModule.actions.save(this.formData);
+    const success = await this.businessModule.actions.save({ businessId: this.business._id, updates: this.formData });
 
     if (success) {
-      this.businessModule.actions.selectBusiness(this.business._id as string);
+      this.userModule.actions.selectBusiness(this.business._id);
       this.$toast(`Profil wurde erfolgreich aktualisiert.`, {
         position: POSITION.TOP_CENTER,
         type: TYPE.SUCCESS,
@@ -96,7 +129,7 @@ export class ManageProfileForm extends Vue {
             attributes={comp.attributes}
             is-valid={this.formValidation[comp.id]}
             error-messages={this.formErrors[comp.id]}
-            value={this.formData[comp.id as keyof IBusinessData] || ''}
+            value={this.formValues[comp.id as keyof IBusinessData] || ''}
             on-change={this.update.bind(this)}
           />
         ))}
@@ -104,6 +137,7 @@ export class ManageProfileForm extends Vue {
         <AddressForm
           formValidation={this.formValidation}
           formErrors={this.formErrors}
+          address={this.formValues.address}
           on-update={this.update.bind(this)}
         />
 
@@ -116,7 +150,7 @@ export class ManageProfileForm extends Vue {
             attributes={comp.attributes}
             is-valid={this.formValidation[comp.id]}
             error-messages={this.formErrors[comp.id]}
-            value={this.formData[comp.id as keyof IBusinessData] || ''}
+            value={this.formValues[comp.id as keyof IBusinessData] || ''}
             on-change={this.update.bind(this)}
           />
         ))}
@@ -129,8 +163,9 @@ export class ManageProfileForm extends Vue {
             label={comp.label}
             is-valid={this.formValidation[comp.id]}
             error-messages={this.formErrors[comp.id]}
-            value={!!this.formData.paymentMethods?.includes(comp.id as IPaymentMethod)}
-            on-change={this.update.bind(this)}
+            value={comp.id as IPaymentMethod}
+            currentValue={this.paymentMethods[comp.id]}
+            on-change={this.updatePaymentMethods.bind(this)}
           />
         ))}
 
@@ -142,23 +177,23 @@ export class ManageProfileForm extends Vue {
             label={comp.label}
             is-valid={this.formValidation[comp.id]}
             error-messages={this.formErrors[comp.id]}
-            value={!!this.formData.delivery?.includes(comp.id)}
-            on-change={this.update.bind(this)}
+            value={comp.id}
+            currentValue={this.delivery[comp.id]}
+            on-change={this.updateDelivery.bind(this)}
           />
         ))}
         <div class={Styles['manage-profile__submit']}>
           <WVHButton primary on-click={this.submit.bind(this)}>
-            {this.isLoading ? <Loader color="#fff" size={24} /> : 'SPEICHERN'}
+            {this.isLoading ? ['', <Loader color="#fff" size={24} />] : 'SPEICHERN'}
           </WVHButton>
         </div>
       </form>
     );
   }
 
-  private isAddressChanged(): boolean {
-    const newAddress = this.formData.address;
-    if (!newAddress) return false;
+  private isAddressChanged(newAddress?: IAddress): newAddress is IAddress {
+    if (!newAddress || !this.business) return false;
     const oldAddress = this.business.address;
-    return (Object.keys(newAddress) as Array<keyof IAddress>).every((key) => newAddress[key] === oldAddress[key]);
+    return (Object.keys(newAddress) as Array<keyof IAddress>).some((key) => newAddress[key] !== oldAddress[key]);
   }
 }
