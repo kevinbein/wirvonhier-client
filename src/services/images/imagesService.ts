@@ -1,6 +1,5 @@
 import { IStore } from '@/store';
-import { HTTP, DB, IHttpSuccessResponse, IHttpErrorResponse } from '..';
-import { IImageData } from '@/ui/apps/business/manageImages/manageImages.types';
+import { HTTP, DB } from '..';
 import { ICloudinaryImageUploadResponse } from './imageService.types';
 
 export class ImagesService {
@@ -33,17 +32,18 @@ export class ImagesService {
     }
   }
 
-  uploadImage(
-    image: IImageData,
-  ): null | Promise<
-    IHttpSuccessResponse<ICloudinaryImageUploadResponse> | IHttpErrorResponse<ICloudinaryImageUploadResponse>
-  > {
-    if (!image.src) return null;
+  async uploadToCloudinary(publicId: string, imageFile: string | Blob): Promise<boolean> {
     const options = {
-      file: image.src,
+      file: imageFile,
       upload_preset: CLOUDINARY_IMAGE_PRESET, // eslint-disable-line @typescript-eslint/camelcase
-      public_id: image.publicId, // eslint-disable-line @typescript-eslint/camelcase
+      public_id: publicId, // eslint-disable-line @typescript-eslint/camelcase
     };
-    return this.http.post<ICloudinaryImageUploadResponse>(this.uploadURL, options, false, { withCredentials: false });
+    const res = await this.http.post<ICloudinaryImageUploadResponse>(this.uploadURL, options, false, {
+      withCredentials: false,
+    });
+    if (res.status === 'success') {
+      return true;
+    }
+    return false;
   }
 }
