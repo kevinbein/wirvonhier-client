@@ -1,9 +1,9 @@
 import Component from 'vue-class-component';
-import { LocationModule, BusinessModule } from '@/store/modules';
+import { LocationModule, UserModule } from '@/store/modules';
 import { VueComponent } from '@/ui/typings/vue-ts-component';
 import { FormInputField } from '@/ui';
 import Styles from '../manageProfileForm.scss';
-import { Business } from '@/entities';
+import { Business, IAddress } from '@/entities';
 import { IAddressComponent } from '@/services/googleMaps';
 
 interface IAddressElement {
@@ -16,6 +16,7 @@ interface IAddressElement {
 interface IProps {
   formValidation: { [key: string]: boolean };
   formErrors: { [key: string]: string[] };
+  address?: IAddress;
 }
 interface IRefs {
   [key: string]: HTMLDivElement | FormInputField;
@@ -34,13 +35,27 @@ interface IRefs {
       type: Object,
       required: true,
     },
+    address: {
+      type: Object,
+      default() {
+        return {
+          city: '',
+          country: '',
+          state: '',
+          street: '',
+          streetNumber: '',
+          zip: '',
+        };
+      },
+    },
   },
 })
 export class AddressForm extends VueComponent<IProps, IRefs> {
-  public businessModule = BusinessModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
   public formValidation!: { [key: string]: boolean };
   public formErrors!: { [key: string]: string[] };
   public locationModule = LocationModule.context(this.$store);
+  public address!: IAddress;
   public addressFormElements: IAddressElement[] = [
     {
       label: 'Straße',
@@ -83,8 +98,8 @@ export class AddressForm extends VueComponent<IProps, IRefs> {
     },
   ];
 
-  public get business(): Business {
-    return this.businessModule.state.selectedBusiness as Business;
+  public get business(): Business | null {
+    return this.userModule.state.selectedBusiness;
   }
 
   public async mounted(): Promise<void> {
@@ -131,7 +146,7 @@ export class AddressForm extends VueComponent<IProps, IRefs> {
             attributes={item.attributes}
             is-valid={this.formValidation[item.id]}
             error-messages={this.formErrors[item.id]}
-            value={this.business.address[item.id]}
+            value={this.address[item.id] || ''}
             on-change={this.update.bind(this)}
           />
         ))}
