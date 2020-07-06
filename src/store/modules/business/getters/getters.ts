@@ -1,7 +1,8 @@
 import { Getters } from 'vuex-smart-module';
 import { BusinessState } from '../state';
 import { IStore } from '@/store';
-import { IBusinessFilter, Media, IBusinessData, Business } from '@/entities';
+import { IBusinessFilter, Image, IBusinessData, Business, Video } from '@/entities';
+import { IQuery } from '@/services';
 
 export class BusinessGetters extends Getters<BusinessState> {
   store!: IStore;
@@ -17,18 +18,19 @@ export class BusinessGetters extends Getters<BusinessState> {
     };
   }
 
-  public getMixedStories(): Media[] {
-    const businesses = this.state.businesses;
-    const stories: Media[] = [];
-    for (const business of businesses) {
-      const businessStories = business.getSortedImagesAndVideos();
-      stories.push(...businessStories);
-    }
-    stories.sort((story1: Media, story2: Media) => {
-      const time1 = new Date(story1.modifiedAt).getTime();
-      const time2 = new Date(story2.modifiedAt).getTime();
-      return time2 - time1;
-    });
-    return stories;
+  get activeFilter(): IQuery {
+    return {
+      page: this.state.page,
+      limit: this.state.limit,
+      filters: this.state.filters,
+    };
+  }
+
+  public get businessById() {
+    return (businessId: string) => this.state.businesses.find((b) => b.id === businessId);
+  }
+
+  public get filteredSlides(): (Image | Video)[] {
+    return this.state.filteredSlides.get(JSON.stringify(this.state.filters)) || [];
   }
 }

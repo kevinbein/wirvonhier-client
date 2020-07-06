@@ -1,11 +1,19 @@
 import { Actions, Context } from 'vuex-smart-module';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
 import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
-import { Business, IBusinessData, IUpdateSuccess, IUpdateError, Image, INewImageData, IImageUpdates } from '@/entities';
+import {
+  Business,
+  IBusinessData,
+  IUpdateSuccess,
+  IUpdateError,
+  Image,
+  INewImageData,
+  IImageUpdates,
+  IBusinessFilter,
+  Video,
+} from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
 import { IBusinessUpdateOptions } from './actions.types';
-import { ICloudinaryImageUploadResponse } from '@/services/images/imageService.types';
-import { IHttpErrorResponse } from '@/services';
 import { IStore } from '@/store';
 import { UserModule } from '../../user';
 
@@ -28,12 +36,14 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
 
   async getBusinessesByZIP(options: IFindNearBusinessesOptions): Promise<void> {
     if (!options.zip) return;
-    const businesses = await this.store.$services.business.loadBusinessesAndUpdateDB({
+    const response = await this.store.$services.business.loadBusinessesAndUpdateDB({
       filters: [{ name: 'address.zip', value: options.zip }],
     });
+    if (!response) return;
+    const { list: businessesData } = response;
     this.commit(
       'SET_BUSINESSES',
-      businesses.map((business) => new Business(business)),
+      businessesData.map((business) => new Business(business)),
     );
   }
 
@@ -46,18 +56,6 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.commit('SET_SELECTED_BUSINESS', selectedBusiness[0]);
     if (!selectedBusiness[0]) return null;
     return selectedBusiness[0];
-  }
-
-  async create(businessData?: Partial<IBusinessData>): Promise<void> {
-    const businesses = await this.store.$services.business.create(businessData);
-    if (!businesses) {
-      this.store.$toast(
-        `Oops! Wir sind auf einen unbekannten Fehler gestoßen. Bitte wende dich an unseren support und versuche es später erneut.`,
-        { type: TYPE.ERROR, position: POSITION.TOP_CENTER, timeout: 10000 },
-      );
-      return;
-    }
-    this.actions.selectBusiness(businesses[0]._id);
   }
 
   update(options: IBusinessUpdateOptions): IUpdateSuccess | IUpdateError {
@@ -77,24 +75,52 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     return true;
   }
 
-  async validateImageUploads(publicIds: string[]): Promise<void> {
-    const { status, ...res } = await this.store.$http.post<{ failed: ICloudinaryImageUploadResponse[] }>(
-      '/image-upload-confirmed',
-      { publicIds },
-    );
-    if (status === 'failure') {
-      const error = (res as IHttpErrorResponse<{ failed: ICloudinaryImageUploadResponse[] }>).error;
-      const failed = (error && error.response?.data.failed) || [];
-      // eslint-disable-next-line no-console
-      console.log('Failed images: ', failed);
-      this.store.$toast('Wir konnten leider nicht alle Bilder speichern.', {
-        position: POSITION.TOP_CENTER,
-        type: TYPE.ERROR,
-      });
-      return;
+  setFilter(filter: IBusinessFilter): void {
+    this.mutations.SET_FILTER(filter);
+  }
+  clearFilter(filterName: keyof IBusinessData): void {
+    this.mutations.CLEAR_FILTER(filterName);
+  }
+  clearAllFilters(): void {
+    this.mutations.CLEAR_ALL_FILTERS();
+  }
+
+  // NOTE: Currently only loads from server (and saves in IndexedDB)
+  async loadFilteredBusinesses(options: { page: number }): Promise<void> {
+    const { page } = options;
+    this.mutations.SET_PAGE(page);
+    const activeFilter = this.getters.activeFilter;
+    const response = await this.store.$services.business.loadBusinessesAndUpdateDB(activeFilter);
+    if (!response) return;
+    const { list: businessesData, lastPage: newLastPage } = response;
+    this.mutations.SET_LAST_PAGE(newLastPage - 1);
+    const businesses = businessesData.map((b) => new Business(b));
+    this.store.$db.businesses.addMany(businessesData);
+
+    const prevSlides = this.state.filteredSlides.get(JSON.stringify(this.state.filters)) || [];
+    const newSlides = businesses
+      .reduce((slides, business) => {
+        return [...slides, ...business.getSortedImagesAndVideos()];
+      }, [] as (Image | Video)[])
+      .filter((slide) => !prevSlides.some((prevSlide) => prevSlide._id === slide._id));
+
+    this.mutations.SET_FILTERED_SLIDES({
+      filter: JSON.stringify(this.state.filters),
+      slides: [...newSlides],
+    });
+  }
+
+  async setCurrentExplorerIndex(newIndex: number): Promise<void> {
+    this.mutations.SET_CURRENT_EXPLORER_INDEX(newIndex);
+    const { page, lastPage } = this.state;
+    if (page < lastPage && this.state.currentExplorerIndex > this.getters.filteredSlides.length - 5) {
+      await this.actions.loadFilteredBusinesses({ page: page + 1 });
     }
   }
 
+  /**
+   * Image Handling
+   */
   selectImageForEdit(image: Image | null): void {
     this.mutations.SELECT_IMAGE_TO_EDIT(image);
   }
@@ -158,5 +184,18 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     }
     await this.actions.loadAndPersistBusinessDataById([currentSelectedBusiness._id]);
     this.userModule.actions.selectBusiness(currentSelectedBusiness._id);
+  }
+
+  // DEPRICATED
+  async create(businessData?: Partial<IBusinessData>): Promise<void> {
+    const businesses = await this.store.$services.business.create(businessData);
+    if (!businesses) {
+      this.store.$toast(
+        `Oops! Wir sind auf einen unbekannten Fehler gestoßen. Bitte wende dich an unseren support und versuche es später erneut.`,
+        { type: TYPE.ERROR, position: POSITION.TOP_CENTER, timeout: 10000 },
+      );
+      return;
+    }
+    this.actions.selectBusiness(businesses[0]._id);
   }
 }
