@@ -4,7 +4,7 @@ import { IQuery } from '../http';
 export interface IHttpBusinessResponse {
   total: number;
   page: 0;
-  perPage: 1000;
+  perPage: 5;
   lastPage: 1;
   list: IBusinessData[];
 }

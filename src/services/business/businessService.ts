@@ -57,7 +57,7 @@ export class BusinessService {
       maxDistance: maxDistance || 5000,
     };
 
-    const newBusinessDataPromise = this.loadBusinessesAndUpdateDB({
+    const responsePromise = this.loadBusinessesAndUpdateDB({
       limit,
       filters: [
         {
@@ -68,20 +68,21 @@ export class BusinessService {
     });
     let businessData = await this.db.businesses.findNear(value.maxDistance, limit);
     if (businessData.length === 0) {
-      businessData = await newBusinessDataPromise;
+      const response = await responsePromise;
+      businessData = response ? response.list : businessData;
     }
     const businesses = businessData.map((data) => new Business(data));
     return businesses;
   }
 
-  async loadBusinessesAndUpdateDB(query: IQuery): Promise<IBusinessData[]> {
+  async loadBusinessesAndUpdateDB(query: IQuery): Promise<IHttpBusinessResponse | null> {
     const queryString = this.http.constructQueryString(query);
     const url = `/businesses?${queryString}`;
     const { status, ...res } = await this.http.get<IHttpBusinessResponse>(url);
-    if (status === 'failure') return [];
+    if (status === 'failure') return null;
     const data = (res as IHttpSuccessResponse<IHttpBusinessResponse>).data;
     this.db.businesses.addMany(data.list);
-    return data.list;
+    return data;
   }
 
   async getBusinessById(businessId: string): Promise<IBusinessData | null> {

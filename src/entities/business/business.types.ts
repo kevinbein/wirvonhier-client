@@ -1,5 +1,6 @@
 import { Business } from './business';
 import { Image, Video, IImageData, IVideoData } from '../media';
+import { IFilter } from '@/services';
 
 export interface IBusinessData {
   readonly _id: string; // MongoDB ID
@@ -95,10 +96,9 @@ export type IPaymentMethod =
 export type IDeliveryOptions = 'collect' | 'delivery';
 export type IBusiness = IBusinessData;
 
-export interface IBusinessFilter {
-  any?: string;
-  id?: string;
-  _id?: string;
+export interface IBusinessFilter extends IFilter {
+  name: keyof IBusinessData;
+  value: IBusinessData[IBusinessFilter['name']];
 }
 
 export interface IValidationError {
