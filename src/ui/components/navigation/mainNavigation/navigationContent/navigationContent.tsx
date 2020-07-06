@@ -6,6 +6,8 @@ import { rootModule, UserModule } from '@/store';
 
 interface ILink {
   to?: Location;
+  href?: string;
+  target?: string;
   action?: () => void;
   name: string;
   type?: string;
@@ -35,12 +37,20 @@ export class NavigationContent extends VueComponent<{}> {
   public get links(): ILink[] {
     return [
       {
+        to: { name: 'Landing' },
+        name: 'Nutzer - Startseite',
+      },
+      {
         to: { name: 'BusinessDashboard' },
         name: 'Händler - Startseite',
       },
       {
-        to: { name: 'Landing' },
-        name: 'Nutzer - Startseite',
+        to: { name: 'Map' },
+        name: 'Zur Karte',
+      },
+      {
+        href: 'mailto:office@wirvonhier.net',
+        name: 'Kontakt: office@wirvonhier.net',
       },
       {
         to: { name: 'Privacy' },
@@ -55,13 +65,16 @@ export class NavigationContent extends VueComponent<{}> {
         name: 'Nutzungsbedingungen',
       },
       this.logoutLogin,
-    ];
+    ].filter(Boolean);
   }
 
   public navigate(link: ILink): void {
     this.$emit('close');
     if (link.to && this.$route.name !== link.to.name) {
       this.$router.push(link.to);
+    }
+    if (link.href) {
+      window.open(link.href, link.target);
     }
   }
 
