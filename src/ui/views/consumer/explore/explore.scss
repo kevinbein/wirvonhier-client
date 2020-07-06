@@ -1,11 +1,6 @@
 .explore-page {
   background: #000;
-  //height: calc(100vh - 50px);
-  //height: calc(calc(var(--vh, 1vh) * 100) - 50px);
-  //min-height: 100%;
-  //height: calc(calc(var(--vh, 1vh) * 100));
   height: 100%;
-  position: absolute;
   width: 100%;
 
   &__background {
@@ -19,8 +14,7 @@
     z-index: 1;
   }
 
-  .vertical-swiper,
-  .horizontal-swiper {
+  .vertical-swiper {
     min-height: 100%;
     top: 0;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -28,177 +22,13 @@
     user-select: none;
     width: 100%;
   }
-  .explorer {
-    //background-color: $col-primary-light;
-    background-color: #000;
-    //min-height: calc(calc(var(--vh, 1vh) * 100));
-
-    @media (min-width: $max-desktop-width) {
-      min-height: calc(calc(var(--vh, 1vh) * 100) - 50px);
-    }
-  }
   .profile {
     overflow: auto;
-    //overflow: scroll;
     z-index: 1;
 
     &__placeholder {
       background: rgb(255, 255, 255);
-      //height: calc(100vh - 50px);
-      //height: calc(calc(var(--vh, 1vh) * 100) - 50px);
       min-height: 100%;
-    }
-  }
-}
-.top-controls {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  .button {
-    cursor: pointer;
-    display: block;
-    margin: 20px 15px;
-    padding: 10px;
-    .icon {
-      color: #fff;
-      font-size: 1.5rem;
-    }
-  }
-}
-.settings {
-  z-index: 1;
-}
-.settings-navigation {
-  list-style-type: none;
-  margin: 15px;
-  padding: 0 24px !important;
-  &__item {
-    border: 1px solid rgba(112, 112, 112, 0.3);
-    border-bottom-width: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-    border-top-width: 1px;
-    font-size: 0.8rem;
-    padding: 10px 0;
-    &:last-child {
-      border-bottom-width: 1px;
-    }
-  }
-  &__link {
-    color: #131415 !important;
-    text-decoration: none;
-  }
-}
-
-.last-page {
-  position: relative;
-  &__text {
-    color: #767676;
-    font-size: 1.5rem;
-  }
-  &__button {
-    margin: 30px 0;
-  }
-}
-
-$explore-control-animation-delay: 6s;
-.explore-controls {
-  bottom: 30px;
-  color: #fff;
-  font-size: 1.2rem;
-  position: absolute;
-  width: 100%;
-  z-index: 3;
-
-  /* &--visible {
-    animation: fadeInExploreControls;
-    animation-delay: 3s;
-    animation-duration: 1s;
-    animation-fill-mode: forwards;
-  }
-  &--hidden {
-    animation: none;
-  } */
-
-  @keyframes fadeInExploreControls {
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes pulseExploreControls {
-    0% {
-      transform: scale(1);
-    }
-    40% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.25);
-    }
-    60% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-
-  &__left-arrow,
-  &__right-arrow {
-    bottom: 0;
-    height: 24px;
-    padding: 15px;
-    position: absolute;
-    text-align: center;
-    width: 24px;
-    z-index: 2;
-  }
-  &__left-arrow {
-    left: 30px;
-  }
-  &__right-arrow {
-    right: 30px;
-  }
-  &__text {
-    bottom: 0;
-    font-size: 0.7rem;
-    margin: 15px 0;
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    z-index: 1;
-  }
-  &__middle-arrow {
-    bottom: 30px;
-    height: 36px;
-    left: calc(50% - 15px - 18px);
-    margin: 15px;
-    position: absolute;
-    text-align: center;
-    width: 36px;
-  }
-
-  &__text,
-  &__middle-arrow,
-  &__right-arrow,
-  &__left-arrow {
-    opacity: 0;
-    &--hidden {
-      animation: none;
-    }
-  }
-  &__middle-arrow--visible {
-    //animation: fadeInExploreControls 1s 3s forwards, pulseExploreControls 1s infinite linear;
-    animation: fadeInExploreControls 1s $explore-control-animation-delay forwards,
-      pulseExploreControls 3s $explore-control-animation-delay linear;
-  }
-  &__text,
-  &__right-arrow,
-  &__left-arrow {
-    &--visible {
-      animation: fadeInExploreControls 1s $explore-control-animation-delay forwards;
     }
   }
 }

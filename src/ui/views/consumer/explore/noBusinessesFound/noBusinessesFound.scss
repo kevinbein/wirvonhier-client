@@ -1,0 +1,19 @@
+.no-businesses-found {
+  background: $col-white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  padding: 64px;
+  position: relative;
+  width: 100%;
+
+  &__text {
+    font-size: larger;
+    margin: 2em auto 0.5em;
+    text-align: center;
+  }
+  &__link {
+    text-decoration: none;
+  }
+}
