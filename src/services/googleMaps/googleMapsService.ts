@@ -2,6 +2,8 @@
 import { IStore } from '@/store';
 import { DB, HTTP } from '..';
 import { Bounds, IAutocompleteOptions, IAddressComponent } from './googleMapsService.types';
+import { TYPE, POSITION } from 'vue-toastification';
+import { RequestLocationToast } from '@/ui/components/toasts/requestLocationToast/RequestLocationToast';
 
 export class GoogleMapsService {
   // @ts-ignore
@@ -12,8 +14,6 @@ export class GoogleMapsService {
   private http: HTTP;
   // @ts-ignore
   private db: DB;
-  // Your personal API key.
-  // Get it here: https://console.cloud.google.com/google/maps-apis
   private API_KEY = GOOGLE_MAPS_API_KEY;
   private CALLBACK_NAME: 'gmapsCallback' = 'gmapsCallback';
   private initialized!: boolean;
@@ -80,10 +80,49 @@ export class GoogleMapsService {
           const { location } = results[0].geometry;
           resolve([location.lng(), location.lat()]);
         } else {
-          console.log('Geocoding failed: ', status);
           resolve();
         }
       });
+    });
+  }
+
+  public async requestUserLocation(): Promise<{
+    status: 'success' | 'failure';
+    code?: 0 | 1 | 2;
+    position?: [number, number];
+  }> {
+    return new Promise((resolve) => {
+      if (!('geolocation' in navigator)) {
+        resolve({ status: 'failure', code: 0 });
+      }
+      const { geolocation } = navigator;
+      this.store.$toast(
+        {
+          component: RequestLocationToast,
+          listeners: {
+            granted() {
+              geolocation.getCurrentPosition(
+                (pos) => {
+                  resolve({ status: 'success', position: [pos.coords.longitude, pos.coords.latitude] });
+                },
+                () => {
+                  resolve({ status: 'failure', code: 2 });
+                },
+                {
+                  maximumAge: 1000 * 60 * 10,
+                  timeout: 1000 * 5,
+                },
+              );
+            },
+            denied: () => resolve({ status: 'failure', code: 1 }),
+          },
+        },
+        {
+          type: TYPE.INFO,
+          position: POSITION.TOP_CENTER,
+          timeout: false,
+        },
+      );
     });
   }
 
@@ -92,7 +131,6 @@ export class GoogleMapsService {
     if (bounds === 'currentPosition') {
       return new Promise((resolve) => {
         if (!navigator.geolocation) {
-          console.log('No geolocation in navigator');
           resolve();
         }
         navigator.geolocation.getCurrentPosition(
@@ -105,8 +143,7 @@ export class GoogleMapsService {
             this.autoComplete?.setBounds(circle.getBounds());
             resolve();
           },
-          (e) => {
-            console.log(e);
+          () => {
             resolve();
           },
         );
