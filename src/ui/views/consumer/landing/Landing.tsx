@@ -1,126 +1,88 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './landing.scss';
-import SharedStyles from 'styles';
-import { FormInputField, OverlayView } from '@/ui/components';
+import { FormInputField, WVHButton } from '@/ui/components';
+import { LocationModule, BusinessModule } from '@/store/modules';
+import { POSITION, TYPE } from 'vue-toastification';
 
-@Component
+@Component({
+  name: 'Landing',
+})
 export class Landing extends Vue {
-  public location: Position | undefined;
+  public locationModule = LocationModule.context(this.$store);
+  public businessModule = BusinessModule.context(this.$store);
 
-  public gotoExplorer(forceZip?: string): void {
-    const zip = window.localStorage.zip ? window.localStorage.zip : '';
-    if (forceZip !== undefined) {
-      window.localStorage.zip = forceZip;
-      this.$router.push({ name: 'Explore', query: { zip } });
-    } else if (zip.length == 5) {
-      this.$router.push({ name: 'Explore', query: { zip } });
-    } else {
-      this.overlay = true;
-    }
+  public get location(): [number, number] | null {
+    return this.locationModule.state.currentLocation;
   }
 
-  public async getLocation(): Promise<Position> {
-    return new Promise((resolve, reject) => {
-      if (!('geolocation' in navigator)) {
-        reject(new Error('Geolocation is not available.'));
-      }
-
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          resolve(pos);
-        },
-        (err) => {
-          reject(err);
-        },
-      );
-    });
+  public get zip(): string {
+    return `${this.locationModule.state.currentZip || ''}`;
+  }
+  public get locationString(): string {
+    return this.location ? `${this.location[0]},${this.location[1]}` : '';
   }
 
-  public errorMessage = '';
-  public openSnackbar = true;
-  public overlay = false;
-  public async locateMe(): Promise<void> {
-    try {
-      this.location = await this.getLocation();
-      //this.clearLocalStorage();
-      //console.log('got location', this.location);
-      window.localStorage.location = JSON.stringify(
-        '{ latitude: ' + this.location?.coords.latitude + ', longitude: ' + this.location?.coords.longitude + '}',
-      );
-      //console.log('set current location', window.localStorage.location);
-      this.$router.push({ name: 'Explore' });
-    } catch (e) {
-      this.errorMessage = e.message;
-      this.openSnackbar = true;
-      //console.log(this.$refs.errorSnackbar);
-      // Only secure origins are allowed (see: https://goo.gl/Y0ZkNV)
-      //console.log('got error', e);
-    }
+  public async useLocation(): Promise<void> {
+    const { status, position } = await this.locationModule.actions.requestUserLocation();
+    if (status !== 'success') return;
+    this.locationModule.actions.setCurrentLocation(position);
+    this.$router.push({ name: 'Explore', query: { location: this.locationString } });
   }
 
-  public zip = '';
   public updateZip(data: { key: string; value: string }): void {
-    window.localStorage.zip = data.value;
-    this.zip = data.value;
-    this.$forceUpdate();
+    this.locationModule.actions.setCurrentZIP(data.value);
   }
 
   public submitZip(): void {
-    this.gotoExplorer();
-  }
-
-  public closeOverlay(): void {
-    this.overlay = false;
-  }
-
-  created(): void {
-    this.zip = window.localStorage.zip;
-  }
-
-  mounted(): void {
-    document.body.style.background = 'rgb(232, 232, 232)';
-    this.$root.$emit('iosChangeAppBarStyle', 'black-transcluent');
+    if (this.zip.length < 5) {
+      this.$toast('Bitte gib eine gültige PLZ ein.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.WARNING,
+      });
+      return;
+    }
+    this.$router.push({ name: 'Explore', query: { zip: this.zip } });
   }
 
   // @ts-ignore: Declared variable is not read
   render(h: CreateElement): Vue.VNode {
     return (
-      <div class={Styles['landing-page']}>
-        <div class={Styles['logo-container']}>
-          <img class={Styles['logo']} src="./assets/imgs/wvh-pre-login_1500px.png" alt="Pre login logo" />
-          <div class={Styles['welcome']}>
-            <div class={Styles['welcome__title']}>Hi,</div>
-            <div class={Styles['welcome__desc']}>
-              schön dich zu sehen! Bevor wir loslegen, brauchen wir zunächst deinen Standort.
-            </div>
-          </div>
+      <div class={Styles['landing']}>
+        <div class={Styles['landing__background']} />
+        <div class={Styles['landing__title']}>
+          <span class={Styles['landing__title--larger']}>Hi,</span>
+          <span>schön dich zu sehen! Bevor wir loslegen, brauchen wir zunächst deinen Standort.</span>
         </div>
-        <div class={Styles['zip-container']}>
-          <FormInputField
-            label="POSTLEITZAHL EINGEBEN"
-            id="title"
-            type="text"
-            attributes={{
-              autofocus: true,
-              autocomplete: 'postal-code',
-            }}
-            value={this.zip}
-            on-change={this.updateZip.bind(this)}
-            on-submit={this.submitZip.bind(this)}
-            icon="fa fa-search"
-            class={Styles['zip-container__field']}
-          />
+
+        <div class={Styles['landing__actions']}>
+          <WVHButton primary on-click={this.useLocation.bind(this)}>
+            Meinen Standort nutzen
+          </WVHButton>
+          <div class={Styles['landing__actions-separator']}>oder</div>
+          <div class={Styles['zip-container']}>
+            <FormInputField
+              label="POSTLEITZAHL EINGEBEN"
+              id="zip"
+              type="number"
+              attributes={{
+                autofocus: true,
+                autocomplete: 'postal-code',
+              }}
+              value={this.zip}
+              on-change={this.updateZip.bind(this)}
+              on-submit={this.submitZip.bind(this)}
+              icon="fa fa-search"
+            />
+          </div>
         </div>
 
         <div class={Styles['navigation']}>
-          <div class={Styles['navigation__business']}>
-            <router-link class={Styles['navigation__business-link']} to={{ name: 'BusinessDashboard' }}>
-              Händlerlogin / Registrierung
-            </router-link>
-          </div>
+          <router-link class={Styles['navigation__business-link']} to={{ name: 'BusinessDashboard' }}>
+            Händlerlogin / Registrierung
+          </router-link>
 
-          <div class={Styles['navigation__other']}>
+          <div class={Styles['navigation__legal-links']}>
             <router-link to="/datenschutz" class={Styles['navigation__other-link']}>
               Datenschutz
             </router-link>
@@ -132,34 +94,6 @@ export class Landing extends Vue {
             </router-link>
           </div>
         </div>
-
-        <OverlayView value={this.overlay} close-button={true} on-close={this.closeOverlay.bind(true)}>
-          <div class={Styles['overlay-content']}>
-            <div class={Styles['overlay-content__text1']}>
-              Leider haben sich noch keine Läden in deiner Region eingetragen.
-            </div>
-            <div class={Styles['overlay-content__text2']}>
-              Sieh dich stattdessen doch in einer bereits aktiven Region um:
-              <br />
-              <div
-                on-click={() => this.gotoExplorer('71665')}
-                class={`${Styles['overlay-content__link']} ${SharedStyles['link']}`}
-              >
-                71665 - Vaihingen/Enz
-              </div>
-            </div>
-            <div class={Styles['overlay-content__text3']}>
-              Du hast einen eigenen Laden? Toll! Lass uns doch{' '}
-              <a
-                class={`${Styles['overlay-content__link']} ${SharedStyles['link']}`}
-                href="https://wirvonhier.net/anmeldung-fuer-einzelhaendler/"
-              >
-                hier
-              </a>{' '}
-              unverbindlich deinen Kontakt da :)
-            </div>
-          </div>
-        </OverlayView>
       </div>
     );
   }

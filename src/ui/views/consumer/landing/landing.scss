@@ -1,6 +1,8 @@
-.landing-page {
+.landing {
   background: rgb(232, 232, 232);
   color: #fff;
+  display: flex;
+  flex-direction: column;
   font-family: 'FuturaBT-Medium', helvetica, arial, sans-serif;
   font-size: 1rem;
   font-weight: normal;
@@ -9,86 +11,80 @@
   position: relative;
   text-decoration: uppercase;
   width: 100%;
-}
 
-.logo-container {
-  display: block;
-  height: 100%;
-  position: relative;
-  width: 100%;
-}
-.logo {
-  bottom: 0%;
-  display: block;
-  margin: 0;
-  max-height: 100%;
-  max-width: 100%;
-  padding: 2rem 0;
-  position: absolute;
-  right: 0;
-}
-.welcome {
-  color: #5f6daf;
-  left: 15px;
-  position: absolute;
-  top: 15px;
+  &__background {
+    background-image: url('/assets/imgs/wvh-pre-login_1500px.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+
   &__title {
-    font-size: calc(1.5rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-    font-weight: bold;
-  }
-  &__desc {
-    font-size: calc(1.2rem + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
-  }
-}
-
-.zip-container {
-  display: block;
-  margin-top: 0;
-  padding: ($unit-base / 4);
-  text-align: center;
-  width: 100%;
-  @media (max-height: 800px) {
-    bottom: 15vh;
-    position: absolute;
-  }
-  @media (min-height: 801px) {
-    bottom: 20vh;
-    position: absolute;
-  }
-  &__field {
-    background-color: #fff;
-    border-radius: 15px;
-    //height: 83px;
-    margin: auto;
-    padding: ($unit-base / 4);
+    color: $col-primary;
+    font-size: 2em;
+    padding: $unit-base-half $unit-base-quarter;
     position: relative;
-    text-align: left;
-    width: 18rem;
-    label {
-      background: transparent;
-      margin-left: 15px;
+
+    &--larger {
+      display: block;
+      font-size: larger;
+      font-weight: bold;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: auto $unit-base 120px;
+    position: relative;
+
+    &-separator {
+      color: $col-white;
+      font-size: 0.9em;
+      font-weight: bold;
+      margin: 0.75em auto;
     }
   }
 }
 
+.zip-container {
+  background-color: #fff;
+  border-radius: $border-radius;
+  margin: ($unit-base / 8);
+  padding: $unit-base-quarter ($unit-base / 3) 0;
+  position: relative;
+  text-align: left;
+}
+
 .navigation {
+  align-items: center;
   bottom: 15px;
+  display: flex;
+  flex-direction: column;
   line-height: 1.5rem;
   position: absolute;
   text-align: center;
   width: 100%;
-  &__business {
-    visibility: visible;
+
+  &__legal-links {
+    display: flex;
+    text-align: center;
+    width: 100%;
   }
   &__business-link {
     background-color: #fff;
     border-radius: 5px;
     color: $col-primary;
-    font-size: 0.9rem;
-    padding: 5px;
-  }
-  &__other {
-    width: 100%;
+    font-size: 0.8rem;
+    line-height: 2;
+    padding: 0 0.8em;
   }
   &__other-link {
     color: $col-primary;
@@ -99,33 +95,5 @@
   }
   &__other-link:hover {
     text-decoration: underline;
-  }
-}
-
-.overlay-content {
-  height: 100%;
-  margin: 15px;
-  text-align: center;
-  &__text1,
-  &__text2,
-  &__text3 {
-    display: inline-block;
-    margin: 1rem 0;
-    position: relative;
-    width: 100%;
-  }
-  &__text1 {
-    font-size: 1.2rem;
-    visibility: visible;
-  }
-  &__text2 {
-    display: block;
-    font-size: 1.5rem;
-  }
-  &__text3 {
-    font-size: 1rem;
-  }
-  &__link {
-    color: $col-secondary;
   }
 }
