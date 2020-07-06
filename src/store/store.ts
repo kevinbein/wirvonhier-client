@@ -3,7 +3,15 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { dbPlugin } from './plugins';
 import { createStore, Module } from 'vuex-smart-module';
-import { AppearanceModule, AuthModule, BusinessModule, FormModule, UserModule, WVHModule } from './modules';
+import {
+  AppearanceModule,
+  AuthModule,
+  BusinessModule,
+  FormModule,
+  UserModule,
+  WVHModule,
+  LocationModule,
+} from './modules';
 
 Vue.use(Vuex);
 
@@ -13,6 +21,7 @@ export const rootModule = new Module({
     Auth: AuthModule,
     Business: BusinessModule,
     Form: FormModule,
+    Location: LocationModule,
     User: UserModule,
     WVH: WVHModule,
   },

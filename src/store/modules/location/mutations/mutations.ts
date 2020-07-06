@@ -3,7 +3,7 @@ import { LocationState } from '../state';
 import { Location } from '../state';
 
 export class LocationMutations extends Mutations<LocationState> {
-  SET_CURRENT_ZIP(zip: number | null): void {
+  SET_CURRENT_ZIP(zip: string | null): void {
     this.state.currentZip = zip;
   }
 
