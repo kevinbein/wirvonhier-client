@@ -154,11 +154,11 @@ export class HTTP {
   public constructQueryString(query: IQuery): string {
     const queryArray = [];
     if (query.limit) queryArray.push(`limit=${query.limit}`);
-    if (query.page) queryArray.push(`page=${query.page}`);
+    if (typeof query.page === 'number') queryArray.push(`page=${query.page}`);
     if (query.filters) {
       for (const filter of query.filters) {
         let value = filter.value;
-        value = value instanceof Array ? value.join('|') : value;
+        value = Array.isArray(value) ? value.join('|') : value;
         value =
           typeof value === 'object' && filter.name === 'location'
             ? `${value.zip ? value.zip : value.lng + ',' + value.lat},${value.maxDistance}`

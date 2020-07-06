@@ -26,9 +26,10 @@ export interface IQuery {
   filters: IFilter[];
 }
 
+export type IQueryOperator = 'lte' | 'gte' | 'equals' | 'in' | 'near' | 'regex' | 'geometry';
 export interface IFilter {
   name: string;
-  operator?: string;
+  operator?: IQueryOperator;
   value: string | string[] | number | number[] | ILocationFilter;
 }
 
