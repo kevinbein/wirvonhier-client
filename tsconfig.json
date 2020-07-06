@@ -29,6 +29,7 @@
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
 
     /* Advanced Options */
+    "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
     "typeRoots": ["./node_modules/@types"] /* Include type-definitions in ./types in this project */
   },
