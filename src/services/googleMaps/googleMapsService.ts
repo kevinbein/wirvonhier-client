@@ -106,7 +106,7 @@ export class GoogleMapsService {
                   resolve({ status: 'success', position: [pos.coords.longitude, pos.coords.latitude] });
                 },
                 () => {
-                  resolve({ status: 'failure', code: 2 });
+                  resolve({ status: 'failure', code: 1 });
                 },
                 {
                   maximumAge: 1000 * 60 * 10,
@@ -114,7 +114,7 @@ export class GoogleMapsService {
                 },
               );
             },
-            denied: () => resolve({ status: 'failure', code: 1 }),
+            denied: () => resolve({ status: 'failure', code: 2 }),
           },
         },
         {

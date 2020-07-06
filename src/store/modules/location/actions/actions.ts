@@ -18,9 +18,14 @@ export class LocationActions extends Actions<LocationState, never, LocationMutat
     if (status !== 'success') {
       let msg = '';
       switch (code) {
+        case 0:
+          msg = 'Dein Browser unterstützt leider keine Geo-Location. Bitte gib eine Postleitzahl ein.';
+          break;
         case 1:
           msg = 'Dein Browser unterstützt leider keine Geo-Location. Bitte gib eine Postleitzahl ein.';
           break;
+        case 2:
+          return { status };
         default:
           msg = 'Unknown Error';
       }
