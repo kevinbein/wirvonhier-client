@@ -3,7 +3,7 @@ import { wrap } from 'comlink';
 import { IStore } from '@/store';
 
 export const attachWorker = (store: IStore): void => {
-  const worker = wrap(new Worker('./worker.ts', { type: 'module' }));
+  const worker = {} || wrap(new Worker('./worker.ts', { type: 'module' }));
   store.$worker = worker;
 
   Vue.mixin({
