@@ -2,6 +2,7 @@ import Component from 'vue-class-component';
 import Styles from './verticalSwiper.scss';
 import { VueComponent } from '@/ui/typings/vue-ts-component';
 import { VNode } from 'vue';
+import { VerticalSlide } from '..';
 
 type Swipe = {
   startX: number;
@@ -138,8 +139,6 @@ export class VerticalSwiper extends VueComponent<IProps> {
 
   public mounted(): void {
     window.addEventListener('resize', this.$forceUpdate.bind(this));
-    //console.log('force update');
-    //setTimeout(this.$forceUpdate.bind(this), 5000);
   }
 
   public getFinalYTranslation(): number {
@@ -168,14 +167,14 @@ export class VerticalSwiper extends VueComponent<IProps> {
         {(this.spacer !== null &&
           this.getSlides().map((slide, index) => {
             if (index === 0) {
-              return slide;
+              return <VerticalSlide>{slide}</VerticalSlide>;
             }
             return [
               <div
                 class={Styles['spacer']}
                 style={{ height: `${this.spacer?.height}px`, background: `${this.spacer?.color}` }}
               ></div>,
-              slide,
+              <VerticalSlide>{slide}</VerticalSlide>,
             ];
           })) ||
           this.getSlides()}

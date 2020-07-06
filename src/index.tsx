@@ -17,8 +17,8 @@ Vue.use(Cloudinary, {
   },
 });
 
-//Vue.use(vueVimeoPlayer);
 store.$toast = Vue.$toast;
+
 attachI18n(store);
 attachHttp(store);
 attachDB(store);

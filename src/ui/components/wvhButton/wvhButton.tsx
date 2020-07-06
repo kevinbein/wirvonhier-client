@@ -12,6 +12,8 @@ interface IProps {
   to?: RawLocation;
   large?: boolean;
   disabled?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  'on-click'?: (...args: any[]) => void;
 }
 @Component({
   name: 'wvh-button',
@@ -53,24 +55,20 @@ export class WVHButton extends VueComponent<IProps> {
   public disabled: boolean | undefined;
   public width: string | undefined;
   public icon: string | undefined;
-  // router-link
-  public to: RawLocation | undefined;
+  public to!: RawLocation;
 
   private onClick: Function | Function[] = (): void => {
     return;
   };
-  created(): void {
+
+  public created(): void {
     if (this.$listeners.click !== undefined) {
       this.onClick = this.$listeners.click;
-    } else {
-      this.onClick = () => {
-        if (this.to !== undefined) this.$router.push(this.to);
-      };
     }
   }
 
   // @ts-ignore: Declared variable is not read
-  render(h: CreateElement): Vue.VNode {
+  public render(h: CreateElement): Vue.VNode {
     return this.to ? (
       <router-link
         to={this.to}

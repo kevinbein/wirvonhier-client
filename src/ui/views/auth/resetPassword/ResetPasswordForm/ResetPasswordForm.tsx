@@ -8,7 +8,6 @@ import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
   password: Vue;
   passwordRepeat: Vue;
 }

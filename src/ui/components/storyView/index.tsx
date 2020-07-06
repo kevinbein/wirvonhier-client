@@ -16,7 +16,6 @@ interface IProps {
 }
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
   page: HTMLDivElement;
   story: HTMLDivElement;
   storyVideoControls: HTMLDivElement;
@@ -70,7 +69,11 @@ export class StoryView extends VueComponent<IProps, IRefs> {
   // @ts-ignore: Declared variable is not read
   render(h): Vue.VNode {
     return (
-      <div ref="story" class={Styles['story']}>
+      <div
+        ref="story"
+        class={Styles['story']}
+        style={{ width: `${this.storyWidth}px`, height: `${this.storyHeight}px` }}
+      >
         <div class={Styles['story__background']} />
         <div class={Styles['header']}>
           <div class={Styles['header-left-side']}>

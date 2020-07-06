@@ -15,7 +15,6 @@ interface IProps {
 }
 
 interface IRefs {
-  [key: string]: HTMLElement;
   fileInput: HTMLInputElement;
 }
 

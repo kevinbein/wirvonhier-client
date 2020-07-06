@@ -3,6 +3,7 @@ import Component from 'vue-class-component';
 import Styles from './styles.scss';
 
 interface IProps {
+  [key: string]: any;
   class?: string;
   centeredContent?: boolean;
 }

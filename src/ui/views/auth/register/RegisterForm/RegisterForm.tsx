@@ -9,7 +9,6 @@ import { TYPE, POSITION } from 'vue-toastification';
 import { PrivacyAndAGBAgreement } from '@/ui/components/formElements';
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
   email: Vue;
   password: Vue;
   passwordRepeat: Vue;

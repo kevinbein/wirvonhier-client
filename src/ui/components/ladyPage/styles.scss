@@ -21,7 +21,14 @@
     right: 0;
   }
   &__content {
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: $unit-base;
     position: relative;
+    width: 100%;
     &--centered {
       position: relative;
     }

@@ -25,8 +25,7 @@ import { POSITION, TYPE } from 'vue-toastification';
         const success = await userModule.actions.authenticateMe();
         if (!success) return;
       }
-      const businessModule = BusinessModule.context(vm.$store);
-      const business = businessModule.state.selectedBusiness;
+      const business = userModule.state.selectedBusiness;
       if (!business) {
         await userModule.actions.loadUserAndSaveUserData();
       }

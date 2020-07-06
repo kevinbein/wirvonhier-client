@@ -32,7 +32,6 @@ interface IProps {
 }
 
 interface IRefs {
-  [key: string]: HTMLInputElement;
   input: HTMLInputElement;
 }
 
@@ -237,7 +236,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
             placeholder={this.attributes?.placeholder || ''}
             class={`
               ${Styles['text-input']}
-              ${SharedStyles['input__field']}
+              ${SharedStyles['input__field']}}
               ${this.hasFocus || this.hasValue ? SharedStyles['input__field--active'] : ''}
               ${this.attributes?.disabled ? SharedStyles['input__field--disabled'] : ''}
             `}

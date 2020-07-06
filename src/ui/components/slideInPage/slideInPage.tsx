@@ -14,7 +14,6 @@ interface IProps {
 }
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
   page: HTMLDivElement;
 }
 
@@ -117,7 +116,7 @@ export class SlideInPage extends VueComponent<IProps, IRefs> {
     const activeClass = this.value === true ? Styles['page--active'] : '';
     return (
       <div ref="page" class={`${Styles['page']} ${activeClass}`}>
-        {this.value === true && <div class={Styles['page__overlay']} onClick={this.close.bind(this)}></div>}
+        {this.value === true && <div class={Styles['page__overlay']} onClick={this.close.bind(this)} />}
         <div class={Styles['slider-container']} style={{ transform: `translateY(${this.translateY}px)` }}>
           <header
             ref="slider"

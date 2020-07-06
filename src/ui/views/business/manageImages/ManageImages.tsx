@@ -10,7 +10,6 @@ import { ImageForms } from './imageForms';
 import { BackButton } from '@/ui';
 
 interface IRefs {
-  [key: string]: HTMLDivElement;
   page: HTMLDivElement;
 }
 

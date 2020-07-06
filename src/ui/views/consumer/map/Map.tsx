@@ -9,6 +9,7 @@ import { LatLng } from 'leaflet';
 import L from 'leaflet';
 import 'vue2-leaflet';
 import { Business } from '@/entities';
+import { BackButton } from '@/ui/components';
 
 @Component({
   name: 'Map',
@@ -50,9 +51,9 @@ export class Map extends Vue {
     const zip = '71665';
     const radius = 1004200; // in meters
     this.loadBusinesses(zip, radius);
-    if (this.$route.params.lat && this.$route.params.lng) {
-      const centerLat = parseFloat(this.$route.params.lat);
-      const centerLng = parseFloat(this.$route.params.lng);
+    if (typeof this.$route.query.lat === 'string' && typeof this.$route.query.lng === 'string') {
+      const centerLat = parseFloat(this.$route.query.lat);
+      const centerLng = parseFloat(this.$route.query.lng);
       this.center = new LatLng(centerLat, centerLng);
     }
   }
@@ -66,11 +67,7 @@ export class Map extends Vue {
             <img class={Styles['logo']} src="./assets/imgs/logo/logo-schrift_1024x405.png" />
           </div>
         </div>
-
-        <router-link to="explore" class={Styles['close-button']}>
-          <v-icon class={Styles['icon']}>fa-times</v-icon>
-        </router-link>
-
+        <BackButton style={{ 'z-index': 402 }} />
         <div ref="leafletmap" class={Styles['map']}>
           <l-map style="height: 100%; width: 100%" zoom={this.zoom} center={this.center}>
             <l-tile-layer url={this.url}></l-tile-layer>

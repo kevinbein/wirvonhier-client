@@ -19,7 +19,6 @@ interface IProps {
   address?: IAddress;
 }
 interface IRefs {
-  [key: string]: HTMLDivElement | FormInputField;
   addressForm: HTMLDivElement;
   street: FormInputField;
 }

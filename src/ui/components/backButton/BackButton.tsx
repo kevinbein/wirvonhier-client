@@ -5,6 +5,7 @@ import Styles from './backButton.scss';
 import { AppearanceModule } from '@/store';
 
 interface IProps {
+  [key: string]: any;
   title?: string;
   to?: Location;
 }

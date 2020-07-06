@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
 import Styles from './storyMedia.scss';
 import { VueComponent } from '@/ui/typings/vue-ts-component';
-import { Media, MEDIATYPE } from '@/entities';
+import { Media, Image, MEDIATYPE } from '@/entities';
 
 interface IProps {
   story: Media;
@@ -12,7 +12,6 @@ interface IProps {
 }
 
 interface IRefs {
-  [key: string]: Vue | Element | Vue[] | Element[];
   storyVideoControls: HTMLDivElement;
 }
 
@@ -122,7 +121,7 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
         return (
           <cld-image
             class={Styles['story']}
-            publicId={this.story.src}
+            publicId={(this.story as Image).publicId}
             width={`${this.storyWidth}`}
             height={`${this.storyHeight}`}
           >
