@@ -1,7 +1,7 @@
 import Component from 'vue-class-component';
 import Styles from './storyMedia.scss';
 import { VueComponent } from '@/ui/typings/vue-ts-component';
-import { Media, Image, MEDIATYPE } from '@/entities';
+import { Media, Image, MEDIATYPE, Video } from '@/entities';
 
 interface IProps {
   story: Media;
@@ -13,8 +13,9 @@ interface IProps {
 
 interface IRefs {
   storyVideoControls: HTMLDivElement;
+  videoEl: HTMLVideoElement;
 }
-
+// WHEN DO PLAY / STOP Video?
 @Component({
   name: 'StoryMedia',
   props: {
@@ -28,7 +29,6 @@ interface IRefs {
     startVideo: {
       immediate: true,
       handler(this: StoryMedia, value: boolean) {
-        //console.log('watch startVideo', value);
         if (value) this.playVideo();
         if (!value) this.stopVideo();
       },
@@ -42,48 +42,36 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
   public storyHeight!: number;
   public startVideo!: boolean;
   public showVideoPlayButton = false;
-  public videoUrl: string | null = null;
   public videoError: string | null = null;
   public controls!: boolean;
 
-  private videoEl: HTMLMediaElement | null = null;
-
-  public mounted(): void {
-    if (this.story.mediatype === MEDIATYPE.VIDEO) {
-      this.loadVideo(this.story.src);
-    }
-  }
-
   public playVideo(): void {
-    if (this.videoEl === null) return;
-    this.videoEl
+    if (!this.$refs.videoEl) return;
+    this.$refs.videoEl
       .play()
       .then(() => {
         this.showVideoPlayButton = false;
       })
       .catch(() => {
-        // play() failed because the user didn't interact with the document first
         this.showVideoPlayButton = true;
       });
   }
 
   public pauseVideo(): void {
-    if (this.videoEl === null) return;
-    this.videoEl.pause();
+    if (!this.$refs.videoEl) return;
+    this.$refs.videoEl.pause();
   }
   public stopVideo(): void {
-    if (this.videoEl === null) return;
-    this.videoEl.pause();
-    this.videoEl.currentTime = 0;
+    if (!this.$refs.videoEl) return;
+    this.$refs.videoEl.pause();
+    this.$refs.videoEl.currentTime = 0;
   }
 
   public clickVideo(): void {
-    //console.log('clickVideo', this.startVideo);
     this.playVideo();
   }
 
   public mouseTouchDown(): void {
-    //console.log('mouseTouchDown', this.startVideo);
     this.pauseVideo();
     if (!this.startVideo) {
       this.stopVideo();
@@ -91,7 +79,6 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
   }
 
   public mouseTouchUp(): void {
-    //console.log('mouseTouchUp', this.startVideo);
     if (this.startVideo) {
       this.playVideo();
     }
@@ -139,20 +126,19 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       case MEDIATYPE.VIDEO: {
         return (
           <div class={Styles['story__video-container']}>
-            {(this.videoUrl &&
-              [
-                <video
-                  ref="story-video"
-                  class={Styles['story__video']}
-                  playsinline={true}
-                  preload={true}
-                  controls={this.controls}
-                  onLoadeddata={this.initVideo.bind(this)}
-                >
-                  <source src={this.videoUrl} type="video/mp4" />
-                </video>,
-                !this.controls && <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
-              ].filter(Boolean)) ||
+            {[
+              <video
+                ref="videoEl"
+                class={Styles['story__video']}
+                playsinline={true}
+                preload={true}
+                controls={this.controls}
+                onLoadeddata={this.initVideo.bind(this)}
+              >
+                <source src={(this.story as Video).url} type="video/mp4" />
+              </video>,
+              !this.controls && <div class={Styles['story__video-controls']} ref="storyVideoControls"></div>,
+            ].filter(Boolean) ||
               (this.videoError && <div class={Styles['story__message']}>{this.videoError}</div>) || (
                 <div class={Styles['story__message']}></div>
               )}
@@ -168,17 +154,6 @@ export class StoryMedia extends VueComponent<IProps, IRefs> {
       }
       default:
         return <img class={Styles['story']} src={this.dummyStory} alt="image" />;
-    }
-  }
-
-  private async loadVideo(videoId: string): Promise<void> {
-    try {
-      this.videoUrl = await this.$services.videos.loadVideoUrl(videoId);
-      if (this.videoUrl === null) {
-        this.videoError = "Error: The requested video couldn't be found";
-      }
-    } catch (e) {
-      this.videoError = 'Error: Unknown!';
     }
   }
 }

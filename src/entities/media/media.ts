@@ -9,7 +9,6 @@ export class Media {
   public title!: string;
   public description?: string;
   public mediatype!: MEDIATYPE;
-  public src!: string;
   public businessId?: string;
   public business!: Business | null;
 
@@ -27,7 +26,6 @@ export class Media {
     this.business = business;
 
     if (this.isVideo(data)) {
-      this.src = data.videoId || '';
       this.mediatype = MEDIATYPE.VIDEO;
     } else {
       this.mediatype = MEDIATYPE.IMAGE;
@@ -49,7 +47,7 @@ export class Media {
   }
 
   private isVideo(data: Partial<IVideoData> | Partial<IImageData>): data is Partial<IVideoData> {
-    return 'videoId' in data;
+    return 'vimeoURI' in data;
   }
 
   private createNullObject(): void {
@@ -58,12 +56,14 @@ export class Media {
 }
 
 export class Video extends Media {
-  public videoId!: string;
+  public vimeoURI!: string;
+  public url!: string;
   public status!: string;
   constructor(data: IVideoData | null, business: Business) {
     super(data, business);
     if (!data) return;
-    this.videoId = data.videoId;
+    this.vimeoURI = data.vimeoURI;
+    this.url = data.url;
     this.status = data.status;
   }
 }

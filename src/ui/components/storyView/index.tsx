@@ -62,8 +62,9 @@ export class StoryView extends VueComponent<IProps, IRefs> {
   }
 
   public mounted(): void {
-    this.$on('showStory', () => (this.startVideo = true));
-    this.$on('hideStory', () => (this.startVideo = false));
+    this.$on('playMedia', (val = false) => {
+      this.startVideo = val;
+    });
   }
 
   // @ts-ignore: Declared variable is not read

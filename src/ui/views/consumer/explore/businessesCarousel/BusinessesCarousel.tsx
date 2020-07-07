@@ -12,6 +12,7 @@ import { BusinessModule } from '@/store';
 Vue.use(VueAwesomeSwiper /* { default options with global component } */);
 
 interface IRefs {
+  [key: string]: Vue;
   horizontalSwiper: any; // eslint-disable-line
 }
 
@@ -66,6 +67,11 @@ export class BusinessesCarousel extends VueComponent<{}, IRefs> {
   public exploreSlideChange(): void {
     const newSwiperIndex = this.$refs.horizontalSwiper?.$swiper.activeIndex;
     this.businessModule.actions.setCurrentExplorerIndex(newSwiperIndex);
+    const slideId = this.allSlides[this.currentIndex]?._id;
+    for (const slide of this.allSlides) {
+      const el = this.$refs[`slide-${slide._id}`];
+      el.$emit('playMedia', slide._id === slideId);
+    }
     this.exploreControlsFullyHidden = newSwiperIndex >= this.allSlides.length;
     if (!this.activeBusinessId) return;
     this.businessModule.actions.selectBusiness(this.activeBusinessId);
@@ -103,6 +109,9 @@ export class BusinessesCarousel extends VueComponent<{}, IRefs> {
     if (index) {
       this.$refs.horizontalSwiper.$swiper.slideTo(index);
     }
+    const slideId = this.allSlides[this.currentIndex]?._id;
+    const el = this.$refs[`slide-${slideId}`];
+    el.$emit('playMedia', true);
   }
 
   // @ts-ignore
@@ -120,7 +129,12 @@ export class BusinessesCarousel extends VueComponent<{}, IRefs> {
           {this.allSlides.map((slide) => {
             return (
               <swiper-slide>
-                <StoryView story={slide} storyHeight={this.storyHeight} storyWidth={this.storyWidth} />
+                <StoryView
+                  ref={`slide-${slide._id}`}
+                  story={slide}
+                  storyHeight={this.storyHeight}
+                  storyWidth={this.storyWidth}
+                />
               </swiper-slide>
             );
           })}

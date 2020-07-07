@@ -24,7 +24,8 @@ export interface IImageData extends Omit<IMedia, 'mediaType'> {
   uploadVerified: boolean;
 }
 export interface IVideoData extends IMedia {
-  videoId: string;
+  vimeoURI: string;
+  url: string;
   status: string;
 }
 

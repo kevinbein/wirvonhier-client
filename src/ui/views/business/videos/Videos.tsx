@@ -44,7 +44,7 @@ export class Videos extends Vue {
     this.refreshData();
   }
 
-  public beforeUnmount(): void {
+  public beforeDestroy(): void {
     if (this.refreshId) clearTimeout(this.refreshId);
   }
 
@@ -97,9 +97,11 @@ export class Videos extends Vue {
                       )}
                     </td>
                     <td class={Styles['stories--center']}>
-                      {(video.status === 'transcoding' && (
-                        <i class={`fa fa-spinner fa-spin ${Styles['info__status--transcoding']}`}></i>
-                      )) || <i class={`fa fa-check ${Styles['info__status--complete']}`}></i>}
+                      {video.status === 'complete' ? (
+                        <i class={`fa fa-check ${Styles['info__status--complete']}`} />
+                      ) : (
+                        <i class={`fa fa-spinner fa-spin ${Styles['info__status--transcoding']}`} />
+                      )}
                     </td>
                     <td class={Styles['action-buttons'] + ' ' + Styles['stories--center']}>
                       <i
