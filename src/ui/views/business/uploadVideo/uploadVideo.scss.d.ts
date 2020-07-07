@@ -5,6 +5,10 @@ interface CssExports {
   'back-button__title': string;
   'form-hints__title': string;
   'form-hints__wrapper': string;
+  'upload-button-background': string;
+  'upload-button-background--in-progress': string;
+  'upload-button-background--success': string;
+  'upload-video': string;
   'upload-video__back': string;
   'upload-video__back-icon': string;
   'upload-video__form': string;

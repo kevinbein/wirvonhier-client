@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import { rootModule, BusinessModule } from '@/store';
+import { rootModule, BusinessModule, UserModule } from '@/store';
 import SharedStyles from 'styles';
 import Styles from './uploadVideo.scss';
 import { WVHImageInputField, FormInputField, FormTextArea, WVHButton, Loader, BackButton } from '@/ui';
+import { Business } from '@/entities';
+import { POSITION, TYPE } from 'vue-toastification';
 
 type IFormInputs = ITitle | IDesc | IFile;
 interface ITitle {
@@ -15,19 +17,47 @@ interface IDesc {
   value: string;
 }
 interface IFile {
-  key: 'file';
+  key: 'videoFile';
   value: FileList;
 }
 
+interface IFormData {
+  title: string;
+  description: string;
+  src: string;
+  videoFile: null | File;
+}
 @Component({
   name: 'UploadVideo',
   components: {
     BackButton,
   },
+  watch: {
+    isFinished: {
+      async handler(this: UploadVideo, isFinished) {
+        if (isFinished && this.business) {
+          await this.$services.business.loadAndPersistBusiness(this.business._id);
+          this.userModule.actions.selectBusiness(this.business._id);
+          this.$toast('Video erfolgreich hochgeladen.', {
+            position: POSITION.TOP_CENTER,
+            type: TYPE.SUCCESS,
+          });
+          setTimeout(() => {
+            this.formData.src = '';
+            this.formData.title = '';
+            this.formData.description = '';
+            this.formData.videoFile = null;
+            this.isLoading = false;
+          }, 2000);
+        }
+      },
+    },
+  },
 })
 export class UploadVideo extends Vue {
   public rootStore = rootModule.context(this.$store);
   public businessModule = BusinessModule.context(this.$store);
+  public userModule = UserModule.context(this.$store);
   public isLoading = false;
   public formValidation = {
     video: true,
@@ -39,9 +69,9 @@ export class UploadVideo extends Vue {
     title: [],
     description: [],
   };
-  public formData = {
+  public formData: IFormData = {
     src: '',
-    file: null,
+    videoFile: null,
     title: '',
     description: '',
   };
@@ -65,13 +95,17 @@ export class UploadVideo extends Vue {
     return `${Math.round(this.progress.value * 100)}%`;
   }
 
+  public get business(): Business | null {
+    return this.userModule.state.selectedBusiness;
+  }
+
   public update(options: IFormInputs): void {
     const { key, value } = options;
-    if (key === 'file' && value instanceof FileList) {
+    if (key === 'videoFile' && value instanceof FileList) {
       //this.$set(this.formData, 'title', value[0].name);
       const dateTimeStr = new Date().toLocaleString();
       this.$set(this.formData, 'title', `Story - ${dateTimeStr}`);
-      this.$set(this.formData, 'file', value[0]);
+      this.$set(this.formData, 'videoFile', value[0]);
       const reader = new FileReader();
       reader.onload = () => {
         this.$set(this.formData, 'src', reader.result);
@@ -84,23 +118,26 @@ export class UploadVideo extends Vue {
 
   public async submit(): Promise<void> {
     this.isLoading = true;
-    const business = this.businessModule.state.selectedBusiness;
-    if (!business || !business._id) {
+    if (!this.business) {
       return;
     }
-    const res = await this.$services.videos.upload(business, this.formData);
-    // NOTE: uploading video also updates Video-ID in Business!
-    // TODO: Decide how to handle the updateBusiness + upload Video logic!
-    await this.$services.business.loadAndPersistBusiness(business._id);
-    this.businessModule.actions.selectBusiness(business._id);
-    this.isLoading = false;
-    if (!res) return;
+    if (!this.formData.videoFile) return;
+    const newVideoData = {
+      ...this.formData,
+      videoFile: this.formData.videoFile,
+      businessId: this.business._id,
+    };
+    const res = await this.businessModule.actions.saveNewVideo(newVideoData);
+    if (!res) {
+      this.isLoading = false;
+      return;
+    }
     this.$set(this, 'progress', res);
   }
 
   public cancel(): void {
     this.formData.src = '';
-    this.formData.file = null;
+    this.formData.videoFile = null;
     this.formData.title = '';
     this.formData.description = '';
   }
@@ -137,22 +174,33 @@ export class UploadVideo extends Vue {
                 value={this.formData.description || ''}
                 on-change={this.update.bind(this)}
               />
-              {!this.isUploading && !this.isFinished ? (
+              {this.isLoading ? (
+                <div class={Styles['upload-video__form-buttons']}>
+                  <WVHButton disabled primary class={SharedStyles['submit']} on-click={this.submit.bind(this)}>
+                    {this.isUploading && [
+                      <div
+                        class={`${Styles['upload-button-background']} ${Styles['upload-button-background--in-progress']}`}
+                        style={{ transform: `scaleX(${this.progress.value})` }}
+                      />,
+                      this.progressString,
+                    ]}
+                    {this.isFinished && [
+                      <div
+                        class={`${Styles['upload-button-background']} ${Styles['upload-button-background--success']}`}
+                      />,
+                      'Fertig!',
+                    ]}
+                    {!this.isUploading && !this.isFinished && <Loader color="#fff" size={24} />}
+                  </WVHButton>
+                </div>
+              ) : (
                 <div class={Styles['upload-video__form-buttons']}>
                   <WVHButton primary class={SharedStyles['submit']} on-click={this.submit.bind(this)}>
-                    {this.isLoading ? <Loader color="#fff" size={24} /> : 'Speichern'}
+                    Speichern
                   </WVHButton>
                   <WVHButton cancel class={SharedStyles['cancel']} on-click={this.cancel.bind(this)}>
                     Abbrechen
                   </WVHButton>
-                </div>
-              ) : !this.isFinished ? (
-                <div class={Styles['upload-video__form-buttons']}>
-                  <div class={Styles['upload-video__progress']}>Bitte warten... {this.progressString}</div>
-                </div>
-              ) : (
-                <div class={Styles['upload-video__form-buttons']}>
-                  <div class={Styles['upload-video__progress']}>Upload komplett!</div>
                 </div>
               )}
             </div>
@@ -161,7 +209,7 @@ export class UploadVideo extends Vue {
               <WVHImageInputField
                 label="Video auswählen"
                 class={Styles['upload-video__upload-video-button']}
-                id="file"
+                id="videoFile"
                 accept="video/*"
                 is-valid={this.formValidation.video}
                 error-messages={this.formErrors.video}

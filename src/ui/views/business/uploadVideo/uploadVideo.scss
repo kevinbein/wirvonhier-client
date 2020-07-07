@@ -53,7 +53,9 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
       object-fit: cover;
     }
     &-buttons {
-      margin: (0.75 * $unit-font-default) 0 (0.25 * $unit-font-default) (-0.25 * $unit-font-default);
+      margin: (0.75 * $unit-font-default) auto;
+      max-width: 300px;
+      width: 100%;
     }
   }
   &__upload-video-button {
@@ -74,6 +76,23 @@ $nav-icon-size: $unit-nav-icon + ($unit-base / 3 * 2); // navigation icon size
     color: $col-grey;
     font-size: 1.4em;
     width: 280px;
+  }
+
+  .upload-button-background {
+    border-radius: $border-radius;
+    display: absolute;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+
+    &--success {
+      background-color: $col-success;
+    }
+    &--in-progress {
+      transition: transform 120ms ease;
+      will-change: transform;
+    }
   }
 }
 

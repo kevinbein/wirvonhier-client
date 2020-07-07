@@ -1,4 +1,13 @@
-import { Business, IBusinessData, INewImageData, IImageData, IImageUpdates } from '@/entities';
+import {
+  Business,
+  IBusinessData,
+  INewImageData,
+  IImageData,
+  IImageUpdates,
+  INewVideoData,
+  IVideoData,
+  IVideoUpdates,
+} from '@/entities';
 import { DB } from '../db';
 import { HTTP } from '..';
 import { IFindNearBusinessesOptions, IHttpBusinessResponse } from './businessService.types';
@@ -145,6 +154,36 @@ export class BusinessService {
     const res = await this.http.delete<void>(`/businesses/${businessId}/images/${imageId}`, true);
     if (res.status !== 'success') {
       throw new Error('Wir konnten das Bild nicht löschen.');
+    }
+  }
+
+  async saveNewVideo(video: INewVideoData): Promise<{ uploadLink: string; video: IVideoData } | null> {
+    const res = await this.http.post<{ uploadLink: string; video: IVideoData }>(
+      `/businesses/${video.businessId}/videos`,
+      {
+        title: video.title,
+        description: video.description,
+        size: video.videoFile.size,
+      },
+    );
+    if (res.status !== 'success') {
+      return null;
+    }
+    return res.data;
+  }
+
+  async updateVideo(businessId: string, videoId: string, updates: IVideoUpdates): Promise<boolean> {
+    const res = await this.http.patch<void>(`/businesses/${businessId}/videos/${videoId}`, updates, true);
+    if (res.status !== 'success') {
+      return false;
+    }
+    return true;
+  }
+
+  async deleteVideo(businessId: string, videoId: string): Promise<void> {
+    const res = await this.http.delete<void>(`/businesses/${businessId}/videos/${videoId}`, true);
+    if (res.status !== 'success') {
+      throw new Error('Wir konnten das Video nicht löschen.');
     }
   }
 }

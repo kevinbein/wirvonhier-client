@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import Styles from './videos.scss';
 import { Business, Video } from '@/entities';
-import { UserModule, AppearanceModule } from '@/store';
+import { UserModule, AppearanceModule, BusinessModule } from '@/store';
 import { StoryView, BackButton } from '@/ui/components';
 import SharedStyles from 'styles';
 
@@ -14,6 +14,7 @@ import SharedStyles from 'styles';
 })
 export class Videos extends Vue {
   public userModule = UserModule.context(this.$store);
+  public businessModule = BusinessModule.context(this.$store);
   public appearanceModule = AppearanceModule.context(this.$store);
   public deviceWidth = window.innerWidth;
   public deviceHeight = window.innerHeight;
@@ -21,15 +22,13 @@ export class Videos extends Vue {
   public storyHeight = this.deviceWidth >= 500 ? this.deviceHeight - 50 : this.deviceHeight;
   private refreshId?: NodeJS.Timeout;
 
-  get business(): Business | null {
+  public get business(): Business | null {
     return this.userModule.state.selectedBusiness;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  get stories(): Video[] {
-    if (this.business === null) {
-      return [];
-    }
+  public get stories(): Video[] {
+    if (!this.business) return [];
 
     const videos = this.business.media.stories.videos;
     videos.sort((video1: Video, video2: Video) => {
@@ -50,16 +49,10 @@ export class Videos extends Vue {
   }
 
   public async deleteVideo(video: Video): Promise<void> {
-    if (this.business === null) {
-      return;
-    }
-
-    await this.$services.videos.delete(this.business, video);
-
-    const videoIndex = this.business.media.stories.videos.findIndex((video2: Video) => {
-      return video2._id === video._id;
-    });
-    this.business.media.stories.videos.splice(videoIndex, 1);
+    if (!this.business) return;
+    await this.businessModule.actions.deleteVideo({ businessId: this.business._id, videoId: video._id });
+    await this.$services.business.loadAndPersistBusiness(this.business._id);
+    this.userModule.actions.selectBusiness(this.business._id);
   }
 
   public previewVideo: Video | null = null;
@@ -88,8 +81,7 @@ export class Videos extends Vue {
               </tr>
             </thead>
             <tbody>
-              {// eslint-disable-next-line @typescript-eslint/no-explicit-any
-              this.stories.map((video: Video) => {
+              {this.stories.map((video: Video) => {
                 return [
                   <tr class={Styles['stories__date']}>
                     <td colspan="3">{new Date(video.modifiedAt).toLocaleString()}</td>
@@ -145,6 +137,6 @@ export class Videos extends Vue {
   private refreshData(): void {
     if (!this.business) return;
     this.userModule.actions.loadUserAndSaveUserData();
-    this.refreshId = setTimeout(this.refreshData.bind(this), 15000);
+    this.refreshId = setTimeout(this.refreshData.bind(this), 5000);
   }
 }

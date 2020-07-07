@@ -41,3 +41,16 @@ export interface IImageUpdates {
   description?: string;
   uploadVerified?: true;
 }
+
+export interface INewVideoData {
+  title: string;
+  businessId: string;
+  description?: string;
+  videoFile: File;
+}
+
+export interface IVideoUpdates {
+  title?: string;
+  description?: string;
+  status?: 'uploaded';
+}

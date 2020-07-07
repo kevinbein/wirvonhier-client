@@ -11,6 +11,7 @@ import {
   IImageUpdates,
   IBusinessFilter,
   Video,
+  INewVideoData,
 } from '@/entities';
 import { TYPE, POSITION } from 'vue-toastification';
 import { IBusinessUpdateOptions } from './actions.types';
@@ -184,6 +185,61 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     }
     await this.actions.loadAndPersistBusinessDataById([currentSelectedBusiness._id]);
     this.userModule.actions.selectBusiness(currentSelectedBusiness._id);
+  }
+
+  async saveNewVideo(newVideoData: INewVideoData): Promise<void | { value: number }> {
+    if (!newVideoData.videoFile) return;
+    const currentSelectedBusiness = this.userModule.state.selectedBusiness;
+    if (!currentSelectedBusiness) {
+      this.store.$toast('Oops! Wir konnten das Video nicht hochladen. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    const businessId = currentSelectedBusiness._id;
+    const result = await this.store.$services.business.saveNewVideo(newVideoData);
+    if (!result) {
+      this.store.$toast('Oops! Wir konnten das Video nicht hochladen. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    const progress = this.store.$services.videos.uploadToVimeo(result.uploadLink, newVideoData.videoFile);
+    if (!progress) {
+      this.store.$toast('Oops! Wir konnten das Video nicht hochladen. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    const success = await this.store.$services.business.updateVideo(businessId, result.video._id, {
+      status: 'uploaded',
+    });
+    if (!success) {
+      this.store.$toast('Oops! Wir konnten das Video nicht hochladen. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+      return;
+    }
+    return progress;
+  }
+
+  async deleteVideo({ businessId, videoId }: { businessId: string; videoId: string }): Promise<void> {
+    try {
+      await this.store.$services.business.deleteVideo(businessId, videoId);
+      this.store.$toast('Video erfolgreich gelöscht.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.SUCCESS,
+      });
+    } catch (e) {
+      this.store.$toast('Oops! Wir konnten das Video nicht löschen. Bitte versuche die Seite neu zu laden.', {
+        position: POSITION.TOP_CENTER,
+        type: TYPE.ERROR,
+      });
+    }
   }
 
   // DEPRICATED
