@@ -64,7 +64,7 @@ export class Map extends Vue {
       <div class={Styles['map-page']}>
         <div class={Styles['wvh-header']}>
           <div class={Styles['logo-container']}>
-            <img class={Styles['logo']} src="./assets/imgs/logo/logo-schrift_1024x405.png" />
+            <img class={Styles['logo']} src="/assets/imgs/logo/logo-schrift_512x203.png" />
           </div>
         </div>
         <BackButton style={{ 'z-index': 402 }} />
