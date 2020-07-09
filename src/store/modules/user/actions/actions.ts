@@ -36,9 +36,9 @@ export class UserDataActions extends Actions<UserDataState, never, UserDataMutat
     if (status === 'failure') return;
     else {
       const data = (res as IHttpSuccessResponse<Partial<IUserData>>).data;
-      this.actions.setUserData(data);
+      this.commit('SET_USER_DATA', data);
       await this.businessModule.actions.loadAndPersistBusinessDataById(this.state.businesses);
-      this.actions.selectBusiness(this.state.businesses[0]);
+      await this.actions.selectBusiness(this.state.businesses[0]);
     }
   }
 

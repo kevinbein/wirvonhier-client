@@ -68,9 +68,7 @@ export class LoginForm extends VueComponent<{}, IRefs> {
     }
     if (res.status === 'success') {
       await this.userModule.actions.loadUserAndSaveUserData();
-      await this.businessModule.actions.loadAndPersistBusinessDataById(this.userModule.state.businesses);
       this.isLoading = false;
-      this.businessModule.actions.selectBusiness(this.userModule.state.businesses[0]);
       this.$router.push({ name: 'BusinessDashboard' });
     }
   }

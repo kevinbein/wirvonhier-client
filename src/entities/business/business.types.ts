@@ -53,12 +53,12 @@ export interface IBusinessMedia {
 }
 
 export interface IAddress {
-  street: string;
-  streetNumber: string;
-  zip: string;
-  city: string;
-  state: string;
-  country: string;
+  street?: string;
+  streetNumber?: string;
+  zip?: string;
+  city?: string;
+  state?: string;
+  country?: string;
 }
 export interface ILocation {
   createdAt: string;

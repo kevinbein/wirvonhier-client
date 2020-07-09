@@ -197,6 +197,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
               `}
               value={this.value}
               on-input={this.update.bind(this)}
+              on-change={this.update.bind(this)}
               on-focus={this.onFocus.bind(this)}
               on-blur={this.onBlur.bind(this)}
             />
@@ -242,6 +243,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
             `}
             value={this.value}
             on-input={this.update.bind(this)}
+            on-change={this.update.bind(this)}
             on-focus={this.onFocus.bind(this)}
             on-blur={this.onBlur.bind(this)}
           />

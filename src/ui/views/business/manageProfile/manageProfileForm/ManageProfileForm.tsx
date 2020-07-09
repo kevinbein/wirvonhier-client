@@ -34,12 +34,23 @@ export class ManageProfileForm extends Vue {
     return this.userModule.state.selectedBusiness;
   }
 
+  public get businessData(): Partial<IBusinessData> {
+    return this.business?.getData() || {};
+  }
+
   public get formData(): Partial<IBusinessData> {
     return this.formModule.getters.getFormById(this.formId) || {};
   }
 
   public get formValues(): Partial<IBusinessData> {
-    return { ...(this.business ? this.business.getData() : {}), ...this.formData };
+    return {
+      ...this.businessData,
+      ...this.formData,
+      address: {
+        ...this.businessData.address,
+        ...this.formData.address,
+      },
+    };
   }
 
   public get delivery(): { [key: string]: string } {
@@ -65,7 +76,6 @@ export class ManageProfileForm extends Vue {
   }
 
   public update({ key, value }: { key: string; value: unknown }): void {
-    // save in form
     const data = { ...this.formData };
     set(data, key, value);
     this.formModule.actions.update({ formId: this.formId, data });
