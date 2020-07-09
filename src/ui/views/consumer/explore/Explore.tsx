@@ -26,6 +26,7 @@ interface IRefs {
   watch: {
     $route: {
       immediate: true,
+      deep: true,
       handler(this: Explore) {
         this.setZip();
         this.setLocation();

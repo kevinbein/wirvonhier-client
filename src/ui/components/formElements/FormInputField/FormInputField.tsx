@@ -130,6 +130,10 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
     this.$emit('submit', { key: this.id, value });
   }
 
+  public handleKeydown(e: KeyboardEvent): void {
+    if (e.keyCode === 13) this.submit(e);
+  }
+
   public onFocus(): void {
     this.hasFocus = true;
   }
@@ -200,6 +204,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
               on-change={this.update.bind(this)}
               on-focus={this.onFocus.bind(this)}
               on-blur={this.onBlur.bind(this)}
+              on-keydown={this.handleKeydown.bind(this)}
             />
             <button
               class={`
@@ -246,6 +251,7 @@ export class FormInputField extends VueComponent<IProps, IRefs> {
             on-change={this.update.bind(this)}
             on-focus={this.onFocus.bind(this)}
             on-blur={this.onBlur.bind(this)}
+            on-keydown={this.handleKeydown.bind(this)}
           />
         )}
         <div
