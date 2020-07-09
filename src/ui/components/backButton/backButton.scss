@@ -1,11 +1,18 @@
 .back-button {
   align-items: center;
+  background-color: $col-white;
+  border-radius: 0.125 * $unit-nav-icon; // Same as navigation-trigger
+  box-shadow: $elevation-2;
+  box-sizing: border-box;
   color: $col-primary;
+  cursor: pointer;
   display: flex;
   justify-content: center;
-  left: 15px;
+  left: ($unit-base / 3);
+  padding: 0.3em 0.6em;
   position: absolute;
-  top: 15px;
+  top: ($unit-base / 3);
+  z-index: 1;
 
   i {
     margin-right: 8px;
