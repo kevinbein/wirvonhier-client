@@ -86,6 +86,10 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.mutations.CLEAR_ALL_FILTERS();
   }
 
+  clearSlides(): void {
+    this.mutations.CLEAR_FILTERED_SLIDES(JSON.stringify(this.state.filters));
+  }
+
   // NOTE: Currently only loads from server (and saves in IndexedDB)
   async loadFilteredBusinesses(options: { page: number }): Promise<void> {
     const { page } = options;

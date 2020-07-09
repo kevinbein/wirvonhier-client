@@ -35,7 +35,8 @@ interface IRefs {
     businessesFilter: {
       immediate: true,
       deep: true,
-      handler(this: Explore) {
+      async handler(this: Explore) {
+        await this.clearSlides();
         this.loadBusinesses();
       },
     },
@@ -145,5 +146,9 @@ export class Explore extends VueComponent<{}, IRefs> {
     this.isLoading = true;
     await this.businessModule.actions.loadFilteredBusinesses({ page });
     this.isLoading = false;
+  }
+
+  private async clearSlides(): Promise<void> {
+    await this.businessModule.actions.clearSlides();
   }
 }

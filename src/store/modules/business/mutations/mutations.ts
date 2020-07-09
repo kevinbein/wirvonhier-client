@@ -16,6 +16,12 @@ export class BusinessMutations extends Mutations<BusinessState> {
     Vue.set(this.state, 'filteredSlides', newMap);
   }
 
+  CLEAR_FILTERED_SLIDES(filter: string): void {
+    const newMap = new Map(this.state.filteredSlides);
+    newMap.delete(filter);
+    Vue.set(this.state, 'filteredSlides', newMap);
+  }
+
   SET_SELECTED_BUSINESS(business: Business): void {
     Vue.set(this.state, 'selectedBusiness', business);
   }
@@ -32,6 +38,8 @@ export class BusinessMutations extends Mutations<BusinessState> {
   }
 
   SET_FILTER(filter: IBusinessFilter): void {
+    const index = this.state.filters.findIndex((f) => f.name === filter.name);
+    this.state.filters.splice(index, 1);
     this.state.filters.push(filter);
   }
 

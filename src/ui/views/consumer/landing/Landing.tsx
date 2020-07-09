@@ -27,11 +27,26 @@ export class Landing extends Vue {
     const { status, position } = await this.locationModule.actions.requestUserLocation();
     if (status !== 'success') return;
     this.locationModule.actions.setCurrentLocation(position);
+    await this.businessModule.actions.setFilter({
+      name: 'location',
+      value: {
+        lng: position[0],
+        lat: position[1],
+        maxDistance: 10000,
+      },
+    });
     this.$router.push({ name: 'Explore', query: { location: this.locationString } });
   }
 
-  public updateZip(data: { key: string; value: string }): void {
+  public async updateZip(data: { key: string; value: string }): Promise<void> {
     this.locationModule.actions.setCurrentZIP(data.value);
+    await this.businessModule.actions.setFilter({
+      name: 'location',
+      value: {
+        zip: data.value,
+        maxDistance: 10000,
+      },
+    });
   }
 
   public submitZip(): void {
