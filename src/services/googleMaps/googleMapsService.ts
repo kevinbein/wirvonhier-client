@@ -90,6 +90,7 @@ export class GoogleMapsService {
     status: 'success' | 'failure';
     code?: 0 | 1 | 2;
     position?: [number, number];
+    accuracy?: number;
   }> {
     return new Promise((resolve) => {
       if (!('geolocation' in navigator)) {
@@ -103,14 +104,19 @@ export class GoogleMapsService {
             granted() {
               geolocation.getCurrentPosition(
                 (pos) => {
-                  resolve({ status: 'success', position: [pos.coords.longitude, pos.coords.latitude] });
+                  resolve({
+                    status: 'success',
+                    position: [pos.coords.longitude, pos.coords.latitude],
+                    accuracy: pos.coords.accuracy,
+                  });
                 },
                 () => {
                   resolve({ status: 'failure', code: 1 });
                 },
                 {
                   maximumAge: 1000 * 60 * 10,
-                  timeout: 1000 * 5,
+                  timeout: 1000 * 120,
+                  enableHighAccuracy: true,
                 },
               );
             },

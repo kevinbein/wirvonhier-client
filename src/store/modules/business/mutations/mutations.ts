@@ -7,6 +7,9 @@ export class BusinessMutations extends Mutations<BusinessState> {
   SET_BUSINESSES(businesses: Business[]): void {
     Vue.set(this.state, 'businesses', businesses);
   }
+  ADD_BUSINESSES(businesses: Business[]): void {
+    this.state.businesses.push(...businesses);
+  }
 
   SET_FILTERED_SLIDES({ filter, slides }: { filter: string; slides: (Image | Video)[] }): void {
     const newMap = new Map(this.state.filteredSlides);
@@ -30,6 +33,9 @@ export class BusinessMutations extends Mutations<BusinessState> {
     this.state.currentlyEditedImage = image;
   }
 
+  SET_LIMIT(limit: number): void {
+    this.state.limit = limit;
+  }
   SET_PAGE(page: number): void {
     this.state.page = page;
   }

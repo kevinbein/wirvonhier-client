@@ -83,9 +83,16 @@ export class StoryView extends VueComponent<IProps, IRefs> {
                 class={Styles['header-left-side__logo']}
                 publicId={this.story.business.media.logo && this.story.business.media.logo.publicId}
                 width={`${this.logoWidth}`}
+                height={`${this.logoWidth}`}
                 dpr={window.devicePixelRatio}
               >
-                <cld-transformation crop="scale" />
+                <cld-transformation
+                  fetchFormat="auto"
+                  crop="fill"
+                  width={`${this.logoWidth}`}
+                  height={`${this.logoWidth}`}
+                  dpr={window.devicePixelRatio}
+                />
               </cld-image>
             ) : (
               <img class={Styles['header-left-side__logo']} src={dummyLogo} alt="Heart logo" />
