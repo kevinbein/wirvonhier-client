@@ -13,8 +13,12 @@ export class LocationActions extends Actions<LocationState, never, LocationMutat
     this.store = store;
   }
 
-  public async requestUserLocation(): Promise<{ status: 'failure' | 'success'; position?: [number, number] }> {
-    const { status, code, position } = await this.store.$services.maps.requestUserLocation();
+  public async requestUserLocation(): Promise<{
+    status: 'failure' | 'success';
+    position?: [number, number];
+    accuracy?: number;
+  }> {
+    const { status, code, position, accuracy } = await this.store.$services.maps.requestUserLocation();
     if (status !== 'success') {
       let msg = '';
       switch (code) {
@@ -35,11 +39,27 @@ export class LocationActions extends Actions<LocationState, never, LocationMutat
       });
       return { status };
     }
-    return { status, position };
+    return { status, position, accuracy };
   }
 
-  public setCurrentLocation(location: Location | null): void {
-    this.mutations.SET_CURRENT_LOCATION(location);
+  public async setCurrentLocation(loc: {
+    coords?: Location | null;
+    zip?: number | null;
+  }): Promise<[number, number] | null> {
+    const { coords, zip } = loc;
+    if (zip) {
+      const formattedAddress = Object.values({ zip, country: 'Deutschland' })
+        .filter(Boolean)
+        .join(' ');
+      const location = (await this.store.$services.maps.geocode(formattedAddress)) || null;
+      this.mutations.SET_CURRENT_LOCATION(location);
+      return location;
+    }
+    if (coords) {
+      this.mutations.SET_CURRENT_LOCATION(coords);
+      return coords;
+    }
+    return null;
   }
   public setCurrentZIP(zip: string | null): void {
     this.mutations.SET_CURRENT_ZIP(zip);
@@ -56,6 +76,7 @@ export class LocationActions extends Actions<LocationState, never, LocationMutat
   }
 
   public geocode(address: IAddress): void | Promise<[number, number]> {
+    if (!address.country) address.country = 'Deutschland';
     const formattedAddress = Object.values(address)
       .filter(Boolean)
       .join(' ');

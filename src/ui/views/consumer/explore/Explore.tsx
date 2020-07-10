@@ -28,7 +28,6 @@ interface IRefs {
       immediate: true,
       deep: true,
       handler(this: Explore) {
-        this.setZip();
         this.setLocation();
       },
     },
@@ -108,29 +107,13 @@ export class Explore extends VueComponent<{}, IRefs> {
     );
   }
 
-  private setZip(): void {
-    const routeZip = this.$route.query.zip;
-    if (!routeZip || Array.isArray(routeZip)) return;
-    const currentZip = this.locationModule.state.currentZip;
-    if (currentZip === routeZip) return;
-    this.locationModule.actions.setCurrentZIP(routeZip);
-    this.businessModule.actions.clearFilter('location');
-    this.businessModule.actions.setFilter({
-      name: 'location',
-      value: {
-        zip: routeZip,
-        maxDistance: 10000,
-      },
-    });
-  }
-
   private setLocation(): void {
     const routeLocation = this.$route.query.location;
     if (!routeLocation || Array.isArray(routeLocation)) return;
     const currentLocation = this.locationModule.state.currentLocation;
     const location = (routeLocation.split(',').map((val) => +val) as unknown) as Location;
     if (currentLocation === location) return;
-    this.locationModule.actions.setCurrentLocation(location);
+    this.locationModule.actions.setCurrentLocation({ coords: location });
     this.businessModule.actions.clearFilter('location');
     this.businessModule.actions.setFilter({
       name: 'location',
@@ -142,9 +125,9 @@ export class Explore extends VueComponent<{}, IRefs> {
     });
   }
 
-  private async loadBusinesses(page = 0): Promise<void> {
+  private async loadBusinesses(page = 0, limit = 5): Promise<void> {
     this.isLoading = true;
-    await this.businessModule.actions.loadFilteredBusinesses({ page });
+    await this.businessModule.actions.loadFilteredBusinesses({ page, limit });
     this.isLoading = false;
   }
 

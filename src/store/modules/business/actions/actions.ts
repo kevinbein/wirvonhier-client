@@ -1,6 +1,5 @@
 import { Actions, Context } from 'vuex-smart-module';
 import { BusinessState, BusinessGetters, BusinessMutations } from '..';
-import { IFindNearBusinessesOptions } from '@/services/business/businessService.types';
 import {
   Business,
   IBusinessData,
@@ -33,19 +32,6 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
   async loadAndPersistBusinessDataById(businessIds: string[]): Promise<void> {
     const businesses = await this.store.$services.business.load(businessIds);
     this.store.$db.businesses.addMany(businesses);
-  }
-
-  async getBusinessesByZIP(options: IFindNearBusinessesOptions): Promise<void> {
-    if (!options.zip) return;
-    const response = await this.store.$services.business.loadBusinessesAndUpdateDB({
-      filters: [{ name: 'address.zip', value: options.zip }],
-    });
-    if (!response) return;
-    const { list: businessesData } = response;
-    this.commit(
-      'SET_BUSINESSES',
-      businessesData.map((business) => new Business(business)),
-    );
   }
 
   /**
@@ -91,9 +77,10 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
   }
 
   // NOTE: Currently only loads from server (and saves in IndexedDB)
-  async loadFilteredBusinesses(options: { page: number }): Promise<void> {
-    const { page } = options;
-    this.mutations.SET_PAGE(page);
+  async loadFilteredBusinesses(options: { page?: number; limit?: number }): Promise<void> {
+    const { page, limit } = options;
+    if (typeof page === 'number') this.mutations.SET_PAGE(page);
+    if (typeof limit === 'number') this.mutations.SET_LIMIT(limit);
     const activeFilter = this.getters.activeFilter;
     const response = await this.store.$services.business.loadBusinessesAndUpdateDB(activeFilter);
     if (!response) return;
@@ -101,7 +88,7 @@ export class BusinessActions extends Actions<BusinessState, BusinessGetters, Bus
     this.mutations.SET_LAST_PAGE(newLastPage - 1);
     const businesses = businessesData.map((b) => new Business(b));
     this.store.$db.businesses.addMany(businessesData);
-
+    this.mutations.ADD_BUSINESSES(businesses);
     const prevSlides = this.state.filteredSlides.get(JSON.stringify(this.state.filters)) || [];
     const newSlides = businesses
       .reduce((slides, business) => {
