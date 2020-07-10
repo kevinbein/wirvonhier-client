@@ -31,8 +31,7 @@ export class DBInstance extends Dexie {
   addMany(data: IBusinessData[]): void {
     this.list.bulkPut(data).then(
       () => {
-        // eslint-disable-next-line no-console
-        console.log(`Added ${data.length} objects to Datastore.`);
+        // Placeholder
       },
       (e: Dexie.BulkError) => {
         // eslint-disable-next-line no-console
