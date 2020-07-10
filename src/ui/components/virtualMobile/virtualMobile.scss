@@ -1,6 +1,6 @@
 .wvh-app-container {
   height: 100%;
-  max-height: 100vh;
+  min-height: $unit-base * 10;
   position: relative;
   width: 100%;
 
