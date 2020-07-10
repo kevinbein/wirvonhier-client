@@ -18,14 +18,6 @@ export class DBInstance extends Dexie {
     this.list = this.table('list');
   }
 
-  async findNear(distance = 5000, limit = 50): Promise<IBusinessData[]> {
-    return this.list
-      .where('distance')
-      .below(distance / 1000)
-      .limit(limit)
-      .toArray();
-  }
-
   async find(_filter: IBusinessFilter): Promise<IBusinessData[]> {
     return this.list
       .where('name')

@@ -10,22 +10,20 @@ import {
 } from '@/entities';
 import { DB } from '../db';
 import { HTTP } from '..';
-import { IFindNearBusinessesOptions, IHttpBusinessResponse } from './businessService.types';
+import { IHttpBusinessResponse } from './businessService.types';
 import { IStore } from '@/store';
 import { IQuery, IHttpSuccessResponse, IHttpErrorResponse } from '../http';
 
 export class BusinessService {
   // @ts-ignore
   private worker: unknown;
-  private store: IStore;
   private http: HTTP;
   private db: DB;
 
-  constructor(store: IStore, worker: unknown, db: DB, http: HTTP) {
+  constructor(_store: IStore, worker: unknown, db: DB, http: HTTP) {
     this.worker = worker;
     this.db = db;
     this.http = http;
-    this.store = store;
   }
 
   /**
@@ -54,33 +52,6 @@ export class BusinessService {
     }
     // const failed: string[] = businessIds.filter((id) => !businesses.some((business) => business._id === id));
     // TODOD: Handle failed
-    return businesses;
-  }
-
-  async findNear(options: IFindNearBusinessesOptions): Promise<Business[]> {
-    const { zip, lng, lat, maxDistance, limit } = options;
-    const value = {
-      zip: zip || this.store.state.currentZip,
-      lng: lng || (this.store.state.currentLocation && this.store.state.currentLocation[0]),
-      lat: lat || (this.store.state.currentLocation && this.store.state.currentLocation[1]),
-      maxDistance: maxDistance || 5000,
-    };
-
-    const responsePromise = this.loadBusinessesAndUpdateDB({
-      limit,
-      filters: [
-        {
-          name: 'location',
-          value,
-        },
-      ],
-    });
-    let businessData = await this.db.businesses.findNear(value.maxDistance, limit);
-    if (businessData.length === 0) {
-      const response = await responsePromise;
-      businessData = response ? response.list : businessData;
-    }
-    const businesses = businessData.map((data) => new Business(data));
     return businesses;
   }
 

@@ -10,11 +10,3 @@ export interface IHttpBusinessResponse {
 }
 
 export type IBusinessQuery = IQuery;
-
-export interface IFindNearBusinessesOptions {
-  zip?: string;
-  lng?: number;
-  lat?: number;
-  maxDistance: number;
-  limit?: number;
-}
