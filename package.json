@@ -4,7 +4,7 @@
   "private": true,
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server --host 0.0.0.0 --hot",
+    "dev": "webpack-dev-server --host 0.0.0.0 --hot",
     "build": "webpack -p --progress",
     "test": "mochapack",
     "test:watch": "mochapack  --watch",
@@ -98,7 +98,7 @@
     "dotenv": "^8.2.0",
     "jwt-decode": "^2.2.0",
     "leaflet": "^1.6.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "swiper": "^5.4.5",
     "vue": "^2.6.11",
     "vue-awesome-swiper": "^4.1.1",

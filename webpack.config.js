@@ -54,12 +54,13 @@ module.exports = async function (env, argv) {
       // Supress the extensive stats normally printed after a dev build (since sizes are mostly useless):
       stats: 'minimal',
       // Don't embed an error overlay ("redbox") into the client bundle:
-      overlay: false
+      overlay: false,
+      port: 8080,
 	  },
     entry: {
       app: './src/index.tsx'
     },
-    devtool: isProd ? 'source-map' : 'inline-cheap-module-source-map',
+    devtool: 'source-map',
     stats: 'minimal',
     output: {
       filename: isProd ? 'js/[name].[chunkhash:5].js' : '[name].js',
@@ -67,8 +68,6 @@ module.exports = async function (env, argv) {
       path: path.resolve(__dirname, './dist'),
       publicPath: '/',
       globalObject: 'self',
-      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.scss', '.css', '.vue'],
