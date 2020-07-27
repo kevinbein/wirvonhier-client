@@ -4,8 +4,10 @@ import { IImageSizes } from '../manageImages.types';
 import { BusinessModule } from '@/store';
 import Styles from './imageForms.scss';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const NewImageForm = (): any => import(/* webpackChunkName: "NewImageForm" */ '../newImageForm');
 const EditImageForm = (): any => import(/* webpackChunkName: "EditImageForm" */ '../editImageForm');
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 interface IProps {
   imageSizes: IImageSizes;
