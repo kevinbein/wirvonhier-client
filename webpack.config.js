@@ -1,4 +1,3 @@
-require('dotenv').config();
 const path = require('path');
 const webpack = require('webpack');
 const WorkerPlugin = require('worker-plugin');
@@ -237,9 +236,6 @@ module.exports = async function (env, argv) {
                 happyPackMode: true
               }
             },
-            isProd && {
-              loader: 'eslint-loader'
-            }
           ].filter(Boolean)
         },
         {
@@ -254,9 +250,6 @@ module.exports = async function (env, argv) {
             {
               loader: 'babel-loader'
             },
-            isProd && {
-              loader: 'eslint-loader'
-            }
           ].filter(Boolean)
         },
         {
@@ -368,14 +361,11 @@ module.exports = async function (env, argv) {
       // Inline constants during build, so they can be folded by UglifyJS.
       new webpack.DefinePlugin({
         VERSION: JSON.stringify(VERSION),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        VUE_APP_BASE_URL: JSON.stringify('http://127.0.0.1:8080'),
-        VUE_APP_SERVER: JSON.stringify('http://127.0.0.1:3001'),
         BASE_URL: JSON.stringify('/'),
-        API_URL: JSON.stringify(isProd ? process.env.API_URL : process.env.API_URL_LOCAL),
+        API_URL: JSON.stringify(process.env.API_URL),
         CLOUD_NAME: JSON.stringify(process.env.CLOUDINARY_CLOUD_NAME),
         IMAGE_UPLOAD_URL: JSON.stringify(process.env.IMAGE_UPLOAD_URL),
-        CLOUDINARY_IMAGE_PRESET: JSON.stringify(isProd ? process.env.CLOUDINARY_IMAGE_PRESET : process.env.CLOUDINARY_IMAGE_PRESET_DEV),
+        CLOUDINARY_IMAGE_PRESET: JSON.stringify(process.env.CLOUDINARY_IMAGE_PRESET),
         GOOGLE_MAPS_API_KEY: JSON.stringify(process.env.GOOGLE_MAPS_API_KEY),
       }),
 
