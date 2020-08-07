@@ -1,4 +1,4 @@
-name: Release - Client - Test, Build & Delploy on app.wirvonhier.net
+name: Release - Client - Test, Build & Push to Dockerhub
 
 on:
   push:
@@ -33,52 +33,10 @@ jobs:
       - name: Build
         run: docker build -t client .
         
-      - name: Tags
+      - name: Tag + Push
         run: |
-          docker tag client ${{ secrets.DOCKER_ORGANIZATION }}/client:release-${{ github.sha }}
-          docker tag client ${{ secrets.DOCKER_ORGANIZATION }}/client:latest
-
-      - name: Push
-        run: |
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/client:release-${{ github.sha }}
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/client:latest
-
-  redeploy: # need to update secrets on server just to make sure they are up-to-date
-    runs-on: ubuntu-latest
-    # needs: docker
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install Open SSH
-        run: sudo apt-get update && sudo apt-get install openssh-client
-
-      - name: SET ssh keys
-        run: |
-          mkdir "$HOME/.ssh"
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}a" > "$HOME/.ssh/id_rsa"
-          chmod 600 "$HOME/.ssh/id_rsa"
-          eval $(ssh-agent)
-          ssh-add "$HOME/.ssh/id_rsa"
-          printf '%s %s\n' "${{ secrets.DOCKER_HOST }}" "${{ secrets.SSH_SERVER_KEY }}" > "$HOME/.ssh/known_hosts"
-
-
-      - name: Set Docker Remote Context
-        run: |
-          docker context create wirvonhier --default-stack-orchestrator=swarm --docker "host=ssh://${{ secrets.DOCKER_HOST_USER }}@${{ secrets.DOCKER_HOST }}"
-          docker context use wirvonhier
-
-      - name: Update Docker Secrets
-        run: |
-          docker secret rm test_mongo_user || true
-          docker secret rm test_mongo_password || true
-          docker secret rm test_sendgrid_api_key || true
-          docker secret rm test_cloudinary_api_key || true
-          docker secret rm test_cloudinary_api_secret || true
-          docker secret rm test_vimeo_access_token || true
-
-          echo "${{ secrets.MONGO_USER }}" | docker secret create test_mongo_user -
-          echo "${{ secrets.MONGO_PASSWORD }}" | docker secret create test_mongo_password -
-          echo "${{ secrets.SENDGRID_API_KEY }}" | docker secret create test_sendgrid_api_key -
-          echo "${{ secrets.CLOUDINARY_API_KEY }}" | docker secret create test_cloudinary_api_key -
-          echo "${{ secrets.CLOUDINARY_API_SECRET }}" | docker secret create test_cloudinary_api_secret -
-          echo "${{ secrets.VIMEO_ACCESS_TOKEN }}" | docker secret create test_vimeo_access_token -
+          tag="release-$(date +%s)"
+          docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
+          docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
+          docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
+          docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
