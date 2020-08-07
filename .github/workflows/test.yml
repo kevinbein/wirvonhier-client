@@ -1,12 +1,9 @@
-name: CI/CD - Client
+name: Test - Client - Test, Build & Delploy on test.wirvonhier.net
 
 on:
   push:
     branches:
-      - production
-  pull_request:
-    branches:
-      - production
+      - test
 
 jobs:
   ci:
@@ -33,12 +30,10 @@ jobs:
       - name: Build
         run: docker build -t client .
         
-      - name: Tags
+      - name: Tag + Push
         run: |
-          docker tag client ${{ secrets.DOCKER_ORGANIZATION }}/client:release-${{ github.sha }}
-          docker tag client ${{ secrets.DOCKER_ORGANIZATION }}/client:latest
-
-      - name: Push
-        run: |
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/client:release-${{ github.sha }}
-          docker push ${{ secrets.DOCKER_ORGANIZATION }}/client:latest
+          tag="test-$(date +%s)"
+          docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
+          docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
+          docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
+          docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
