@@ -3,10 +3,10 @@ name: Release - Client - Test, Build & Push to Dockerhub
 on:
   push:
     branches:
-      - production
+      - release-*
   pull_request:
     branches:
-      - production
+      - release-*
 
 jobs:
   test:
@@ -20,10 +20,13 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+
+    - name: Run Tests
+      run: npm run test
   
   docker:
     runs-on: ubuntu-latest
-    needs: ci
+    needs: test
     steps:
       - uses: actions/checkout@v2
 
@@ -32,11 +35,14 @@ jobs:
 
       - name: Build
         run: docker build -t client .
-        
+      
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Tag + Push
         run: |
-          tag="release-$(date +%s)"
+          tag="${{ steps.extract_branch.outputs.branch }}"
           docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
-          docker tag client "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
           docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:$tag"
-          docker push "${{ secrets.DOCKER_ORGANIZATION }}/client:latest"
