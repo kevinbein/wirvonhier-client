@@ -7,6 +7,11 @@ RUN npm i npm@latest -g
 
 COPY package*.json* ./
 RUN npm ci --no-optional
+ENV API_URL=https://testapi.wirvonhier.net
+ENV CLOUDINARY_CLOUD_NAME=wirvonhier
+ENV IMAGE_UPLOAD_URL=https://api.cloudinary.com/v1_1/wirvonhier/image/upload
+ENV CLOUDINARY_IMAGE_PRESET=wirvonhier_image
+ENV GOOGLE_MAPS_API_KEY=keygoeshere
 
 COPY ./.babelrc \
   ./.eslintignore \
