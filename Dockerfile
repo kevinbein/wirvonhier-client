@@ -7,11 +7,12 @@ RUN npm i npm@latest -g
 
 COPY package*.json* ./
 RUN npm ci --no-optional
+ARG GOOGLEMAPS_API_KEY
 ENV API_URL=https://testapi.wirvonhier.net
 ENV CLOUDINARY_CLOUD_NAME=wirvonhier
 ENV IMAGE_UPLOAD_URL=https://api.cloudinary.com/v1_1/wirvonhier/image/upload
 ENV CLOUDINARY_IMAGE_PRESET=wirvonhier_image
-ENV GOOGLE_MAPS_API_KEY=keygoeshere
+ENV GOOGLE_MAPS_API_KEY=${CODE_VERSION}
 
 COPY ./.babelrc \
   ./.eslintignore \
@@ -45,4 +46,5 @@ EXPOSE 8080
 COPY --chown=nginx:nginx ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --chown=nginx:nginx --from=client-builder /home/node/client/dist /usr/share/nginx/html
 
+ENTRYPOINT [ "/bin/bash", "docker-entrypoint.sh" ]
 # Uses CMD from nginx image
