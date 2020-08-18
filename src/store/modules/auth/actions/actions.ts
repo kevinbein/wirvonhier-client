@@ -27,9 +27,11 @@ export class AuthActions extends Actions<AuthState, never, AuthMutations, AuthAc
       const statusCode = error?.response?.status || 500;
       const message =
         statusCode >= 400 && statusCode < 500
-          ? 'E-Mail oder Passwort falsch.'
+          ? statusCode === 409
+            ? 'Dein Account ist noch nicht verifiziert'
+            : 'E-Mail oder Passwort falsch.'
           : 'Unbekannter Fehler. Bitte überprüfe deine Internetverbindung und versuche es später erneut.';
-      return { status: 'failure', message };
+      return { status: 'failure', message, code: statusCode };
     } else {
       const data = (res as IHttpSuccessResponse<{ token: string }>).data;
       const decoded = JwtDecode<ITokenPayload>(data.token);
@@ -83,6 +85,12 @@ export class AuthActions extends Actions<AuthState, never, AuthMutations, AuthAc
   }
 
   async requestVerificationEmail(email: string): Promise<IHttpActionResponse> {
+    if (!email) {
+      return {
+        status: 'failure',
+        message: `Oops! Wir konnten keine E-Mail an Sie versenden. Bitte kontaktieren Sie uns unter: ${this.wvh.state.emails.support}.`,
+      };
+    }
     const { status, ...res } = await this.store.$http.post<{ email: string }>('/resend-email-verification', { email });
     if (status === 'failure') {
       return {

@@ -6,6 +6,7 @@ import Styles from './loginForm.scss';
 import SharedStyles from 'styles';
 import { WVHButton, Loader } from '@/ui/components';
 import { TYPE, POSITION } from 'vue-toastification';
+import { VerificationToast } from '../../components';
 
 interface IRefs {
   email: Vue;
@@ -58,13 +59,26 @@ export class LoginForm extends VueComponent<{}, IRefs> {
     this.errors.password = this.formData.password.length === 0 ? ['Feld darf nicht leer sein.'] : [];
     if (this.errors.email.length > 0 || this.errors.password.length > 0) return;
 
+    const email = this.formData.email.toLowerCase();
     const res = await this.authModule.actions.login({
-      email: this.formData.email.toLowerCase(),
+      email: email,
       password: this.formData.password,
     });
     if (res.status === 'failure') {
       this.isLoading = false;
-      this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });
+      if (res.code === 409) {
+        this.$toast(
+          {
+            component: VerificationToast,
+            props: {
+              email: email,
+            },
+          },
+          { position: POSITION.TOP_CENTER, type: TYPE.ERROR, timeout: false },
+        );
+      } else {
+        this.$toast(res.message, { type: TYPE.ERROR, timeout: 10000, position: POSITION.TOP_CENTER });
+      }
     }
     if (res.status === 'success') {
       await this.userModule.actions.loadUserAndSaveUserData();

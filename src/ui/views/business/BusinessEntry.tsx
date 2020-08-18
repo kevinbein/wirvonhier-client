@@ -2,20 +2,9 @@ import Vue from 'vue';
 import Component from 'vue-class-component';
 import { MainNavigation } from '@/ui/components';
 import { UserModule, BusinessModule, AppearanceModule } from '@/store';
-import { VerificationToast } from './components';
-import { POSITION, TYPE } from 'vue-toastification';
 
 @Component({
   name: 'Business',
-  watch: {
-    userIsVerified: {
-      immediate: true,
-      handler(this: BusinessEntry, isVerified) {
-        if (isVerified || !this.userId || this.isYoungerThanTwentyMinutes || this.$route.name === 'VerifyEmail') return;
-        this.$toast(VerificationToast, { position: POSITION.TOP_CENTER, type: TYPE.ERROR, timeout: false });
-      },
-    },
-  },
 
   beforeRouteEnter(_to, _from, next): void {
     next(async (vm) => {
@@ -40,9 +29,6 @@ export class BusinessEntry extends Vue {
 
   public get userId(): string | null {
     return this.userModule.state.id;
-  }
-  public get isYoungerThanTwentyMinutes(): boolean {
-    return this.userModule.state.createdAt >= new Date(Date.now() - 1200000);
   }
   public get userIsVerified(): boolean {
     return this.userModule.state.isVerified;

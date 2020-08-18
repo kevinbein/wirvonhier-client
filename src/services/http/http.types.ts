@@ -17,6 +17,7 @@ export interface IHttpActionResponse {
   [key: string]: unknown;
   status: 'success' | 'failure';
   message?: string;
+  code?: number;
 }
 
 export interface IQuery {
