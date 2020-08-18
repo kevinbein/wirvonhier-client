@@ -57,7 +57,7 @@ export class PrivacyPolicy extends Vue {
 
         <p>Wir verwenden in dieser Datenschutzerklärung unter anderem die folgenden Begriffe:</p>
 
-        <ul>
+        <ul class={Styles['legal__list']}>
           <li>
             <div class={Styles['legal__subsection']}>a) personenbezogene Daten</div>
             <p>
@@ -444,7 +444,7 @@ export class PrivacyPolicy extends Vue {
           folgende Informationen zugestanden:
         </p>
 
-        <ul>
+        <ul class={Styles['legal__list']}>
           <li>die Verarbeitungszwecke</li>
           <li>die Kategorien personenbezogener Daten, die verarbeitet werden</li>
           <li>
@@ -506,7 +506,7 @@ export class PrivacyPolicy extends Vue {
           die Verarbeitung nicht erforderlich ist:
         </p>
 
-        <ul>
+        <ul class={Styles['legal__list']}>
           <li>
             Die personenbezogenen Daten wurden für solche Zwecke erhoben oder auf sonstige Weise verarbeitet, für welche
             sie nicht mehr notwendig sind.
@@ -557,7 +557,7 @@ export class PrivacyPolicy extends Vue {
           wenn eine der folgenden Voraussetzungen gegeben ist:
         </p>
 
-        <ul>
+        <ul class={Styles['legal__list']}>
           <li>
             Die Richtigkeit der personenbezogenen Daten wird von der betroffenen Person bestritten, und zwar für eine
             Dauer, die es dem Verantwortlichen ermöglicht, die Richtigkeit der personenbezogenen Daten zu überprüfen.

@@ -17,6 +17,9 @@
     margin: $unit-base-eigth 0;
     word-break: break-word;
   }
+  &__list {
+    margin-left: $unit-base-quarter;
+  }
   .close-button {
     margin: $unit-base-quarter;
     position: absolute;
